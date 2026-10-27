@@ -110,6 +110,10 @@
   const LIEC = { trai_duoi: { liecX: -16, liecY: 9 } };
   function html(agent, size = 40, state = "idle", opts) {
     const a = of(agent);
+    if (agent && (agent.slug === "aivon-core" || agent.system) && !a.image) {
+      return '<span class="agent-avatar has-img" data-state="' + esc(state) + '" style="--avatar-size:' + Number(size) + 'px;border-radius:22%">' +
+        '<img src="/brand-logo" alt="AIVON" loading="lazy" decoding="async" draggable="false"></span>';
+    }
     // Ảnh tự tải lên thay hình Aivon ở MỌI chỗ vẽ trợ lý (danh sách, đầu khung chat, ảnh ghép của nhóm). Không có mắt
     // để chớp hay liếc nên không mang các biến đó; lớp has-img để vòng vẽ lại theo chủ đề bỏ qua.
     if (a.image) {
