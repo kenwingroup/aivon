@@ -6,7 +6,7 @@
 
 **Architecture:** The pin reuses the existing per-session folder binding in `coding_store` (the server already runs any session's turn in its bound folder). A new endpoint `POST /coding/session/{sid}/pin` registers and binds in one call; a new prompt block tells non-coding sessions where they are working. The composer side lives in a new `dashboard/composer-folder.js` that plugs into the "+" menu registry through a new generic `panel` item type.
 
-**Tech Stack:** FastAPI (server/main.py, server/routes/coding.py, server/coding_store.py), vanilla JS dashboard, node test scripts (`node tests/js/<file>.js`), Python test scripts (`python tests/python/<file>.py`, run with `D:/Project/Aivon-OS/.venv/Scripts/python.exe` and `PYTHONUTF8=1`).
+**Tech Stack:** FastAPI (server/main.py, server/routes/coding.py, server/coding_store.py), vanilla JS dashboard, node test scripts (`node tests/js/<file>.js`), Python test scripts (`python tests/python/<file>.py`, run with `D:/Project/AIVON-OS/.venv/Scripts/python.exe` and `PYTHONUTF8=1`).
 
 **Spec:** docs/superpowers/specs/2026-10-15-composer-pin-folder-design.md
 
@@ -121,7 +121,7 @@ Note: `main._khoi_coding` gains a second parameter `brain` in Step 3; the test c
 
 - [ ] **Step 2: Run it to verify it fails**
 
-Run: `PYTHONUTF8=1 D:/Project/Aivon-OS/.venv/Scripts/python.exe tests/python/test_pinned_folder.py`
+Run: `PYTHONUTF8=1 D:/Project/AIVON-OS/.venv/Scripts/python.exe tests/python/test_pinned_folder.py`
 Expected: FAIL / AttributeError: module 'coding_store' has no attribute 'pinned_folder_prompt'
 
 - [ ] **Step 3: Implement**
@@ -262,7 +262,7 @@ Route table: run the repo's route table generator if one exists (`grep -rn "rout
 
 - [ ] **Step 4: Run the test to verify it passes**
 
-Run: `PYTHONUTF8=1 D:/Project/Aivon-OS/.venv/Scripts/python.exe tests/python/test_pinned_folder.py`
+Run: `PYTHONUTF8=1 D:/Project/AIVON-OS/.venv/Scripts/python.exe tests/python/test_pinned_folder.py`
 Expected: `OK - test_pinned_folder: all pass`. Also run every Python test that mentions `_khoi_coding`, `coding_store` or `route_table`: `grep -lE "_khoi_coding|coding_store|route_table" tests/python/*.py`; all green except the machine-known reds.
 
 - [ ] **Step 5: Commit**
@@ -809,6 +809,6 @@ git commit -m "Agent Work tab: two compact dropdowns and a smaller type scale"
 - [ ] **Step 1: Reserve the version.** `git fetch origin && git show origin/main:VERSION && gh pr list --state open --json title --jq '.[].title'`; take the next number above both (0.154.0 unless claimed). Write `VERSION`.
 - [ ] **Step 2: CHANGELOG blocks** (vi in CHANGELOG.md, en in CHANGELOG.en.md, same `### Cải thiện` / `### Improved` group): pin working folder from "+" (chip next to the bolt, per conversation, brain folders first plus browse), Coding page uses the same chip, agent Work tab dropdowns and smaller text. Phone-screen friendly, no em dash.
 - [ ] **Step 3: Docs.** In docs/02 (vi/en) replace the "+" menu row's "attach a whole folder" with "pin a working folder", add the folder chip to the button table, and update the Coding docs section that describes picking a folder.
-- [ ] **Step 4: Visual check** on a sandbox server: `AIVON_PORT=7788 D:/Project/Aivon-OS/.venv/Scripts/python.exe server/main.py` from the worktree (background). Check: pin from the menu (brain folder, search, browse), chip shows and tooltip, unpin, pin on an empty chat then send (first turn runs in the folder: ask "pwd" on a CLI brain or read the turn's cwd in the log), Coding page has no folder chip and its git chips refresh after pinning a git folder, agent Work tab dropdowns at desktop and 375px, dark and light. Stop the sandbox and restore its state files exactly as before the run.
+- [ ] **Step 4: Visual check** on a sandbox server: `AIVON_PORT=7788 D:/Project/AIVON-OS/.venv/Scripts/python.exe server/main.py` from the worktree (background). Check: pin from the menu (brain folder, search, browse), chip shows and tooltip, unpin, pin on an empty chat then send (first turn runs in the folder: ask "pwd" on a CLI brain or read the turn's cwd in the log), Coding page has no folder chip and its git chips refresh after pinning a git folder, agent Work tab dropdowns at desktop and 375px, dark and light. Stop the sandbox and restore its state files exactly as before the run.
 - [ ] **Step 5: Full verification.** JS suite all green; Python: every file that greps for a changed file name or removed string, plus test_pinned_folder; known machine-reds only.
 - [ ] **Step 6: Commit, push, PR, auto-merge (rebase).** `git commit -am "0.154.0: pin a working folder from the composer, compact agent Work tab"`, `git push -u origin claude/composer-pin-folder`, `gh pr create` (English title and body ending with the Claude Code line), then enable auto-merge with rebase.

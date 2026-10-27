@@ -7,8 +7,8 @@
 # CÁCH DÙNG - mỗi bản một THƯ MỤC RIÊNG:
 #
 #   mkdir -p ~/aivon-shop && cd ~/aivon-shop
-#   curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.yml
-#   curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.multi.yml
+#   curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.yml
+#   curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.multi.yml
 #   cat > .env <<'EOF'
 #   AIVON_NAME=aivon-shop
 #   AIVON_HOST_PORT=7979

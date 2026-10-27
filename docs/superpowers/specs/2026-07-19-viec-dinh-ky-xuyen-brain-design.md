@@ -27,8 +27,8 @@ Thêm một tầng nữa: `_TG_SESS` bị `_TG_SESS.clear()` xoá mỗi lần bo
 
 ## Không gộp thành một kho (đã cân nhắc và loại)
 
-Lưu tách theo brain là CỐ Ý: loop là file `.md` trong `<vault>/Aivon/loops/` (sửa trong
-Obsidian, commit theo git brain, `self_improve.py:11`); nhắc hẹn là `<vault>/Aivon/reminders.json`.
+Lưu tách theo brain là CỐ Ý: loop là file `.md` trong `<vault>/AIVON/loops/` (sửa trong
+Obsidian, commit theo git brain, `self_improve.py:11`); nhắc hẹn là `<vault>/AIVON/reminders.json`.
 Spec 2026-07-17 đã chốt giữ vậy. Hướng đúng không phải nhét chung một kho, mà là làm **lớp
 hiển thị và lớp điều khiển xuyên brain**, còn lớp lưu giữ nguyên.
 
@@ -88,7 +88,7 @@ vì cứng `fbrain()` (`console.js:847`). Không đổi backend `POST /loops` (�
 ### Mảnh 4 - Chat báo rõ brain khi tạo việc
 
 `aivon_schedule` (system/plugins/aivon-schedule/plugin.py) hiện báo "Đã tạo... tại
-Aivon/loops/<slug>.md" nhưng KHÔNG nói brain (`plugin.py:249`). Sửa để câu xác nhận nêu tên
+AIVON/loops/<slug>.md" nhưng KHÔNG nói brain (`plugin.py:249`). Sửa để câu xác nhận nêu tên
 brain: "Đã tạo việc 'Quét đơn' trong brain **Kim Khí Hà Lộc**, chạy mỗi 120 phút, đang tắt,
 vào tab Việc để bật."
 

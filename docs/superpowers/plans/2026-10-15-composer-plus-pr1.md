@@ -6,13 +6,13 @@
 
 **Architecture:** Giữ nguyên các id mà app.js, pet.js, console.js và test đang dựa vào (`hudVoice`, `chatInput`, `voiceBtn`, `sendBtn`, `stopBtn`, `fileInput`, `attachBar`, `modelBar`, `mbOpen`, `mbPop`), chỉ đổi chỗ đặt và CSS. Logic mới nằm trong hai file mới không phụ thuộc DOM ở phần thuần (test bằng node): `composer-plus.js` (sổ đăng ký menu "+") và `effort-slider.js` (thanh trượt + hiệu ứng canvas). model-picker.js lo chip mức suy nghĩ và tia sét vì nó đang giữ `state.reasoning` và `saveModel`. Server thêm khoá `settings.model.fast` và endpoint `GET /files/resolve`.
 
-**Tech Stack:** HTML/CSS/vanilla JS (dashboard, không build step), FastAPI (server/main.py), test node `tests/js/*.js` và Python `tests/python/*.py` chạy bằng `/d/Project/Aivon-OS/.venv/Scripts/python.exe tests/run.py`.
+**Tech Stack:** HTML/CSS/vanilla JS (dashboard, không build step), FastAPI (server/main.py), test node `tests/js/*.js` và Python `tests/python/*.py` chạy bằng `/d/Project/AIVON-OS/.venv/Scripts/python.exe tests/run.py`.
 
 **Spec:** `docs/superpowers/specs/2026-10-15-composer-plus-fast-mode-design.md`
 
 ## Global Constraints
 
-- Màu hiệu ứng: cam Aivon `var(--accent)` (#ff7a3c); không màu cứng trong cp-css của console.js (test_theme_tokens).
+- Màu hiệu ứng: cam AIVON `var(--accent)` (#ff7a3c); không màu cứng trong cp-css của console.js (test_theme_tokens).
 - Bo góc khung: **24px** (đổi từ 18px, sửa có chủ ý test_theme_tokens dòng 51-58 và cp-css).
 - Nhãn mức suy nghĩ tiếng Anh ở cả vi và en: Off, Light, Medium, High, Extra, Ultra. Giá trị lưu giữ nguyên `off/low/medium/high/xhigh/ultra` và các chuỗi có ngoặc kép đó phải còn trong model-picker.js.
 - Tia sét: không có chữ bật/tắt bên cạnh; chỉ tooltip (`title`) "Fast mode" + một dòng lưu ý.
@@ -113,7 +113,7 @@ print("\nOK - test_khung_go_server: tất cả pass")
 
 - [ ] **Step 2: Chạy, thấy hỏng**
 
-Run: `/d/Project/Aivon-OS/.venv/Scripts/python.exe tests/python/test_khung_go_server.py`
+Run: `/d/Project/AIVON-OS/.venv/Scripts/python.exe tests/python/test_khung_go_server.py`
 Expected: FAIL ở "mặc định fast tắt" (khoá chưa có) và các check resolve (route chưa có).
 
 - [ ] **Step 3: Viết code**
@@ -159,9 +159,9 @@ async def files_resolve(brain: str = Query("brain"), path: str = Query("")):
 
 - [ ] **Step 4: Chạy, thấy qua**
 
-Run: `/d/Project/Aivon-OS/.venv/Scripts/python.exe tests/python/test_khung_go_server.py` -> `OK - test_khung_go_server`
-Run: `/d/Project/Aivon-OS/.venv/Scripts/python.exe tests/python/test_route_table.py --update` (route mới), rồi chạy lại không `--update` -> `bảng route khớp`.
-Run: `/d/Project/Aivon-OS/.venv/Scripts/python.exe tests/run.py settings` -> xanh.
+Run: `/d/Project/AIVON-OS/.venv/Scripts/python.exe tests/python/test_khung_go_server.py` -> `OK - test_khung_go_server`
+Run: `/d/Project/AIVON-OS/.venv/Scripts/python.exe tests/python/test_route_table.py --update` (route mới), rồi chạy lại không `--update` -> `bảng route khớp`.
+Run: `/d/Project/AIVON-OS/.venv/Scripts/python.exe tests/run.py settings` -> xanh.
 
 - [ ] **Step 5: Commit**
 
@@ -286,7 +286,7 @@ console.log("\nOK - test_khung_go: tất cả pass");
           </button>
         </div>
         <span class="cp-gap"></span>
-        <button type="button" class="mic-big" id="voiceBtn" title="Bấm để gọi Aivon" data-i18n-title="bar.mic">
+        <button type="button" class="mic-big" id="voiceBtn" title="Bấm để gọi AIVON" data-i18n-title="bar.mic">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
             <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/>
@@ -484,7 +484,7 @@ Dòng ~1604 `const src = atts[0].sources || "", attDir = atts[0].attachments || 
 
 Run: `node tests/js/test_khung_go.js` -> OK.
 Run: `grep -rln "hudVoice\|hud-voice\|voiceBtn\|attachBtn\|modelBar\|CHAT_NODE_IDS\|chatpage-slot .hud-voice\|attach-bar" tests/` rồi chạy từng file trong danh sách (`node tests/js/<f>` hoặc python). Mọi file xanh, trừ `test_model_theo_phien.py` (đỏ sẵn trên máy này vì WinError 32).
-Run: `/d/Project/Aivon-OS/.venv/Scripts/python.exe tests/run.py --js` -> toàn bộ xanh.
+Run: `/d/Project/AIVON-OS/.venv/Scripts/python.exe tests/run.py --js` -> toàn bộ xanh.
 
 - [ ] **Step 12: Commit**
 
@@ -750,7 +750,7 @@ console.log("\nOK - test_thanh_truot_effort: tất cả pass");
 
 - [ ] **Step 7: index.html**: thêm `<script src="effort-slider.js?v=1"></script>` ngay trước dòng `model-picker.js`; bump `model-picker.js?v=` và `style.css?v=`.
 
-- [ ] **Step 8: Chạy test**: `node tests/js/test_thanh_truot_effort.js` -> OK; `/d/Project/Aivon-OS/.venv/Scripts/python.exe tests/python/test_do_sau_suy_nghi.py`, `test_mobile_layout.py`, `node tests/js/test_i18n.mjs`, `node tests/js/test_studio_chon_model_agent.js` -> xanh.
+- [ ] **Step 8: Chạy test**: `node tests/js/test_thanh_truot_effort.js` -> OK; `/d/Project/AIVON-OS/.venv/Scripts/python.exe tests/python/test_do_sau_suy_nghi.py`, `test_mobile_layout.py`, `node tests/js/test_i18n.mjs`, `node tests/js/test_studio_chon_model_agent.js` -> xanh.
 
 - [ ] **Step 9: Commit**
 
@@ -1324,7 +1324,7 @@ git commit -m "Composer: slash menu anchors to the card instead of the textarea"
 
 - [ ] **Step 1: Xem bằng mắt**: chạy sandbox server worktree (cổng 7788, state tạm; theo ghi nhớ "Sandbox soi UI") hoặc dựng trang xem thử dùng CSS/JS thật như đã làm ở #655. Kiểm: máy tính sáng và tối; điện thoại 375px (chip model lên đầu trang, hàng còn "+", chip mức, tia sét, mic, gửi); trang Trò chuyện, Coding (hàng chip ngữ cảnh vẫn hiện), Workspace; mở và đóng từng popover; kéo thanh trượt; bật tia sét; dán ảnh, kéo thả file; Ctrl+U; gọi giọng nói một lần.
 
-- [ ] **Step 2: Toàn bộ test**: `/d/Project/Aivon-OS/.venv/Scripts/python.exe tests/run.py --js` (tất cả xanh) và `/d/Project/Aivon-OS/.venv/Scripts/python.exe tests/run.py --py` (chỉ còn 14 file đỏ sẵn của máy này; so danh sách với ghi nhớ "Test đỏ giả trên máy này").
+- [ ] **Step 2: Toàn bộ test**: `/d/Project/AIVON-OS/.venv/Scripts/python.exe tests/run.py --js` (tất cả xanh) và `/d/Project/AIVON-OS/.venv/Scripts/python.exe tests/run.py --py` (chỉ còn 14 file đỏ sẵn của máy này; so danh sách với ghi nhớ "Test đỏ giả trên máy này").
 
 - [ ] **Step 3: Phiên bản**: `git fetch origin`, đọc `git show origin/main:VERSION` và số các PR đang mở (`gh pr list --state open --json title`), lấy số kế tiếp chưa ai giữ (dự kiến 0.148.0). Ghi VERSION; thêm khối CHANGELOG.md (tiếng Việt, ngắn, cho màn hình điện thoại) và CHANGELOG.en.md (không chữ Việt):
 

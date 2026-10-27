@@ -2,32 +2,32 @@
 
 ***Tiếng Việt** · [English](en/02-chat-and-voice.md)*
 
-Đây là chỗ bạn làm việc với Aivon nhiều nhất: gõ chữ thì Aivon trả lời bằng chữ, bấm mic gọi Aivon thì nó nói thành tiếng. Trang này mô tả toàn bộ khung chat, từ phím tắt, lệnh gạch chéo, nút bấm dưới mỗi tin nhắn cho tới cách chọn giọng đọc và nhờ Aivon tạo ảnh.
+Đây là chỗ bạn làm việc với AIVON nhiều nhất: gõ chữ thì AIVON trả lời bằng chữ, bấm mic gọi AIVON thì nó nói thành tiếng. Trang này mô tả toàn bộ khung chat, từ phím tắt, lệnh gạch chéo, nút bấm dưới mỗi tin nhắn cho tới cách chọn giọng đọc và nhờ AIVON tạo ảnh.
 
 Nếu chưa cài đặt xong lần đầu, xem [Bắt đầu & thiết lập lần đầu](01-bat-dau-thiet-lap.md) trước.
 
 ## Tính năng này là gì
 
-Một chỗ duy nhất để làm việc với Aivon:
+Một chỗ duy nhất để làm việc với AIVON:
 
 - Gõ tin nhắn như chat bình thường.
-- Bấm mic để gọi Aivon, nói chuyện như gọi điện thoại; Aivon tự gửi khi bạn ngừng nói.
-- Aivon trả lời bằng chữ; trong cuộc gọi thì Aivon nói thêm thành tiếng.
-- Đính kèm file hoặc ảnh vào tin nhắn để Aivon đọc.
-- Aivon nhúng ngược ảnh, file, sơ đồ và trang HTML vào câu trả lời để bạn xem tại chỗ.
+- Bấm mic để gọi AIVON, nói chuyện như gọi điện thoại; AIVON tự gửi khi bạn ngừng nói.
+- AIVON trả lời bằng chữ; trong cuộc gọi thì AIVON nói thêm thành tiếng.
+- Đính kèm file hoặc ảnh vào tin nhắn để AIVON đọc.
+- AIVON nhúng ngược ảnh, file, sơ đồ và trang HTML vào câu trả lời để bạn xem tại chỗ.
 - Xem quả cầu tri thức phản ứng theo âm thanh (sáng lên khi nghe / khi đọc).
 
-Câu trả lời do **engine bạn đang chọn** xử lý chứ không mặc định là Claude: Claude Code, ChatGPT (Codex), OpenRouter, OpenAI API, Anthropic API hay Google Gemini API. Badge nhỏ cạnh chữ HỘI THOẠI cho biết engine + model THẬT vừa chạy lượt đó. Mọi engine đều gọi được công cụ và nguồn dữ liệu của Aivon qua MCP Hub, không riêng Claude. Chi tiết ở [Models & engine](10-models-va-engine.md).
+Câu trả lời do **engine bạn đang chọn** xử lý chứ không mặc định là Claude: Claude Code, ChatGPT (Codex), OpenRouter, OpenAI API, Anthropic API hay Google Gemini API. Badge nhỏ cạnh chữ HỘI THOẠI cho biết engine + model THẬT vừa chạy lượt đó. Mọi engine đều gọi được công cụ và nguồn dữ liệu của AIVON qua MCP Hub, không riêng Claude. Chi tiết ở [Models & engine](10-models-va-engine.md).
 
-Trong lúc Aivon suy nghĩ, một chip hoạt động hiện ngay cuối khung chat với ba chấm nhún, dòng trạng thái ("Aivon đang suy nghĩ...", "✓ Nhận data - đang phân tích...", "✍ Đang soạn câu trả lời...") và đồng hồ đếm giây (số giây chỉ hiện từ giây thứ 3 trở đi).
+Trong lúc AIVON suy nghĩ, một chip hoạt động hiện ngay cuối khung chat với ba chấm nhún, dòng trạng thái ("AIVON đang suy nghĩ...", "✓ Nhận data - đang phân tích...", "✍ Đang soạn câu trả lời...") và đồng hồ đếm giây (số giây chỉ hiện từ giây thứ 3 trở đi).
 
-## Mở ở đâu trong Aivon
+## Mở ở đâu trong AIVON
 
 Có **hai** chỗ chat, dùng chung một cuộc hội thoại nên chuyển qua lại không mất gì.
 
-### Màn chính "Aivon"
+### Màn chính "AIVON"
 
-Rail điều hướng bên trái, nhóm **Trợ lý** → mục **Aivon**. Đây cũng là màn hình mặc định khi mở dashboard (mặc định ở cổng 7979), mở trang lên là đã ở đây.
+Rail điều hướng bên trái, nhóm **Trợ lý** → mục **AIVON**. Đây cũng là màn hình mặc định khi mở dashboard (mặc định ở cổng 7979), mở trang lên là đã ở đây.
 
 | Khu vực | Vị trí | Nội dung |
 |---|---|---|
@@ -43,84 +43,84 @@ Cột trái **không còn** bảng thẻ số liệu kinh doanh; đó là Vault 
 Rail, nhóm **Trợ lý** → mục **Trò chuyện**. Đây là một trang chat toàn màn hình, không có quả cầu và không có cây vault:
 
 - Cột trái là **lịch sử hội thoại** (mở lại, tìm, đổi tên, xoá phiên cũ).
-- Thanh trên cùng ghi **Trò chuyện với Aivon**, bên phải là badge engine.
-- Phần chat, chip file đính kèm, thanh model và thanh nhập là **chính** những thứ ở màn Aivon được mượn sang, nên tin nhắn, file đang đính kèm và lượt đang chạy vẫn nguyên vẹn.
+- Thanh trên cùng ghi **Trò chuyện với AIVON**, bên phải là badge engine.
+- Phần chat, chip file đính kèm, thanh model và thanh nhập là **chính** những thứ ở màn AIVON được mượn sang, nên tin nhắn, file đang đính kèm và lượt đang chạy vẫn nguyên vẹn.
 
-Dùng trang này khi bạn muốn màn hình rộng chỉ để chat. Muốn xem quả cầu và cây thư mục thì quay lại mục **Aivon**.
+Dùng trang này khi bạn muốn màn hình rộng chỉ để chat. Muốn xem quả cầu và cây thư mục thì quay lại mục **AIVON**.
 
 ## Cách dùng (từng bước)
 
 ### Bước 1 - Gõ chữ để hỏi
 
-1. Bấm vào ô nhập ở dưới cùng (chỗ ghi "Nói với Aivon, gõ ở đây, hoặc kéo/dán file vào...").
+1. Bấm vào ô nhập ở dưới cùng (chỗ ghi "Nói với AIVON, gõ ở đây, hoặc kéo/dán file vào...").
 2. Gõ câu hỏi.
 3. Nhấn phím **Enter** để gửi. Muốn xuống dòng trong cùng một tin nhắn thì nhấn **Shift + Enter**.
 4. Hoặc bấm nút gửi (hình mũi tên) ở góc phải thanh nhập.
 
-Câu trả lời của Aivon hiện dần ở cột HỘI THOẠI bên phải, chữ chạy ra theo thời gian thực.
+Câu trả lời của AIVON hiện dần ở cột HỘI THOẠI bên phải, chữ chạy ra theo thời gian thực.
 
-### Bước 2 - Gọi Aivon bằng giọng: bấm nút mic
+### Bước 2 - Gọi AIVON bằng giọng: bấm nút mic
 
-Nút mic (hình micro to, bên trái thanh nhập) là nút **gọi Aivon**, như gọi điện thoại:
+Nút mic (hình micro to, bên trái thanh nhập) là nút **gọi AIVON**, như gọi điện thoại:
 
-1. Bấm nút mic một lần. Nút đổi màu đỏ thành **Cúp máy**, và một **thanh gọi** hiện ngay trên khung chat: tên đường gọi (ví dụ **ChatGPT Live**), trạng thái (Đang nghe, Aivon đang nói, Đang làm việc, Đang chờ), đồng hồ cuộc gọi, nút **Tắt mic** và nút **Cúp máy**.
+1. Bấm nút mic một lần. Nút đổi màu đỏ thành **Cúp máy**, và một **thanh gọi** hiện ngay trên khung chat: tên đường gọi (ví dụ **ChatGPT Live**), trạng thái (Đang nghe, AIVON đang nói, Đang làm việc, Đang chờ), đồng hồ cuộc gọi, nút **Tắt mic** và nút **Cúp máy**.
 2. Cứ nói tự nhiên. Lời hai bên hiện thành bong bóng chat như tin thường, nên bảng số, file hay kết quả việc vẫn hiện đầy đủ.
-3. Muốn chen ngang lúc Aivon đang nói thì cứ nói, Aivon thôi đọc để nghe. Câu trả lời đang viết dở vẫn viết nốt vào khung chat. Nói thêm lúc Aivon đang trả lời cũng không làm nó dừng: câu của bạn được giữ lại và Aivon trả lời ngay sau khi xong câu đang trả lời. Cuộc gọi chỉ dừng khi bạn cúp máy.
+3. Muốn chen ngang lúc AIVON đang nói thì cứ nói, AIVON thôi đọc để nghe. Câu trả lời đang viết dở vẫn viết nốt vào khung chat. Nói thêm lúc AIVON đang trả lời cũng không làm nó dừng: câu của bạn được giữ lại và AIVON trả lời ngay sau khi xong câu đang trả lời. Cuộc gọi chỉ dừng khi bạn cúp máy.
 4. Kết thúc: bấm **Cúp máy** (trên thanh gọi hoặc chính nút mic), hoặc nhấn **Esc**.
 
-Aivon tự chọn đường gọi: **ChatGPT Live** khi bạn đã nối gói ChatGPT, rồi Live qua API key nếu có, không thì đường **Cơ bản** (nghe bằng trình duyệt, đọc bằng giọng Edge). Nếu ChatGPT Live chưa mở được, cuộc gọi tự chuyển sang đường Cơ bản và báo một dòng. Phím Cách (Space) không còn mở mic.
+AIVON tự chọn đường gọi: **ChatGPT Live** khi bạn đã nối gói ChatGPT, rồi Live qua API key nếu có, không thì đường **Cơ bản** (nghe bằng trình duyệt, đọc bằng giọng Edge). Nếu ChatGPT Live chưa mở được, cuộc gọi tự chuyển sang đường Cơ bản và báo một dòng. Phím Cách (Space) không còn mở mic.
 
-Lần đầu bấm mic, trình duyệt sẽ hỏi quyền dùng micro. Bấm cho phép. Nếu từ chối, Aivon không nghe được và sẽ báo cần cấp quyền microphone cho trang này.
+Lần đầu bấm mic, trình duyệt sẽ hỏi quyền dùng micro. Bấm cho phép. Nếu từ chối, AIVON không nghe được và sẽ báo cần cấp quyền microphone cho trang này.
 
-Trong cuộc gọi, khi bạn bắt đầu nói thì Aivon **tạm dừng** phần nó đang đọc để lắng nghe. Nếu trong 2 giây bạn thật sự nói thành câu, Aivon dừng hẳn và tin kế tiếp của bạn mang theo câu nó đang đọc dở, nên nó trả lời tiếp từ chỗ đó chứ không đọc lại từ đầu. Nếu chỉ là tiếng ho hay tiếng động, Aivon đọc tiếp từ chỗ dừng. Cơ chế đo độ to của giọng qua luồng mic đã khử vọng (nói liên tục khoảng 0,5 giây, to hơn hẳn nền), nên tiếng loa của chính Aivon không tự làm nó ngắt lời. Cơ chế này luôn bật.
+Trong cuộc gọi, khi bạn bắt đầu nói thì AIVON **tạm dừng** phần nó đang đọc để lắng nghe. Nếu trong 2 giây bạn thật sự nói thành câu, AIVON dừng hẳn và tin kế tiếp của bạn mang theo câu nó đang đọc dở, nên nó trả lời tiếp từ chỗ đó chứ không đọc lại từ đầu. Nếu chỉ là tiếng ho hay tiếng động, AIVON đọc tiếp từ chỗ dừng. Cơ chế đo độ to của giọng qua luồng mic đã khử vọng (nói liên tục khoảng 0,5 giây, to hơn hẳn nền), nên tiếng loa của chính AIVON không tự làm nó ngắt lời. Cơ chế này luôn bật.
 
-Chen ngang chỉ hoạt động khi **mic đang mở**. Mic đã tắt thì dù Aivon đang đọc, một tiếng động trong phòng cũng không bật mic trở lại.
+Chen ngang chỉ hoạt động khi **mic đang mở**. Mic đã tắt thì dù AIVON đang đọc, một tiếng động trong phòng cũng không bật mic trở lại.
 
-### Nói "khoan", "thôi": Aivon hiểu
+### Nói "khoan", "thôi": AIVON hiểu
 
-- **"Khoan"**, **"đợi chút"**, **"từ từ"**, **"để mình nghĩ"** (hoặc "wait", "hold on"): Aivon không gửi gì, dừng đọc nếu đang đọc, và hiện **ĐANG CHỜ BẠN**. Nói tiếp câu thật là nó gửi bình thường. Im lặng 90 giây thì nó thôi chờ.
+- **"Khoan"**, **"đợi chút"**, **"từ từ"**, **"để mình nghĩ"** (hoặc "wait", "hold on"): AIVON không gửi gì, dừng đọc nếu đang đọc, và hiện **ĐANG CHỜ BẠN**. Nói tiếp câu thật là nó gửi bình thường. Im lặng 90 giây thì nó thôi chờ.
 - **"Thôi"**, **"dừng lại"**, **"đủ rồi"** (hoặc "stop"): đang đọc thì im ngay, đang suy nghĩ thì bấm hộ nút Dừng. Không gửi gì.
 - Chỉ những câu **ngắn đúng cụm đó** mới được hiểu là lệnh. "Khoan, mở Chrome" là một tin nhắn bình thường.
 
-Aivon cũng tự chờ lâu hơn khi câu bạn nói kết bằng "và", "nhưng", "thì" hay dấu phẩy, vì lúc đó bạn thường chưa nói xong. Còn lại, Aivon gửi câu sau 1,2 giây im lặng; mức bạn đã chọn ở bản cũ trên máy đó vẫn được dùng.
+AIVON cũng tự chờ lâu hơn khi câu bạn nói kết bằng "và", "nhưng", "thì" hay dấu phẩy, vì lúc đó bạn thường chưa nói xong. Còn lại, AIVON gửi câu sau 1,2 giây im lặng; mức bạn đã chọn ở bản cũ trên máy đó vẫn được dùng.
 
-### Điều khiển Aivon và máy tính bằng lời
+### Điều khiển AIVON và máy tính bằng lời
 
-Nói (hoặc gõ) là được, Aivon dùng đúng công cụ và báo lại kết quả thật:
+Nói (hoặc gõ) là được, AIVON dùng đúng công cụ và báo lại kết quả thật:
 
-- **"Mở trang Việc"**, **"mở file tên X"**, **"cho xem việc vừa giao"**, **"cuộn xuống"**: dashboard tự mở đúng chỗ và Aivon nói "đã mở". Việc này chỉ chạy khi có một tab Aivon đang mở.
-- **"Mở Chrome"**, **"bật Excel lên"**, **"mở trang youtube.com"**, **"tắt Chrome"**, **"đang mở app nào"**: Aivon mở hay đóng app trên **chính máy đang chạy Aivon**. Đóng app là đóng lịch sự (app có tài liệu chưa lưu sẽ tự hỏi lưu); nói "ép tắt" thì Aivon tắt hẳn. Nếu Aivon chạy trong Docker trên máy chủ thì nó nói rõ là không điều khiển được máy bạn.
-- Đang bôi đen một đoạn chữ rồi nói "tóm tắt đoạn này": Aivon biết bạn đang chỉ đoạn nào, không hỏi lại.
+- **"Mở trang Việc"**, **"mở file tên X"**, **"cho xem việc vừa giao"**, **"cuộn xuống"**: dashboard tự mở đúng chỗ và AIVON nói "đã mở". Việc này chỉ chạy khi có một tab AIVON đang mở.
+- **"Mở Chrome"**, **"bật Excel lên"**, **"mở trang youtube.com"**, **"tắt Chrome"**, **"đang mở app nào"**: AIVON mở hay đóng app trên **chính máy đang chạy AIVON**. Đóng app là đóng lịch sự (app có tài liệu chưa lưu sẽ tự hỏi lưu); nói "ép tắt" thì AIVON tắt hẳn. Nếu AIVON chạy trong Docker trên máy chủ thì nó nói rõ là không điều khiển được máy bạn.
+- Đang bôi đen một đoạn chữ rồi nói "tóm tắt đoạn này": AIVON biết bạn đang chỉ đoạn nào, không hỏi lại.
 
-### Bước 3 - Nghe Aivon trả lời bằng giọng
+### Bước 3 - Nghe AIVON trả lời bằng giọng
 
-Trong cuộc gọi, Aivon **nói thành tiếng** mọi câu trả lời. Đồ thị sáng theo nhịp giọng nói.
+Trong cuộc gọi, AIVON **nói thành tiếng** mọi câu trả lời. Đồ thị sáng theo nhịp giọng nói.
 
-- Cúp máy (nút **Cúp máy**, nút mic hoặc **Esc**) là Aivon im ngay.
-- Gõ chữ ngoài cuộc gọi thì Aivon chỉ trả lời bằng chữ.
-- Không còn nút loa hay công tắc bật tắt giọng riêng: cuộc gọi quyết định Aivon có nói hay không.
+- Cúp máy (nút **Cúp máy**, nút mic hoặc **Esc**) là AIVON im ngay.
+- Gõ chữ ngoài cuộc gọi thì AIVON chỉ trả lời bằng chữ.
+- Không còn nút loa hay công tắc bật tắt giọng riêng: cuộc gọi quyết định AIVON có nói hay không.
 
 Đổi giọng ở **Cài đặt → Giọng nói**, xem mục **Cài đặt Giọng nói** bên dưới.
 
-### Bước 4 - Dừng khi Aivon đang trả lời
+### Bước 4 - Dừng khi AIVON đang trả lời
 
-Khi Aivon đang suy nghĩ hoặc đang đọc, nút gửi ở thanh nhập biến thành **nút dừng** (hình vuông). Bấm nút đó là ngắt lượt đang chạy và dừng đọc ngay, trạng thái về SẴN SÀNG. Gõ **`/stop`** rồi Enter cũng ra đúng kết quả đó.
+Khi AIVON đang suy nghĩ hoặc đang đọc, nút gửi ở thanh nhập biến thành **nút dừng** (hình vuông). Bấm nút đó là ngắt lượt đang chạy và dừng đọc ngay, trạng thái về SẴN SÀNG. Gõ **`/stop`** rồi Enter cũng ra đúng kết quả đó.
 
 **Phím Esc là cúp máy, không dừng câu trả lời.** Esc tắt mic và tắt giọng, còn câu trả lời vẫn được viết tiếp và hiện thành chữ. Esc cũng đóng popup đang mở. Chú thích trên nút dừng vẫn ghi "(Esc)" là chữ sót lại từ bản cũ.
 
 Nút dừng chỉ dừng **phiên bạn đang xem**; phiên khác đang chạy nền vẫn tiếp tục. Xem [Phiên hội thoại](04-phien-hoi-thoai.md).
 
-### Gửi thêm việc khi Aivon đang làm
+### Gửi thêm việc khi AIVON đang làm
 
-Từ 0.206.0, trong lúc Aivon đang làm bạn vẫn gõ và gửi tiếp được, giống Claude Code hay Codex. Gõ chữ vào ô nhập thì nút gửi hiện lại ngay cạnh nút dừng (chú thích "Gửi thêm vào việc đang làm"), trên máy tính nhấn Enter cũng được. Việc đang làm **không bị dừng**:
+Từ 0.206.0, trong lúc AIVON đang làm bạn vẫn gõ và gửi tiếp được, giống Claude Code hay Codex. Gõ chữ vào ô nhập thì nút gửi hiện lại ngay cạnh nút dừng (chú thích "Gửi thêm vào việc đang làm"), trên máy tính nhấn Enter cũng được. Việc đang làm **không bị dừng**:
 
-- Với Claude Code và các bộ não dùng API key, Aivon đọc tin mới ở **bước kế tiếp** (sau lần dùng công cụ đang chạy) rồi làm luôn. Tin là lời sửa hướng thì Aivon áp dụng ngay, là việc mới thì Aivon nhận thêm, làm song song nếu được, và trả lời cả hai.
-- Từ 0.213.0, Codex (gói ChatGPT) cũng đọc tin mới ngay trong lượt, giống nút Enter của chính ứng dụng Codex: tin gửi lúc Codex đang chạy lệnh được chèn vào bước kế tiếp, tin gửi lúc Codex đang viết câu cuối thì Codex làm thêm một vòng trong cùng lượt để trả lời nốt. Muốn quay về cách cũ (để tin chờ tới lượt sau) thì đặt biến môi trường `AIVON_CODEX_STEER=0` rồi khởi động lại Aivon.
-- Với Grok Build và Antigravity CLI (chạy một mạch, không nhận tin giữa chừng), hoặc khi Aivon đang viết câu trả lời cuối, tin của bạn **tự chạy thành lượt kế tiếp** ngay khi việc hiện tại xong. Không tin nào bị mất.
+- Với Claude Code và các bộ não dùng API key, AIVON đọc tin mới ở **bước kế tiếp** (sau lần dùng công cụ đang chạy) rồi làm luôn. Tin là lời sửa hướng thì AIVON áp dụng ngay, là việc mới thì AIVON nhận thêm, làm song song nếu được, và trả lời cả hai.
+- Từ 0.213.0, Codex (gói ChatGPT) cũng đọc tin mới ngay trong lượt, giống nút Enter của chính ứng dụng Codex: tin gửi lúc Codex đang chạy lệnh được chèn vào bước kế tiếp, tin gửi lúc Codex đang viết câu cuối thì Codex làm thêm một vòng trong cùng lượt để trả lời nốt. Muốn quay về cách cũ (để tin chờ tới lượt sau) thì đặt biến môi trường `AIVON_CODEX_STEER=0` rồi khởi động lại AIVON.
+- Với Grok Build và Antigravity CLI (chạy một mạch, không nhận tin giữa chừng), hoặc khi AIVON đang viết câu trả lời cuối, tin của bạn **tự chạy thành lượt kế tiếp** ngay khi việc hiện tại xong. Không tin nào bị mất.
 
-Dưới tin bạn vừa gửi có một dòng nhỏ cho biết nó đang ở đâu: "Aivon sẽ đọc tin này ở bước kế tiếp", "Aivon đã đọc tin này", "Aivon làm tin này ngay sau khi xong việc hiện tại" hoặc "Aivon đang làm tin này". Gửi được nhiều tin liên tiếp, Aivon đọc theo đúng thứ tự. Muốn bỏ hẳn việc đang làm thì vẫn bấm nút dừng như cũ.
+Dưới tin bạn vừa gửi có một dòng nhỏ cho biết nó đang ở đâu: "AIVON sẽ đọc tin này ở bước kế tiếp", "AIVON đã đọc tin này", "AIVON làm tin này ngay sau khi xong việc hiện tại" hoặc "AIVON đang làm tin này". Gửi được nhiều tin liên tiếp, AIVON đọc theo đúng thứ tự. Muốn bỏ hẳn việc đang làm thì vẫn bấm nút dừng như cũ.
 
-Từ 0.213.0, Telegram, Discord, Slack, Lark, Messenger và Zalo cũng vậy. Trước đây bot trả lời "Đang xử lý câu trước, gửi /stop" rồi bỏ tin đó. Giờ bot đáp một dòng ngắn: "↪ Đã nhận, Aivon đọc tin này ngay ở bước kế tiếp" hoặc "📥 Đã nhận, Aivon làm tin này ngay sau câu đang trả lời", rồi làm theo đúng hai cách ở trên. Gửi /stop thì dừng việc đang làm và bỏ luôn các tin đang chờ. Bot chăm sóc khách (chế độ người thật) giữ cách cũ: không đáp gì, gộp các tin khách nhắn thêm vào lượt sau.
+Từ 0.213.0, Telegram, Discord, Slack, Lark, Messenger và Zalo cũng vậy. Trước đây bot trả lời "Đang xử lý câu trước, gửi /stop" rồi bỏ tin đó. Giờ bot đáp một dòng ngắn: "↪ Đã nhận, AIVON đọc tin này ngay ở bước kế tiếp" hoặc "📥 Đã nhận, AIVON làm tin này ngay sau câu đang trả lời", rồi làm theo đúng hai cách ở trên. Gửi /stop thì dừng việc đang làm và bỏ luôn các tin đang chờ. Bot chăm sóc khách (chế độ người thật) giữ cách cũ: không đáp gì, gộp các tin khách nhắn thêm vào lượt sau.
 
 ## Lệnh gạch chéo "/" trong ô chat
 
@@ -145,7 +145,7 @@ Cách điều khiển menu:
 - Chọn một **lệnh phiên** hay một **lệnh hệ thống không cần nội dung kèm** thì nó chạy ngay, không cần Enter. Riêng `/plan` và `/goal` cần bạn gõ thêm nội dung, nên chọn chúng chỉ điền `/plan ` hay `/goal ` vào ô.
 - Chọn một **skill** thì `/slug ` được chèn **đúng chỗ con trỏ**, chữ đã gõ hai bên giữ nguyên; bạn gõ tiếp rồi Enter để gửi.
 
-Khi gửi một lệnh skill, Aivon dịch câu đó thành lời nhắc: "Hãy dùng skill `<slug>` với yêu cầu: ... Nếu không có skill tên này thì cứ xử lý yêu cầu của tôi bình thường."
+Khi gửi một lệnh skill, AIVON dịch câu đó thành lời nhắc: "Hãy dùng skill `<slug>` với yêu cầu: ... Nếu không có skill tên này thì cứ xử lý yêu cầu của tôi bình thường."
 
 ### Gọi skill ở giữa câu
 
@@ -162,102 +162,102 @@ Chi tiết về skill xem [Skills](06-skills.md).
 
 ### Lệnh hệ thống
 
-Đây là các lệnh do **chính Aivon xử lý**, không mượn lệnh có sẵn của Claude Code, nên chạy giống hệt nhau dù bạn đang dùng bộ não nào (Claude Code, ChatGPT, Grok, Antigravity hay một engine API). Kết quả hiện thành một bong bóng có viền màu ngay trong khung chat; bong bóng này chỉ ở trên màn hình của bạn, không gửi cho model và không lưu vào hội thoại.
+Đây là các lệnh do **chính AIVON xử lý**, không mượn lệnh có sẵn của Claude Code, nên chạy giống hệt nhau dù bạn đang dùng bộ não nào (Claude Code, ChatGPT, Grok, Antigravity hay một engine API). Kết quả hiện thành một bong bóng có viền màu ngay trong khung chat; bong bóng này chỉ ở trên màn hình của bạn, không gửi cho model và không lưu vào hội thoại.
 
 | Lệnh | Làm gì |
 |---|---|
 | `/help` | Liệt kê các lệnh phiên và lệnh hệ thống |
 | `/status` | Bộ não và model đang chạy cho hội thoại này (đã ghim riêng hay theo model chính), brain, số tin, mức ngữ cảnh gần nhất, có đang trả lời không, phiên bản |
-| `/model` | Mở bảng chọn model. Gõ `/model tên-model` để đổi thẳng: tên khớp đúng thì đổi ngay, khớp nhiều model thì Aivon liệt kê cho bạn chọn chứ không đoán |
-| `/brain` | Liệt kê các brain. Gõ `/brain tên` để chuyển (tên khớp nhiều brain thì Aivon hỏi lại) |
+| `/model` | Mở bảng chọn model. Gõ `/model tên-model` để đổi thẳng: tên khớp đúng thì đổi ngay, khớp nhiều model thì AIVON liệt kê cho bạn chọn chứ không đoán |
+| `/brain` | Liệt kê các brain. Gõ `/brain tên` để chuyển (tên khớp nhiều brain thì AIVON hỏi lại) |
 | `/retry` | Gửi lại câu bạn hỏi gần nhất |
-| `/usage` | Token và chi phí Aivon đã đo hôm nay và từ trước tới nay, kèm số dư OpenRouter nếu có key |
+| `/usage` | Token và chi phí AIVON đã đo hôm nay và từ trước tới nay, kèm số dư OpenRouter nếu có key |
 | `/tasks` | Việc nền đang chạy, chờ bạn duyệt, bị kẹt, đang xếp hàng. Có cảnh báo nếu "Tự vận hành" đang tắt (khi đó việc chỉ nằm chờ) |
 | `/compact` | Nén hội thoại dài ngay, xem bên dưới |
 | `/plan việc-cần-làm` | Một lượt chỉ đọc và đề xuất, chưa làm gì ra ngoài |
 | `/memory` | Mục lục bộ nhớ dài hạn của brain đang chọn, bấm được vào từng ghi nhớ |
 | `/export` | Tải hội thoại này về thành file markdown |
-| `/goal mục-tiêu` | Aivon tự làm tiếp cho tới khi đạt mục tiêu, xem bên dưới |
+| `/goal mục-tiêu` | AIVON tự làm tiếp cho tới khi đạt mục tiêu, xem bên dưới |
 
 #### `/compact` - nén hội thoại
 
-Hội thoại càng dài thì mỗi lượt càng tốn token và càng dễ loãng. Aivon vẫn tự nén khi vượt ngưỡng lớn; `/compact` cho bạn nén **ngay** mà không đợi. Cách nén tuỳ bộ não của hội thoại, và Aivon luôn nói đúng nó đã làm gì:
+Hội thoại càng dài thì mỗi lượt càng tốn token và càng dễ loãng. AIVON vẫn tự nén khi vượt ngưỡng lớn; `/compact` cho bạn nén **ngay** mà không đợi. Cách nén tuỳ bộ não của hội thoại, và AIVON luôn nói đúng nó đã làm gì:
 
-- **Engine API** (OpenRouter, OpenAI, Claude API, Gemini, Groq): các tin cũ được gấp vào một bản tóm tắt, chỉ giữ nguyên hai lượt hỏi đáp gần nhất. Từ lượt sau Aivon gửi bản tóm tắt thay cho cả lịch sử.
-- **Engine chạy bằng gói thuê bao** (Claude Code, ChatGPT/Codex, Grok): phần phình to nằm trong mạch mà engine tự giữ (kết quả công cụ, vòng lặp bên trong), không nằm trong lịch sử Aivon lưu. `/compact` bỏ mạch đó đi; lượt sau Aivon mở mạch mới và nạp lại lịch sử đã lưu. Không có bước tóm tắt vì gói thuê bao không có API key để gọi riêng một request tóm tắt.
-- Hội thoại dưới 4 tin, hoặc bộ não không giữ mạch riêng (Antigravity dựng lại từ lịch sử ở mỗi lượt), thì Aivon nói thẳng là chưa có gì để nén.
+- **Engine API** (OpenRouter, OpenAI, Claude API, Gemini, Groq): các tin cũ được gấp vào một bản tóm tắt, chỉ giữ nguyên hai lượt hỏi đáp gần nhất. Từ lượt sau AIVON gửi bản tóm tắt thay cho cả lịch sử.
+- **Engine chạy bằng gói thuê bao** (Claude Code, ChatGPT/Codex, Grok): phần phình to nằm trong mạch mà engine tự giữ (kết quả công cụ, vòng lặp bên trong), không nằm trong lịch sử AIVON lưu. `/compact` bỏ mạch đó đi; lượt sau AIVON mở mạch mới và nạp lại lịch sử đã lưu. Không có bước tóm tắt vì gói thuê bao không có API key để gọi riêng một request tóm tắt.
+- Hội thoại dưới 4 tin, hoặc bộ não không giữ mạch riêng (Antigravity dựng lại từ lịch sử ở mỗi lượt), thì AIVON nói thẳng là chưa có gì để nén.
 - Hội thoại đang trả lời thì bị từ chối: nén giữa chừng là đổi lịch sử ngay dưới chân một lượt đang đọc nó.
 
 #### `/plan` - chỉ lập kế hoạch
 
-Gõ `/plan dọn lại kho hàng cuối tháng`: Aivon đọc dữ liệu cần thiết rồi đưa ra một kế hoạch ngắn (mục tiêu, các bước, việc nào cần bạn duyệt, rủi ro) và hỏi bạn có muốn làm theo không. Lượt đó **chưa được** ghi file, gửi tin, đăng bài, tạo đơn, sửa quảng cáo, xếp việc nền hay đặt nhắc hẹn. Bạn đồng ý ở tin sau thì Aivon mới làm thật.
+Gõ `/plan dọn lại kho hàng cuối tháng`: AIVON đọc dữ liệu cần thiết rồi đưa ra một kế hoạch ngắn (mục tiêu, các bước, việc nào cần bạn duyệt, rủi ro) và hỏi bạn có muốn làm theo không. Lượt đó **chưa được** ghi file, gửi tin, đăng bài, tạo đơn, sửa quảng cáo, xếp việc nền hay đặt nhắc hẹn. Bạn đồng ý ở tin sau thì AIVON mới làm thật.
 
 Mức chặn khác nhau theo bộ não, nên nói cho rõ: với **Claude Code, Grok và Antigravity**, lượt `/plan` chạy ở mức quyền `suggest` nên cổng công cụ chặn thật mọi hành động ra ngoài. Với **ChatGPT (Codex) và các engine API**, hiện chỉ có lời dặn trong tin gửi đi chứ chưa có cổng chặn riêng cho từng lượt.
 
 #### `/goal` - làm tới khi đạt
 
-Gõ `/goal mọi đơn hôm nay đã được đối soát xong`. Aivon làm một vòng, tự kiểm tra bằng dữ liệu thật xem mục tiêu đã đúng chưa, và nếu chưa thì **tự gửi vòng kế tiếp** mà bạn không phải nhắc. Mỗi vòng tự nhắc hiện thành một dòng "Aivon tự nhắc làm tiếp (vòng n/5)": bấm vào để xem vòng trước còn thiếu gì, và nút **Tắt mục tiêu** ngay cạnh để dừng bất cứ lúc nào (dừng rồi thì nút mờ đi). Các dòng này còn nguyên sau khi tải lại trang.
+Gõ `/goal mọi đơn hôm nay đã được đối soát xong`. AIVON làm một vòng, tự kiểm tra bằng dữ liệu thật xem mục tiêu đã đúng chưa, và nếu chưa thì **tự gửi vòng kế tiếp** mà bạn không phải nhắc. Mỗi vòng tự nhắc hiện thành một dòng "AIVON tự nhắc làm tiếp (vòng n/5)": bấm vào để xem vòng trước còn thiếu gì, và nút **Tắt mục tiêu** ngay cạnh để dừng bất cứ lúc nào (dừng rồi thì nút mờ đi). Các dòng này còn nguyên sau khi tải lại trang.
 
-Aivon đề xuất "xong hay chưa", còn **việc có chạy tiếp hay không do mã quyết định**, để một mục tiêu không bao giờ đạt được không thành vòng lặp đốt token vô hạn. Vòng tự động dừng khi:
+AIVON đề xuất "xong hay chưa", còn **việc có chạy tiếp hay không do mã quyết định**, để một mục tiêu không bao giờ đạt được không thành vòng lặp đốt token vô hạn. Vòng tự động dừng khi:
 
 - mục tiêu đã đạt;
-- Aivon báo **không làm tiếp được** vì thiếu quyền, thiếu công cụ, thiếu kết nối hay thiếu dữ liệu: dừng ngay ở vòng đó, nói rõ lý do và gợi ý cách gỡ, thay vì nhắc đi nhắc lại;
+- AIVON báo **không làm tiếp được** vì thiếu quyền, thiếu công cụ, thiếu kết nối hay thiếu dữ liệu: dừng ngay ở vòng đó, nói rõ lý do và gợi ý cách gỡ, thay vì nhắc đi nhắc lại;
 - đã chạy **5 vòng** mà chưa đạt;
 - hai vòng liền báo còn thiếu y hệt nhau (không có tiến triển);
-- Aivon hỏi ngược bạn một câu cần bạn quyết;
-- một vòng bị lỗi, hoặc Aivon không báo được mục tiêu đã đạt hay chưa;
+- AIVON hỏi ngược bạn một câu cần bạn quyết;
+- một vòng bị lỗi, hoặc AIVON không báo được mục tiêu đã đạt hay chưa;
 - **bạn gõ một tin mới, bấm Dừng, mở hội thoại khác hoặc gõ `/goal clear`** - lời của bạn luôn lên trước.
 
-Khi dừng, mục tiêu tự tắt và câu báo luôn kèm việc bạn có thể làm tiếp (gỡ chỗ thiếu rồi gõ `/goal` lại). Chế độ này chạy trong **tab chat đang mở**: đóng tab hay tải lại trang thì dừng (các dòng vòng đã chạy vẫn còn để xem lại). Khác với `/plan`, `/goal` làm việc thật (đúng quyền hạn bạn đã cấp cho Aivon), nên hãy viết mục tiêu cụ thể, kiểm chứng được.
+Khi dừng, mục tiêu tự tắt và câu báo luôn kèm việc bạn có thể làm tiếp (gỡ chỗ thiếu rồi gõ `/goal` lại). Chế độ này chạy trong **tab chat đang mở**: đóng tab hay tải lại trang thì dừng (các dòng vòng đã chạy vẫn còn để xem lại). Khác với `/plan`, `/goal` làm việc thật (đúng quyền hạn bạn đã cấp cho AIVON), nên hãy viết mục tiêu cụ thể, kiểm chứng được.
 
 #### Trên Telegram
 
 Telegram có sẵn `/status`, `/model`, `/brain`, `/retry`, `/skills`, `/agents`, `/workflows`, `/reset`, `/stop` từ trước. Nay có thêm `/usage`, `/tasks`, `/memory` và `/plan việc-cần-làm`, cùng cách hoạt động, trả lời bằng chữ thường. Trên Telegram `/plan` chỉ có lời dặn (chưa có cổng chặn ở hub); `/compact`, `/goal`, `/export` chỉ có trên web.
 
-## Khi Aivon hỏi lại bằng nút bấm
+## Khi AIVON hỏi lại bằng nút bấm
 
-Khi phải đoán một tham số mà đoán sai thì hại (kỳ thời gian, chọn shop nào, chọn kênh nào), Aivon hỏi lại và đính một hàng nút bấm ngay dưới bong bóng trả lời:
+Khi phải đoán một tham số mà đoán sai thì hại (kỳ thời gian, chọn shop nào, chọn kênh nào), AIVON hỏi lại và đính một hàng nút bấm ngay dưới bong bóng trả lời:
 
 - Một dòng câu hỏi, có thể kèm nhãn chủ đề ngắn ở đầu.
 - Tối đa **4 nút** lựa chọn, cộng một nút **"Ý khác…"**.
 - Bấm một nút = gửi **đúng chữ trên nút** đi như tin nhắn của bạn. Bấm "Ý khác…" thì không gửi gì, chỉ đặt con trỏ về ô gõ để bạn tự viết.
 - Nhãn dài quá 40 ký tự bị cắt bớt và có dấu "…" ở cuối; nút hiện chữ gì thì gửi đi đúng chữ đó, không bao giờ khác.
 
-Chỉ hàng nút **mới nhất** bấm được. Khi bạn trả lời (bấm nút hoặc gõ tay), mọi hàng nút cũ bị đông cứng, cuộn ngược lên bấm cũng không ăn gì. Aivon luôn viết câu hỏi thành lời trong phần trả lời, nên bạn gõ tay được mà không cần bấm nút.
+Chỉ hàng nút **mới nhất** bấm được. Khi bạn trả lời (bấm nút hoặc gõ tay), mọi hàng nút cũ bị đông cứng, cuộn ngược lên bấm cũng không ăn gì. AIVON luôn viết câu hỏi thành lời trong phần trả lời, nên bạn gõ tay được mà không cần bấm nút.
 
 ## Gửi file kèm trong chat
 
-Bạn có thể đưa file hoặc ảnh vào tin nhắn để Aivon đọc. Ba cách:
+Bạn có thể đưa file hoặc ảnh vào tin nhắn để AIVON đọc. Ba cách:
 
 1. Bấm nút **kẹp giấy** (bên cạnh nút mic) rồi chọn file. Có thể chọn nhiều file.
-2. **Kéo - thả** file từ máy vào cửa sổ Aivon (một lớp phủ hiện lên báo chỗ thả).
+2. **Kéo - thả** file từ máy vào cửa sổ AIVON (một lớp phủ hiện lên báo chỗ thả).
 3. **Dán** trực tiếp bằng Ctrl + V.
 
-Chuyện dán có một mẹo riêng: dán **ảnh** thì thành file đính kèm như thường, còn dán **văn bản quá dài** (trên 1500 ký tự hoặc trên 25 dòng) vào ô chat thì Aivon tự đóng gói thành file `.txt` đính kèm thay vì nhồi nguyên bài vào ô gõ. Aivon vẫn đọc trọn vẹn, còn màn hình chỉ hiện một thẻ gọn. Việc này chỉ áp dụng cho ô chat; dán vào các ô nhập khác vẫn ra chữ bình thường.
+Chuyện dán có một mẹo riêng: dán **ảnh** thì thành file đính kèm như thường, còn dán **văn bản quá dài** (trên 1500 ký tự hoặc trên 25 dòng) vào ô chat thì AIVON tự đóng gói thành file `.txt` đính kèm thay vì nhồi nguyên bài vào ô gõ. AIVON vẫn đọc trọn vẹn, còn màn hình chỉ hiện một thẻ gọn. Việc này chỉ áp dụng cho ô chat; dán vào các ô nhập khác vẫn ra chữ bình thường.
 
 File hiện thành thẻ nhỏ phía trên thanh nhập. Đợi thẻ báo tải xong, sau đó gõ hoặc nói yêu cầu rồi gửi như bình thường. Bấm dấu ✕ trên thẻ để bỏ file khỏi tin nhắn.
 
-Quan trọng về cách Aivon xử lý file:
+Quan trọng về cách AIVON xử lý file:
 
-- **Mặc định: chỉ đọc.** Aivon đọc nội dung file (ảnh thì xem và mô tả) rồi trả lời, **không** tự lưu vào đâu. Nhãn trên lớp phủ kéo thả ghi "Thả file vào đây → lưu vào Sources" là chữ cũ, hành vi thật là chỉ đọc.
-- **Chỉ lưu khi bạn yêu cầu rõ.** Muốn Aivon cất file vào bộ nhớ (Second Brain), hãy nói rõ trong tin nhắn, ví dụ "lưu vào source", "ingest cái này", hoặc "ghi vào second brain". Khi đó Aivon mới chuyển file thành ghi chú và lưu vào thư mục Sources của vault. Xem thêm [Second Brain: bộ nhớ, Wiki, INGEST](13-second-brain-bo-nho-wiki.md) và [Quản lý tệp tin](05-quan-ly-tep-tin.md).
+- **Mặc định: chỉ đọc.** AIVON đọc nội dung file (ảnh thì xem và mô tả) rồi trả lời, **không** tự lưu vào đâu. Nhãn trên lớp phủ kéo thả ghi "Thả file vào đây → lưu vào Sources" là chữ cũ, hành vi thật là chỉ đọc.
+- **Chỉ lưu khi bạn yêu cầu rõ.** Muốn AIVON cất file vào bộ nhớ (Second Brain), hãy nói rõ trong tin nhắn, ví dụ "lưu vào source", "ingest cái này", hoặc "ghi vào second brain". Khi đó AIVON mới chuyển file thành ghi chú và lưu vào thư mục Sources của vault. Xem thêm [Second Brain: bộ nhớ, Wiki, INGEST](13-second-brain-bo-nho-wiki.md) và [Quản lý tệp tin](05-quan-ly-tep-tin.md).
 
 ## Thẻ "đang mở": file bạn đang sửa tự thành đầu vào của cuộc trò chuyện
 
-Ngoài file đính kèm, còn một loại thẻ nữa: khi bạn mở một file văn bản trong trình sửa (xem [Quản lý tệp tin](05-quan-ly-tep-tin.md)), Aivon tự ghim file đó vào khung chat thành một thẻ màu cam ghi "đang mở - bấm để sửa tiếp".
+Ngoài file đính kèm, còn một loại thẻ nữa: khi bạn mở một file văn bản trong trình sửa (xem [Quản lý tệp tin](05-quan-ly-tep-tin.md)), AIVON tự ghim file đó vào khung chat thành một thẻ màu cam ghi "đang mở - bấm để sửa tiếp".
 
-Khác thẻ đính kèm ở chỗ: chỉ có **một** thẻ ghim (mở file khác thì đổi theo), và nó **không mất sau khi gửi** - file đó là đầu vào của cả cuộc trò chuyện chứ không phải dữ liệu kèm một lần. Nhờ vậy bạn nói "dọn lại phần quá hạn" hay "viết thêm phần kết" mà không cần nhắc tên file, Aivon vẫn biết đang nói về file nào và ghi thẳng vào đó.
+Khác thẻ đính kèm ở chỗ: chỉ có **một** thẻ ghim (mở file khác thì đổi theo), và nó **không mất sau khi gửi** - file đó là đầu vào của cả cuộc trò chuyện chứ không phải dữ liệu kèm một lần. Nhờ vậy bạn nói "dọn lại phần quá hạn" hay "viết thêm phần kết" mà không cần nhắc tên file, AIVON vẫn biết đang nói về file nào và ghi thẳng vào đó.
 
 Thẻ ghim còn là **lối quay lại**: bấm vào thẻ là file mở lại trong trình sửa đúng chỗ đang làm dở (đang mở sẵn thì chỉ đưa mắt về, không nạp lại nên chữ chưa lưu vẫn còn). Bấm **✕** trên thẻ để bỏ ghim.
 
-## Aivon hiện ảnh, file và artifact trong câu trả lời
+## AIVON hiện ảnh, file và artifact trong câu trả lời
 
-Chiều ngược lại cũng có: Aivon đưa được ảnh và file trong brain vào thẳng câu trả lời.
+Chiều ngược lại cũng có: AIVON đưa được ảnh và file trong brain vào thẳng câu trả lời.
 
-- **Ảnh**: Aivon viết `![mô tả](attachments/ten-anh.png)` và dashboard vẽ ra ảnh thật trong bong bóng chat. Bấm vào ảnh là mở đúng vị trí file đó trong trang **Tệp tin**.
-- **File khác** (pdf, docx, xlsx...): Aivon viết link markdown, bấm vào mở file trong trang Tệp tin.
-- **Đường dẫn trong dấu nháy ngược** kiểu `Aivon/loops/bao-cao-sang.md` cũng tự thành link mở file.
-- **Wikilink** `[[Tên note]]` thành link điều hướng kiểu Wikipedia, bấm vào là Aivon đi tìm đúng note trong vault rồi mở ra.
+- **Ảnh**: AIVON viết `![mô tả](attachments/ten-anh.png)` và dashboard vẽ ra ảnh thật trong bong bóng chat. Bấm vào ảnh là mở đúng vị trí file đó trong trang **Tệp tin**.
+- **File khác** (pdf, docx, xlsx...): AIVON viết link markdown, bấm vào mở file trong trang Tệp tin.
+- **Đường dẫn trong dấu nháy ngược** kiểu `AIVON/loops/bao-cao-sang.md` cũng tự thành link mở file.
+- **Wikilink** `[[Tên note]]` thành link điều hướng kiểu Wikipedia, bấm vào là AIVON đi tìm đúng note trong vault rồi mở ra.
 - Ảnh **không tải được nữa** (đã hết hạn trong vùng cache, bị xoá tay hoặc đổi tên) hiện thành một ô xám ghi **"Ảnh đã hết hạn"** thay cho icon vỡ. Thư mục `attachments/` và `inbox/` của brain là vùng cache: hết hạn 30 ngày hoặc chạm trần 300MB thì bị dọn.
 
 ### Khối artifact
@@ -279,11 +279,11 @@ Thẻ ghi thêm số dòng và chữ "bam de xem", bên phải là nút **Mo ▸
 
 Sơ đồ mermaid cần tải thư viện vẽ từ mạng; đang offline thì panel báo không tải được thư viện và hiện thẳng mã nguồn. Khối ```` ```dataview ```` và ```` ```tasks ```` không thành artifact mà chạy thành bảng kết quả, xem [Task & Dataview trong note](19-task-va-dataview.md).
 
-## Nhờ Aivon tạo ảnh mới
+## Nhờ AIVON tạo ảnh mới
 
-Aivon tạo được ảnh ngay trong chat bằng chính **gói ChatGPT bạn đã đăng nhập** (OAuth), không cần mua thêm OpenAI API key. Cứ nói bằng lời, ví dụ "tạo cho anh ảnh chai nước mắm đặt trên bàn gỗ, nền tối, ảnh ngang".
+AIVON tạo được ảnh ngay trong chat bằng chính **gói ChatGPT bạn đã đăng nhập** (OAuth), không cần mua thêm OpenAI API key. Cứ nói bằng lời, ví dụ "tạo cho anh ảnh chai nước mắm đặt trên bàn gỗ, nền tối, ảnh ngang".
 
-Bên dưới, Aivon gọi tool `aivon_generate_image` (thuộc plugin đi kèm app `image-chatgpt`) với ba tham số:
+Bên dưới, AIVON gọi tool `aivon_generate_image` (thuộc plugin đi kèm app `image-chatgpt`) với ba tham số:
 
 | Tham số | Giá trị | Mặc định |
 |---|---|---|
@@ -291,7 +291,7 @@ Bên dưới, Aivon gọi tool `aivon_generate_image` (thuộc plugin đi kèm a
 | `aspect_ratio` | `square` (1024x1024), `landscape` (1536x1024), `portrait` (1024x1536) | `square` |
 | `quality` | `low`, `medium`, `high` | `medium` |
 
-Ảnh sinh ra được lưu vào thư mục `attachments/` của brain đang chọn, rồi Aivon nhúng ngay `![...](attachments/...)` vào câu trả lời để bạn xem tại chỗ. Vì `attachments/` là vùng cache hết hạn sau 30 ngày, ảnh nào bạn muốn giữ lâu thì chép sang thư mục khác trong brain.
+Ảnh sinh ra được lưu vào thư mục `attachments/` của brain đang chọn, rồi AIVON nhúng ngay `![...](attachments/...)` vào câu trả lời để bạn xem tại chỗ. Vì `attachments/` là vùng cache hết hạn sau 30 ngày, ảnh nào bạn muốn giữ lâu thì chép sang thư mục khác trong brain.
 
 Vài điều cần biết:
 
@@ -302,17 +302,17 @@ Vài điều cần biết:
 
 ## Tóm tắt video YouTube
 
-Dán link video vào ô chat rồi nói bạn muốn gì, ví dụ "tóm tắt video này giúp mình" hoặc "video này có nói gì về giá không". Aivon đọc **phụ đề** của video rồi trả lời dựa trên lời thoại thật, kèm mốc thời gian cho từng ý chính.
+Dán link video vào ô chat rồi nói bạn muốn gì, ví dụ "tóm tắt video này giúp mình" hoặc "video này có nói gì về giá không". AIVON đọc **phụ đề** của video rồi trả lời dựa trên lời thoại thật, kèm mốc thời gian cho từng ý chính.
 
 Nhận mọi kiểu link: `youtube.com/watch?v=...`, `youtu.be/...`, Shorts, link phát trực tiếp, link có kèm danh sách phát hay mốc thời gian, và cả link nằm lẫn trong câu bạn gõ.
 
-Bên dưới, Aivon gọi tool `aivon_youtube_read` (plugin đi kèm app `youtube-read`). Đây là thao tác **chỉ đọc** nên việc nền ở chế độ chỉ-đọc cũng tóm tắt được video, và nó chạy trên **mọi engine** - kể cả sáu engine API vốn không tự mở được trang web.
+Bên dưới, AIVON gọi tool `aivon_youtube_read` (plugin đi kèm app `youtube-read`). Đây là thao tác **chỉ đọc** nên việc nền ở chế độ chỉ-đọc cũng tóm tắt được video, và nó chạy trên **mọi engine** - kể cả sáu engine API vốn không tự mở được trang web.
 
 Vài điều cần biết:
 
-- **Video không có phụ đề thì không tóm tắt được.** Aivon sẽ nói thẳng như vậy chứ không đoán nội dung từ tiêu đề. Phần lớn video tiếng Việt và tiếng Anh đều có phụ đề máy nghe, nhưng video vừa đăng vài phút thì phụ đề chưa kịp chạy xong.
-- **Video riêng tư, giới hạn tuổi hoặc chặn theo vùng** cũng không đọc được, và Aivon nói rõ lý do nào trong số đó.
-- **Câu "YouTube nghi máy chủ này là robot" không phải lỗi video của bạn.** Gốc rễ là **danh tiếng địa chỉ IP**: YouTube đánh dấu dải IP của các nhà cung cấp máy chủ, nên cùng một video mở ở nhà thì được mà chạy trên VPS thì bị hỏi giấy. Aivon tự đổi lần lượt qua tám kiểu trình phát rồi mới nhờ tới yt-dlp, nên phần lớn ca đó tự vượt. Gặp câu đó nghĩa là cả chín đường đều bị từ chối.
+- **Video không có phụ đề thì không tóm tắt được.** AIVON sẽ nói thẳng như vậy chứ không đoán nội dung từ tiêu đề. Phần lớn video tiếng Việt và tiếng Anh đều có phụ đề máy nghe, nhưng video vừa đăng vài phút thì phụ đề chưa kịp chạy xong.
+- **Video riêng tư, giới hạn tuổi hoặc chặn theo vùng** cũng không đọc được, và AIVON nói rõ lý do nào trong số đó.
+- **Câu "YouTube nghi máy chủ này là robot" không phải lỗi video của bạn.** Gốc rễ là **danh tiếng địa chỉ IP**: YouTube đánh dấu dải IP của các nhà cung cấp máy chủ, nên cùng một video mở ở nhà thì được mà chạy trên VPS thì bị hỏi giấy. AIVON tự đổi lần lượt qua tám kiểu trình phát rồi mới nhờ tới yt-dlp, nên phần lớn ca đó tự vượt. Gặp câu đó nghĩa là cả chín đường đều bị từ chối.
   - Thử lại sau vài phút thường là xong, vì YouTube siết theo đợt.
   - Lặp lại nhiều lần thì IP máy chủ đang bị đánh dấu nặng. Cách dứt điểm là đặt biến môi trường `AIVON_YOUTUBE_PROXY` trỏ qua một proxy dân cư rồi khởi động lại, xem [Cấu hình .env](16-cau-hinh-env.md). Chỉ riêng lưu lượng YouTube đi qua đó.
 - **Muốn biết chính xác đường nào hỏng** thì chạy ngay trên máy chủ:
@@ -320,18 +320,18 @@ Vài điều cần biết:
   python server/youtube_read.py <link video>
   ```
   Nó thử từng đường một rồi in ra bảng: đường nào sống, đường nào chết, YouTube trả lý do gì, yt-dlp đã cài chưa. Một lần chạy là đủ để biết bệnh, khỏi đoán.
-- **Video dài bị cắt bớt.** Một lần đọc lấy tối đa khoảng 40 nghìn ký tự lời thoại (đủ cho video 60-90 phút). Dài hơn thì Aivon báo đã đọc tới phút mấy; bạn bảo "đọc tiếp" là nó đọc khúc sau.
-- **Muốn phụ đề tiếng khác** thì nói ra, ví dụ "đọc bản tiếng Anh". Mặc định Aivon ưu tiên phụ đề theo ngôn ngữ giao diện, sau đó tới tiếng Anh, và luôn chuộng bản do người làm hơn bản máy nghe vì bản người có dấu câu nên tóm tắt chuẩn hơn.
-- Bản chép lời do máy nghe hay sai tên riêng và số liệu. Con số quan trọng thì nên mở video kiểm lại ở đúng mốc thời gian Aivon dẫn.
+- **Video dài bị cắt bớt.** Một lần đọc lấy tối đa khoảng 40 nghìn ký tự lời thoại (đủ cho video 60-90 phút). Dài hơn thì AIVON báo đã đọc tới phút mấy; bạn bảo "đọc tiếp" là nó đọc khúc sau.
+- **Muốn phụ đề tiếng khác** thì nói ra, ví dụ "đọc bản tiếng Anh". Mặc định AIVON ưu tiên phụ đề theo ngôn ngữ giao diện, sau đó tới tiếng Anh, và luôn chuộng bản do người làm hơn bản máy nghe vì bản người có dấu câu nên tóm tắt chuẩn hơn.
+- Bản chép lời do máy nghe hay sai tên riêng và số liệu. Con số quan trọng thì nên mở video kiểm lại ở đúng mốc thời gian AIVON dẫn.
 
 ## Hàng nút dưới mỗi tin nhắn
 
-Rê chuột vào một tin nhắn (của bạn hay của Aivon đều được) sẽ thấy một hàng nút nhỏ hiện ra bên dưới. Trên điện thoại thì **chạm** vào tin để hiện.
+Rê chuột vào một tin nhắn (của bạn hay của AIVON đều được) sẽ thấy một hàng nút nhỏ hiện ra bên dưới. Trên điện thoại thì **chạm** vào tin để hiện.
 
 | Nút | Gợi ý khi rê chuột | Làm gì |
 |---|---|---|
 | Giờ gửi | Ngày đầy đủ, ví dụ "Thứ tư, 29/07/2026 14:05" | Chỉ để xem |
-| ↻ | "Gửi lại câu này" (tin của bạn) hoặc "Trả lời lại câu hỏi phía trên" (tin của Aivon) | Gửi lại đúng chữ gốc thành một lượt MỚI ở cuối hội thoại, không xoá gì của lượt cũ |
+| ↻ | "Gửi lại câu này" (tin của bạn) hoặc "Trả lời lại câu hỏi phía trên" (tin của AIVON) | Gửi lại đúng chữ gốc thành một lượt MỚI ở cuối hội thoại, không xoá gì của lượt cũ |
 | ✎ | "Sửa lại rồi gửi" | Chỉ có ở tin của bạn. Đổ chữ gốc vào ô nhập để bạn sửa; **không** tự gửi |
 | ⧉ | "Sao chép nội dung" | Copy cả tin nhắn, nút đổi thành "✓ Đã copy" trong giây lát |
 
@@ -342,7 +342,7 @@ Vài điểm hay gặp:
 - Tin lưu từ trước bản có mốc giờ thì phần giờ được ẩn đi chứ không lấy giờ hiện tại đắp vào.
 - Tin **dài** của bạn (trên 10 dòng hoặc trên 900 ký tự) được thu gọn, có nút **Xem thêm** / **Thu gọn** để mở ra đóng lại.
 - Mỗi khối code có nút **⧉ Copy** riêng ở góc.
-- Khi bạn đang cuộn lên đọc lại mà Aivon trả lời tiếp, khung chat KHÔNG giật xuống; một nút **↓ Tin mới** hiện ở đáy để bấm nhảy xuống khi sẵn sàng.
+- Khi bạn đang cuộn lên đọc lại mà AIVON trả lời tiếp, khung chat KHÔNG giật xuống; một nút **↓ Tin mới** hiện ở đáy để bấm nhảy xuống khi sẵn sàng.
 
 ## Chọn model, Effort và badge engine
 
@@ -361,7 +361,7 @@ Hàng nút dưới ô gõ có ba thứ đứng cạnh nhau:
   | OpenRouter, Gemini | `service_tier: "priority"` | Gemini chỉ tài khoản Tier 2/3 |
   | Grok, Antigravity, Groq, DeepSeek, Ollama | Không có | Tia sét mờ |
 
-  Nhà cung cấp từ chối Fast mode (tài khoản không đủ điều kiện, vượt giới hạn) thì Aivon tự gửi lại ở tốc độ thường, lượt chat không hỏng; rê chuột vào tia sét sẽ thấy dòng báo lý do. Việc chạy nền (loop, nhắc hẹn, Kanban, nhóm) luôn chạy tốc độ thường.
+  Nhà cung cấp từ chối Fast mode (tài khoản không đủ điều kiện, vượt giới hạn) thì AIVON tự gửi lại ở tốc độ thường, lượt chat không hỏng; rê chuột vào tia sét sẽ thấy dòng báo lý do. Việc chạy nền (loop, nhắc hẹn, Kanban, nhóm) luôn chạy tốc độ thường.
 
 Badge cạnh chữ **HỘI THOẠI** (và ở góc phải trang Trò chuyện) hiện engine + model **thật** của lượt vừa chạy, lấy từ server chứ không phải model tự khai. Nếu badge khác cái bạn tưởng, tin badge.
 
@@ -376,7 +376,7 @@ Mục **Ghim thư mục làm việc** trong menu **＋** cho một hội thoại
 - Bộ não CLI (Claude Code, ChatGPT qua Codex, Grok Build, Antigravity) chạy lệnh ngay trong thư mục đó. Bộ não API đọc sửa file qua công cụ của brain, nên làm được với thư mục **trong** brain; thư mục ngoài brain thì chỉ bộ não CLI làm được.
 - Trang Coding dùng chung chip này thay cho nút chọn thư mục riêng. Các chip nhánh, worktree, điểm hồi và mức quyền vẫn ở trang Coding.
 
-## Aivon trình bày câu trả lời thế nào
+## AIVON trình bày câu trả lời thế nào
 
 Từ bản 0.26.9, câu trả lời trên khung chat web được viết cho **mắt đọc**, không phải cho tai nghe:
 
@@ -386,13 +386,13 @@ Từ bản 0.26.9, câu trả lời trên khung chat web được viết cho **m
 - Câu trả lời dài có nhiều phần rõ rệt thì mỗi phần một tiêu đề.
 - Bảng khi so sánh cùng một bộ trường giữa nhiều mục, ví dụ doanh thu ba kênh theo tuần.
 
-Trước đó Aivon được dặn viết văn xuôi trơn vì Aivon vốn hay được dùng bằng **giọng nói**. Nay không cần đánh đổi nữa: giọng đọc **tự bóc markdown** (tiêu đề, in đậm, gạch đầu dòng, link, khối mã) trước khi đọc thành tiếng, nên định dạng đẹp cho mắt không làm giọng đọc vấp.
+Trước đó AIVON được dặn viết văn xuôi trơn vì AIVON vốn hay được dùng bằng **giọng nói**. Nay không cần đánh đổi nữa: giọng đọc **tự bóc markdown** (tiêu đề, in đậm, gạch đầu dòng, link, khối mã) trước khi đọc thành tiếng, nên định dạng đẹp cho mắt không làm giọng đọc vấp.
 
 Câu hỏi ngắn vẫn được trả lời bằng một câu. Định dạng là để dễ đọc, không phải để mọi câu trả lời trông như một bản báo cáo.
 
 Các kênh chữ thuần thì siết hơn vì bản thân chúng không vẽ được: **Telegram** và **Zalo** không có bảng markdown, **terminal** thì không có bảng, ảnh nhúng lẫn link markdown. Cả ba vẫn dùng gạch đầu dòng bình thường. Xem [Telegram](11-telegram.md) và [CLI trong terminal](24-cli-terminal.md).
 
-> Nếu Aivon vẫn trả lời bằng văn xuôi dài: nhiều khả năng bộ nhớ dài hạn của brain còn một ký ức cũ kiểu "không thích bảng markdown, thích văn nói ngắn" từ thời bạn dùng bằng giọng nói, và ký ức đó được nạp vào **mọi** lượt chat. Mở `memory/MEMORY.md` trong trang **Tệp tin**, tìm dòng nói về cách trả lời rồi xoá dòng đó cùng file tương ứng trong `memory/facts/`. Xem [Second Brain, bộ nhớ & wiki](13-second-brain-bo-nho-wiki.md).
+> Nếu AIVON vẫn trả lời bằng văn xuôi dài: nhiều khả năng bộ nhớ dài hạn của brain còn một ký ức cũ kiểu "không thích bảng markdown, thích văn nói ngắn" từ thời bạn dùng bằng giọng nói, và ký ức đó được nạp vào **mọi** lượt chat. Mở `memory/MEMORY.md` trong trang **Tệp tin**, tìm dòng nói về cách trả lời rồi xoá dòng đó cùng file tương ứng trong `memory/facts/`. Xem [Second Brain, bộ nhớ & wiki](13-second-brain-bo-nho-wiki.md).
 
 ## Cài đặt Giọng nói
 
@@ -401,11 +401,11 @@ Mọi thứ về giọng nằm trong **Cài đặt → Giọng nói**. Trang ch�
 Thẻ có hai thứ:
 
 - **Dòng "Đang dùng: ..."**: đường gọi đang chạy là **ChatGPT Live**, **Live (tên hãng)** qua API key hay **Cơ bản**. Ở đường Cơ bản, dòng này nói thêm bộ não nào trả lời nhanh, ví dụ "Trả lời nhanh bằng Antigravity CLI (gói Google)".
-- **Giọng Aivon**: danh sách giọng đổi theo đường gọi, xem bên dưới.
+- **Giọng AIVON**: danh sách giọng đổi theo đường gọi, xem bên dưới.
 
-Khi Aivon phải lùi xuống đường thấp hơn, dòng "Đang dùng" nói vì sao và cần làm gì, ví dụ nối ChatGPT ở trang **Models**, cài Codex CLI, hoặc cập nhật Codex CLI lên bản 0.153 trở lên.
+Khi AIVON phải lùi xuống đường thấp hơn, dòng "Đang dùng" nói vì sao và cần làm gì, ví dụ nối ChatGPT ở trang **Models**, cài Codex CLI, hoặc cập nhật Codex CLI lên bản 0.153 trở lên.
 
-### Giọng Aivon
+### Giọng AIVON
 
 Danh sách giọng tuỳ đường gọi:
 
@@ -415,11 +415,11 @@ Danh sách giọng tuỳ đường gọi:
 
 Chọn giọng là chọn luôn nhà cung cấp (Edge, OpenAI hay ElevenLabs). Giọng Edge và tốc độ đọc được lưu trên chính thiết bị này; cập nhật không ghi đè giọng bạn đã chọn.
 
-Nếu giọng trả phí gặp lỗi (hết hạn mức, sai key, mất mạng), Aivon báo lỗi để bạn thử lại hoặc chọn giọng khác; không tự chuyển giọng.
+Nếu giọng trả phí gặp lỗi (hết hạn mức, sai key, mất mạng), AIVON báo lỗi để bạn thử lại hoặc chọn giọng khác; không tự chuyển giọng.
 
 ### Nâng cao
 
-- **Đường gọi**: **Tự động (khuyên dùng)**, **ChatGPT Live**, **Live qua API key** hoặc **Cơ bản**. Tự động thử lần lượt ChatGPT Live, Live qua API key, rồi Cơ bản. Chọn tay một đường chưa chạy được thì Aivon dùng đường kế tiếp và nói lý do ở dòng "Đang dùng".
+- **Đường gọi**: **Tự động (khuyên dùng)**, **ChatGPT Live**, **Live qua API key** hoặc **Cơ bản**. Tự động thử lần lượt ChatGPT Live, Live qua API key, rồi Cơ bản. Chọn tay một đường chưa chạy được thì AIVON dùng đường kế tiếp và nói lý do ở dòng "Đang dùng".
 - **Bộ não trả lời nhanh**: **Tự động** (mặc định, ghi kèm bộ não đang dùng), **Bộ não chính (như gõ chữ)**, hoặc một bộ não cụ thể; bộ não chưa cài hay chưa có key ghi "(chưa sẵn)". Ô này (cùng ô **Model** của nó) chỉ hiện khi cuộc gọi đang chạy đường Cơ bản, kể cả khi Tự động phải lùi xuống Cơ bản; xem mục **Đường Cơ bản và trả lời nhanh**. Gọi bằng ChatGPT Live hay Live qua API key thì model Live tự nghe và tự trả lời nên ô này ẩn đi.
 - **Model**: model của bộ não đang dùng, ví dụ `gemini-3.8-flash-low` cho Antigravity hay `haiku` cho Claude Code. Mặc định là model của hãng. Mỗi bộ não nhớ model riêng, nên đổi qua đổi lại giữa các bộ não không làm lẫn tên model. Ô này ẩn khi chọn Bộ não chính.
 - **Tốc độ đọc**: từ 0,85× tới 1,45×, mặc định 1,10×. Chỉ hiện ở đường Cơ bản.
@@ -427,25 +427,25 @@ Nếu giọng trả phí gặp lỗi (hết hạn mức, sai key, mất mạng),
 
 Giọng OpenAI cần OpenAI API key ở trang **Models**; trang giọng nói không còn ô nhập key OpenAI.
 
-### ChatGPT Live: gọi Aivon qua gói ChatGPT
+### ChatGPT Live: gọi AIVON qua gói ChatGPT
 
-**ChatGPT Live** dùng gói ChatGPT bạn đã nối ở trang **Models**, không cần API key. Aivon tự chọn đường này khi gói ChatGPT đã nối và máy có Codex CLI bản 0.153 trở lên, bạn không phải chọn gì.
+**ChatGPT Live** dùng gói ChatGPT bạn đã nối ở trang **Models**, không cần API key. AIVON tự chọn đường này khi gói ChatGPT đã nối và máy có Codex CLI bản 0.153 trở lên, bạn không phải chọn gì.
 
-- Bấm mic là bắt đầu nói chuyện: Aivon nghe liên tục, đáp sau chưa tới một giây, bạn chen ngang lúc nào cũng được.
-- Chuyện trò thì Aivon đáp ngay. Câu cần dữ liệu thật hay hành động (doanh thu, lịch, email, file, mở trang) thì Aivon nói một câu đệm kiểu "để xem nhé", giao bộ não chính bạn đã chọn (Claude hay bộ khác) làm với đủ MCP và tool, rồi đọc tóm tắt; bản đầy đủ (có bảng) hiện thành bong bóng trong khung chat. Lời Aivon đọc tóm tắt không hiện thành bong bóng thứ hai.
-- Trong lúc Aivon đang làm mà bạn nói thêm kiểu "ok, xong thì báo anh nhé", Aivon không làm lại từ đầu. Câu có ý mới (ví dụ "thêm cả số đơn huỷ nữa") được làm tiếp ngay sau việc đang chạy.
-- Đổi giọng ở ô **Giọng Aivon** (9 giọng, xem ở trên).
-- Âm thanh đi thẳng từ trình duyệt tới OpenAI, nên chạy được cả khi Aivon nằm trên VPS.
+- Bấm mic là bắt đầu nói chuyện: AIVON nghe liên tục, đáp sau chưa tới một giây, bạn chen ngang lúc nào cũng được.
+- Chuyện trò thì AIVON đáp ngay. Câu cần dữ liệu thật hay hành động (doanh thu, lịch, email, file, mở trang) thì AIVON nói một câu đệm kiểu "để xem nhé", giao bộ não chính bạn đã chọn (Claude hay bộ khác) làm với đủ MCP và tool, rồi đọc tóm tắt; bản đầy đủ (có bảng) hiện thành bong bóng trong khung chat. Lời AIVON đọc tóm tắt không hiện thành bong bóng thứ hai.
+- Trong lúc AIVON đang làm mà bạn nói thêm kiểu "ok, xong thì báo anh nhé", AIVON không làm lại từ đầu. Câu có ý mới (ví dụ "thêm cả số đơn huỷ nữa") được làm tiếp ngay sau việc đang chạy.
+- Đổi giọng ở ô **Giọng AIVON** (9 giọng, xem ở trên).
+- Âm thanh đi thẳng từ trình duyệt tới OpenAI, nên chạy được cả khi AIVON nằm trên VPS.
 - Cuộc gọi tính vào hạn mức gói ChatGPT của bạn.
-- Giữa cuộc gọi Aivon không tự đổi sang đường khác (giọng khác). Lỡ nối lại không được thì Aivon thử thêm một lần, vẫn không được thì báo một dòng và chờ, bạn nói lại là Aivon thử tiếp.
+- Giữa cuộc gọi AIVON không tự đổi sang đường khác (giọng khác). Lỡ nối lại không được thì AIVON thử thêm một lần, vẫn không được thì báo một dòng và chờ, bạn nói lại là AIVON thử tiếp.
 
 ### Live qua API key
 
-Chưa có ChatGPT Live thì Aivon dùng **Gemini Live**, **OpenAI Realtime** hoặc **OpenAI GPT-Live**, bằng API key Gemini hay OpenAI bạn đã dán ở trang **Models**. Giọng có cảm xúc, ngắt lời tự nhiên, bản ghi chữ hai chiều hiện trong khung chat. Khi cần dữ liệu thật, model giao cho bộ não chính chạy nền rồi vẫn trò chuyện tiếp, có kết quả thì thuật lại (Gemini dòng 3.1 còn im chờ vì Google chưa hỗ trợ việc nền).
+Chưa có ChatGPT Live thì AIVON dùng **Gemini Live**, **OpenAI Realtime** hoặc **OpenAI GPT-Live**, bằng API key Gemini hay OpenAI bạn đã dán ở trang **Models**. Giọng có cảm xúc, ngắt lời tự nhiên, bản ghi chữ hai chiều hiện trong khung chat. Khi cần dữ liệu thật, model giao cho bộ não chính chạy nền rồi vẫn trò chuyện tiếp, có kết quả thì thuật lại (Gemini dòng 3.1 còn im chờ vì Google chưa hỗ trợ việc nền).
 
 ### Đường Cơ bản và trả lời nhanh
 
-Đường Cơ bản nghe bằng trình duyệt và đọc bằng giọng bạn chọn. Câu nói thường được một bộ não giọng trả lời nhanh trong 1 đến 2 giây ("làn nhanh"). Aivon tự lấy bộ não đầu tiên sẵn sàng trên gói bạn đã đăng nhập, theo thứ tự:
+Đường Cơ bản nghe bằng trình duyệt và đọc bằng giọng bạn chọn. Câu nói thường được một bộ não giọng trả lời nhanh trong 1 đến 2 giây ("làn nhanh"). AIVON tự lấy bộ não đầu tiên sẵn sàng trên gói bạn đã đăng nhập, theo thứ tự:
 
 1. Antigravity CLI
 2. ChatGPT (qua Codex)
@@ -458,43 +458,43 @@ Không có cái nào thì lượt nói đi thẳng bộ não chính. Câu cần 
 
 Ở đường Cơ bản, trình duyệt chỉ nghe được một ngôn ngữ, nên câu như "Mở dashboard Facebook ads" hay bị chép thành "Mở double Facebook add". **Tai nghe lại** là một model đa ngôn ngữ nghe lại chính âm thanh câu bạn vừa nói rồi mới chốt chữ vào bong bóng. Chữ tạm của trình duyệt vẫn hiện tức thì trong lúc bạn nói.
 
-- Aivon luôn tự chọn tai: có key Groq ở trang **Models** thì dùng **Groq Whisper**, không có thì dùng chữ của trình duyệt như trước.
+- AIVON luôn tự chọn tai: có key Groq ở trang **Models** thì dùng **Groq Whisper**, không có thì dùng chữ của trình duyệt như trước.
 - Đo trên 20 câu lệnh Việt xen Anh: trình duyệt sai 41% số từ, qua tai Groq còn 14%. Mỗi câu mất thêm chừng 1 giây.
-- Tai lỗi, chậm quá 8 giây, hay ra câu lệch hẳn bản nháp (Whisper đôi khi bịa câu khi gặp tiếng ồn) thì Aivon giữ chữ của trình duyệt, không mất lượt nói.
+- Tai lỗi, chậm quá 8 giây, hay ra câu lệch hẳn bản nháp (Whisper đôi khi bịa câu khi gặp tiếng ồn) thì AIVON giữ chữ của trình duyệt, không mất lượt nói.
 - Câu gửi đi là chữ của tai nếu có tai, không thì là chữ của trình duyệt lúc bạn kết thúc câu. Đã gửi rồi thì AI không sửa lại tin trong lịch sử.
 
 ### Máy tự lo
 
-- **Im lâu thì tạm ngắt, nói là nối lại**: trong cuộc gọi ChatGPT Live, im 30 giây thì Aivon tạm ngắt cho đỡ tốn hạn mức, thanh gọi ghi "Đang chờ, cứ nói là Aivon nghe". Bạn cứ nói tiếp, không cần gọi tên: Aivon bắt đầu nối lại ngay khi nghe được mấy chữ đầu, nên thường chỉ khoảng 2 giây sau khi bạn ngừng nói là nghe Aivon trả lời câu đó. Tiếng TV hay người bên cạnh nói đủ rõ cũng làm nó nối lại. Từ 0.65.22 không còn công tắc "Tập trung khi đàm thoại".
-- **Giữ màn hình sáng khi đang gọi**: điện thoại khoá màn hình là trình duyệt cắt mic, nên trong lúc gọi Aivon giữ màn hình không tự tắt; cúp máy là màn hình tắt như thường. Bấm nút nguồn tắt hẳn thì cuộc gọi vẫn ngừng.
+- **Im lâu thì tạm ngắt, nói là nối lại**: trong cuộc gọi ChatGPT Live, im 30 giây thì AIVON tạm ngắt cho đỡ tốn hạn mức, thanh gọi ghi "Đang chờ, cứ nói là AIVON nghe". Bạn cứ nói tiếp, không cần gọi tên: AIVON bắt đầu nối lại ngay khi nghe được mấy chữ đầu, nên thường chỉ khoảng 2 giây sau khi bạn ngừng nói là nghe AIVON trả lời câu đó. Tiếng TV hay người bên cạnh nói đủ rõ cũng làm nó nối lại. Từ 0.65.22 không còn công tắc "Tập trung khi đàm thoại".
+- **Giữ màn hình sáng khi đang gọi**: điện thoại khoá màn hình là trình duyệt cắt mic, nên trong lúc gọi AIVON giữ màn hình không tự tắt; cúp máy là màn hình tắt như thường. Bấm nút nguồn tắt hẳn thì cuộc gọi vẫn ngừng.
 Các ô dưới đây đã bỏ khỏi trang vì máy tự quyết được:
 
-- **Đọc trả lời bằng giọng**: bỏ vì trùng với nút mic. Trong cuộc gọi Aivon nói mọi câu trả lời; cúp máy (nút **Cúp máy**, nút mic hoặc **Esc**) là im. Chat gõ chữ ngoài cuộc gọi chỉ trả lời bằng chữ.
+- **Đọc trả lời bằng giọng**: bỏ vì trùng với nút mic. Trong cuộc gọi AIVON nói mọi câu trả lời; cúp máy (nút **Cúp máy**, nút mic hoặc **Esc**) là im. Chat gõ chữ ngoài cuộc gọi chỉ trả lời bằng chữ.
 - **Ngôn ngữ nghe**: theo ngôn ngữ giao diện (giao diện tiếng Anh thì nghe `en-US`, còn lại `vi-VN`). Câu Việt xen tiếng Anh đã có tai nghe lại lo.
-- **Im lặng rồi gửi**: cố định 1,2 giây. Mức bạn đã chọn ở bản cũ trên máy đó vẫn được dùng. Aivon vẫn chờ lâu hơn sau "và", "nhưng", "thì" hay dấu phẩy, và nói "khoan", "đợi chút" vẫn làm Aivon chờ.
-- **Ngắt lời Aivon bằng giọng**: luôn bật.
+- **Im lặng rồi gửi**: cố định 1,2 giây. Mức bạn đã chọn ở bản cũ trên máy đó vẫn được dùng. AIVON vẫn chờ lâu hơn sau "và", "nhưng", "thì" hay dấu phẩy, và nói "khoan", "đợi chút" vẫn làm AIVON chờ.
+- **Ngắt lời AIVON bằng giọng**: luôn bật.
 - **Nhịp hội thoại (thử nghiệm)**: bỏ hẳn.
 - **Tai nghe lại**: máy luôn tự chọn, xem mục ở trên.
 - **Chế độ nói chuyện** (Chuẩn, Làn nhanh, Live): thay bằng đường gọi. Bộ não giọng nói nay là ô **Bộ não trả lời nhanh** ở **Nâng cao**.
-- **Từ hay nghe nhầm**: Aivon tự dựng danh sách từ tên trợ lý và tên các MCP đã nối. Từ bạn đã lưu trước đó vẫn được dùng.
+- **Từ hay nghe nhầm**: AIVON tự dựng danh sách từ tên trợ lý và tên các MCP đã nối. Từ bạn đã lưu trước đó vẫn được dùng.
 
 ## Phóng to khung chat
 
-Khi làm việc lâu trong chat ở màn **Aivon**, bấm nút **⛶** ở góc mục HỘI THOẠI để sang thẳng trang **Trò chuyện** - khung chat toàn màn hình, cột trái là **lịch sử hội thoại** (mở lại/tìm/đổi tên/xoá phiên cũ - xem [Phiên hội thoại](04-phien-hoi-thoai.md)), cột phải là nội dung chat căn giữa cho dễ đọc, ô nhập cao hơn để gõ dài.
+Khi làm việc lâu trong chat ở màn **AIVON**, bấm nút **⛶** ở góc mục HỘI THOẠI để sang thẳng trang **Trò chuyện** - khung chat toàn màn hình, cột trái là **lịch sử hội thoại** (mở lại/tìm/đổi tên/xoá phiên cũ - xem [Phiên hội thoại](04-phien-hoi-thoai.md)), cột phải là nội dung chat căn giữa cho dễ đọc, ô nhập cao hơn để gõ dài.
 
-Về lại màn Aivon: bấm nút **‹ Thu nhỏ** trên thanh tiêu đề của trang Trò chuyện.
+Về lại màn AIVON: bấm nút **‹ Thu nhỏ** trên thanh tiêu đề của trang Trò chuyện.
 
-Đây vẫn là **một cuộc trò chuyện duy nhất**: chat ở màn Aivon hay ở trang Trò chuyện đều là cùng một mạch, cùng một thanh model, cùng chỗ đính file. Từ bản 0.12.4, nút phóng to không còn mở một lớp nổi riêng nữa - trước đây có hai khung chat trông gần giống nhau mà hành xử khác nhau, dễ nhầm.
+Đây vẫn là **một cuộc trò chuyện duy nhất**: chat ở màn AIVON hay ở trang Trò chuyện đều là cùng một mạch, cùng một thanh model, cùng chỗ đính file. Từ bản 0.12.4, nút phóng to không còn mở một lớp nổi riêng nữa - trước đây có hai khung chat trông gần giống nhau mà hành xử khác nhau, dễ nhầm.
 
 ## Hỏi số liệu kinh doanh
 
-Bảng thẻ số liệu cố định ở cột trái đã được gỡ (từ bản 0.9.166). Trước đây mỗi lần mở dashboard là Aivon lại tự chạy một lượt quét các nguồn đã kết nối để đắp bảng đó, tốn hạn mức mà phần lớn thời gian không ai nhìn tới.
+Bảng thẻ số liệu cố định ở cột trái đã được gỡ (từ bản 0.9.166). Trước đây mỗi lần mở dashboard là AIVON lại tự chạy một lượt quét các nguồn đã kết nối để đắp bảng đó, tốn hạn mức mà phần lớn thời gian không ai nhìn tới.
 
-Giờ muốn xem số thì cứ hỏi thẳng trong chat ("doanh thu hôm nay thế nào", "so với tuần trước"). Aivon gọi đúng nguồn đang đấu (POS, kênh, quảng cáo...) và trả lời bằng lời, nên chỉ chạy khi bạn thật sự cần. Chi tiết về nguồn số liệu xem [Kết nối & số liệu kinh doanh](09-mcp-va-so-lieu.md).
+Giờ muốn xem số thì cứ hỏi thẳng trong chat ("doanh thu hôm nay thế nào", "so với tuần trước"). AIVON gọi đúng nguồn đang đấu (POS, kênh, quảng cáo...) và trả lời bằng lời, nên chỉ chạy khi bạn thật sự cần. Chi tiết về nguồn số liệu xem [Kết nối & số liệu kinh doanh](09-mcp-va-so-lieu.md).
 
 ## Thẻ biểu đồ, ô số liệu và nút bấm trong câu trả lời
 
-Khi trả lời bằng số thật (doanh thu, đơn, chi phí quảng cáo), Aivon có thể vẽ thẳng trong khung chat:
+Khi trả lời bằng số thật (doanh thu, đơn, chi phí quảng cáo), AIVON có thể vẽ thẳng trong khung chat:
 
 - **Biểu đồ** cột hoặc đường cho xu hướng theo ngày, tuần (tối đa 24 mốc, 3 chuỗi số).
 - **Ô số liệu**: vài con số chính kèm mức tăng giảm, giảm thì hiện màu đỏ.
@@ -502,21 +502,21 @@ Khi trả lời bằng số thật (doanh thu, đơn, chi phí quảng cáo), Ai
 
 Thẻ vẽ từ dữ liệu trong câu trả lời nên mở lại hội thoại vẫn thấy. Telegram, Zalo và terminal nhận bản chữ: biểu đồ thành từng dòng số, nút thành danh sách đánh số để trả lời bằng số. Chữ trông giống khoá API trong thẻ được che trước khi vẽ.
 
-## Aivon nhớ lại các cuộc trò chuyện trước
+## AIVON nhớ lại các cuộc trò chuyện trước
 
-Mở chat mới mà nhắc chuyện cũ ("làm tiếp landing page nước mắm hôm trước"), Aivon tự tìm trong các chat khác của chính bạn ở brain này và đưa tối đa 3 đoạn trích ngắn vào kèm câu hỏi để hiểu ngữ cảnh. Chỉ chat của chủ (khung chính, chat với cộng sự, Aivon Core) được tìm; chat Team, chatbot và hội thoại với khách không bao giờ được đưa vào. Đoạn trích không lưu vào lịch sử chat. Muốn tắt thì đặt `recall.enabled` thành `false` trong cài đặt.
+Mở chat mới mà nhắc chuyện cũ ("làm tiếp landing page nước mắm hôm trước"), AIVON tự tìm trong các chat khác của chính bạn ở brain này và đưa tối đa 3 đoạn trích ngắn vào kèm câu hỏi để hiểu ngữ cảnh. Chỉ chat của chủ (khung chính, chat với cộng sự, AIVON Core) được tìm; chat Team, chatbot và hội thoại với khách không bao giờ được đưa vào. Đoạn trích không lưu vào lịch sử chat. Muốn tắt thì đặt `recall.enabled` thành `false` trong cài đặt.
 
 ## Tin thoại
 
-Bảo Aivon "đọc cho tôi nghe", "gửi tin thoại" hay muốn nghe báo cáo thay vì đọc, Aivon gọi công cụ `aivon_voice_note`: một đoạn nói ngắn (tối đa 1000 ký tự) được ghi thành file mp3 trong `attachments/voice/` của brain. Khung chat hiện trình phát ngay cạnh link, Telegram nhận dạng âm thanh. Aivon vẫn viết nội dung đó bằng chữ bên dưới. Giọng là Edge miễn phí, tự chọn theo ngôn ngữ của câu.
+Bảo AIVON "đọc cho tôi nghe", "gửi tin thoại" hay muốn nghe báo cáo thay vì đọc, AIVON gọi công cụ `aivon_voice_note`: một đoạn nói ngắn (tối đa 1000 ký tự) được ghi thành file mp3 trong `attachments/voice/` của brain. Khung chat hiện trình phát ngay cạnh link, Telegram nhận dạng âm thanh. AIVON vẫn viết nội dung đó bằng chữ bên dưới. Giọng là Edge miễn phí, tự chọn theo ngôn ngữ của câu.
 
-Nhắc hẹn còn có ô **Đọc thành tiếng**: tới giờ, câu nhắc hay kết quả báo cáo được gửi kèm tin thoại. Nếu Aivon đang mở trên máy hay điện thoại, tin thoại tự phát ngay như một cuộc gọi (trình duyệt chặn tự phát thì bấm nút phát).
+Nhắc hẹn còn có ô **Đọc thành tiếng**: tới giờ, câu nhắc hay kết quả báo cáo được gửi kèm tin thoại. Nếu AIVON đang mở trên máy hay điện thoại, tin thoại tự phát ngay như một cuộc gọi (trình duyệt chặn tự phát thì bấm nút phát).
 
-Muốn Aivon **gọi điện đúng giờ** thì tick ô **Gọi điện cho tôi** (hoặc nói trong chat "7h sáng gọi đọc báo cáo doanh thu cho anh"). Tới giờ, trang Aivon đang mở đổ chuông và hiện thẻ cuộc gọi đến với hai nút **Nghe** và **Từ chối**. Bấm Nghe là vào cuộc gọi giọng nói như khi bấm mic (ChatGPT Live nếu đã bật, giọng cơ bản nếu chưa): Aivon đọc ngắn gọn nội dung nhắc hay báo cáo rồi hỏi bạn cần gì thêm, bạn nói tiếp như cuộc gọi thường. Không nghe trong 45 giây thì coi là cuộc gọi nhỡ, nội dung vẫn nằm trong khung chat. Không mở Aivon thì không có chuông: Telegram vẫn nhận tin như mọi nhắc hẹn khác. Đây là cuộc gọi trong app Aivon, không phải cuộc gọi tới số điện thoại.
+Muốn AIVON **gọi điện đúng giờ** thì tick ô **Gọi điện cho tôi** (hoặc nói trong chat "7h sáng gọi đọc báo cáo doanh thu cho anh"). Tới giờ, trang AIVON đang mở đổ chuông và hiện thẻ cuộc gọi đến với hai nút **Nghe** và **Từ chối**. Bấm Nghe là vào cuộc gọi giọng nói như khi bấm mic (ChatGPT Live nếu đã bật, giọng cơ bản nếu chưa): AIVON đọc ngắn gọn nội dung nhắc hay báo cáo rồi hỏi bạn cần gì thêm, bạn nói tiếp như cuộc gọi thường. Không nghe trong 45 giây thì coi là cuộc gọi nhỡ, nội dung vẫn nằm trong khung chat. Không mở AIVON thì không có chuông: Telegram vẫn nhận tin như mọi nhắc hẹn khác. Đây là cuộc gọi trong app AIVON, không phải cuộc gọi tới số điện thoại.
 
 ## Giữ ấm bộ nhớ đệm (Claude Code, gói Pro/Max)
 
-Gói Pro/Max giữ bộ nhớ đệm của Claude Code 1 giờ. Nghỉ quá 1 giờ thì tin tiếp theo phải nạp lại cả cuộc trò chuyện, tốn nhiều hạn mức với chat dài. Ở trang **Mức dùng token**, mục ngân sách có ô **Giữ ấm bộ nhớ đệm**: bật lên thì khoảng 50 phút sau tin cuối, Aivon gửi một yêu cầu rất nhỏ (không công cụ, không ghi vào cuộc trò chuyện) để giữ bộ nhớ đệm thêm 1 giờ. Chỉ chạy trong 2 giờ sau tin cuối, không bao giờ khi chat đang trả lời, và dừng ngay khi gói báo hết lượt hay bộ nhớ đệm đã nguội. Đây vẫn là việc chạy nền trên gói, nên mặc định tắt.
+Gói Pro/Max giữ bộ nhớ đệm của Claude Code 1 giờ. Nghỉ quá 1 giờ thì tin tiếp theo phải nạp lại cả cuộc trò chuyện, tốn nhiều hạn mức với chat dài. Ở trang **Mức dùng token**, mục ngân sách có ô **Giữ ấm bộ nhớ đệm**: bật lên thì khoảng 50 phút sau tin cuối, AIVON gửi một yêu cầu rất nhỏ (không công cụ, không ghi vào cuộc trò chuyện) để giữ bộ nhớ đệm thêm 1 giờ. Chỉ chạy trong 2 giờ sau tin cuối, không bao giờ khi chat đang trả lời, và dừng ngay khi gói báo hết lượt hay bộ nhớ đệm đã nguội. Đây vẫn là việc chạy nền trên gói, nên mặc định tắt.
 
 ## Dùng trên điện thoại
 
@@ -525,15 +525,15 @@ Dưới 860px chiều ngang, giao diện đổi hẳn cho vừa màn hình:
 - Điều hướng thu thành ngăn kéo: bấm nút **☰** để mở, bấm nền mờ, chọn một mục hoặc nhấn Esc để đóng.
 - **Chip model** và nút **+** (hội thoại mới) dời lên header.
 - Nhóm **Hệ thống** (chọn brain, nút đổi tông sáng/tối, dải HỆ THỐNG và MCP) dời xuống đáy ngăn kéo điều hướng.
-- Ô nhập rút gọn lời nhắc thành "Nói hoặc gõ cho Aivon…".
+- Ô nhập rút gọn lời nhắc thành "Nói hoặc gõ cho AIVON…".
 - Nút **🕘 Lịch sử** ở header bị ẩn (trang **Trò chuyện** có sẵn lịch sử).
-- Không có nút loa ở đâu cả: cuộc gọi bằng nút mic quyết định Aivon có nói thành tiếng hay không.
+- Không có nút loa ở đâu cả: cuộc gọi bằng nút mic quyết định AIVON có nói thành tiếng hay không.
 - Không có chuột để rê, nên **chạm vào một tin nhắn** để hiện hàng nút của đúng tin đó; chạm ra chỗ khác thì ẩn đi.
 - Trong trang **Trò chuyện**, nút **🕘** ở thanh tiêu đề mở/đóng ngăn lịch sử trượt từ trái.
 
 ## Ý nghĩa dòng chữ trạng thái giữa màn hình
 
-Dòng chữ ngay dưới quả cầu cho biết Aivon đang làm gì:
+Dòng chữ ngay dưới quả cầu cho biết AIVON đang làm gì:
 
 | Chữ hiện | Nghĩa |
 |---|---|
@@ -542,9 +542,9 @@ Dòng chữ ngay dưới quả cầu cho biết Aivon đang làm gì:
 | ĐANG NGHE • LUÔN | Đang trong cuộc gọi, mic mở liên tục |
 | ĐANG SUY NGHĨ | Bộ não đang xử lý câu hỏi |
 | ĐANG GỌI <tên tool> | Bộ não đang gọi một công cụ (POS, lịch, mở trang...) |
-| ĐANG NÓI | Aivon đang đọc câu trả lời |
-| ĐANG CHỜ BẠN | Bạn vừa nói "khoan" / "đợi chút", Aivon im chờ bạn nói tiếp |
-| TẠM DỪNG, ĐANG NGHE BẠN | Nghi bạn chen ngang, Aivon dừng đọc 2 giây xem bạn có nói thật không |
+| ĐANG NÓI | AIVON đang đọc câu trả lời |
+| ĐANG CHỜ BẠN | Bạn vừa nói "khoan" / "đợi chút", AIVON im chờ bạn nói tiếp |
+| TẠM DỪNG, ĐANG NGHE BẠN | Nghi bạn chen ngang, AIVON dừng đọc 2 giây xem bạn có nói thật không |
 | ĐANG KẾT NỐI LẠI | Mất kết nối với máy chủ, đang nối lại |
 | · MẠNG CHẬM | Hậu tố: một khúc giọng đọc mất hơn 2,5 giây mới phát được |
 | · N VIỆC NỀN | Hậu tố: đang có N việc chạy nền ở trang Việc |
@@ -556,7 +556,7 @@ Nút quanh khung chat:
 | Nút | Ở đâu | Làm gì |
 |---|---|---|
 | ＋ | Đầu hàng nút | Mở menu: đính kèm file hoặc ảnh, **ghim thư mục làm việc**, chọn file trong brain, lệnh và skill "/", **Kết nối** (kèm tình trạng), **Trợ lý và quy trình** |
-| Mic | Cạnh nút gửi | Gọi Aivon; trong cuộc gọi nút thành **Cúp máy** |
+| Mic | Cạnh nút gửi | Gọi AIVON; trong cuộc gọi nút thành **Cúp máy** |
 | Mũi tên | Cuối hàng nút | Gửi tin nhắn |
 | Ô vuông | Thay nút gửi khi đang chạy | Dừng lượt đang trả lời + dừng đọc |
 | ⛶ | Góc mục HỘI THOẠI | Phóng to khung chat |
@@ -580,24 +580,24 @@ Phím tắt:
 
 ## Mẹo
 
-- Muốn nói dài nhiều câu mà không sợ Aivon gửi sớm, gọi Aivon (nút mic) và nói liền mạch; chỉ ngừng hẳn khi thật sự nói xong.
-- Muốn im lặng đọc chữ: cúp máy rồi gõ, Aivon chỉ trả lời bằng chữ.
-- Đưa nhiều ảnh chụp màn hình cùng lúc bằng cách kéo - thả tất cả vào cửa sổ, Aivon xử lý từng cái.
-- Nếu bạn quen nói tiếng Anh, đổi ngôn ngữ giao diện sang tiếng Anh (**Cài đặt → Chung**): Aivon nghe theo ngôn ngữ giao diện.
-- Dán nguyên một bài dài vào ô chat cứ dán thoải mái: Aivon tự biến thành file `.txt` đính kèm, khung chat vẫn gọn.
+- Muốn nói dài nhiều câu mà không sợ AIVON gửi sớm, gọi AIVON (nút mic) và nói liền mạch; chỉ ngừng hẳn khi thật sự nói xong.
+- Muốn im lặng đọc chữ: cúp máy rồi gõ, AIVON chỉ trả lời bằng chữ.
+- Đưa nhiều ảnh chụp màn hình cùng lúc bằng cách kéo - thả tất cả vào cửa sổ, AIVON xử lý từng cái.
+- Nếu bạn quen nói tiếng Anh, đổi ngôn ngữ giao diện sang tiếng Anh (**Cài đặt → Chung**): AIVON nghe theo ngôn ngữ giao diện.
+- Dán nguyên một bài dài vào ô chat cứ dán thoải mái: AIVON tự biến thành file `.txt` đính kèm, khung chat vẫn gọn.
 - Hỏi lại một câu đã hỏi mà muốn đổi vài chữ: bấm **✎** trên tin cũ, sửa trong ô nhập rồi gửi, khỏi gõ lại từ đầu.
 - Nút **⛶** trên mục HỘI THOẠI và mục **Trò chuyện** trong nhóm Trợ lý dẫn tới cùng một chỗ, dùng đường nào tiện hơn thì dùng.
 
 ## Sự cố thường gặp
 
-- **Trong chat hiện ra một câu bạn không hề gõ.** Gần như chắc chắn là mic nghe được tiếng trong phòng (nhạc, TV, người khác nói) rồi chép thành chữ và gửi luôn, vì câu nói xong là Aivon gửi ngay chứ không hỏi lại. Nhìn dòng chữ giữa màn hình: còn **ĐANG NGHE** hay **ĐANG NGHE • LUÔN** nghĩa là mic vẫn mở, bấm nút mic hoặc **Esc** để tắt. Aivon đang đọc thành tiếng cũng không tự bật mic lại khi bạn đã cúp máy. Xoá câu lạ đó thì bắt đầu một hội thoại mới; Aivon không có cách nào tự gõ vào ô chat của bạn, mọi kết quả chạy nền đều hiện ở bong bóng bên trái.
-- **Trình duyệt không nghe được.** Aivon báo "Trình duyệt không hỗ trợ giọng nói. Dùng Chrome/Edge." Hãy mở dashboard bằng Chrome hoặc Edge.
+- **Trong chat hiện ra một câu bạn không hề gõ.** Gần như chắc chắn là mic nghe được tiếng trong phòng (nhạc, TV, người khác nói) rồi chép thành chữ và gửi luôn, vì câu nói xong là AIVON gửi ngay chứ không hỏi lại. Nhìn dòng chữ giữa màn hình: còn **ĐANG NGHE** hay **ĐANG NGHE • LUÔN** nghĩa là mic vẫn mở, bấm nút mic hoặc **Esc** để tắt. AIVON đang đọc thành tiếng cũng không tự bật mic lại khi bạn đã cúp máy. Xoá câu lạ đó thì bắt đầu một hội thoại mới; AIVON không có cách nào tự gõ vào ô chat của bạn, mọi kết quả chạy nền đều hiện ở bong bóng bên trái.
+- **Trình duyệt không nghe được.** AIVON báo "Trình duyệt không hỗ trợ giọng nói. Dùng Chrome/Edge." Hãy mở dashboard bằng Chrome hoặc Edge.
 - **Micro không hoạt động.** Trình duyệt chặn quyền micro. Vào phần quyền của trang trong trình duyệt và cho phép micro, rồi tải lại trang.
 - **Nhấn Esc rồi mà câu trả lời vẫn hiện tiếp.** Đúng như thiết kế: Esc là cúp máy, tắt mic và tắt giọng, còn câu trả lời vẫn viết tiếp thành chữ. Muốn dừng hẳn lượt thì bấm nút dừng (ô vuông) trên thanh nhập hoặc gõ `/stop`.
-- **Không nghe thấy Aivon nói.** Aivon chỉ nói thành tiếng trong cuộc gọi, nên bấm mic để gọi. Đang gọi mà vẫn im: kiểm tra âm lượng máy, rồi bấm "▶ Nghe thử" trong **Cài đặt → Giọng nói** để thử riêng phần đọc. Nếu dùng giọng OpenAI hoặc ElevenLabs, xem Aivon có báo lỗi giọng không (hết hạn mức, sai key, mất mạng); Aivon không tự chuyển sang giọng khác.
+- **Không nghe thấy AIVON nói.** AIVON chỉ nói thành tiếng trong cuộc gọi, nên bấm mic để gọi. Đang gọi mà vẫn im: kiểm tra âm lượng máy, rồi bấm "▶ Nghe thử" trong **Cài đặt → Giọng nói** để thử riêng phần đọc. Nếu dùng giọng OpenAI hoặc ElevenLabs, xem AIVON có báo lỗi giọng không (hết hạn mức, sai key, mất mạng); AIVON không tự chuyển sang giọng khác.
 - **Gõ "/" mà không thấy menu.** Menu chỉ mở khi dấu "/" đứng đầu ô nhập và chưa có dấu cách theo sau. Nếu vẫn không có dòng skill nào, brain đang chọn chưa có skill nào bật.
-- **Bấm nút lựa chọn của Aivon mà không ăn gì.** Đó là hàng nút của lượt cũ, đã bị đông cứng khi bạn gửi tin mới. Cứ gõ câu trả lời bằng tay.
-- **Ảnh trong hội thoại thành ô xám "Ảnh đã hết hạn".** File nằm trong vùng cache `attachments/` đã quá 30 ngày hoặc bị dọn do chạm trần 300MB. Nhờ Aivon tạo lại, hoặc lần sau chép ảnh quan trọng sang thư mục khác trong brain.
+- **Bấm nút lựa chọn của AIVON mà không ăn gì.** Đó là hàng nút của lượt cũ, đã bị đông cứng khi bạn gửi tin mới. Cứ gõ câu trả lời bằng tay.
+- **Ảnh trong hội thoại thành ô xám "Ảnh đã hết hạn".** File nằm trong vùng cache `attachments/` đã quá 30 ngày hoặc bị dọn do chạm trần 300MB. Nhờ AIVON tạo lại, hoặc lần sau chép ảnh quan trọng sang thư mục khác trong brain.
 - **Sơ đồ không vẽ ra, chỉ thấy mã.** Thư viện vẽ sơ đồ tải từ mạng; máy đang offline hoặc bị chặn. Nội dung vẫn còn nguyên ở tab mã nguồn.
 - **Nhờ tạo ảnh thì báo chưa kết nối ChatGPT.** Vào trang **Models** đăng nhập ChatGPT (OAuth), không cần API key, rồi thử lại.
 - **Câu trả lời trống.** Nếu ô trả lời hiện dòng gợi ý thử lại hoặc đổi model, có thể do model đang chọn gặp trục trặc. Xem [Models & engine](10-models-va-engine.md) để đổi model/engine.
@@ -611,6 +611,6 @@ Phím tắt:
 - [Kết nối & số liệu kinh doanh](09-mcp-va-so-lieu.md) - đấu nguồn dữ liệu để hỏi số thật.
 - [Quản lý tệp tin](05-quan-ly-tep-tin.md) - cột VAULT bên trái và trang Tệp tin.
 - [Task & Dataview trong note](19-task-va-dataview.md) - khối `dataview` và `tasks` trong câu trả lời.
-- [Kênh Telegram](11-telegram.md) và [Kênh Zalo](12-zalo.md) - chat với Aivon ngoài dashboard.
+- [Kênh Telegram](11-telegram.md) và [Kênh Zalo](12-zalo.md) - chat với AIVON ngoài dashboard.
 
 Vẫn kẹt? Xem [Khắc phục sự cố & FAQ](17-khac-phuc-su-co.md).

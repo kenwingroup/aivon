@@ -9,18 +9,18 @@
 
 ## 方式一 - Hostinger VPS（Docker Manager，一键部署）
 
-> 🛒 **还没有 VPS？** [在这里购买 Hostinger VPS](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN)。它自带 Docker Manager，一键即可安装 Aivon。开通后回到下面的步骤。
+> 🛒 **还没有 VPS？** [在这里购买 Hostinger VPS](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN)。它自带 Docker Manager，一键即可安装 AIVON。开通后回到下面的步骤。
 
 1. hPanel → VPS → **Docker Manager** → **Compose** → **Compose from URL**。
 2. 粘贴这个 URL：
    ```
-   https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.hostinger.yml
+   https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.hostinger.yml
    ```
 3. （可选，用于 HTTPS + 域名）在 **Environment** 框中设置：
    ```
    DOMAIN_NAME=aivon.<vps-hostname>.hstgr.cloud
    ```
-   （主机名可在 hPanel → VPS 中找到，例如 `javis.srv1782015.hstgr.cloud`。）
+   （主机名可在 hPanel → VPS 中找到，例如 `aivon.srv1782015.hstgr.cloud`。）
 4. 点击 **Deploy**。等待 1-3 分钟。用 **Open** 按钮打开应用（或访问 `https://<DOMAIN_NAME>`）。
 5. 首次运行时，界面会要求你创建一个管理员账号。之后，在容器终端里登录一次 Claude Code：`claude auth login --claudeai`。
 

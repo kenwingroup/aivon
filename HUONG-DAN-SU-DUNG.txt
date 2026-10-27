@@ -40,4 +40,4 @@ Nếu giao diện là tiếng Anh, đổi sang Tiếng Việt trong Cài đặt.
 - Antigravity/Grok CLI là lựa chọn thêm, chưa cài trong lần này.
 
 Tài liệu tiếng Việt đầy đủ nằm ở docs\README.md trong thư mục dự án.
-Nguồn: https://github.com/blogminhquy/javis-os
+Nguồn: https://github.com/kenwingroup/aivon

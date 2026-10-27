@@ -2,13 +2,13 @@
 
 ***Tiếng Việt** · [English](en/21-kanban-work.md)*
 
-Trang **Việc** là chỗ bạn giao một mục tiêu ("goal") rồi để Aivon tự làm ở nền, không cần bạn ngồi canh khung chat. Bạn viết một câu mô tả việc cần xong, AI tự chuẩn hoá thành đặc tả, tự chọn loại worker, tự nhận việc và chạy; xong thì bắn kết quả về Telegram cho đúng người đã giao.
+Trang **Việc** là chỗ bạn giao một mục tiêu ("goal") rồi để AIVON tự làm ở nền, không cần bạn ngồi canh khung chat. Bạn viết một câu mô tả việc cần xong, AI tự chuẩn hoá thành đặc tả, tự chọn loại worker, tự nhận việc và chạy; xong thì bắn kết quả về Telegram cho đúng người đã giao.
 
 Điểm dễ hiểu nhầm nhất: đây **không phải bảng Trello kéo thả**. Bạn không kéo thẻ, không bấm chạy từng thẻ. Màn hình này để **quan sát hàng đợi và xử lý ngoại lệ**, phần chạy do dispatcher lo.
 
 ## Tính năng này là gì
 
-Aivon coi hàng đợi việc như một runtime cho AI. Một việc đi qua vòng đời sau:
+AIVON coi hàng đợi việc như một runtime cho AI. Một việc đi qua vòng đời sau:
 
 1. **Bạn giao goal** (từ trang Việc, hoặc nói trong chat, hoặc do trang Tự học đề xuất).
 2. **AI đặc tả (triage)**: một lượt chạy ngắn của model nền đọc goal thô rồi trả về JSON gồm intent rõ ràng, một **capability** (`files`, `research`, `mcp-read`, `code`, `external-write`, `image`), một **execution_mode** (`suggest`, `auto`, `full`) và danh sách **điều kiện hoàn thành**. Bước này không thực thi gì cả.
@@ -28,7 +28,7 @@ Worker dùng chung **engine nền** với các tính năng chạy ngầm khác, 
 | **Việc định kỳ** | Loop lặp theo chu kỳ và nhắc hẹn có mốc giờ | [Việc định kỳ & Nhắc hẹn](08-viec-dinh-ky.md) |
 | Checkbox `- [ ]` trong note | Việc tự tay bạn tick trong file markdown | [Task & Dataview trong note](19-task-va-dataview.md) |
 
-## Mở ở đâu trong Aivon
+## Mở ở đâu trong AIVON
 
 Ở thanh điều hướng bên trái, mở nhóm **Việc** rồi bấm mục **Việc**. Tiêu đề trang là **Việc (Kanban)** với dòng phụ "AI tự đặc tả, điều phối và chạy task nền".
 
@@ -61,15 +61,15 @@ Chỉ **AI tự vận hành** mới khiến việc tự chạy. Hai chế độ 
 
 Bấm **+ Giao goal** ở góc phải để mở form (bấm lần nữa để đóng). Form có:
 
-- **Goal**: một câu ngắn nói rõ việc cần xong. Ví dụ gợi ý ngay trong ô nhập: "Phân tích sản phẩm bán chạy tuần này và soạn 3 bài đăng". Bỏ trống là Aivon báo "Nhập tiêu đề".
-- **Ngữ cảnh và đầu ra mong muốn**: ô nhiều dòng, viết tự nhiên cũng được. Đây là chỗ bạn nói rõ đầu ra muốn nhận (file gì, đặt ở đâu, dài bao nhiêu, lấy số liệu từ nguồn nào). Bỏ trống thì Aivon lấy luôn nội dung ô Goal.
+- **Goal**: một câu ngắn nói rõ việc cần xong. Ví dụ gợi ý ngay trong ô nhập: "Phân tích sản phẩm bán chạy tuần này và soạn 3 bài đăng". Bỏ trống là AIVON báo "Nhập tiêu đề".
+- **Ngữ cảnh và đầu ra mong muốn**: ô nhiều dòng, viết tự nhiên cũng được. Đây là chỗ bạn nói rõ đầu ra muốn nhận (file gì, đặt ở đâu, dài bao nhiêu, lấy số liệu từ nguồn nào). Bỏ trống thì AIVON lấy luôn nội dung ô Goal.
 - **Route**: chọn **AI tự chọn worker** (mặc định) để AI tự quyết, hoặc chọn một mục **Workflow: `<tên>`** để ép việc chạy qua đúng workflow đó. Danh sách workflow lấy từ brain đang chọn, xem [Agents & Workflows](07-agents-va-workflows.md).
 - **Ưu tiên**: **🔺 Cao**, **🔼 Vừa** (mặc định), **🔽 Thấp**. Việc ưu tiên cao được nhận trước khi hàng đợi đông.
 - **Ngoại lệ**: ô tích **Duyệt kết quả sau khi làm xong**. Ô này KHÔNG bắt duyệt trước khi chạy: việc vẫn chạy ngay khi tới lượt. Tick thì làm xong việc không tự đóng mà dừng ở trạng thái "Chờ duyệt kết quả" để bạn đọc kết quả rồi mới chốt.
 
 Bấm **Giao cho AI** để tạo, hoặc **Huỷ** để đóng form.
 
-Một mẹo nhỏ về chống trùng: nếu bảng đang còn một việc chưa kết thúc có tiêu đề trùng (so khớp sau khi bỏ dấu và bỏ ký tự đặc biệt), Aivon trả về đúng việc cũ thay vì tạo bản sao.
+Một mẹo nhỏ về chống trùng: nếu bảng đang còn một việc chưa kết thúc có tiêu đề trùng (so khớp sau khi bỏ dấu và bỏ ký tự đặc biệt), AIVON trả về đúng việc cũ thay vì tạo bản sao.
 
 ### Bước 3: Đọc bảng
 
@@ -129,25 +129,25 @@ Có ba chỗ để trả lời, chỗ nào cũng như nhau:
 
 - Gõ vào ô ngay dưới câu hỏi trong khung chat web rồi bấm **Gửi**.
 - Gõ vào ô trả lời trên thẻ việc ở trang Việc rồi bấm **Gửi trả lời**.
-- Nhắn bình thường trong chat (Telegram, Zalo cũng được), nói rõ là trả lời việc nào. Aivon tự chuyển câu trả lời vào đúng việc.
+- Nhắn bình thường trong chat (Telegram, Zalo cũng được), nói rõ là trả lời việc nào. AIVON tự chuyển câu trả lời vào đúng việc.
 
 Trả lời xong, việc tự quay lại hàng đợi và chạy tiếp. Lần chạy sau đọc được câu hỏi, câu trả lời của bạn và phần lần trước đã làm xong, nên không làm lại từ đầu và không hỏi lại điều đã hỏi. Hỏi rồi trả lời **không** tính thêm lượt thử. Một việc hỏi nhiều lần thì ngăn chi tiết có mục **Hỏi đáp với bạn** ghi lại đủ từng lượt.
 
-**Xóa khỏi bảng** hỏi xác nhận trước: "Xóa task này khỏi bảng? Task sẽ được lưu trữ để không mất lịch sử." Việc đang chạy phải **Dừng task** trước rồi mới xoá được. Nếu thao tác không thành, Aivon hiện hộp báo lỗi nguyên văn từ server, hoặc "Không thể cập nhật task".
+**Xóa khỏi bảng** hỏi xác nhận trước: "Xóa task này khỏi bảng? Task sẽ được lưu trữ để không mất lịch sử." Việc đang chạy phải **Dừng task** trước rồi mới xoá được. Nếu thao tác không thành, AIVON hiện hộp báo lỗi nguyên văn từ server, hoặc "Không thể cập nhật task".
 
 ### Chạy lại không gửi trùng (từ 0.238.0)
 
 Việc nền có thể chạy lại: lỗi tạm thời thì tự thử lại, máy chủ khởi động lại giữa chừng thì việc về hàng đợi, hoặc bạn bấm Thử lại. Trước đây mỗi lần chạy lại là làm lại từ đầu, nên một tin Zalo, một bài đăng hay một đơn hàng có thể ra ngoài hai lần.
 
-Giờ Aivon ghi sổ từng thao tác ra ngoài của một việc (gửi tin, đăng bài, tạo đơn qua kết nối hoặc plugin), theo đúng việc, đúng tool và đúng nội dung:
+Giờ AIVON ghi sổ từng thao tác ra ngoài của một việc (gửi tin, đăng bài, tạo đơn qua kết nối hoặc plugin), theo đúng việc, đúng tool và đúng nội dung:
 
 - **Đã làm xong ở lần trước:** lần chạy lại không làm nữa, worker nhận lại kết quả cũ và đi tiếp phần còn lại.
-- **Không chắc đã tới nơi chưa** (máy chủ dừng hoặc mất kết nối đúng lúc đang gửi): Aivon không tự gửi lại. Việc dừng lại hỏi bạn, kể rõ thao tác nào. Trả lời **"đã gửi"** thì Aivon bỏ qua, trả lời **"chưa gửi"** thì Aivon làm lại đúng một lần. Câu trả lời nào không mở đầu bằng "chưa" hay "gửi lại" đều được hiểu là đã gửi, để không bao giờ gửi trùng cho khách.
+- **Không chắc đã tới nơi chưa** (máy chủ dừng hoặc mất kết nối đúng lúc đang gửi): AIVON không tự gửi lại. Việc dừng lại hỏi bạn, kể rõ thao tác nào. Trả lời **"đã gửi"** thì AIVON bỏ qua, trả lời **"chưa gửi"** thì AIVON làm lại đúng một lần. Câu trả lời nào không mở đầu bằng "chưa" hay "gửi lại" đều được hiểu là đã gửi, để không bao giờ gửi trùng cho khách.
 - **Dịch vụ báo lỗi rõ ràng** (sai mã người nhận, hết quyền): coi như chưa gửi, lần sau được thử lại.
 
 Chat thường không đổi gì: sổ này chỉ áp cho việc nền trên bảng Việc.
 
-Giới hạn: sổ nằm ở hub của Aivon, nên chỉ thấy thao tác đi qua hub. Kết nối gắn với tài khoản Claude (Gmail, Drive trên claude.ai) và lệnh shell của engine không đi qua hub nên không được ghi sổ. Grok Build và Antigravity CLI chưa mang được mã việc tới hub, nên việc chạy trên hai engine này chưa có lớp bảo vệ này.
+Giới hạn: sổ nằm ở hub của AIVON, nên chỉ thấy thao tác đi qua hub. Kết nối gắn với tài khoản Claude (Gmail, Drive trên claude.ai) và lệnh shell của engine không đi qua hub nên không được ghi sổ. Grok Build và Antigravity CLI chưa mang được mã việc tới hub, nên việc chạy trên hai engine này chưa có lớp bảo vệ này.
 
 ## Các trạng thái của một việc
 
@@ -198,13 +198,13 @@ Worker là một phiên AI **headless**: không có màn hình, không hỏi l�
 
 Luật quan trọng nhất: việc thuộc `external-write` (gửi tin, đăng bài, tạo đơn, tạo lịch, đổi thứ gì đó bên ngoài) **chỉ chạy khi execution_mode là `full`**. Không đủ quyền thì việc bị chặn ngay với lý do "Task cần hành động ra ngoài. Chỉ worker mode=full mới được thực thi." Bước đặc tả cũng không tự cho quyền `full`: nó chỉ giữ `full` khi chính lời bạn viết trong goal nói rõ đã cho phép tự hành động (những cụm như "toàn quyền", "tự gửi", "tự đăng", "không cần hỏi"). Không thấy câu cho phép thì nó hạ xuống `auto` để kernel chặn lại.
 
-Nói cách khác: mặc định Aivon **không** tự tiêu tiền, không tự gửi tin, không tự đăng bài từ hàng đợi việc. Muốn thế thì phải nói thẳng trong goal.
+Nói cách khác: mặc định AIVON **không** tự tiêu tiền, không tự gửi tin, không tự đăng bài từ hàng đợi việc. Muốn thế thì phải nói thẳng trong goal.
 
 Ngoài ra worker cũng không thấy repo mã nguồn nằm ngoài brain, và không làm được những việc cần chính chủ đăng nhập (cookie, OTP, quét mã QR, đổi mật khẩu).
 
 ## Chạy một quy trình qua hàng đợi
 
-Giao việc với `route` là `wf:<slug>` thì việc chạy ĐÚNG quy trình đó, từng bước do agent của quy trình làm. Từ khung chat, Aivon đặt route này bằng tool `aivon_task` (có từ 0.107.0); slug không có thật thì tool từ chối và liệt kê các quy trình đang có. Chỉ chép tên quy trình vào mô tả việc thì KHÔNG chạy quy trình: một worker chung sẽ làm hết, và tool cảnh báo ngay khi thấy chuyện đó.
+Giao việc với `route` là `wf:<slug>` thì việc chạy ĐÚNG quy trình đó, từng bước do agent của quy trình làm. Từ khung chat, AIVON đặt route này bằng tool `aivon_task` (có từ 0.107.0); slug không có thật thì tool từ chối và liệt kê các quy trình đang có. Chỉ chép tên quy trình vào mô tả việc thì KHÔNG chạy quy trình: một worker chung sẽ làm hết, và tool cảnh báo ngay khi thấy chuyện đó.
 
 Quy trình đang tắt (`status: off`) không chạy nền: việc dừng chờ bạn với lý do quy trình đang tắt. Bước nào vẫn trượt kiểm chứng sau số lần sửa cho phép thì quy trình dừng ở bước đó và việc chờ bạn, không chạy tiếp các bước sau.
 
@@ -222,7 +222,7 @@ Tin nào cũng kết bằng "Xem chi tiết ở trang Việc." vì chi tiết đ
 
 Ai nhận tin, nhận ở đâu:
 
-- **Giao trong chat trên dashboard** → kết quả hiện thẳng thành một tin của Aivon **trong đúng cuộc trò chuyện đó**. Server ghi vào lịch sử phiên trước rồi mới đẩy lên, nên bạn đóng tab hay F5 xong mở lại vẫn thấy. Đang xem cuộc trò chuyện khác thì tin nằm sẵn ở phiên gốc và phiên đó nổi lên trong **Lịch sử**.
+- **Giao trong chat trên dashboard** → kết quả hiện thẳng thành một tin của AIVON **trong đúng cuộc trò chuyện đó**. Server ghi vào lịch sử phiên trước rồi mới đẩy lên, nên bạn đóng tab hay F5 xong mở lại vẫn thấy. Đang xem cuộc trò chuyện khác thì tin nằm sẵn ở phiên gốc và phiên đó nổi lên trong **Lịch sử**.
 - **Giao từ chat Telegram** → báo về đúng người đã nhắn (việc mang theo chat id của họ).
 - **Không rõ ai giao** (tạo tay ngoài chat) → báo về **ID Telegram đầu tiên** trong whitelist; chưa bật bot thì bước này bỏ qua, việc vẫn chạy bình thường. Xem [Kênh Telegram](11-telegram.md).
 
@@ -256,29 +256,29 @@ Dải gom cả ba nguồn: việc Kanban, [loop và nhắc hẹn](08-viec-dinh-k
 
 Dải tự hỏi lại server mỗi vài giây, và hỏi ngay mỗi khi một lượt chat kết thúc hoặc một việc nền vừa báo kết quả về. Không có việc nào thì nó ẩn hẳn, không chiếm chỗ của khung chat.
 
-> Vì sao có: trước bản này khung chat không hiện một chữ nào về việc nền, nên "Aivon đang chạy việc cho tôi" và "Aivon quên mất rồi" trông y hệt nhau. Muốn biết phải tự nghĩ ra việc mở trang này, mà không ai có lý do để nghĩ ra.
+> Vì sao có: trước bản này khung chat không hiện một chữ nào về việc nền, nên "AIVON đang chạy việc cho tôi" và "AIVON quên mất rồi" trông y hệt nhau. Muốn biết phải tự nghĩ ra việc mở trang này, mà không ai có lý do để nghĩ ra.
 
-## Aivon tự đính chính khi lỡ hứa suông
+## AIVON tự đính chính khi lỡ hứa suông
 
-Cũng từ 0.25.2, cuối mỗi lượt chat server dò xem câu trả lời có hẹn báo lại không ("có kết quả em báo ngay", "xong em báo anh", "anh chờ em chút"), rồi đối chiếu với việc nền đang có thật. Hứa mà không có gì chạy thì Aivon tự dán một dòng đính chính ngay dưới câu trả lời, nói rõ là sẽ không có báo cáo nào tự về và bạn cần làm gì tiếp.
+Cũng từ 0.25.2, cuối mỗi lượt chat server dò xem câu trả lời có hẹn báo lại không ("có kết quả em báo ngay", "xong em báo anh", "anh chờ em chút"), rồi đối chiếu với việc nền đang có thật. Hứa mà không có gì chạy thì AIVON tự dán một dòng đính chính ngay dưới câu trả lời, nói rõ là sẽ không có báo cáo nào tự về và bạn cần làm gì tiếp.
 
-Đây không phải kiểm duyệt: nó không chặn và không sửa câu trả lời, chỉ nói thêm sự thật ở dưới. Lý do là một lượt trả lời kết thúc ngay khi Aivon nói xong - không có cơ chế nào đánh thức nó dậy để làm nốt, nên một lời hẹn không kèm việc nền là một lời hẹn sẽ không bao giờ tới.
+Đây không phải kiểm duyệt: nó không chặn và không sửa câu trả lời, chỉ nói thêm sự thật ở dưới. Lý do là một lượt trả lời kết thúc ngay khi AIVON nói xong - không có cơ chế nào đánh thức nó dậy để làm nốt, nên một lời hẹn không kèm việc nền là một lời hẹn sẽ không bao giờ tới.
 
 ## Giao việc bằng lời trong chat
 
-Bạn không bắt buộc phải mở trang này. Nói thẳng trong chat kiểu "giao việc nền: rà lại toàn bộ note trong Wiki tháng này rồi liệt kê note thiếu liên kết" là Aivon tự tạo một việc trong hàng đợi và gắn danh tính người đang nói để báo kết quả về đúng chỗ.
+Bạn không bắt buộc phải mở trang này. Nói thẳng trong chat kiểu "giao việc nền: rà lại toàn bộ note trong Wiki tháng này rồi liệt kê note thiếu liên kết" là AIVON tự tạo một việc trong hàng đợi và gắn danh tính người đang nói để báo kết quả về đúng chỗ.
 
-Aivon được dạy chọn công cụ nhỏ nhất đủ dùng, nên nó chỉ tạo việc khi việc đó **làm một lần, cần chạy nền hoặc cần duyệt**. Câu hỏi trả lời được ngay thì nó trả lời luôn; việc lặp theo chu kỳ hoặc có mốc giờ thì nó chuyển sang [Việc định kỳ & Nhắc hẹn](08-viec-dinh-ky.md).
+AIVON được dạy chọn công cụ nhỏ nhất đủ dùng, nên nó chỉ tạo việc khi việc đó **làm một lần, cần chạy nền hoặc cần duyệt**. Câu hỏi trả lời được ngay thì nó trả lời luôn; việc lặp theo chu kỳ hoặc có mốc giờ thì nó chuyển sang [Việc định kỳ & Nhắc hẹn](08-viec-dinh-ky.md).
 
 Nhớ rằng việc tạo qua chat vẫn nằm trong hàng đợi của brain đang chat, và vẫn phải có chế độ **AI tự vận hành** thì mới tự chạy. Nếu bảng đang **Tắt**, việc chỉ nằm chờ cho tới khi bạn bật hoặc bấm **Chạy nhịp ngay**.
 
-Từ 0.25.2 Aivon **nói ra chuyện đó ngay lúc giao**: giao việc vào một bảng đang **Tắt** hoặc **Quan sát** thì nó báo lại là việc đang xếp hàng chứ chưa chạy, kèm cách bật. Trước đó nó luôn kết bằng "Việc chạy nền, kết quả tự về" bất kể chế độ nào - một lời hứa sai mà chính Aivon không có cách nào biết là sai. Dải việc nền ở khung chat cũng chuyển sang màu vàng trong đúng tình huống này.
+Từ 0.25.2 AIVON **nói ra chuyện đó ngay lúc giao**: giao việc vào một bảng đang **Tắt** hoặc **Quan sát** thì nó báo lại là việc đang xếp hàng chứ chưa chạy, kèm cách bật. Trước đó nó luôn kết bằng "Việc chạy nền, kết quả tự về" bất kể chế độ nào - một lời hứa sai mà chính AIVON không có cách nào biết là sai. Dải việc nền ở khung chat cũng chuyển sang màu vàng trong đúng tình huống này.
 
 Việc này chạy trên **mọi bộ não** từ 0.17.1, qua tool `aivon_task`. Trước đó chỉ Claude Code và ChatGPT/Codex giao được việc từ chat, vì đường duy nhất là gọi HTTP bằng lệnh máy mà chỉ hai engine đó chạy được. Các engine API (OpenRouter, OpenAI, Anthropic, Gemini, Groq, Ollama) nhận lời rồi không làm gì cả, và không báo lỗi. Nếu bạn từng gặp cảnh "bảo giao việc mà bảng vẫn trống", nhiều khả năng đó là lỗi này.
 
 Hai điều tool đó **không** làm, cố ý:
 
-- **Không tạo được việc mức `full`.** Mức full cho việc tự thao tác thật ra ngoài (tạo đơn, tiêu tiền, chạy quảng cáo, gửi tin) và không hoàn tác được. Aivon tạo mức `suggest` hoặc `auto` thôi; muốn full thì bạn tự nâng ở trang này, nơi bạn nhìn thấy rõ mình đang cho phép gì.
+- **Không tạo được việc mức `full`.** Mức full cho việc tự thao tác thật ra ngoài (tạo đơn, tiêu tiền, chạy quảng cáo, gửi tin) và không hoàn tác được. AIVON tạo mức `suggest` hoặc `auto` thôi; muốn full thì bạn tự nâng ở trang này, nơi bạn nhìn thấy rõ mình đang cho phép gì.
 - **Không chuyển cột, không huỷ việc, không duyệt việc đang chờ phê duyệt.** Những thao tác đó cần nhìn thấy bảng, nên chúng ở lại trang này.
 
 ## Việc do trang Tự học đề xuất
@@ -296,10 +296,10 @@ Chi tiết ở [Tự học](22-tu-hoc.md).
 
 ## Dữ liệu của bảng nằm ở đâu
 
-- **Nguồn chính**: file `kanban.sqlite3` trong thư mục state của Aivon (biến `AIVON_STATE_DIR`, mặc định là thư mục `server/`). Đây là nơi giữ vòng đời, lần chạy và nhật ký sự kiện. Nó cố tình nằm ngoài brain để việc đang chạy không bị đồng bộ git ghi đè.
+- **Nguồn chính**: file `kanban.sqlite3` trong thư mục state của AIVON (biến `AIVON_STATE_DIR`, mặc định là thư mục `server/`). Đây là nơi giữ vòng đời, lần chạy và nhật ký sự kiện. Nó cố tình nằm ngoài brain để việc đang chạy không bị đồng bộ git ghi đè.
 - **Sổ thao tác ra ngoài** (từ 0.238.0): file `once_ledger.sqlite3` cạnh `kanban.sqlite3`, ghi thao tác nào của việc nào đã làm xong. Dòng đã xong quá 30 ngày tự xoá.
-- **Bản sao đọc được**: `Aivon/kanban.json` trong brain, được ghi lại mỗi lần bảng đổi. File này để sao lưu và để bản Aivon cũ đọc được; sửa tay vào đó không đổi được gì trong hàng đợi thật.
-- Bảng cũ từ những bản Aivon trước được nhập vào đúng một lần, và việc còn kẹt ở trạng thái "đang chạy" của tiến trình cũ được đưa về hàng đợi.
+- **Bản sao đọc được**: `AIVON/kanban.json` trong brain, được ghi lại mỗi lần bảng đổi. File này để sao lưu và để bản AIVON cũ đọc được; sửa tay vào đó không đổi được gì trong hàng đợi thật.
+- Bảng cũ từ những bản AIVON trước được nhập vào đúng một lần, và việc còn kẹt ở trạng thái "đang chạy" của tiến trình cũ được đưa về hàng đợi.
 - Việc hoàn thành hoặc đã huỷ quá **3 ngày** tự chuyển sang lưu trữ để bảng không phình ra.
 
 ## Giới hạn kỹ thuật
@@ -351,10 +351,10 @@ Hai endpoint dọn dẹp cuối bảng không có nút trên giao diện, đúng
 Nghĩa là không có việc nào ở trạng thái sẵn sàng: hàng đợi rỗng, hoặc việc đang chờ phụ thuộc, hoặc đã đủ 2 worker chạy rồi. Nhìn KPI **Đang chờ** và **Worker đang chạy** để biết bạn đang ở trường hợp nào.
 
 **Việc mãi ở "AI đang đặc tả".**
-Bước đặc tả cần một lượt chạy model nền. Engine nền chưa sẵn sàng hoặc hết hạn mức thì việc quay lại hàng đợi và thử lại. Kiểm tra trang [Models & engine](10-models-va-engine.md) và trang [Mức dùng](23-muc-dung-token.md). Khi model nền không gọi được, Aivon vẫn có nhánh dự phòng đoán capability theo từ khoá để hàng đợi không đứng hẳn.
+Bước đặc tả cần một lượt chạy model nền. Engine nền chưa sẵn sàng hoặc hết hạn mức thì việc quay lại hàng đợi và thử lại. Kiểm tra trang [Models & engine](10-models-va-engine.md) và trang [Mức dùng](23-muc-dung-token.md). Khi model nền không gọi được, AIVON vẫn có nhánh dự phòng đoán capability theo từ khoá để hàng đợi không đứng hẳn.
 
 **Việc bị chặn với lý do "Task cần hành động ra ngoài. Chỉ worker mode=full mới được thực thi."**
-Đây là rào an toàn, không phải lỗi. Việc của bạn thuộc nhóm gửi tin, đăng bài, tạo đơn hoặc đổi thứ gì bên ngoài. Nếu bạn thật sự muốn nó tự làm, giao lại việc và viết rõ trong goal rằng bạn cho phép tự hành động; nếu không, hãy để Aivon soạn nháp còn bạn tự bấm gửi.
+Đây là rào an toàn, không phải lỗi. Việc của bạn thuộc nhóm gửi tin, đăng bài, tạo đơn hoặc đổi thứ gì bên ngoài. Nếu bạn thật sự muốn nó tự làm, giao lại việc và viết rõ trong goal rằng bạn cho phép tự hành động; nếu không, hãy để AIVON soạn nháp còn bạn tự bấm gửi.
 
 **Việc bị chặn với lý do bắt đầu bằng "Worker cần thêm thông tin".**
 Worker thấy thiếu một quyết định mà đoán bừa sẽ hại. Từ 0.235.0 chỉ cần trả lời câu hỏi trên thẻ (hoặc trong chat), việc tự chạy tiếp với câu trả lời đó.
@@ -363,16 +363,16 @@ Worker thấy thiếu một quyết định mà đoán bừa sẽ hại. Từ 0.
 Việc đang chạy không cho đổi trạng thái. Bấm **Dừng task** trước, đợi thẻ rời khỏi khung **Đang hoạt động**, rồi thao tác lại.
 
 **Việc xong rồi mà không thấy báo ở đâu cả.**
-Việc giao trong chat web phải mang theo mã phiên chat thì kết quả mới về đúng khung đó. Aivon tự gắn khi bạn giao bằng lời trong chat; còn việc tạo tay ở trang này hoặc bằng lệnh curl không có mã phiên nên chỉ đi Telegram. Nếu tin đi Telegram mà im lặng: bot chưa bật, chưa có chat id trong whitelist, hoặc việc không rõ người giao nên tin bay về ID Telegram đầu tiên chứ không về tài khoản bạn nghĩ. Xem [Kênh Telegram](11-telegram.md).
+Việc giao trong chat web phải mang theo mã phiên chat thì kết quả mới về đúng khung đó. AIVON tự gắn khi bạn giao bằng lời trong chat; còn việc tạo tay ở trang này hoặc bằng lệnh curl không có mã phiên nên chỉ đi Telegram. Nếu tin đi Telegram mà im lặng: bot chưa bật, chưa có chat id trong whitelist, hoặc việc không rõ người giao nên tin bay về ID Telegram đầu tiên chứ không về tài khoản bạn nghĩ. Xem [Kênh Telegram](11-telegram.md).
 
-**Aivon hứa "em sẽ đợi các việc chạy xong rồi tổng hợp" nhưng chẳng bao giờ tổng hợp.**
-Đó là lời hứa suông và đã bị cấm từ 0.9.289: lượt trả lời của Aivon kết thúc ngay khi nó nói xong, không có cơ chế nào đánh thức nó dậy để tổng hợp. Việc nền chỉ tự đẩy kết quả **thô** về khung chat. Muốn có bản tổng hợp, giao thêm một việc chuyên đi tổng hợp (dùng `deps` trỏ vào các việc trước), hoặc nhắn lại một câu sau khi kết quả đã về.
+**AIVON hứa "em sẽ đợi các việc chạy xong rồi tổng hợp" nhưng chẳng bao giờ tổng hợp.**
+Đó là lời hứa suông và đã bị cấm từ 0.9.289: lượt trả lời của AIVON kết thúc ngay khi nó nói xong, không có cơ chế nào đánh thức nó dậy để tổng hợp. Việc nền chỉ tự đẩy kết quả **thô** về khung chat. Muốn có bản tổng hợp, giao thêm một việc chuyên đi tổng hợp (dùng `deps` trỏ vào các việc trước), hoặc nhắn lại một câu sau khi kết quả đã về.
 
 **Bảng trống trơn dù hôm qua còn việc.**
 Ba khả năng, theo thứ tự hay gặp: bạn đang đứng ở **brain khác** (đổi brain ở đầu dashboard), việc đã kết thúc quá 3 ngày nên tự lưu trữ, hoặc ai đó đã gọi endpoint dọn bảng.
 
 **Việc nền chiếm hết hạn mức của bạn.**
-Mỗi việc là một phiên AI thật. Hạ số worker song song bằng `AIVON_KANBAN_MAX_WORKERS=1`, hoặc đặt chế độ về **Tắt** khi không cần. Theo dõi lượng tiêu thụ ở trang [Mức dùng](23-muc-dung-token.md), chỗ tách riêng "Aivon tự chạy" với "Bạn gõ tay".
+Mỗi việc là một phiên AI thật. Hạ số worker song song bằng `AIVON_KANBAN_MAX_WORKERS=1`, hoặc đặt chế độ về **Tắt** khi không cần. Theo dõi lượng tiêu thụ ở trang [Mức dùng](23-muc-dung-token.md), chỗ tách riêng "AIVON tự chạy" với "Bạn gõ tay".
 
 ## Liên quan
 

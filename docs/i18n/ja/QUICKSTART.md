@@ -9,18 +9,18 @@
 
 ## 方法 1 - Hostinger VPS（Docker Manager、ワンクリック）
 
-> 🛒 **VPS をまだお持ちでない方へ：** [Hostinger VPS はこちら](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN)。Docker Manager が標準搭載なので、Aivon はワンクリックで入ります。準備ができたら下の手順に戻ってください。
+> 🛒 **VPS をまだお持ちでない方へ：** [Hostinger VPS はこちら](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN)。Docker Manager が標準搭載なので、AIVON はワンクリックで入ります。準備ができたら下の手順に戻ってください。
 
 1. hPanel → VPS → **Docker Manager** → **Compose** → **Compose from URL**。
 2. 次の URL を貼り付けます。
    ```
-   https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.hostinger.yml
+   https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.hostinger.yml
    ```
 3. （任意。HTTPS + ドメインを使う場合）**Environment** 欄に次を設定します。
    ```
    DOMAIN_NAME=aivon.<vps-hostname>.hstgr.cloud
    ```
-   （ホスト名は hPanel → VPS で確認できます。例：`javis.srv1782015.hstgr.cloud`。）
+   （ホスト名は hPanel → VPS で確認できます。例：`aivon.srv1782015.hstgr.cloud`。）
 4. **Deploy** を押します。1-3 分待ちます。**Open** ボタン（または `https://<DOMAIN_NAME>`）でアプリを開きます。
 5. 初回起動時に、管理者アカウントの作成を求める画面が表示されます。そのあと、コンテナのターミナルで Claude Code に一度だけサインインします：`claude auth login --claudeai`。
 

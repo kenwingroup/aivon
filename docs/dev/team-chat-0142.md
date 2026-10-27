@@ -1,6 +1,6 @@
 # Nhóm chat 0.142.0: hết im lặng, tạo nhóm kiểu Zalo, tab Công việc, Auto
 
-Ngày 14/10/2026. Nhánh `claude/compassionate-wozniak-z5umfl`, PR [#651](https://github.com/blogminhquy/javis-os/pull/651).
+Ngày 14/10/2026. Nhánh `claude/compassionate-wozniak-z5umfl`, PR [#651](https://github.com/kenwingroup/aivon/pull/651).
 Nền: `main` `063750a` (0.141.0). Số phiên bản giữ chỗ ngay đầu nhánh (commit đầu, PR nháp mang số 0.142.0).
 
 **Đánh số lại khi phát hành:** trong lúc làm, `main` lên 0.145.0 (#652, #653 đang mở giữ 0.143.0, 0.144.0), nên bản này
@@ -222,12 +222,12 @@ Không có lỗi chặn. Đã sửa, mỗi mục có test:
 ### Smoke với provider thật (sandbox cổng 7788, state và brain tạm, không Zalo, Telegram hay khách)
 
 Cấu hình như máy thật trong audit: model chính và model việc nền đều OpenAI OAuth (Codex CLI 0.160.0 trên máy),
-`gpt-6.1-sol`. Aivon Vũ Zalo đặt riêng Codex `gpt-6.1-sol`, lời nhắc có luật chatbot Zalo "im lặng khi không được gọi";
+`gpt-6.1-sol`. AIVON Vũ Zalo đặt riêng Codex `gpt-6.1-sol`, lời nhắc có luật chatbot Zalo "im lặng khi không được gọi";
 Coach không đặt model (theo model chính); hai trợ lý cùng tên One đặt Claude `haiku`.
 
 Năm lần gọi model, dừng ở đó:
 
-1. Tin thường: Aivon Vũ Zalo (điều phối) trả lời sau 10 giây bằng `openai-oauth gpt-6.1-sol`, không im theo luật chatbot.
+1. Tin thường: AIVON Vũ Zalo (điều phối) trả lời sau 10 giây bằng `openai-oauth gpt-6.1-sol`, không im theo luật chatbot.
 2. @One chọn bản A bằng phím mũi tên: đúng bản A trả lời (`anthropic-cli haiku`).
 3. Giao việc ngắn cho Coach: chạy bằng model chính Codex, kết quả về nhóm, hiện ở tab Công việc ngăn Đã xong sau tải lại;
    Mở đưa về đúng nhóm.

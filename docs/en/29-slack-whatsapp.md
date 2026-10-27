@@ -2,15 +2,15 @@
 
 *[Tiếng Việt](../29-slack-whatsapp.md) · **English***
 
-Since 0.71.0 Aivon talks on Slack and WhatsApp, in the same two ways as Telegram and Zalo:
+Since 0.71.0 AIVON talks on Slack and WhatsApp, in the same two ways as Telegram and Zalo:
 
-- **Control channel:** you chat with Aivon itself (your brain, your tools, background work). Set it up on the **Admin channels** page.
+- **Control channel:** you chat with AIVON itself (your brain, your tools, background work). Set it up on the **Admin channels** page.
 - **Customer bot:** a dedicated agent answers your customers or team, with every chat in the shared inbox and takeover when a human is needed. Set it up on the **Chatbot** page.
 
 | | Slack | WhatsApp |
 |---|---|---|
-| How Aivon connects | Socket Mode: Aivon opens the connection, **no domain needed** | Webhook: Meta calls Aivon, **needs an HTTPS domain** |
-| Groups | Channels (Aivon answers when mentioned, in the thread) | Private chats only |
+| How AIVON connects | Socket Mode: AIVON opens the connection, **no domain needed** | Webhook: Meta calls AIVON, **needs an HTTPS domain** |
+| Groups | Channels (AIVON answers when mentioned, in the thread) | Private chats only |
 | Files | Images and documents, both ways | Images and documents, both ways |
 | Voice messages | Transcribed (needs a Groq key on the Models page) | Transcribed (same) |
 | Writing first | Anytime | Only within 24 hours of the person's last message |
@@ -26,10 +26,10 @@ Since 0.71.0 Aivon talks on Slack and WhatsApp, in the same two ways as Telegram
 
 ```yaml
 display_information:
-  name: Aivon
+  name: AIVON
 features:
   bot_user:
-    display_name: Aivon
+    display_name: AIVON
     always_online: true
   app_home:
     messages_tab_enabled: true
@@ -62,11 +62,11 @@ settings:
 3. **Basic Information → App-Level Tokens → Generate Token and Scopes**: add the scope `connections:write`, generate, copy the token that starts with `xapp-`.
 4. **Install App → Install to Workspace**, then copy the **Bot User OAuth Token** that starts with `xoxb-`.
 
-### 2a. Control channel (you talk to Aivon)
+### 2a. Control channel (you talk to AIVON)
 
 1. **Admin channels** page → **Slack** tab: paste the bot token and the app token, click **Save and turn on**.
 2. Open Slack, find the app under **Apps**, send it any message. You appear on the card with a 4-digit code; check the code and click **Allow**. The list starts empty on purpose: nobody can reach your brain until you allow them.
-3. From then on: DM the bot, or mention `@Aivon` in a channel it was invited to (`/invite @Aivon`); it answers in the thread.
+3. From then on: DM the bot, or mention `@AIVON` in a channel it was invited to (`/invite @AIVON`); it answers in the thread.
 
 Bot commands start with `!` instead of `/` on Slack, because Slack keeps `/` for its own commands: `!stop`, `!new`.
 
@@ -80,12 +80,12 @@ Bot commands start with `!` instead of `/` on Slack, because Slack keeps `/` for
 
 ## WhatsApp
 
-WhatsApp only works through Meta's official **WhatsApp Business Cloud API**. Aivon never logs into a personal WhatsApp account (that breaks WhatsApp's terms and gets numbers banned).
+WhatsApp only works through Meta's official **WhatsApp Business Cloud API**. AIVON never logs into a personal WhatsApp account (that breaks WhatsApp's terms and gets numbers banned).
 
 ### Before you start
 
-- Aivon must be reachable over **HTTPS on a domain** (a VPS with a domain, see [DEPLOY.en.md](../../DEPLOY.en.md)). Meta refuses plain `http://` and IP addresses.
-- When no login password is set, the domain must be one Aivon knows (your custom domain, see [15 - Branding and domains](15-branding-and-domains.md), or `AIVON_ALLOWED_HOSTS`), otherwise Aivon answers Meta with 403.
+- AIVON must be reachable over **HTTPS on a domain** (a VPS with a domain, see [DEPLOY.en.md](../../DEPLOY.en.md)). Meta refuses plain `http://` and IP addresses.
+- When no login password is set, the domain must be one AIVON knows (your custom domain, see [15 - Branding and domains](15-branding-and-domains.md), or `AIVON_ALLOWED_HOSTS`), otherwise AIVON answers Meta with 403.
 - Meta may charge for some conversations; check their current pricing page.
 
 ### 1. Create the Meta app (once)
@@ -93,7 +93,7 @@ WhatsApp only works through Meta's official **WhatsApp Business Cloud API**. Aiv
 1. [developers.facebook.com](https://developers.facebook.com) → **My Apps → Create App** → type **Business** → add the **WhatsApp** product.
 2. **WhatsApp → API Setup**: note the **Phone number ID** (an ID, not the phone number). The free test number can only message up to 5 numbers you verify there; add a real number for production.
 3. A **permanent access token**: Business Settings → **Users → System users** → add one, assign your app with full control, **Generate token** with `whatsapp_business_messaging` and `whatsapp_business_management`. (The token on the API Setup page dies after 24 hours.)
-4. **App settings → Basic**: show and copy the **App secret**. Aivon uses it to check that every webhook call really comes from Meta.
+4. **App settings → Basic**: show and copy the **App secret**. AIVON uses it to check that every webhook call really comes from Meta.
 
 ### 2a. Control channel
 
@@ -105,7 +105,7 @@ WhatsApp only works through Meta's official **WhatsApp Business Cloud API**. Aiv
 
 1. Use another number (each number belongs to one bot).
 2. **Chatbot** page → **Accounts** → add an account, channel **WhatsApp**, paste the three values **separated by spaces**: `<phone number id> <access token> <app secret>`.
-3. The webhook is the same Callback URL and Verify token as on the Admin channels page: one URL serves every number, and Aivon routes each message by the number it was sent to.
+3. The webhook is the same Callback URL and Verify token as on the Admin channels page: one URL serves every number, and AIVON routes each message by the number it was sent to.
 
 ### The 24-hour window
 
@@ -122,7 +122,7 @@ WhatsApp lets a business write freely only within **24 hours** of the person's l
 |---|---|
 | Slack card: `invalid_auth` | Wrong or revoked bot token. Reinstall the app and copy the new `xoxb-` token. |
 | Slack card: app token refused | The `xapp-` token is missing `connections:write`, or Socket Mode is off. |
-| Slack: no answer in a channel | Invite the bot (`/invite @Aivon`) and mention it. |
+| Slack: no answer in a channel | Invite the bot (`/invite @AIVON`) and mention it. |
 | WhatsApp: Meta says the callback could not be verified | The URL is not HTTPS, the domain is not allowed, or the verify token was mistyped. |
 | WhatsApp: messages arrive nowhere | The **messages** field is not subscribed, or the Phone number ID belongs to another number. |
 | WhatsApp error 190 | The access token expired: use a System User token, not the 24-hour one. |

@@ -1,6 +1,6 @@
 # Rà soát tiến độ Resonance và điều chỉnh phạm vi agent
 
-Ngày kiểm: 08/10/2026, Asia/Saigon. Snapshot mã: `09f254d0e4d009451dc58cb2e97788631c5acc1a` (main 0.86.1). Phạm vi: Resonance, agent/workflow/loop/học có liên quan và bộ tài liệu tiến độ. Không kiểm toán toàn bộ tính năng Aivon.
+Ngày kiểm: 08/10/2026, Asia/Saigon. Snapshot mã: `09f254d0e4d009451dc58cb2e97788631c5acc1a` (main 0.86.1). Phạm vi: Resonance, agent/workflow/loop/học có liên quan và bộ tài liệu tiến độ. Không kiểm toán toàn bộ tính năng AIVON.
 
 ## Cập nhật sau A1 (08/10/2026, tối)
 
@@ -40,7 +40,7 @@ Bàn giao sau pilot 3 đã bổ sung tiếp nhận Write thành công từ Claud
 
 | Nơi đọc ở snapshot | Quan sát | Tác động lên kế hoạch |
 |---|---|---|
-| `server/resonance.py: enabled_for` | Đọc `<brain>/Aivon/resonance.json`; thiếu/hỏng thì tắt | Công tắc hiện chưa theo agent |
+| `server/resonance.py: enabled_for` | Đọc `<brain>/AIVON/resonance.json`; thiếu/hỏng thì tắt | Công tắc hiện chưa theo agent |
 | `system/plugins/aivon-goal/plugin.py: aivon_goal` | Dùng Principal agent/aivon, gate theo brain; `_turn` dựa lượt web | Phải đổi danh tính và gate tool ở A1 |
 | `server/resonance_api.py: goal_request` | Form goal qua agent/aivon trong brain | Phải chặn đường vòng HTTP, không chỉ đổi UI |
 | `server/resonance_store.py: _SCHEMA` | Goal có brain/owner/session; chưa có khóa agent thực thi riêng | Cần migration có chủ thể; không coi owner là agent_id |
@@ -49,7 +49,7 @@ Bàn giao sau pilot 3 đã bổ sung tiếp nhận Write thành công từ Claud
 | `server/resonance_store.py: record_feedback, fit_status` và `dashboard/chat-resonance.js` | Có feedback đúng revision và hash | Nền dùng lại cho vòng học, chưa là vòng học hoàn chỉnh |
 | `server/resonance.py: compare_methods`, `server/resonance_store.py: apply_method` | Có thử trên cùng thước đo và áp dụng hạn chế phạm vi | Dùng cho A3, không xây ExperimentService lớn trước |
 | `server/self_improve.py: LoopFeature` | Loop có cấu hình/lịch/chế độ và cơ chế báo kết quả | Tránh goal và loop cùng chạy một việc; không thay mọi loop bằng Resonance |
-| `server/learn.py` | Có hệ tự học, fork/promote, hạn mức và lịch curator | Không thể nói Aivon chưa có học; cần adapter/phạm vi để khỏi hai hệ cùng sửa một agent |
+| `server/learn.py` | Có hệ tự học, fork/promote, hạn mức và lịch curator | Không thể nói AIVON chưa có học; cần adapter/phạm vi để khỏi hai hệ cùng sửa một agent |
 | `server/agent_runtime.py`, `workflow_graph.py` | Agent có replan có grant; workflow có verify_agent | Đội Resonance chưa có, nhưng có nền làm/review để nối |
 | `dashboard/chatbots-reply-policy.js` | Có thumb gắn quyết định trả lời của chatbot | Không coi đó là reaction loop chung cho Resonance |
 
@@ -80,10 +80,10 @@ Các file tài liệu ở checkout chính hiện là bản làm việc cục b�
 
 ## Nguồn phát hành và nghiệm thu
 
-- [PR #587](https://github.com/blogminhquy/javis-os/pull/587)
-- [CI sau merge](https://github.com/blogminhquy/javis-os/actions/runs/37726542811)
-- [Build/push 0.86.0](https://github.com/blogminhquy/javis-os/actions/runs/37726542815)
-- [Hồ sơ pilot 5 tại commit bằng chứng](https://github.com/blogminhquy/javis-os/blob/450dd095/docs/dev/resonance-mvp-e2e-pilot-5.json)
+- [PR #587](https://github.com/kenwingroup/aivon/pull/587)
+- [CI sau merge](https://github.com/kenwingroup/aivon/actions/runs/37726542811)
+- [Build/push 0.86.0](https://github.com/kenwingroup/aivon/actions/runs/37726542815)
+- [Hồ sơ pilot 5 tại commit bằng chứng](https://github.com/kenwingroup/aivon/blob/450dd095/docs/dev/resonance-mvp-e2e-pilot-5.json)
 - Review nội dung độc lập (`exports/reviews/PR-579-pilot5-content-review.md`, ngoài git, chỉ có trên máy chủ dự án)
 - Review sau phát hành (`exports/reviews/Resonance-0860-post-release-review.md`, ngoài git, chỉ có trên máy chủ dự án)
 - Trang theo dõi mới (`exports/aivon-resonance-tien-do.html`, ngoài git, chỉ có trên máy chủ dự án)

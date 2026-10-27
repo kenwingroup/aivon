@@ -50,7 +50,7 @@ server/connector-home/
 server/connector-files/
 server/connector-cred/
 server/purge-trash/
-# CÃ´ng cá»¥ Aivon tá»± cÃ i ngáº§m lÃºc cháº¡y (báº£n ghim cá»§a CLI Zalo javis-zalo, cháº¡y tháº³ng báº±ng Node). Sinh ra lÃºc cháº¡y, cÃ³ node_modules náº·ng.
+# CÃ´ng cá»¥ Aivon tá»± cÃ i ngáº§m lÃºc cháº¡y (báº£n ghim cá»§a CLI Zalo aivon-zalo, cháº¡y tháº³ng báº±ng Node). Sinh ra lÃºc cháº¡y, cÃ³ node_modules náº·ng.
 server/tools/
 # cloudflared that Remote access downloads on first use (remote_tunnel.py, 0.242.0): a 40 MB binary per machine.
 server/bin/

@@ -1,6 +1,6 @@
 # Resonance A5: một agent làm, một agent review (thiết kế)
 
-**Trạng thái:** thiết kế **đã chốt** (review thiết kế vòng 3 đạt tại `56f7ab50`); **mã đạt review vòng 2 tại `05e9b065`; pilot thật real-2 tại `33cec518` được reviewer chấp nhận trong phạm vi một mẫu `pass_first` (1 lượt làm, 1 lượt review, 0 chat; chưa chứng minh vòng sửa bằng model thật); chưa phát hành** (hướng dẫn [resonance-a5-team](../../dev/resonance-a5-team.md), biên bản [resonance-a5-verification](../../dev/resonance-a5-verification.md)). Phần dưới giữ nguyên nội dung đã chốt; đã sửa theo review vòng 1 (R1 đến R5) và review vòng 2 (P2 bộ đếm thử lại, lịch đối soát, hai vòng sửa); chủ dự án chọn phương án A cho file sửa tay (mục 0). Mã A5 đạt review mã vòng 2 tại `05e9b065` (biên bản, kịch bản pilot [resonance-a5-pilot](../../dev/resonance-a5-pilot.md)); pilot thật real-2 dùng 2 lượt model việc nền trong trần 4. A5 **đã phát hành 0.109.0** (`bfb1c29f`, PR #616, 13/10/2026; CI `main` run 38369853756 và build image run 38369852881 thành công; image `ghcr.io/blogminhquy/javis-os:0.109.0`, digest `sha256:3890f824…`; VPS chưa kéo). Review mã vòng 1 làm rõ hai điểm đã nằm trong thiết kế: cổng review áp cho MỌI bản đạt kiểm của mục tiêu có đội (cả `maintain` và bước khám phá, mục 4.2, 5.1), và lượt chưa tới mốc gọi engine là lượt chắc chắn chưa chạy (mục 5.6, 6.2). Các mặc định ở mục 16 theo khuyến nghị của review vòng 1; đó là cấu hình sản phẩm đề xuất, **không phải cấp phép chạy pilot**.
+**Trạng thái:** thiết kế **đã chốt** (review thiết kế vòng 3 đạt tại `56f7ab50`); **mã đạt review vòng 2 tại `05e9b065`; pilot thật real-2 tại `33cec518` được reviewer chấp nhận trong phạm vi một mẫu `pass_first` (1 lượt làm, 1 lượt review, 0 chat; chưa chứng minh vòng sửa bằng model thật); chưa phát hành** (hướng dẫn [resonance-a5-team](../../dev/resonance-a5-team.md), biên bản [resonance-a5-verification](../../dev/resonance-a5-verification.md)). Phần dưới giữ nguyên nội dung đã chốt; đã sửa theo review vòng 1 (R1 đến R5) và review vòng 2 (P2 bộ đếm thử lại, lịch đối soát, hai vòng sửa); chủ dự án chọn phương án A cho file sửa tay (mục 0). Mã A5 đạt review mã vòng 2 tại `05e9b065` (biên bản, kịch bản pilot [resonance-a5-pilot](../../dev/resonance-a5-pilot.md)); pilot thật real-2 dùng 2 lượt model việc nền trong trần 4. A5 **đã phát hành 0.109.0** (`bfb1c29f`, PR #616, 13/10/2026; CI `main` run 38369853756 và build image run 38369852881 thành công; image `ghcr.io/kenwingroup/aivon:0.109.0`, digest `sha256:3890f824…`; VPS chưa kéo). Review mã vòng 1 làm rõ hai điểm đã nằm trong thiết kế: cổng review áp cho MỌI bản đạt kiểm của mục tiêu có đội (cả `maintain` và bước khám phá, mục 4.2, 5.1), và lượt chưa tới mốc gọi engine là lượt chắc chắn chưa chạy (mục 5.6, 6.2). Các mặc định ở mục 16 theo khuyến nghị của review vòng 1; đó là cấu hình sản phẩm đề xuất, **không phải cấp phép chạy pilot**.
 
 - **Nhánh:** `claude/resonance-a5-maker-reviewer`, PR nháp #616, số **0.109.0** sau khi tích hợp `main` 0.108.0 (lúc thiết kế giữ 0.101.0; 0.97.0 cũ đã thấp hơn `main`).
 - **Nền:** lúc thiết kế và review mã là `main` `a02663cb` (0.100.0); tích hợp `main` `c4fb614d` (0.108.0) trước merge. A1 0.87.0, A2 0.88.0, A3 0.89.0, A4 0.96.0 (`d36ebb3e`) đã phát hành; 0.100.0 thêm tag cho agent (mục 4.5).
@@ -648,7 +648,7 @@ Hành động review dùng bảng `actions` hiện có với `kind = 'review'`: 
 - **Thẻ mục tiêu:** dùng khung thẻ A1 đến A4, thêm một dòng đội khi có `goal_team`:
   - "Làm: <tên agent> · Review: <tên agent>";
   - "Bản đã review: <8 ký tự sha> · Đạt / Cần sửa (vòng 1/2) / Chưa rõ";
-  - lý do chờ bằng câu người đọc: "Đang chờ <reviewer> xem bản <sha>", "Đang chờ <maker> sửa theo góp ý", "File đích bị sửa ngoài Aivon: chờ bản được tiếp nhận";
+  - lý do chờ bằng câu người đọc: "Đang chờ <reviewer> xem bản <sha>", "Đang chờ <maker> sửa theo góp ý", "File đích bị sửa ngoài AIVON: chờ bản được tiếp nhận";
   - "Lượt còn: làm 3/4 · review 2/4".
 - **Nút của chủ dự án trên thẻ** (chỉ hiện khi có lý do):
   - `blocked/reviewer_off`: **Bật lại người review**. Gọi đúng API bật Cộng hưởng hiện có cho mã reviewer. Thẻ nói trước "bản hiện tại sẽ được review lại, tính một lượt review".
@@ -681,7 +681,7 @@ Không thêm công cụ cho model: reviewer không gọi công cụ; agent làm 
 ## 13. Nâng và hạ phiên bản
 
 - **Lúc nâng:** lần đầu mã A5 mở kho có từ trước, `_backup_before("team_pairs", ".pre-0.109.0")` chép kho bằng SQLite backup API một lần, rồi tạo bảng A5. Cùng mẫu với A1 đến A4: có bảng mốc thì không chép lại. Mục tiêu cũ không có `goal_team`, chạy như A4.
-- **Hạ đúng cách:** tắt Aivon, chạy `tools/resonance_restore_pre_a5.py`, rồi chạy 0.108.0. Script giữ bản kho hiện tại `post-0.109.0-<thời điểm>` rồi mới ghi snapshot.
+- **Hạ đúng cách:** tắt AIVON, chạy `tools/resonance_restore_pre_a5.py`, rồi chạy 0.108.0. Script giữ bản kho hiện tại `post-0.109.0-<thời điểm>` rồi mới ghi snapshot.
 - **Hạ không khôi phục: không hỗ trợ.** Ghi rõ trong CHANGELOG. Lý do:
   - Mã 0.108.0 bỏ qua bảng A5, nên mục tiêu có đội có thể được chốt đạt mà không có review.
   - Hành động `kind='review'` còn `running` bị `_reconcile` cũ coi là lượt việc thường bị ngắt.

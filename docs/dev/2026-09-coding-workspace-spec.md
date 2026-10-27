@@ -19,9 +19,9 @@ Tài liệu cho người sửa lõi.
 
 ## 1. Vì sao
 
-Aivon đã chạy được Claude Code, Codex, Grok Build, Antigravity qua CLI thật, cộng sáu engine
+AIVON đã chạy được Claude Code, Codex, Grok Build, Antigravity qua CLI thật, cộng sáu engine
 API qua `server/engine.py`. Cái thiếu không phải năng lực coding mà là **một chỗ để làm việc
-coding**: hôm nay muốn sai Aivon sửa một repo thì phải nói trong khung chat chung, không chỗ
+coding**: hôm nay muốn sai AIVON sửa một repo thì phải nói trong khung chat chung, không chỗ
 nào ghi đang làm ở repo nào nhánh nào quyền tới đâu, và mở hai việc song song trên cùng repo
 là giẫm chân nhau.
 
@@ -54,7 +54,7 @@ Nên bề mặt mã THẬT SỰ mới chỉ còn ba thứ: **sổ repo**, **hàn
 Luật này không mới, nó đã nằm trong `console.js` từ lần làm tab Thư mục:
 
 > Không dựng lại cây thứ hai. Bản đầu của tính năng này viết hẳn một module cây riêng, và chủ
-> repo chỉ ra ngay: "sao không bê nguyên cái cây y hệt bên Aivon sang mà phải dựng lại". Đúng
+> repo chỉ ra ngay: "sao không bê nguyên cái cây y hệt bên AIVON sang mà phải dựng lại". Đúng
 > [...] Dựng bản thứ hai là chép lại từng đó thứ rồi để hai bản trôi lệch nhau.
 
 Bảng dưới là **khế ước**. Không viết bản thứ hai của bất kỳ dòng nào bên phải.
@@ -91,10 +91,10 @@ Bốn chỗ khai báo, mỗi chỗ một dòng, đúng như comment trong `code-
 ```json
 {
   "repos": [
-    {"id": "aivon-os", "ten": "aivon-os", "duong_dan": "/home/user/aivon-os", "nhanh_goc": "main"}
+    {"id": "aivon", "ten": "aivon", "duong_dan": "/home/user/aivon", "nhanh_goc": "main"}
   ],
   "phien": {
-    "<session id>": {"repo": "aivon-os", "nhanh": "main", "worktree": "/var/aivon/wt/ab12",
+    "<session id>": {"repo": "aivon", "nhanh": "main", "worktree": "/var/aivon/wt/ab12",
                      "muc_quyen": "full", "diem_hoi": "aivon/ab12/3"}
   }
 }
@@ -108,10 +108,10 @@ lý do, không im lặng nhận.
 Nằm ngay TRÊN ô nhập, không phải ở header. Đây là chỗ điều khiển chứ không phải chỗ hiển thị:
 
 ```text
-[ aivon-os ▾ ]  [ main ▾ ]  [ ☑ worktree ]  [ Bypass ▾ ]  [ Claude Code · Opus ▾ ]
+[ aivon ▾ ]  [ main ▾ ]  [ ☑ worktree ]  [ Bypass ▾ ]  [ Claude Code · Opus ▾ ]
 ```
 
-Chip Engine mở thẳng `model-picker.js` đang có. Chip Mức quyền dùng lại ba mức của Aivon
+Chip Engine mở thẳng `model-picker.js` đang có. Chip Mức quyền dùng lại ba mức của AIVON
 (`suggest` / `auto` / `full`), không đặt tên mới. Đổi giữa chừng được, áp dụng từ lượt sau.
 
 ### 4.4 Chạy engine trong repo
@@ -266,20 +266,20 @@ Giữ lại vì lý do từ chối bền hơn thứ bị từ chối:
 - **Một tầng Handoff Layer riêng.** `conversation_state.py` đã là Working State. Chữ "handoff"
   cũng giữ nghĩa cũ (bot bàn giao cho người, `chatbot_store` / `chatbot_runtime`); việc đổi
   engine gọi là bàn giao phiên.
-- **Ép model chỉ có API qua Codex CLI.** v0.1 xếp đây là đường ưu tiên và runtime Aivon là
-  fallback. Đảo lại: runtime Aivon đang chạy thật, Codex-as-harness là giả định chưa kiểm
+- **Ép model chỉ có API qua Codex CLI.** v0.1 xếp đây là đường ưu tiên và runtime AIVON là
+  fallback. Đảo lại: runtime AIVON đang chạy thật, Codex-as-harness là giả định chưa kiểm
   chứng, hạ xuống một thử nghiệm một ngày.
 - **IDE, editor phức tạp, terminal UI nặng.** Đã có `file-editor.js` và Terminal.
 - **Sao chép toàn bộ transcript làm bản bàn giao.**
-- **Self-improve / ASA trong tài liệu này.** Aivon đã có trang `selfimprove` riêng. Nếu làm,
+- **Self-improve / ASA trong tài liệu này.** AIVON đã có trang `selfimprove` riêng. Nếu làm,
   ràng buộc cứng: chỉ chạy trong worktree riêng, chỉ mở PR, không tự merge, không tự deploy
-  `aivon-os`.
+  `aivon`.
 
 ---
 
 ## 12. North Star
 
-> Một Aivon. Nhiều engine. Người dùng chọn engine, Aivon lo phần còn lại.
+> Một AIVON. Nhiều engine. Người dùng chọn engine, AIVON lo phần còn lại.
 
 ---
 

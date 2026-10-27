@@ -2,7 +2,7 @@
 # AIVON - docker compose (PRODUCTION: pull image dựng sẵn từ GHCR)
 #
 # CÀI TRÊN HOSTINGER: dùng file RIÊNG cho Hostinger (1 container, deploy là chạy, không kén hạ tầng):
-#   https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.hostinger.yml
+#   https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.hostinger.yml
 #   (Docker Manager → Compose → URL. Cách gắn TÊN MIỀN + HTTPS ghi trong chú thích cuối file đó / DEPLOY.md.)
 #   File NÀY cũng chạy trên Hostinger được, nhưng file kia gọn hơn và có sẵn nhãn Traefik.
 #
@@ -21,7 +21,7 @@
 # ============================================================================
 services:
   aivon:
-    image: ghcr.io/blogminhquy/javis-os:latest
+    image: ghcr.io/kenwingroup/aivon:latest
     # Tên container LẤY TỪ BIẾN, không đóng cứng: hai bản Aivon trên cùng một VPS mà cùng tên
     # container là con thứ hai chết ngay lúc `up` ("name is already in use"), kể cả khi đã chạy ở
     # thư mục khác - Docker đặt tên container theo phạm vi TOÀN MÁY chứ không theo project.

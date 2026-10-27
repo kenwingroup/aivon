@@ -843,7 +843,7 @@ Format: each release is a `## [x.y.z] - date` block, with changes grouped under 
 ### Fixed
 - **Sending Excel, PDF and Word files on Zalo no longer hangs.** Aivon used to wait up to 2 minutes on such a file, then fail without delivering it (images went fine). Files now go through the Zalo connection that serves the inbox, so they reach the recipient.
 - **If Zalo does not confirm within a minute, Aivon says so clearly and sends nothing**, so retrying is safe. No more waiting without knowing whether the file went.
-- After updating, **update the "Zalo extras" pack to 1.2.0** from the Store. Aivon moves the Zalo connection to javis-zalo 1.4.0 on its own (no new QR scan).
+- After updating, **update the "Zalo extras" pack to 1.2.0** from the Store. Aivon moves the Zalo connection to aivon-zalo 1.4.0 on its own (no new QR scan).
 - Thanks to @thanhtmfyu-lang for the contribution.
 
 ## [0.137.0] - 2026-10-14
@@ -945,7 +945,7 @@ Format: each release is a `## [x.y.z] - date` block, with changes grouped under 
 ## [0.108.0] - 2026-10-13
 ### Fixed
 - **The bot no longer sends plan-limit notices to customers.** Lines like "You've hit your session limit" or "API Error" used to be posted straight into a Zalo group, tagging the person who asked. That turn now counts as failed: whoever asked gets the usual apology, and the real reason is in the bot log.
-- **Messages you type by hand on personal Zalo reach the inbox.** Replies the owner or staff send from the phone now show as "You", and the bot steps back in that chat. The cause was in the Zalo CLI, which dropped every message from the account itself; Aivon now runs javis-zalo 1.3.0.
+- **Messages you type by hand on personal Zalo reach the inbox.** Replies the owner or staff send from the phone now show as "You", and the bot steps back in that chat. The cause was in the Zalo CLI, which dropped every message from the account itself; Aivon now runs aivon-zalo 1.3.0.
 - **No duplicates, no wrongful silence.** Images the bot just sent and lines you type in the inbox are recognised when they come back, so they are not recorded twice and the bot does not think you just stepped in.
 
 ## [0.107.0] - 2026-10-13
@@ -1219,7 +1219,7 @@ Thanks to the user who sent the bug report along with a patch tested on a Mac.
 
 ## [0.83.0] - 2026-10-05
 ### Improved
-- **Zalo runs Aivon's own build.** The personal Zalo connection now uses `javis-zalo`, which Aivon maintains and fixes itself, instead of a third-party tool. Accounts already signed in by QR switch over on their own, no new scan needed.
+- **Zalo runs Aivon's own build.** The personal Zalo connection now uses `aivon-zalo`, which Aivon maintains and fixes itself, instead of a third-party tool. Accounts already signed in by QR switch over on their own, no new scan needed.
 - **Group message history works.** The brain can read older messages in groups as well as private chats, see who replied to whom and who was tagged, and find every message from one person or within a date range.
 - When the QR code expires or Zalo rejects it, the sign-in window says why, instead of reporting success and then not working.
 ### Security

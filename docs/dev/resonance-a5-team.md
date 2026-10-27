@@ -50,11 +50,11 @@ Chủ dự án chọn một agent Cộng hưởng khác làm người review cho
 ## Hành vi đổi so với 0.108.0
 
 - Agent có người review: mục tiêu mới có 8 lượt (4/4) thay vì 6, và chỉ chốt sau review `pass`.
-- Mục tiêu có đội không chốt trên file bị sửa ngoài Aivon dù bản sửa đạt kiểm (phương án A); muốn giữ thì Bỏ yêu cầu review.
+- Mục tiêu có đội không chốt trên file bị sửa ngoài AIVON dù bản sửa đạt kiểm (phương án A); muốn giữ thì Bỏ yêu cầu review.
 - `heartbeat.v3` (test A3 khoá phiên bản chính sách được cập nhật theo).
 - Mọi mục tiêu (có đội hay không): lượt hỏng ở pha chuẩn bị, trước mốc gọi engine, được hoàn thay vì kết sổ `interrupted` có tính; ba fixture A2, A3, MVP mô phỏng "chết giữa lời gọi engine" giờ ghi mốc `mark_engine` như host thật.
 - Không đổi gì cho agent không có người review.
 
 ## Hạ phiên bản
 
-Tắt Aivon, chạy `python tools/resonance_restore_pre_a5.py --yes` (giữ bản kho hiện tại `post-0.109.0-<thời điểm>`, rồi ghi snapshot `.pre-0.109.0`), chạy 0.108.0. Hạ KHÔNG khôi phục là không hỗ trợ: mã 0.108.0 bỏ qua bảng A5 nên chốt đạt mục tiêu có đội mà không có review (test `test_resonance_a5_rollback.py` ghi nhận đúng điều này).
+Tắt AIVON, chạy `python tools/resonance_restore_pre_a5.py --yes` (giữ bản kho hiện tại `post-0.109.0-<thời điểm>`, rồi ghi snapshot `.pre-0.109.0`), chạy 0.108.0. Hạ KHÔNG khôi phục là không hỗ trợ: mã 0.108.0 bỏ qua bảng A5 nên chốt đạt mục tiêu có đội mà không có review (test `test_resonance_a5_rollback.py` ghi nhận đúng điều này).

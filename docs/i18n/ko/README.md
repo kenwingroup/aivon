@@ -1,7 +1,7 @@
 <!-- translated-from: README.md sha256:2e10ad3d2a86 -->
 <div align="center">
 
-<img src="../../../dashboard/logo.svg" width="88" alt="AIVON 로고">
+<img src="../../../dashboard/logo.png" width="96" alt="AIVON 로고">
 
 # AIVON
 
@@ -9,11 +9,11 @@
 
 노트북이나 작은 VPS에서 실행합니다. 음성으로 대화합니다. Claude, ChatGPT, Grok, Gemini 등 12개 제공자 중 무엇이든 연결하고, 바꿔도 모든 도구는 그대로 유지되며, 잠자는 동안에도 백그라운드에서 일하게 할 수 있습니다.
 
-[![GitHub stars](https://img.shields.io/github/stars/blogminhquy/javis-os?style=flat&logo=github&label=stars)](https://github.com/blogminhquy/javis-os/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/kenwingroup/aivon?style=flat&logo=github&label=stars)](https://github.com/kenwingroup/aivon/stargazers)
 [![License: MIT](https://img.shields.io/badge/license-MIT-22c55e)](../../../LICENSE)
-[![Last commit](https://img.shields.io/github/last-commit/blogminhquy/javis-os?color=f97316)](https://github.com/blogminhquy/javis-os/commits/main)
+[![Last commit](https://img.shields.io/github/last-commit/kenwingroup/aivon?color=38bdf8)](https://github.com/kenwingroup/aivon/commits/main)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-3776ab?logo=python&logoColor=white)](../../../requirements.txt)
-[![Docker](https://img.shields.io/badge/docker-ghcr.io-2496ed?logo=docker&logoColor=white)](https://github.com/blogminhquy/javis-os/pkgs/container/javis-os)
+[![Docker](https://img.shields.io/badge/docker-ghcr.io-2496ed?logo=docker&logoColor=white)](https://github.com/kenwingroup/aivon/pkgs/container/aivon)
 [![MCP](https://img.shields.io/badge/tools-Model%20Context%20Protocol-8b5cf6)](https://modelcontextprotocol.io)
 
 <!-- flags:start -->
@@ -36,7 +36,7 @@
 
 [🇬🇧 English](../../../README.md) · [🇻🇳 Tiếng Việt](../vi/README.md) · [🇨🇳 简体中文](../zh/README.md) · [🇪🇸 Español](../es/README.md) · [🇯🇵 日本語](../ja/README.md) · [🇮🇳 हिन्दी](../hi/README.md) · [🇧🇷 Português](../pt-BR/README.md) · 🇰🇷 **한국어** · [🇷🇺 Русский](../ru/README.md) · [🇩🇪 Deutsch](../de/README.md) · [🇫🇷 Français](../fr/README.md) · [🇮🇩 Bahasa Indonesia](../id/README.md) · [🌍 번역 돕기](../../../CONTRIBUTING.md#translations)
 
-[빠른 시작](#-빠른-시작) · [왜 Aivon인가](#-왜-aivon인가요) · [브레인](#-12개의-브레인-하나의-툴킷) · [기능](#-기능) · [설치](#-설치) · [문서](../../../docs/en/README.md) · [후원](#-aivon-os-후원하기)
+[빠른 시작](#-빠른-시작) · [왜 Aivon인가](#-왜-aivon인가요) · [브레인](#-12개의-브레인-하나의-툴킷) · [기능](#-기능) · [설치](#-설치) · [문서](../../../docs/en/README.md) · [후원](#-aivon-후원하기)
 
 <br>
 
@@ -54,9 +54,9 @@
 
 | 환경 | 명령 하나로 전부 설치 |
 |---|---|
-| **Linux / macOS** | `git clone https://github.com/blogminhquy/javis-os.git aivon && cd aivon && chmod +x install.sh && ./install.sh` |
-| **Windows** | `git clone https://github.com/blogminhquy/javis-os.git aivon; cd aivon; powershell -ExecutionPolicy Bypass -File install.ps1` |
-| **Docker** | `curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.yml && docker compose up -d` |
+| **Linux / macOS** | `git clone https://github.com/kenwingroup/aivon.git aivon && cd aivon && chmod +x install.sh && ./install.sh` |
+| **Windows** | `git clone https://github.com/kenwingroup/aivon.git aivon; cd aivon; powershell -ExecutionPolicy Bypass -File install.ps1` |
+| **Docker** | `curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.yml && docker compose up -d` |
 
 그런 다음 **http://localhost:7979** 을 엽니다. 설치 프로그램이 Python, 구독형 CLI 브레인 네 가지(`claude`, `codex`, `agy`, `grok`), `.env` 를 준비한 뒤 서버를 시작합니다. 각 브레인 로그인은 **대시보드의 Models 페이지에서** 하므로 더 이상 명령을 입력할 필요가 없습니다.
 
@@ -71,7 +71,7 @@
 
 ## 🤔 왜 Aivon인가요?
 
-Aivon OS는 챗봇이 **아닙니다**. 사용자의 컴퓨터나 VPS에서 실행되는 **셀프 호스팅 에이전틱 AI** 입니다. 파일을 읽고 쓰고, MCP로 도구를 호출하고, Skill을 실행하고, 백그라운드 작업을 대기열에 넣고, 스스로 일정을 잡습니다. 이 모든 것이 **음성으로 조작하는 대시보드** 와 시간이 지날수록 지식이 쌓이는 **Second Brain**(메모리 + 위키) 위에서 동작합니다.
+AIVON OS는 챗봇이 **아닙니다**. 사용자의 컴퓨터나 VPS에서 실행되는 **셀프 호스팅 에이전틱 AI** 입니다. 파일을 읽고 쓰고, MCP로 도구를 호출하고, Skill을 실행하고, 백그라운드 작업을 대기열에 넣고, 스스로 일정을 잡습니다. 이 모든 것이 **음성으로 조작하는 대시보드** 와 시간이 지날수록 지식이 쌓이는 **Second Brain**(메모리 + 위키) 위에서 동작합니다.
 
 ### 아무도 경고해 주지 않는 종속
 
@@ -97,17 +97,17 @@ Aivon에서 모델은 교체할 수 있는 부품입니다. 쌓아 온 모든 �
 | **지식** | Brain의 Wiki 폴더와 Sources 폴더 | 마크다운, Obsidian 호환 |
 | **Skill** | `skills/<name>/SKILL.md` | 마크다운 |
 | **Agent와 Workflow** | `agents/*.md`, `workflows/*.md` | 프런트매터가 있는 마크다운 |
-| **Loop와 리마인더** | `Aivon/loops/*.md`, `Aivon/reminders.json` | 마크다운, JSON |
+| **Loop와 리마인더** | `AIVON/loops/*.md`, `AIVON/reminders.json` | 마크다운, JSON |
 
 이것이 가져다주는 것:
 
 - **새 모델이 나왔나요? Models 페이지에서 바꾸고 그대로 이어 가세요.** 같은 메모리를 읽고, 같은 Skill, Agent, Workflow를 실행하고, MCP Hub를 통해 같은 연결을 호출합니다. 옮길 것도, 다시 만들 것도 없습니다.
 - **여러 브레인을 동시에 쓰세요.** 대화에는 강력한 모델, 백그라운드 작업에는 더 저렴한 모델, 개인 노트에는 로컬 Ollama 모델을 쓰면서 모두 같은 Brain 위에서 일하게 할 수 있습니다.
-- **Aivon 없이도 읽을 수 있습니다.** Brain은 마크다운 폴더입니다. Obsidian이나 어떤 편집기로든 열어 보세요. 내일 Aivon가 사라지더라도 지식은 일반 텍스트로 그대로 남아 있습니다.
+- **AIVON 없이도 읽을 수 있습니다.** Brain은 마크다운 폴더입니다. Obsidian이나 어떤 편집기로든 열어 보세요. 내일 Aivon가 사라지더라도 지식은 일반 텍스트로 그대로 남아 있습니다.
 - **버전 관리와 이식성.** 학습 한 번이 git 커밋 하나이므로 한 번의 탭으로 되돌릴 수 있고, Brain 전체를 내 비공개 GitHub 저장소와 동기화해 노트북과 VPS가 함께 쓸 수 있습니다.
-- **데이터는 내 하드웨어에 머뭅니다.** 중간에 Aivon 클라우드는 없습니다. 요청은 그 작업에 고른 모델 제공자에게만 전달되고, 로컬 Ollama 모델을 쓰면 아예 컴퓨터 밖으로 나가지 않습니다.
+- **데이터는 내 하드웨어에 머뭅니다.** 중간에 AIVON 클라우드는 없습니다. 요청은 그 작업에 고른 모델 제공자에게만 전달되고, 로컬 Ollama 모델을 쓰면 아예 컴퓨터 밖으로 나가지 않습니다.
 
-### 일반 챗봇과 나란히 놓고 본 Aivon
+### 일반 챗봇과 나란히 놓고 본 AIVON
 
 | | 일반 챗봇 | **AIVON** |
 |---|---|---|
@@ -132,7 +132,7 @@ Aivon에서 모델은 교체할 수 있는 부품입니다. 쌓아 온 모든 �
 **Models** 페이지에서 브레인을 고르고 언제든 바꿀 수 있습니다. Aivon는 현재 **12개 제공자** 를 지원합니다.
 
 <p align="center">
-<img src="../../../docs/assets/diagrams/swappable-brain.svg" width="100%" alt="애니메이션 다이어그램: 가운데의 Aivon 코어를 툴킷(MCP Hub, Skills, Second Brain, Tasks, Schedules, Plugins)이 둘러싸고 있고, 12개 브레인이 번갈아 연결되는 동안에도 모든 도구가 계속 켜져 있습니다">
+<img src="../../../docs/assets/diagrams/swappable-brain.svg" width="100%" alt="애니메이션 다이어그램: 가운데의 AIVON 코어를 툴킷(MCP Hub, Skills, Second Brain, Tasks, Schedules, Plugins)이 둘러싸고 있고, 12개 브레인이 번갈아 연결되는 동안에도 모든 도구가 계속 켜져 있습니다">
 </p>
 
 | 브레인 | 결제 방식 | 셸, 웹, 서브 에이전트 |
@@ -141,10 +141,10 @@ Aivon에서 모델은 교체할 수 있는 부품입니다. 쌓아 온 모든 �
 | **ChatGPT** (Codex 경유) | ChatGPT 요금제 | ✅ |
 | **Grok Build** | SuperGrok 또는 X Premium+ 요금제 | ✅ |
 | **Antigravity CLI** | Google 요금제(Antigravity IDE와 같은 모델 라인업, Claude 포함) | 셸 ✅ |
-| **OpenRouter** | API 키(키 하나로 수백 개 모델) | Aivon 도구로 |
-| **OpenAI API** · **Anthropic API** · **Google Gemini** · **Groq** | API 키 | Aivon 도구로 |
-| **Ollama Cloud** · **이 컴퓨터의 Ollama** | API 키, 또는 내 하드웨어에서 무료 | Aivon 도구로 |
-| **OpenAI 호환 엔드포인트 전부** | 해당 엔드포인트가 요구하는 것 | Aivon 도구로 |
+| **OpenRouter** | API 키(키 하나로 수백 개 모델) | AIVON 도구로 |
+| **OpenAI API** · **Anthropic API** · **Google Gemini** · **Groq** | API 키 | AIVON 도구로 |
+| **Ollama Cloud** · **이 컴퓨터의 Ollama** | API 키, 또는 내 하드웨어에서 무료 | AIVON 도구로 |
+| **OpenAI 호환 엔드포인트 전부** | 해당 엔드포인트가 요구하는 것 | AIVON 도구로 |
 
 모든 브레인은 연결된 MCP 서버를 호출하고, Brain을 읽고 쓰고, Skill을 실행하고, Kanban 작업을 대기열에 넣고, Agent, Workflow, Loop, 리마인더를 만들 수 있습니다. CLI 엔진은 여기에 더해 **셸 명령 실행**, **웹 가져오기와 검색**, **병렬 서브 에이전트 생성** 도 할 수 있습니다.
 
@@ -212,10 +212,10 @@ flowchart LR
     subgraph You
         W[Web dashboard<br>voice + graph]
         T[Telegram]
-        C[Aivon CLI]
+        C[AIVON CLI]
         Z[Zalo / bot channels]
     end
-    subgraph Aivon["AIVON (FastAPI, self-hosted)"]
+    subgraph AIVON["AIVON (FastAPI, self-hosted)"]
         R[Engine router]
         H[MCP Hub<br>shared toolbox]
         B[(Second Brain<br>Memory + Wiki + Sources)]
@@ -252,19 +252,19 @@ flowchart LR
 Hostinger VPS → **Docker Manager → Compose → URL** → Hostinger용 파일을 붙여 넣고 **Deploy** 를 누릅니다.
 
 ```
-https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.hostinger.yml
+https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.hostinger.yml
 ```
 
 **Environment** 상자에는 세 가지 항목만 있으면 됩니다: `DOMAIN_NAME`, `AIVON_ADMIN_USER`, `AIVON_ADMIN_PASSWORD`. 선택 항목으로 `AIVON_AUTO_UPDATE` 가 있습니다(`true` 로 설정하면 Aivon가 매일 스스로 업데이트합니다).
 
 Hostinger의 Traefik이 HTTPS 인증서를 발급하도록 `DOMAIN_NAME` 을 설정합니다.
-- **무료 링크**(도메인 구매 불필요): `DOMAIN_NAME=aivon.<vps-hostname>.hstgr.cloud` (호스트 이름은 hPanel → VPS에서 확인, 예: `javis.srv1562015.hstgr.cloud`).
+- **무료 링크**(도메인 구매 불필요): `DOMAIN_NAME=aivon.<vps-hostname>.hstgr.cloud` (호스트 이름은 hPanel → VPS에서 확인, 예: `aivon.srv1562015.hstgr.cloud`).
 - **보유한 도메인:** `DOMAIN_NAME=example.com` 으로 설정하고 A 레코드를 VPS IP로 지정합니다.
 
 인증서 발급까지 1-3분 기다린 다음 `https://<DOMAIN_NAME>` 을 엽니다.
 
 **한 번만 하면 되는 세 단계:**
-1. **GHCR 이미지를 Public으로 설정:** GitHub → 저장소 → **Packages** → `aivon-os` → *Package settings* → Visibility = **Public**.
+1. **GHCR 이미지를 Public으로 설정:** GitHub → 저장소 → **Packages** → `aivon` → *Package settings* → Visibility = **Public**.
 2. **관리자 계정 생성:** `AIVON_ADMIN_USER` + `AIVON_ADMIN_PASSWORD` 를 채우거나(권장), 배포 직후 앱을 열어 직접 만듭니다. 관리자가 없는 동안에는 링크를 먼저 연 사람이 관리자를 만들 수 있습니다. 그다음 **2FA를 켜세요**([보안과 계정](../../../docs/en/14-security-and-accounts.md)).
 3. **Models** 페이지에서 **브레인에 로그인** 합니다.
 
@@ -280,7 +280,7 @@ Hostinger의 Traefik이 HTTPS 인증서를 발급하도록 `DOMAIN_NAME` 을 설
 ```bash
 # Docker required (don't have it?  curl -fsSL https://get.docker.com | sh)
 mkdir aivon && cd aivon
-curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.yml
+curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.yml
 
 docker compose run --rm aivon claude auth login --claudeai   # sign in to Claude once (optional)
 docker compose up -d                                          # pull the image and run
@@ -296,7 +296,7 @@ docker compose up -d                                          # pull the image a
 <summary><b>방법 3: Docker 없이 Linux 또는 macOS</b></summary>
 
 ```bash
-git clone https://github.com/blogminhquy/javis-os.git aivon && cd aivon
+git clone https://github.com/kenwingroup/aivon.git aivon && cd aivon
 chmod +x install.sh && ./install.sh
 ```
 
@@ -310,7 +310,7 @@ chmod +x install.sh && ./install.sh
 <summary><b>방법 4: Windows (개인 컴퓨터)</b></summary>
 
 ```powershell
-git clone https://github.com/blogminhquy/javis-os.git aivon; cd aivon
+git clone https://github.com/kenwingroup/aivon.git aivon; cd aivon
 powershell -ExecutionPolicy Bypass -File install.ps1
 ```
 
@@ -328,7 +328,7 @@ Dashboard:                             http://localhost:7979
 </details>
 
 <details>
-<summary><b>VPS 하나에 Aivon 여러 개 실행하기</b></summary>
+<summary><b>VPS 하나에 AIVON 여러 개 실행하기</b></summary>
 
 Brain, 설정, 계정은 인스턴스마다 완전히 분리됩니다. 인스턴스끼리 다른 값은 `AIVON_NAME`, `AIVON_HOST_PORT`, `DOMAIN_NAME` 세 가지뿐입니다.
 
@@ -351,7 +351,7 @@ Aivon를 열면 설정 마법사가 브라우저 언어로 차근차근 안내�
 
 ---
 
-## 📖 Aivon 사용하기
+## 📖 AIVON 사용하기
 
 왼쪽 레일은 페이지를 **6개 그룹** 으로 묶습니다. 모든 페이지에는 [docs/en/](../../../docs/en/README.md) 에 안내서가 있습니다.
 
@@ -361,8 +361,8 @@ Aivon를 열면 설정 마법사가 브라우저 언어로 차근차근 안내�
 | **Code** | Terminal, Coding | [코드 터미널](../../../docs/en/27-code-terminal.md) |
 | **Capabilities** | Partners (Agent와 Workflow), Chatbot, Skills, Plugins | [Agent와 Workflow](../../../docs/en/07-agents-and-workflows.md) · [챗봇](../../../docs/en/25-chatbots.md) · [고객 대화](../../../docs/en/28-customer-conversations.md) · [Skill](../../../docs/en/06-skills.md) · [Plugin](../../../docs/en/20-plugins.md) |
 | **Work** | Tasks, Scheduled | [Tasks (Kanban)](../../../docs/en/21-kanban-work.md) · [반복 작업과 리마인더](../../../docs/en/08-recurring-jobs.md) |
-| **Connections** | Connections, Aivon Store, Channels, Models | [연결과 비즈니스 데이터](../../../docs/en/09-connections-and-business-data.md) · [Telegram](../../../docs/en/11-telegram.md) · [Zalo](../../../docs/en/12-zalo-agent-mcp.md) · [모델과 엔진](../../../docs/en/10-models-and-engines.md) |
-| **System** | Settings, Share links, Account | [시작하기](../../../docs/en/01-getting-started.md) · [보안과 계정](../../../docs/en/14-security-and-accounts.md) · [사용량과 비용](../../../docs/en/23-usage-and-cost.md) · [Aivon CLI](../../../docs/en/24-cli.md) |
+| **Connections** | Connections, AIVON Store, Channels, Models | [연결과 비즈니스 데이터](../../../docs/en/09-connections-and-business-data.md) · [Telegram](../../../docs/en/11-telegram.md) · [Zalo](../../../docs/en/12-zalo-agent-mcp.md) · [모델과 엔진](../../../docs/en/10-models-and-engines.md) |
+| **System** | Settings, Share links, Account | [시작하기](../../../docs/en/01-getting-started.md) · [보안과 계정](../../../docs/en/14-security-and-accounts.md) · [사용량과 비용](../../../docs/en/23-usage-and-cost.md) · [AIVON CLI](../../../docs/en/24-cli.md) |
 
 더 보기: [Second Brain: 메모리, Wiki, INGEST](../../../docs/en/13-second-brain.md) · [GitHub 백업](../../../docs/en/18-github-backup.md) · [노트 속 Tasks와 Dataview](../../../docs/en/19-tasks-and-dataview.md) · [브랜딩과 사용자 지정 도메인](../../../docs/en/15-branding-and-domains.md) · [문제 해결](../../../docs/en/17-troubleshooting.md)
 
@@ -434,7 +434,7 @@ Aivon를 열면 설정 마법사가 브라우저 언어로 차근차근 안내�
 ## 📂 저장소 구조
 
 ```
-aivon-os/
+aivon/
 ├── server/          # FastAPI backend: engines, connections, background work, channels, memory
 ├── dashboard/       # Frontend (plain JS, no build step)
 │   └── i18n/        # Interface strings, one JSON file per language
@@ -444,7 +444,7 @@ aivon-os/
 ├── tests/           # Python + JS test suite (python tests/run.py)
 ├── install.sh · install.ps1 · update.sh
 ├── Dockerfile · docker-compose*.yml
-└── CLAUDE.md        # The system prompt Aivon runs on
+└── CLAUDE.md        # The system prompt AIVON runs on
 ```
 
 ---
@@ -473,20 +473,20 @@ aivon-os/
 | [ARCHITECTURE.md](../../../ARCHITECTURE.md) | 구성 요소가 맞물리는 방식과 서버 모듈 지도 |
 | [docs/dev/GLOSSARY.md](../../../docs/dev/GLOSSARY.md) | 코드베이스가 베트남어로 작성되어 있어서, `nhac_hen`(리마인더) 같은 이름을 풀어 줍니다 |
 | [docs/dev/adding-a-language.md](../../../docs/dev/adding-a-language.md) | Aivon를 내 언어로 번역하는 단계별 안내 |
-| [이슈 템플릿](https://github.com/blogminhquy/javis-os/issues/new/choose) | 버그 보고, 기능 요청, 번역 제안 |
+| [이슈 템플릿](https://github.com/kenwingroup/aivon/issues/new/choose) | 버그 보고, 기능 요청, 번역 제안 |
 
 [행동 강령](../../../CODE_OF_CONDUCT.md) 을 지켜 주시고, 보안 문제는 [SECURITY.md](../../../SECURITY.md) 에 설명된 대로 비공개로 알려 주세요.
 
 Aivon가 유용하다면 저장소에 ⭐ 를 눌러 주세요. 다른 사람들이 찾는 데 도움이 됩니다.
 
-[![Star History Chart](https://api.star-history.com/svg?repos=blogminhquy/javis-os&type=Date)](https://star-history.com/#blogminhquy/javis-os&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=kenwingroup/aivon&type=Date)](https://star-history.com/#kenwingroup/aivon&Date)
 
 ---
 
 ## 🙏 크레딧
 
 - **브레인:** [Claude Code](https://claude.com/claude-code) 와 [Claude Agent SDK](https://docs.claude.com/en/api/agent-sdk/overview)(Anthropic), [Codex CLI](https://developers.openai.com/codex/cli)(OpenAI), [Grok Build](https://x.ai)(xAI), [Antigravity](https://antigravity.google)(Google), 그리고 [OpenRouter](https://openrouter.ai), OpenAI, [Google Gemini](https://ai.google.dev), Anthropic, [Groq](https://groq.com), [Ollama](https://ollama.com) 의 API.
-- **도구 표준:** [Model Context Protocol](https://modelcontextprotocol.io). Aivon 연결 스토어 전체가 이 표준 위에서 동작합니다.
+- **도구 표준:** [Model Context Protocol](https://modelcontextprotocol.io). AIVON 연결 스토어 전체가 이 표준 위에서 동작합니다.
 - Second Brain과 디지털 Bullet Journal 패턴.
 
 ## 📄 라이선스
@@ -495,17 +495,15 @@ Aivon가 유용하다면 저장소에 ⭐ 를 눌러 주세요. 다른 사람들
 
 ---
 
-## ☕ AIVON 후원하기
+## 📞 Contact & Support AIVON
 
-Aivon OS는 무료 오픈 소스이며, 아직 한 사람이 코드를 쓰고 테스트 서버 비용을 내고 있습니다. Aivon가 일이나 생활에 도움이 된다면, 작은 후원이 버그 수정과 새 기능에 쓸 시간을 더 만들어 줍니다.
+**AIVON — Intelligence · Vision · Always On**
 
-- 🌍 **PayPal**: [paypal.me/quy01](https://paypal.me/quy01)
-- 🏦 **MB Bank** (베트남): `6636966369`
-- 📱 **MoMo 지갑** (베트남): `0372752740`
-
-후원이 어렵다면 Aivon를 쓰고, 피드백을 보내고, 풀 리퀘스트를 여는 것도 모두 큰 후원입니다.
+- 👤 **Author / Owner**: **Minh Vũ**
+- 📞 **Hotline / Zalo**: `0989811931`
+- 🌐 **GitHub Repository**: [https://github.com/kenwingroup/aivon](https://github.com/kenwingroup/aivon)
 
 <div align="center">
 <br>
-베트남에서 ☕ 와 함께 <b><a href="https://minhquy.vn">Minh Quý</a></b> 가 만들었습니다
+Developed in Vietnam by <b>Minh Vũ · Hotline: 0989811931</b> · <a href="https://github.com/kenwingroup/aivon">AIVON</a>
 </div>

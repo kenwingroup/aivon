@@ -2,7 +2,7 @@
 
 Mốc A2 của lộ trình [agent scope](../superpowers/specs/2026-10-08-resonance-agent-scope-roadmap.md): trợ lý thức vì lý do cụ thể, ngủ khi chờ, không gọi model vô ích.
 
-**Trạng thái: đã phát hành 0.88.0 (09/10/2026). Hiệu năng VPS CHƯA ĐO.** PR #593 squash vào `main` thành `c101d108e398121315423fb73bff412c6e178392` (cây trùng head đã kiểm `12d349f4`). CI và build Docker xanh; image `ghcr.io/blogminhquy/javis-os:0.88.0` (`sha256:50eb0a2208d6...`). Không kết luận VPS hết chậm khi chưa đo trên máy thật.
+**Trạng thái: đã phát hành 0.88.0 (09/10/2026). Hiệu năng VPS CHƯA ĐO.** PR #593 squash vào `main` thành `c101d108e398121315423fb73bff412c6e178392` (cây trùng head đã kiểm `12d349f4`). CI và build Docker xanh; image `ghcr.io/kenwingroup/aivon:0.88.0` (`sha256:50eb0a2208d6...`). Không kết luận VPS hết chậm khi chưa đo trên máy thật.
 
 ## Mã và commit
 
@@ -57,7 +57,7 @@ Mốc A2 của lộ trình [agent scope](../superpowers/specs/2026-10-08-resonan
 |---|---|
 | Chưa đạt, chờ thử lại | "Lần làm tiếp: ... (làm lại phần chưa đạt)", 15 phút sau lượt đầu |
 | Duy trì đạt, có guard | "(xem lại định kỳ)" và "Theo dõi điều kiện bảo vệ, lần kiểm tới: ..." |
-| File bị sửa tay | trạng thái "File bị sửa ngoài Aivon, đang chờ", dòng cảnh báo kèm giờ tự kiểm lại |
+| File bị sửa tay | trạng thái "File bị sửa ngoài AIVON, đang chờ", dòng cảnh báo kèm giờ tự kiểm lại |
 | Cả ba | Mục "Các lần thức gần đây" ghi lý do và "làm một lượt" hay "không gọi model" |
 
 ## Sau review mã (trong đợt kiểm tích hợp)

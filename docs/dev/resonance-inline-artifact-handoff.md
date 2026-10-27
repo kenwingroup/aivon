@@ -65,7 +65,7 @@ Bộ não viết bản đầu trong lượt chat (`Write`), rồi lập mục ti
 
 ## 4. Hai sửa nhỏ (ĐÃ làm ở commit này)
 
-1. **Câu báo xung đột nói đúng nguyên nhân.** Payload có `had_baseline`. Chưa từng có mốc: "File ... đã có sẵn và chưa được mục tiêu này tiếp nhận, nên Aivon giữ nguyên file đó. Bản Aivon vừa làm chưa được đăng...". Câu "đã được sửa sau lần Aivon ghi trước" chỉ dùng khi có mốc thật. Test ở `test_resonance_mvp_run.py`.
+1. **Câu báo xung đột nói đúng nguyên nhân.** Payload có `had_baseline`. Chưa từng có mốc: "File ... đã có sẵn và chưa được mục tiêu này tiếp nhận, nên AIVON giữ nguyên file đó. Bản AIVON vừa làm chưa được đăng...". Câu "đã được sửa sau lần AIVON ghi trước" chỉ dùng khi có mốc thật. Test ở `test_resonance_mvp_run.py`.
 2. **Bộ chạy giữ mọi đầu ra việc nền**, kể cả bản không đăng được, cạnh báo cáo, kèm receipt, hash, trạng thái đăng và sự kiện đăng. Lưu thất bại thì không dọn sandbox và báo rõ.
 
 ## 5. Test bằng engine giả (viết cùng phần lõi)
@@ -200,7 +200,7 @@ Review trả lời ba câu hỏi:
 
 **P1-1, công cụ MCP mang đuôi `Write` được coi là Write gốc.** Danh tính công cụ giờ là TÊN ĐẦY ĐỦ, không cắt đuôi.
 - Chỉ đúng `Write` của Claude Code mới tạo ứng viên. `mcp__remote__Write` là một MCP báo thành công, không phải lần ghi local.
-- Danh sách chỉ đọc gồm công cụ gốc của Claude Code và đúng các tool Aivon qua hai server Aivon biết rõ (`mcp__aivon__...`, `mcp__aivon-plugins__...`).
+- Danh sách chỉ đọc gồm công cụ gốc của Claude Code và đúng các tool AIVON qua hai server AIVON biết rõ (`mcp__aivon__...`, `mcp__aivon-plugins__...`).
 - MCP khác, kể cả `mcp__untrusted__Read`, đi nhánh bảo thủ: làm mất hiệu lực các Write trước nó.
 
 **P2-1, lượt còn sống mất quyền sau ba giờ.** `luot_dang_chay` có thêm sổ SỐNG `_SONG`.
@@ -220,7 +220,7 @@ Review trả lời ba câu hỏi:
 `adoption_contract` thêm điều kiện riêng của đường tiếp nhận (lý do `not_met`, trong trần) trên nền hợp đồng chung.
 
 **Test:**
-- `test_resonance_inline_handoff.py`: thêm MCP mang đuôi Write, MCP lạ mang đuôi Read, đối chứng tool Aivon đã biết, lượt sống quá ba giờ, và lượt kết thúc thật thì gỡ khỏi sổ.
+- `test_resonance_inline_handoff.py`: thêm MCP mang đuôi Write, MCP lạ mang đuôi Read, đối chứng tool AIVON đã biết, lượt sống quá ba giờ, và lượt kết thúc thật thì gỡ khỏi sổ.
 - `test_resonance_e2e_achieve_harness.py`: thêm ca sai provider, provider khớp nhau nhưng khác bản duyệt, sai model, có công cụ, thiếu trường; đường sản phẩm với receipt bị sửa sai thì bị bác; soát nguồn bộ chạy.
 - Đột biến kiểm lại:
   - cắt đuôi tên lại: đỏ 4 kiểm;

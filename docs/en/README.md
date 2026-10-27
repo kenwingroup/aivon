@@ -20,7 +20,7 @@ The dashboard's navigation rail groups **19 pages** into **7 groups**: Assistant
 - [05 - File manager](05-file-manager.md) - browsing the brain, finding files by name or content, editing .md/.txt directly, uploading and downloading.
 
 ### Code (the Code group)
-- [27 - The Code group: Terminal](27-code-terminal.md) - a real command line on the machine running Aivon, opened right in the dashboard, with no SSH.
+- [27 - The Code group: Terminal](27-code-terminal.md) - a real command line on the machine running AIVON, opened right in the dashboard, with no SSH.
 
 ### Extending capabilities (the Capabilities group)
 - [06 - Skills](06-skills.md) - grouping, searching, enabling and disabling, adding, editing and deleting, importing and exporting skills.
@@ -28,24 +28,24 @@ The dashboard's navigation rail groups **19 pages** into **7 groups**: Assistant
 - [20 - Plugins](20-plugins.md) - adding native tools and hooks for every engine with one Python folder.
 - [25 - Chatbot (a dedicated bot)](25-chatbots.md) - putting an Agent in front of customers through a dedicated Telegram or Zalo bot, with its own brain and a handover to a human.
 - [28 - Customer conversations (Inbox)](28-customer-conversations.md) - every chat customers have with your bots and personal Zalo in one place, with takeover when a human is needed.
-- [29 - Slack and WhatsApp](29-slack-whatsapp.md) - chat with Aivon and run customer bots on Slack (no domain needed) and WhatsApp (Meta's official API).
-- [30 - Discord and Lark/Feishu](30-discord-lark.md) - chat with Aivon from Discord and Lark/Feishu on the Admin channels page, no domain needed.
+- [29 - Slack and WhatsApp](29-slack-whatsapp.md) - chat with AIVON and run customer bots on Slack (no domain needed) and WhatsApp (Meta's official API).
+- [30 - Discord and Lark/Feishu](30-discord-lark.md) - chat with AIVON from Discord and Lark/Feishu on the Admin channels page, no domain needed.
 - [31 - Messenger](31-messenger.md) - a customer bot that answers your Facebook Page inbox (Meta's official API, needs an HTTPS domain).
 - [32 - Web page watch](32-page-watch.md) - watch a page for a price, some text or any change on a schedule, without spending tokens.
-- [33 - Cookies](33-login-vault.md) - keep your own sign-ins (cookies) so Aivon can read and watch pages behind them.
+- [33 - Cookies](33-login-vault.md) - keep your own sign-ins (cookies) so AIVON can read and watch pages behind them.
 
 ### Background work (the Work and Brain groups)
 - [08 - Recurring jobs and reminders](08-recurring-jobs.md) - several background loops plus reminders on a clock or a cron schedule.
 - [21 - Work (Kanban)](21-kanban-work.md) - handing over a goal in words, with the AI specifying and running the background task.
-- [22 - Self-learning](22-self-learning.md) - Aivon extracting memories, distilling Wiki pages and skills after each conversation, undoably.
+- [22 - Self-learning](22-self-learning.md) - AIVON extracting memories, distilling Wiki pages and skills after each conversation, undoably.
 
 ### Connections and channels (the Connections group)
 - [09 - Connections and business data](09-connections-and-business-data.md) - the multi-account store of external services, permissions, reporting real figures.
 - [10 - Models and engines](10-models-and-engines.md) - switching the brain between Claude Code, ChatGPT/Codex, Antigravity CLI, OpenRouter, OpenAI, Gemini, Anthropic, Groq and Ollama without losing capability; thinking levels, the background work model.
-- [11 - The Telegram channel](11-telegram.md) - asking Aivon from a phone, sending and receiving files.
-- [26 - The Zalo Bot channel](26-zalo-bot-channel.md) - asking Aivon on Zalo through the official API, paired with one click.
+- [11 - The Telegram channel](11-telegram.md) - asking AIVON from a phone, sending and receiving files.
+- [26 - The Zalo Bot channel](26-zalo-bot-channel.md) - asking AIVON on Zalo through the official API, paired with one click.
 - [12 - Zalo Agent MCP](12-zalo-agent-mcp.md) - signing in by QR, reading and searching history, sending messages through the standard MCP.
-- [24 - The Aivon CLI (terminal)](24-cli.md) - typing `aivon "..."` from a terminal, API tokens, composing in scripts.
+- [24 - The AIVON CLI (terminal)](24-cli.md) - typing `aivon "..."` from a terminal, API tokens, composing in scripts.
 
 ### The brain and data
 - [13 - Second Brain: memory, Wiki, INGEST](13-second-brain.md) - multiple brains, living memory, digesting knowledge.
@@ -56,7 +56,7 @@ The dashboard's navigation rail groups **19 pages** into **7 groups**: Assistant
 - [14 - Security and accounts](14-security-and-accounts.md) - forced login, passwords, rate limiting, secret-key encryption.
 - [15 - Branding and custom domains](15-branding-and-domains.md) - changing the logo and avatar, pointing a domain and enabling HTTPS.
 - [16 - .env configuration](16-env-configuration.md) - a reference for every environment variable.
-- [23 - Usage: tokens and cost](23-usage-and-cost.md) - Aivon measuring input and output tokens by day, by provider and by source.
+- [23 - Usage: tokens and cost](23-usage-and-cost.md) - AIVON measuring input and output tokens by day, by provider and by source.
 
 ### When something goes wrong
 - [17 - Troubleshooting and FAQ](17-troubleshooting.md) - common errors and how to handle them.
@@ -65,7 +65,7 @@ The dashboard's navigation rail groups **19 pages** into **7 groups**: Assistant
 
 ## Also in English at the repository root
 
-- [README.md](../../README.md) - what Aivon is and how to install it.
+- [README.md](../../README.md) - what AIVON is and how to install it.
 - [QUICKSTART.en.md](../../QUICKSTART.en.md) - the first 10 minutes.
 - [DEPLOY.en.md](../../DEPLOY.en.md) - installing on a server or VPS.
 - [CONTRIBUTING.md](../../CONTRIBUTING.md) - contributing to the project.
@@ -74,7 +74,7 @@ Screenshots, button names and menu paths match the interface language you select
 
 ## Adding a language
 
-Translating documentation is step 6 of the language playbook, and it is deliberately last: Aivon answers, routes and formats correctly in a new language long before its documentation is translated. The four required steps are in [docs/dev/them-mot-ngon-ngu.md](../dev/them-mot-ngon-ngu.md) (Vietnamese).
+Translating documentation is step 6 of the language playbook, and it is deliberately last: AIVON answers, routes and formats correctly in a new language long before its documentation is translated. The four required steps are in [docs/dev/them-mot-ngon-ngu.md](../dev/them-mot-ngon-ngu.md) (Vietnamese).
 
 ---
 

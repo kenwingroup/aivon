@@ -2,7 +2,7 @@
 
 *[Tiếng Việt](../32-theo-doi-trang.md) · **English***
 
-Since 0.239.0 Aivon can watch a web page on a schedule **without spending tokens**. Each check only loads the page and compares its text with the previous one, without calling AI. When something new happens, Aivon reports it to the chat and the inbox.
+Since 0.239.0 AIVON can watch a web page on a schedule **without spending tokens**. Each check only loads the page and compares its text with the previous one, without calling AI. When something new happens, AIVON reports it to the chat and the inbox.
 
 Use it when the job is just keeping an eye on a page: a competitor's price, a new offer on WarriorPlus, an ad policy page, stock coming back. This used to need a loop, and every loop cycle was an AI call.
 
@@ -14,7 +14,7 @@ Use it when the job is just keeping an eye on a page: a competitor's price, a ne
 
 ## Create it by asking in chat
 
-Tell Aivon something like "watch this page and tell me when the shirt drops below $20", with the link. Aivon uses the `aivon_watch` tool and replies with the watch id. Every engine can do this.
+Tell AIVON something like "watch this page and tell me when the shirt drops below $20", with the link. AIVON uses the `aivon_watch` tool and replies with the watch id. Every engine can do this.
 
 ## Create it on the Recurring work page
 
@@ -25,7 +25,7 @@ Tell Aivon something like "watch this page and tell me when the shirt drops belo
 
 Each watch has **Check now**, **Pause** / **Resume** and **Delete**. Its card shows how many checks ran, the last alert and the last error if any.
 
-## Prices Aivon understands
+## Prices AIVON understands
 
 `1.250.000đ`, `990.000 ₫`, `2,000,000 VND`, `1,25 triệu`, `1tr2`, `250k`, `$12.99`, `1,299.00 USD`. The threshold can be written the same ways. A threshold in dong is only compared with dong prices, a dollar threshold only with dollar prices.
 
@@ -38,22 +38,22 @@ Each watch has **Check now**, **Pause** / **Resume** and **Delete**. Its card sh
 
 ## When the page fails
 
-Aivon waits longer between tries: 2, 4, 8, 16 minutes, at most 60. After **5 failures in a row** the watch pauses itself and tells you **exactly once**. Press **Resume** once the page works again.
+AIVON waits longer between tries: 2, 4, 8, 16 minutes, at most 60. After **5 failures in a row** the watch pauses itself and tells you **exactly once**. Press **Resume** once the page works again.
 
 ## AI summary (optional)
 
-Tick **Summarize changes with AI** and Aivon calls the background model **once per change** to explain what it means. Off by default. The model gets text only, no tools, and is told to treat the page content as data, not instructions.
+Tick **Summarize changes with AI** and AIVON calls the background model **once per change** to explain what it means. Off by default. The model gets text only, no tools, and is told to treat the page content as data, not instructions.
 
 ## Limits
 
-- Aivon reads the page text the way a browser first downloads it. Content that only appears after JavaScript runs (some marketplaces, pages behind a login) is not visible. Use a loop with browser tools for those.
+- AIVON reads the page text the way a browser first downloads it. Content that only appears after JavaScript runs (some marketplaces, pages behind a login) is not visible. Use a loop with browser tools for those.
 - Pages with clocks, anti-bot tokens or rotating ads may report "changed" often. Switch to **Some text appears** or **A price drops below** instead.
 - Only public pages on port 80 or 443 can be watched. Addresses that point into a private network (your server, router, cloud metadata) are blocked, even when a public page redirects there.
 - Alerts reach the web chat and the inbox. To get them on your phone, connect Telegram or Zalo, see [Telegram](11-telegram.md).
 
 ## Where the data lives
 
-`web_watch.sqlite3` in the Aivon state folder (`AIVON_STATE_DIR`), next to `kanban.sqlite3`.
+`web_watch.sqlite3` in the AIVON state folder (`AIVON_STATE_DIR`), next to `kanban.sqlite3`.
 
 ## Related
 

@@ -9,18 +9,18 @@ Coloque o AIVON para rodar em poucos minutos. Guias completos: [docs/en/](../../
 
 ## Opção 1 - VPS da Hostinger (Docker Manager, em um clique)
 
-> 🛒 **Ainda não tem VPS?** [Contrate uma VPS da Hostinger aqui](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN). Ela já vem com o Docker Manager, então o Aivon instala em um clique. Quando estiver pronta, volte aos passos abaixo.
+> 🛒 **Ainda não tem VPS?** [Contrate uma VPS da Hostinger aqui](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN). Ela já vem com o Docker Manager, então o AIVON instala em um clique. Quando estiver pronta, volte aos passos abaixo.
 
 1. hPanel → VPS → **Docker Manager** → **Compose** → **Compose from URL**.
 2. Cole esta URL:
    ```
-   https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.hostinger.yml
+   https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.hostinger.yml
    ```
 3. (Opcional, para HTTPS + um domínio) defina isto na caixa **Environment**:
    ```
    DOMAIN_NAME=aivon.<vps-hostname>.hstgr.cloud
    ```
-   (O hostname fica em hPanel → VPS, ex.: `javis.srv1782015.hstgr.cloud`.)
+   (O hostname fica em hPanel → VPS, ex.: `aivon.srv1782015.hstgr.cloud`.)
 4. **Deploy**. Espere 1-3 minutos. Abra o app pelo botão **Open** (ou em `https://<DOMAIN_NAME>`).
 5. Na primeira execução, a tela pede para você criar uma conta de admin. Depois disso, faça login no Claude Code uma vez pelo terminal do container: `claude auth login --claudeai`.
 

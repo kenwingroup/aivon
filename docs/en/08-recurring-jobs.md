@@ -2,7 +2,7 @@
 
 *[Tiếng Việt](../08-viec-dinh-ky.md) · **English***
 
-The **Recurring jobs** page is where you hand Aivon work that runs while you are not at the computer: jobs that repeat on a cycle (called **loops**) and reminders at a set time. Each loop wakes on its cycle, does exactly the one task you described, verifies itself, writes a log entry and messages the result to you on Telegram.
+The **Recurring jobs** page is where you hand AIVON work that runs while you are not at the computer: jobs that repeat on a cycle (called **loops**) and reminders at a set time. Each loop wakes on its cycle, does exactly the one task you described, verifies itself, writes a log entry and messages the result to you on Telegram.
 
 This page aggregates jobs from **every brain**, not just the one selected in the sidebar.
 
@@ -12,20 +12,20 @@ Two kinds of job share one page:
 
 | Kind | Nature | Stored where |
 |---|---|---|
-| 🔁 **Loop** | Every N minutes it wakes, does one job and stops. It runs forever until you switch it off. | An `.md` file in the brain's `Aivon/loops/` |
-| ⏰ **Reminder** | A specific moment ("in 30 minutes", "8:30"), or a cron schedule repeating at a fixed time ("7am every day"). | The brain's `Aivon/reminders.json` |
+| 🔁 **Loop** | Every N minutes it wakes, does one job and stops. It runs forever until you switch it off. | An `.md` file in the brain's `AIVON/loops/` |
+| ⏰ **Reminder** | A specific moment ("in 30 minutes", "8:30"), or a cron schedule repeating at a fixed time ("7am every day"). | The brain's `AIVON/reminders.json` |
 
 The key difference: a loop counts the **gap** between runs, a reminder counts a **clock time**. "Scan orders every 2 hours" is a loop; "report revenue at 7am every day" is a reminder using cron.
 
-You can create **many loops in parallel**, each in its own file. But they run **sequentially**: at any moment the whole system runs exactly one iteration. Aivon's scheduler checks every 30 seconds, and each check picks **one** loop, the one most overdue. So the real run time can drift a few dozen seconds from the cycle you set, and several loops due at once queue rather than overlapping.
+You can create **many loops in parallel**, each in its own file. But they run **sequentially**: at any moment the whole system runs exactly one iteration. AIVON's scheduler checks every 30 seconds, and each check picks **one** loop, the one most overdue. So the real run time can drift a few dozen seconds from the cycle you set, and several loops due at once queue rather than overlapping.
 
 A loop **can read real data through MCP** (POS, ads, calendar, analytics...) to do its work. Whether it can write files or take real outside actions depends on the **permission level** you pick, see "The three permission levels" below.
 
-Loops can be edited directly by opening the `.md` file in Obsidian or the [File manager](05-file-manager.md) page. Run state (last run, iterations today, error streak) lives separately in `Aivon/loop-state.json`, owned by the server, so you can edit the definition file without stepping on it.
+Loops can be edited directly by opening the `.md` file in Obsidian or the [File manager](05-file-manager.md) page. Run state (last run, iterations today, error streak) lives separately in `AIVON/loop-state.json`, owned by the server, so you can edit the definition file without stepping on it.
 
-## Where to find it in Aivon
+## Where to find it in AIVON
 
-1. Open the Aivon dashboard (`http://localhost:7979` by default).
+1. Open the AIVON dashboard (`http://localhost:7979` by default).
 2. In the left navigation rail, open the **Work** group.
 3. Click **Recurring jobs**.
 
@@ -48,9 +48,9 @@ Note: clicking **Edit** on an existing card locks and dims these two buttons. Th
 ### Step 3: Name and describe it
 
 - **Name**: the short name shown on the card, for example "Read email every 2 hours". Leaving it empty reports "Enter a name".
-- **Task description (each iteration, Aivon does exactly this)**: this field is **required** and is the most important thing here. Aivon does not invent work; each iteration it does exactly what you wrote here, then stops. Leaving it empty reports that Aivon needs to know what each iteration should do.
+- **Task description (each iteration, AIVON does exactly this)**: this field is **required** and is the most important thing here. AIVON does not invent work; each iteration it does exactly what you wrote here, then stops. Leaving it empty reports that AIVON needs to know what each iteration should do.
 
-Choosing **⏰ Reminder** relabels the field to "Reminder content (Aivon will remind you or do exactly this)", and the empty-field error becomes "Enter the reminder content".
+Choosing **⏰ Reminder** relabels the field to "Reminder content (AIVON will remind you or do exactly this)", and the empty-field error becomes "Enter the reminder content".
 
 Write the description as specifically as possible: say what to read, what to do, where to save it. Make it self-contained rather than relying on the current chat context, because it runs when nobody is there. For example:
 
@@ -69,8 +69,8 @@ Under the form there is a reminder line: Full power (default) = does everything 
 
 - **When**: the time field. See the full list of accepted forms in "What the When field understands" below. Leaving it empty reports an error with examples such as "in 30 minutes", "8:30", "0 7 * * *".
 - **Type**: two buttons, **⏰ Remind only** (preselected) and **🤖 Do it and report**.
-  - **⏰ Remind only**: at the set time, Aivon sends a Telegram message starting with "⏰ Reminder: " followed by your text. No model call, no tokens.
-  - **🤖 Do it and report**: at the set time, Aivon runs the engine to actually **do** the job and sends the result to Telegram.
+  - **⏰ Remind only**: at the set time, AIVON sends a Telegram message starting with "⏰ Reminder: " followed by your text. No model call, no tokens.
+  - **🤖 Do it and report**: at the set time, AIVON runs the engine to actually **do** the job and sends the result to Telegram.
 - **What it may do** (only shown for 🤖 Do it and report): three levels, defaulting to **Full power**.
   - **Read only**: reads real data through MCP and reads files, then reports. Writes nothing, does nothing outside.
   - **Write files**: adds permission to write draft files in the brain. The hub still blocks outside actions at this level.
@@ -94,19 +94,19 @@ Reminders are different: once created they are already queued, with nothing to s
 
 ## The three permission levels (loop modes)
 
-| Button in the form | Label on the card | What Aivon may do |
+| Button in the form | Label on the card | What AIVON may do |
 |---|---|---|
 | **Full power** | full power | Everything open: every tool and every MCP, **real outside actions** without asking: create orders, run ads, publish posts, send messages. **The default** since 0.55.62. |
 | **Auto (drafts)** | auto (drafts) | Reads MCP and **can write files** in the brain (creating or editing draft notes). The hub blocks outside actions. Adds a self-verification step after each iteration. |
 | **Suggest (read-only)** | suggest | Read-only tools, including reading real data through MCP. **No file writes**. Each iteration gives 2 to 3 concrete suggested actions. |
 
-Before 0.55.62 Aivon had a safety rule: background jobs could never spend money, create orders, publish or message customers on their own, so the default was Suggest and picking Full power went through two confirmation dialogs. The project owner removed that rule: Aivon now acts on its own, and the two lighter levels remain as options for a specific loop you want read-only or drafts-only. A full-power loop runs in the background on a schedule with nobody approving each step, so describe its task with a clear scope.
+Before 0.55.62 AIVON had a safety rule: background jobs could never spend money, create orders, publish or message customers on their own, so the default was Suggest and picking Full power went through two confirmation dialogs. The project owner removed that rule: AIVON now acts on its own, and the two lighter levels remain as options for a specific loop you want read-only or drafts-only. A full-power loop runs in the background on a schedule with nobody approving each step, so describe its task with a clear scope.
 
 ## What the "When" field understands
 
 It accepts four shapes, with the placeholder showing `in 30 minutes · 8:30 · 0 7 * * * · 2026-07-20 09:00`:
 
-| You type | Aivon reads it as |
+| You type | AIVON reads it as |
 |---|---|
 | `in 30 minutes`, `in 2 hours`, `1.5 hours`, `3 days` | A countdown from now. Units accepted: minutes, hours, days. |
 | `8h30`, `8:30`, `8h` | A time of day. If it already passed, it moves to **tomorrow**. |
@@ -131,7 +131,7 @@ Next to it, three filters: **All**, **Repeating job** and **Reminder**.
 
 **10 cards** a page, with **← Previous** and **Next →** and a count line such as "Page 1/2 · 14 items". Changing the brain, the filter or the search goes back to the first page.
 
-If the brain has no jobs, it reads "No jobs in this brain yet. Click **+ Add job**, or tell Aivon in chat."
+If the brain has no jobs, it reads "No jobs in this brain yet. Click **+ Add job**, or tell AIVON in chat."
 
 ### The search box
 
@@ -144,7 +144,7 @@ The card starts with `🔁 <job name>` and its slug (the file name) dimmed besid
 | Status | Meaning |
 |---|---|
 | ⏳ running | This job's iteration is running right now |
-| ⚠ auto-paused | It failed 3 times in a row so Aivon locked it, see "Auto-pause" |
+| ⚠ auto-paused | It failed 3 times in a row so AIVON locked it, see "Auto-pause" |
 | ● on | Enabled, running on its cycle |
 | ○ off | Disabled, not running (the card is dimmed) |
 
@@ -175,8 +175,8 @@ On a loop card:
 - **Enable** / **Disable**: flip the state. Enabling also clears an auto-pause.
 - **▶ Run now**: run one iteration immediately, without waiting for the cycle. The button reads "Running..." and the list reloads after about 2.5 seconds. Note: this button does **not** save an open form; it runs what is saved in the file. Running now also clears an auto-pause, because it is a deliberate action on your part.
 - **Edit**: reopen the form with this job's content.
-- **Delete**: asks to confirm, then removes `Aivon/loops/<slug>.md` entirely.
-- **Move to brain…**: a picker to move the job to another brain, keeping its file and run state. If the target brain already has a job with the same name, Aivon refuses and reports the error rather than overwriting. A running job cannot be moved; try again later.
+- **Delete**: asks to confirm, then removes `AIVON/loops/<slug>.md` entirely.
+- **Move to brain…**: a picker to move the job to another brain, keeping its file and run state. If the target brain already has a job with the same name, AIVON refuses and reports the error rather than overwriting. A running job cannot be moved; try again later.
 
 On a reminder card:
 
@@ -185,17 +185,17 @@ On a reminder card:
 - **Delete**: remove it entirely, with no undo.
 - **Move to brain…**: move it to another brain, keeping its id and every setting.
 
-## Without Telegram connected, Aivon will not create a schedule
+## Without Telegram connected, AIVON will not create a schedule
 
-Reminders and "do it and report" jobs are only worth anything if, when the time comes, they can **tell someone**, and the only reporting channel today is Telegram. If the Telegram bot is off, has no token, or has no allowed Chat ID, Aivon **refuses to create** the job and says exactly what is missing, with a link to the [Channels](11-telegram.md) page to connect it.
+Reminders and "do it and report" jobs are only worth anything if, when the time comes, they can **tell someone**, and the only reporting channel today is Telegram. If the Telegram bot is off, has no token, or has no allowed Chat ID, AIVON **refuses to create** the job and says exactly what is missing, with a link to the [Channels](11-telegram.md) page to connect it.
 
-This used to be the biggest source of confusion: Aivon would build a "report email and calendar every morning" job, the job would run on time, and the result reached nobody, with nothing telling you Telegram was missing.
+This used to be the biggest source of confusion: AIVON would build a "report email and calendar every morning" job, the job would run on time, and the result reached nobody, with nothing telling you Telegram was missing.
 
-If you still want to create it (planning to connect Telegram later), click **Create anyway** next to the warning. The job runs on time and its result is stored in Aivon, it simply goes nowhere.
+If you still want to create it (planning to connect Telegram later), click **Create anyway** next to the warning. The job runs on time and its result is stored in AIVON, it simply goes nowhere.
 
 When the Recurring jobs page detects that no reporting channel exists, it shows a warning strip at the top, because jobs created earlier are still running and still not reaching you.
 
-Scheduling in words through chat follows the same rule: Aivon must check first whether the data sources are connected and whether there is a place to report to, and if something is missing it says so and asks, rather than creating something for the sake of it.
+Scheduling in words through chat follows the same rule: AIVON must check first whether the data sources are connected and whether there is a place to report to, and if something is missing it says so and asks, rather than creating something for the sake of it.
 
 ## Run now and stopping the running iteration
 
@@ -207,7 +207,7 @@ While an iteration is running, the page refreshes the list every 5 seconds so yo
 
 ## The self-verification step
 
-In **Auto (drafts)** and **Full power** modes, after the work is done Aivon runs an independent check: a reviewer assumes the result is WRONG, then rereads the relevant files to compare. This verification pass is **always read-only**, even for full-power jobs.
+In **Auto (drafts)** and **Full power** modes, after the work is done AIVON runs an independent check: a reviewer assumes the result is WRONG, then rereads the relevant files to compare. This verification pass is **always read-only**, even for full-power jobs.
 
 The step is skipped if the iteration failed, or if the result says there was no new work.
 
@@ -224,20 +224,20 @@ The result appears as **✓ Pass** or **✗ Fail** with a short reason, both on 
 
 ## Auto-pause after 3 failures
 
-If a loop fails **3 times in a row** (engine errors, or ✗ Fail verifications), Aivon locks it and records the reason, for example "Auto-paused 20/07 14:35: 3 consecutive failures or failed verifications". The card switches to **⚠ auto-paused** and stops running until you intervene.
+If a loop fails **3 times in a row** (engine errors, or ✗ Fail verifications), AIVON locks it and records the reason, for example "Auto-paused 20/07 14:35: 3 consecutive failures or failed verifications". The card switches to **⚠ auto-paused** and stops running until you intervene.
 
 That reason is written to runtime state and does **not** modify your `.md` file. To resume, click **Enable** or **▶ Run now** on the card; both clear the lock and reset the failure streak. Before resuming, read the log to see what broke.
 
 ## Reporting to Telegram
 
-This is Aivon's default behaviour: **every finished iteration sends its result to Telegram**, to whoever asked for that job. The message starts with `✅ Loop '<job name>' just ran...` (or `⚠` on failure), then the summary and the verification line.
+This is AIVON's default behaviour: **every finished iteration sends its result to Telegram**, to whoever asked for that job. The message starts with `✅ Loop '<job name>' just ran...` (or `⚠` on failure), then the summary and the verification line.
 
 Who receives it:
 
 - Jobs created through chat carry the speaker's chat_id, so they report back to that person.
 - Jobs created on the dashboard do not know who you are, so they report to the **first Telegram ID** in the allow list.
 
-To stop one job reporting every iteration because it is too noisy, open `Aivon/loops/<slug>.md` and set `notify: false` in the frontmatter.
+To stop one job reporting every iteration because it is too noisy, open `AIVON/loops/<slug>.md` and set `notify: false` in the frontmatter.
 
 Reminders go through Telegram too. Reminders created on the dashboard have no attached recipient, so they go to **every ID** in the allow list; reminders set in words through chat go to the person who set them.
 
@@ -250,15 +250,15 @@ On the **Log** tab. Next to the title is a picker to filter:
 - **Log for the brain you are viewing**: every loop of the brain selected in the sidebar.
 - Or one specific job, shown as `<job name> · <brain name>`.
 
-Aivon loads the 200 most recent entries and paginates **10 per page**, with **← Previous** and **Next →** buttons and a counter reading "Page 1/5 · 47 entries". With nothing yet it reads "No log entries."
+AIVON loads the 200 most recent entries and paginates **10 per page**, with **← Previous** and **Next →** buttons and a counter reading "Page 1/5 · 47 entries". With nothing yet it reads "No log entries."
 
 Each entry starts with a heading such as `## [2026-07-20 14:35] doc-source · loop (custom/auto) - scheduled`, where `scheduled` means it ran on schedule and `manual` means you clicked **▶ Run now**. Below is the summary of what it did, a **Verification** line where present, and a warning line if that iteration is what auto-paused the job.
 
-The log also exists in the brain as real files: `Aivon/loop-log/YYYY-MM-DD.md`, one per day. Open them through [File manager](05-file-manager.md) to look further back than 200 entries.
+The log also exists in the brain as real files: `AIVON/loop-log/YYYY-MM-DD.md`, one per day. Open them through [File manager](05-file-manager.md) to look further back than 200 entries.
 
 ## Scheduling in words through chat
 
-You do not have to use this page. Tell Aivon directly in [Chat](02-chat-and-voice.md) or over Telegram, for example:
+You do not have to use this page. Tell AIVON directly in [Chat](02-chat-and-voice.md) or over Telegram, for example:
 
 - "Create a job that scans new orders every 2 hours and summarises them."
 - "Remind me every day at 7am to check yesterday's revenue."
@@ -266,16 +266,16 @@ You do not have to use this page. Tell Aivon directly in [Chat](02-chat-and-voic
 - "Is anything still running?"
 - "Cancel the order scanning job."
 
-Aivon uses the `aivon_schedule` tool (a bundled plugin) to pick the right store: interval schedules become files in `Aivon/loops/`; fixed repeating times and one-shots go into the reminder store. The tool sets a proper slug and **blocks duplicate names**: if a job with that name exists, it reports an error and tells you to edit the old one rather than spawning a copy.
+AIVON uses the `aivon_schedule` tool (a bundled plugin) to pick the right store: interval schedules become files in `AIVON/loops/`; fixed repeating times and one-shots go into the reminder store. The tool sets a proper slug and **blocks duplicate names**: if a job with that name exists, it reports an error and tells you to edit the old one rather than spawning a copy.
 
 Two hard safety rails on this path, which no parameter can change:
 
 - A loop created through chat is **always** `enabled: false`, and defaults to `mode: full` (say "read only" or "drafts only" for a lighter one). You must open the Recurring jobs page and click **Enable** for it to run for real.
 - If the cycle is unclear (you said "every morning" without a time), the tool reports an error and asks back, never guessing.
 
-## Webhooks: outside systems start work in Aivon
+## Webhooks: outside systems start work in AIVON
 
-Reminders run on the clock. A webhook runs on an **event**: a customer just filled the form on a landing page, just paid, or another app just has new data, and Aivon starts at once instead of waiting for the next scheduled run.
+Reminders run on the clock. A webhook runs on an **event**: a customer just filled the form on a landing page, just paid, or another app just has new data, and AIVON starts at once instead of waiting for the next scheduled run.
 
 **Create a webhook:** from 0.204.0 webhooks have their own page: open the **Work** group in the sidebar, choose **Webhooks**, click **+ Add webhook**. Name it, pick a brain, then choose what runs:
 
@@ -284,42 +284,42 @@ Reminders run on the clock. A webhook runs on an **event**: a customer just fill
 
 Pick the permission level as for a reminder (Read only, Can write files, Full access), then **Save**.
 
-**The secret is shown only once**, right after saving, together with a `curl` command to test it. The calling system sends it in the `Authorization: Bearer <token>` header (or the `X-Aivon-Token` header, or `?token=` at the end of the link when it cannot set headers). Aivon keeps only a hash, so if you lose it press **New token**; the old one stops working at once.
+**The secret is shown only once**, right after saving, together with a `curl` command to test it. The calling system sends it in the `Authorization: Bearer <token>` header (or the `X-AIVON-Token` header, or `?token=` at the end of the link when it cannot set headers). AIVON keeps only a hash, so if you lose it press **New token**; the old one stops working at once.
 
-**Where results go:** like a reminder, to the brain's Aivon Core chat, the inbox (bell) and your Telegram. A result starting with `[SILENT]` is not reported.
+**Where results go:** like a reminder, to the brain's AIVON Core chat, the inbox (bell) and your Telegram. A result starting with `[SILENT]` is not reported.
 
 **Safety rails:**
 
 - A wrong token, a switched-off webhook and an unknown one all get the same refusal, so nobody can probe.
 - The event data reaches the brain as **data**, not instructions. 32 KB per call at most.
 - Each webhook runs one job at a time, queues at most 5, and runs at most 30 times an hour.
-- When the sender retries after a network glitch (sending an `Idempotency-Key` or `X-Request-Id` header), Aivon acknowledges it without running twice.
+- When the sender retries after a network glitch (sending an `Idempotency-Key` or `X-Request-Id` header), AIVON acknowledges it without running twice.
 
-**The link must be reachable from the Internet.** On a VPS with a domain it works as is. On a home machine you need a tunnel (Cloudflare Tunnel, Tailscale Funnel) pointing at Aivon.
+**The link must be reachable from the Internet.** On a VPS with a domain it works as is. On a home machine you need a tunnel (Cloudflare Tunnel, Tailscale Funnel) pointing at AIVON.
 
-## Background health: Aivon Core handles incidents
+## Background health: AIVON Core handles incidents
 
-When a background run breaks (a Kanban job, a loop that paused itself, a Do it and report reminder, a webhook), the brain's **Aivon Core** hears first and decides one of three things:
+When a background run breaks (a Kanban job, a loop that paused itself, a Do it and report reminder, a webhook), the brain's **AIVON Core** hears first and decides one of three things:
 
 - **Run it again once** for a passing failure (a network glitch, a timeout, a busy machine). Only for Kanban jobs and reminders; loops and webhooks are not re-run on their own.
 - **Tell you** in one or two sentences when only you can fix it: a sign-in, an API key, a permission, a plan out of quota, a connection not made, a job switched off.
 - **Stay quiet** when it already recovered.
 
-The background model decides in text-only mode (no tools), but Aivon keeps the hard rules: a sign-in or key error is never re-run, each incident is re-run at most once, and a retry that fails again sends exactly one message. With no model ready, Aivon classifies by the error text.
+The background model decides in text-only mode (no tools), but AIVON keeps the hard rules: a sign-in or key error is never re-run, each incident is re-run at most once, and a retry that fails again sends exactly one message. With no model ready, AIVON classifies by the error text.
 
-The **Incidents** tab of the Recurring jobs page lists open incidents (press **Done** to close one) and the last 24 hours of failures grouped by cause. To stop reporting to Aivon Core, set `incidents.enabled` to `false` in the settings.
+The **Incidents** tab of the Recurring jobs page lists open incidents (press **Done** to close one) and the last 24 hours of failures grouped by cause. To stop reporting to AIVON Core, set `incidents.enabled` to `false` in the settings.
 
-**When Aivon will not open:** run `python tools/sentinel.py` on the server. It only reads data, calls no model, and prints the failures grouped by cause; add `--json` for a machine-readable copy and `--out <folder>` to save a report (the folder must be outside Aivon's data folder).
+**When AIVON will not open:** run `python tools/sentinel.py` on the server. It only reads data, calls no model, and prints the failures grouped by cause; add `--json` for a machine-readable copy and `--out <folder>` to save a report (the folder must be outside AIVON's data folder).
 
 ## Reminders that remember the last result
 
 A **Do it and report** reminder has a **Remember the last result** box. With it on, each run receives the previous report (up to 2,000 characters), so it reports only what is new or changed. Good for watching competitor prices, a metric or an inbox.
 
-A cron schedule also shows its **next three runs** on the card. A run missed because the machine was off still runs once when it comes back, and Aivon is told it is running late so it works from the current time.
+A cron schedule also shows its **next three runs** on the card. A run missed because the machine was off still runs once when it comes back, and AIVON is told it is running late so it works from the current time.
 
 ## Advanced fields (editable only in the .md file)
 
-The dashboard form is deliberately compact. The following require opening `Aivon/loops/<slug>.md` and editing the frontmatter (through [File manager](05-file-manager.md) or Obsidian). Once saved, the dashboard rereads it immediately, with no restart.
+The dashboard form is deliberately compact. The following require opening `AIVON/loops/<slug>.md` and editing the frontmatter (through [File manager](05-file-manager.md) or Obsidian). Once saved, the dashboard rereads it immediately, with no restart.
 
 | Field | Meaning |
 |---|---|
@@ -388,13 +388,13 @@ The **file body** (below the second `---`) is exactly the "Task description" you
 
 **A loop complains that there is no business data.** It can only read real numbers once you connect a source. Go to [Connections & business data](09-connections-and-business-data.md) to connect a POS, ads account or sales channel. With no source, the iteration stops and says so in one line.
 
-**The job list will not load.** The page shows "Could not load the job list (slow network or timeout)" with a **Retry** link. On a weak VPS or a very large brain, the first load can take too long; Aivon already retried once before reporting. Click **Retry**.
+**The job list will not load.** The page shows "Could not load the job list (slow network or timeout)" with a **Retry** link. On a weak VPS or a very large brain, the first load can take too long; AIVON already retried once before reporting. Click **Retry**.
 
 **You created a job over Telegram and cannot see it on the dashboard.** It landed in another brain. This page aggregates every brain, so scroll to the other `🧠` blocks, or type the job name into the search box. To move it where it belongs, use **Move to brain…** on the card.
 
 **No Telegram messages arrive.** Check that the bot is enabled and the Chat ID is in the allow list, see [Telegram channel](11-telegram.md). Also check whether the job file has `notify: false`.
 
-**You edited the .md file and the loop vanished from the list.** The file has broken frontmatter (a missing `---` pair, or invalid YAML), so Aivon skips it. Reopen the file, compare it with another working loop file, and fix the shape.
+**You edited the .md file and the loop vanished from the list.** The file has broken frontmatter (a missing `---` pair, or invalid YAML), so AIVON skips it. Reopen the file, compare it with another working loop file, and fix the shape.
 
 ## Related
 

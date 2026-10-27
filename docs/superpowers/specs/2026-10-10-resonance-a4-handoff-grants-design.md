@@ -1,6 +1,6 @@
 # Resonance A4: nộp sản phẩm đa engine qua một hợp đồng host, kèm quyền có phạm vi
 
-**Trạng thái:** thiết kế **chốt** (vòng 5, phương án dự phòng D1), reviewer chấp thuận để code. **Mã A4 đạt review mã vòng 5** (`5b5e3ef0`; mục 17: I1, I2 đã được chấp nhận; I10 tới I16). Smoke giao diện, bộ chạy pilot và pilot thật một lần (11/10, khép bằng hậu kiểm): [biên bản](../../dev/resonance-a4-verification.md). **đã phát hành 0.96.0** (`d36ebb3e`, PR #604, 11/10/2026; CI `main` run 38146898745 và build image run 38146898746 thành công; image `ghcr.io/blogminhquy/javis-os:0.96.0`, digest `sha256:8f1751d2…`; VPS chưa kéo). Đổi cơ chế cấp quyền ngoài bản này thì gửi diff thiết kế review trước.
+**Trạng thái:** thiết kế **chốt** (vòng 5, phương án dự phòng D1), reviewer chấp thuận để code. **Mã A4 đạt review mã vòng 5** (`5b5e3ef0`; mục 17: I1, I2 đã được chấp nhận; I10 tới I16). Smoke giao diện, bộ chạy pilot và pilot thật một lần (11/10, khép bằng hậu kiểm): [biên bản](../../dev/resonance-a4-verification.md). **đã phát hành 0.96.0** (`d36ebb3e`, PR #604, 11/10/2026; CI `main` run 38146898745 và build image run 38146898746 thành công; image `ghcr.io/kenwingroup/aivon:0.96.0`, digest `sha256:8f1751d2…`; VPS chưa kéo). Đổi cơ chế cấp quyền ngoài bản này thì gửi diff thiết kế review trước.
 
 - **Nhánh:** `claude/resonance-a4-handoff-grants`, PR nháp #604, số **0.96.0** (đặt 0.90.0; `main` đi qua 0.91.0, 0.92.1, 0.94.0 rồi 0.95.1 nên đánh số lại bốn lần).
 - **Vòng 1** (`5edfc9b6`) chưa đạt: 3 P1, 2 P2 (`exports/reviews/PR-604-A4-design-r1-review.md`, ngoài git).
@@ -42,9 +42,9 @@ A5 dùng lại đúng hợp đồng này cho cặp làm/review.
 **Người dùng thấy:**
 
 - Anh giao kết quả một lần.
-- **Đích mới hay đổi phạm vi:** anh bấm Cho phép trên thẻ, kèm đúng đường file. Kể cả khi lời giao đã nêu đích, Aivon vẫn hỏi một lần; A4 không suy quyền ghi từ lời chat.
+- **Đích mới hay đổi phạm vi:** anh bấm Cho phép trên thẻ, kèm đúng đường file. Kể cả khi lời giao đã nêu đích, AIVON vẫn hỏi một lần; A4 không suy quyền ghi từ lời chat.
 - **Phạm vi đã cấp:** trợ lý tự làm tiếp, không hỏi lại từng bước hay từng lần sửa.
-- **Bản nháp được giữ:** bản trợ lý soạn trước khi anh cho phép được giữ làm nháp. Anh bấm Cho phép thì Aivon đăng đúng bản đó, bước này không gọi model. Mục tiêu chưa có bản nháp thì sau khi cho phép, việc nền chạy theo ngân sách lượt như thường.
+- **Bản nháp được giữ:** bản trợ lý soạn trước khi anh cho phép được giữ làm nháp. Anh bấm Cho phép thì AIVON đăng đúng bản đó, bước này không gọi model. Mục tiêu chưa có bản nháp thì sau khi cho phép, việc nền chạy theo ngân sách lượt như thường.
 - Thẻ mục tiêu hiện: được làm gì, trên file nào, tối đa bao nhiêu lượt, có được giao tiếp không, nút Thu hồi.
 
 **Giữ nguyên:**
@@ -74,7 +74,7 @@ A5 dùng lại đúng hợp đồng này cho cặp làm/review.
 
 | Đã có | Chỗ trong mã | Khoảng trống A4 lấp |
 |---|---|---|
-| Danh tính lượt do host gắn: `kenh`, `session_id`, `message_id`, `agent{key, slug, config_version}`. Truyền qua `X-Aivon-Turn` (Claude, Codex) hay trong tiến trình (engine API). Khoá lượt chỉ sống trong tiến trình và bị huỷ khi lượt kết thúc (`turn_context.reset`) | `turn_context.make/current/issue_key/resolve_key`, `main.run_turn`, `mcp_hub` | Lượt không mang mục tiêu, revision, quyền, `generation`, thời điểm bắt đầu. Grok và Antigravity không truyền khoá lượt |
+| Danh tính lượt do host gắn: `kenh`, `session_id`, `message_id`, `agent{key, slug, config_version}`. Truyền qua `X-AIVON-Turn` (Claude, Codex) hay trong tiến trình (engine API). Khoá lượt chỉ sống trong tiến trình và bị huỷ khi lượt kết thúc (`turn_context.reset`) | `turn_context.make/current/issue_key/resolve_key`, `main.run_turn`, `mcp_hub` | Lượt không mang mục tiêu, revision, quyền, `generation`, thời điểm bắt đầu. Grok và Antigravity không truyền khoá lượt |
 | Cổng trợ lý hai lớp, ghim version | `resonance.agent_gate`, `resonance_store._agent_block`, `begin_action`, `finish_handoff` | Không có phạm vi theo đường hay thao tác |
 | `CapabilityGrant` (replan workflow) | `agent_runtime.py` | Chỉ trong bộ nhớ, không lưu, không thu hồi. A4 không mở rộng lớp này |
 | Hạn mức SQLite, hoàn lượt, `call_holds`, đối soát | `resonance_store.begin_action/finish_action/reconcile_holds` | Đủ. Quyền không thêm bộ đếm |
@@ -90,7 +90,7 @@ A5 dùng lại đúng hợp đồng này cho cặp làm/review.
 | Snapshot khi nâng kho: SQLite backup API, lấy cả phần trong WAL, một lần, không ghi đè | `GoalStore._backup_before(marker_table, suffix)` | Dùng lại cho 0.96.0 (mục 7.4) |
 
 - **Không có công cụ "nộp sản phẩm".**
-- **Ý tưởng cũ chưa thành mã:** tài liệu 06/10 có `GoalGrant`, `AuthorityService`, `X-Aivon-Run`, nhưng chưa có dòng mã nào.
+- **Ý tưởng cũ chưa thành mã:** tài liệu 06/10 có `GoalGrant`, `AuthorityService`, `X-AIVON-Run`, nhưng chưa có dòng mã nào.
 
 ## 3. Năm bất biến
 
@@ -346,7 +346,7 @@ Bốn bước, không giữ khoá trong lúc gọi model hay ghi file:
 
 **Thông báo khi thu hồi chen giữa:**
 
-- Có `commit_at`, chưa có bằng chứng ở đích: "Lần đăng đã được chốt trước khi thu hồi; Aivon đang hoàn tất." Chưa nói file đã đăng.
+- Có `commit_at`, chưa có bằng chứng ở đích: "Lần đăng đã được chốt trước khi thu hồi; AIVON đang hoàn tất." Chưa nói file đã đăng.
 - Bước 4 khớp hash: "Đã hoàn tất lần đăng được chốt trước khi thu hồi" kèm sha. Không nói "đã đăng trước khi thu hồi", vì file có thể được thay sau lúc thu hồi.
 - Bước 4 không khớp: báo xung đột như mọi lần đăng khác.
 
@@ -615,7 +615,7 @@ Review vòng 1 chỉ ra `apply_command(..., "resume")` của 0.95.1 gỡ tạm d
   1. `GoalStore._backup_before("grants", ".pre-0.96.0")`: dùng lại helper có sẵn, SQLite backup API (lấy cả phần trong WAL), chỉ khi kho chưa có bảng `grants`, không ghi đè bản đã có.
   2. Tạo bảng mới.
   3. Đóng băng legacy (mục 5.2) trong cùng giao dịch tạo bảng, trước khi server nhận lời gọi.
-- **Hạ đúng cách,** bằng script đi kèm `tools/resonance_restore_pre_a4.py`, chạy khi Aivon đã tắt:
+- **Hạ đúng cách,** bằng script đi kèm `tools/resonance_restore_pre_a4.py`, chạy khi AIVON đã tắt:
   1. Chép kho **hiện tại** sang `resonance.sqlite3.post-0.96.0-<thời điểm>` bằng SQLite backup API, để giữ hồ sơ sau nâng.
   2. Khôi phục snapshot vào đường kho bằng backup API, rồi dọn `-wal`/`-shm` cũ.
   3. Chạy 0.95.1.
@@ -637,7 +637,7 @@ Review vòng 1 chỉ ra `apply_command(..., "resume")` của 0.95.1 gỡ tạm d
   - Có bản nháp: thêm "Trợ lý đã soạn sẵn một bản (3,2 KB). Cho phép sẽ đăng đúng bản này" và nút Xem trước.
   - Thẻ gửi `request_id`, `path`, `submission_id`, `sha256` đã hiển thị. Thẻ cũ nhận lời "Thẻ đã cũ, tải lại để xem yêu cầu hiện tại".
 - **Bản nháp:** "1 bản nháp chờ đăng", hay "Bản nháp bị xung đột với file hiện có; xem trong lịch sử".
-- **Thu hồi chen giữa lần đăng:** "Lần đăng đã được chốt trước khi thu hồi; Aivon đang hoàn tất", rồi "Đã hoàn tất lần đăng được chốt trước khi thu hồi" khi có bằng chứng ở đích.
+- **Thu hồi chen giữa lần đăng:** "Lần đăng đã được chốt trước khi thu hồi; AIVON đang hoàn tất", rồi "Đã hoàn tất lần đăng được chốt trước khi thu hồi" khi có bằng chứng ở đích.
 - **Trang Cộng sự:** bảng khả năng engine (mục 6.1).
 - Chữ qua `vi.json` và `en.json`. Không có ô cấu hình quyền kỹ thuật.
 

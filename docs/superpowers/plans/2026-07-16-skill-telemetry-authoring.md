@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Vá lỗi cắt cụt description đang âm thầm phá routing của mọi skill, và cho Aivon biết skill nào thực sự được dùng.
+**Goal:** Vá lỗi cắt cụt description đang âm thầm phá routing của mọi skill, và cho AIVON biết skill nào thực sự được dùng.
 
-**Architecture:** Gom ba điểm cắt description rời rạc về một hằng số duy nhất ở `skill_router.py` rồi ép hằng số đó ở mọi chỗ GHI (API, learn). Thêm một sidecar telemetry `Aivon/skill-usage.json` do `skill_usage.py` sở hữu, bump tại một điểm nghẽn duy nhất là handler `_skill` trong `mcp_hub.py`. Không máy trạng thái, không job nền: `stale` là hàm thuần tính lúc đọc.
+**Architecture:** Gom ba điểm cắt description rời rạc về một hằng số duy nhất ở `skill_router.py` rồi ép hằng số đó ở mọi chỗ GHI (API, learn). Thêm một sidecar telemetry `AIVON/skill-usage.json` do `skill_usage.py` sở hữu, bump tại một điểm nghẽn duy nhất là handler `_skill` trong `mcp_hub.py`. Không máy trạng thái, không job nền: `stale` là hàm thuần tính lúc đọc.
 
 **Tech Stack:** Python 3.12, FastAPI, PyYAML, stdlib (`hashlib`, `shutil`, `tempfile`). Không pytest. Vanilla JS cho dashboard.
 
@@ -31,7 +31,7 @@
 ## File Structure
 
 **Tạo mới:**
-- `server/skill_usage.py` - sidecar telemetry. Sở hữu đọc/ghi `<brain>/Aivon/skill-usage.json`, `SKILL_STALE_AFTER_DAYS`, hàm `is_stale`. KHÔNG import `main`.
+- `server/skill_usage.py` - sidecar telemetry. Sở hữu đọc/ghi `<brain>/AIVON/skill-usage.json`, `SKILL_STALE_AFTER_DAYS`, hàm `is_stale`. KHÔNG import `main`.
 - `server/test_skill_caps.py` - trần description, validator, lint skill hệ thống.
 - `server/test_skill_usage.py` - sidecar.
 - `server/test_mirror_tree.py` - mirror đệ quy.
@@ -149,7 +149,7 @@ Trong `server/skill_router.py`, sau dòng 31 (`_READ_BASES = ...`), TRƯỚC hai
 # Ví dụ trigger đầy đủ thuộc về mục '## Khi nào dùng' trong thân file, nơi không bị cắt.
 SKILL_DESC_MAX = 150
 
-# Số skill tối đa liệt kê trong router. Nhiều hơn → trỏ sang Aivon/index.md.
+# Số skill tối đa liệt kê trong router. Nhiều hơn → trỏ sang AIVON/index.md.
 SKILL_LIST_MAX = 20
 
 # Cụm mở đầu sáo rỗng: mọi skill đều mở y hệt nhau nên nó đốt ngân sách ký tự mà không
@@ -297,13 +297,13 @@ thành:
 Trong `server/main.py`, đổi dòng 3464 (dòng cuối docstring của `_skill_router_block`) từ:
 
 ```python
-    Cap 15 skill để không phình context (nhiều hơn → trỏ Aivon/index.md)."""
+    Cap 15 skill để không phình context (nhiều hơn → trỏ AIVON/index.md)."""
 ```
 
 thành:
 
 ```python
-    Cap skill_router.SKILL_LIST_MAX để không phình context (nhiều hơn → trỏ Aivon/index.md)."""
+    Cap skill_router.SKILL_LIST_MAX để không phình context (nhiều hơn → trỏ AIVON/index.md)."""
 ```
 
 Đổi khối dòng 3470-3474 từ:
@@ -313,7 +313,7 @@ thành:
         desc = (s.get("description") or "").replace("\n", " ")[:100]
         lines.append(f"- {s['slug']} ({s['name']}): {desc}")
     if len(metas) > 15:
-        lines.append(f"…(+{len(metas) - 15} skill nữa - xem `Aivon/index.md`)")
+        lines.append(f"…(+{len(metas) - 15} skill nữa - xem `AIVON/index.md`)")
 ```
 
 thành:
@@ -324,7 +324,7 @@ thành:
         desc = (s.get("description") or "").replace("\n", " ")[:skill_router.SKILL_DESC_MAX]
         lines.append(f"- {s['slug']} ({s['name']}): {desc}")
     if len(metas) > cap:
-        lines.append(f"…(+{len(metas) - cap} skill nữa - xem `Aivon/index.md`)")
+        lines.append(f"…(+{len(metas) - cap} skill nữa - xem `AIVON/index.md`)")
 ```
 
 - [ ] **Step 5: Chạy test, xác nhận PASS**
@@ -397,18 +397,18 @@ Việc skill làm: đọc HTML, tái dựng thành page_source đúng khuôn Web
 
 `.claude/skills/aivon-builder/SKILL.md` (110 ký tự):
 ```yaml
-description: Tạo hoặc sửa năng lực của Aivon: agent, skill, workflow, loop, plugin. Kèm mẫu file chuẩn và luật chống trùng.
+description: Tạo hoặc sửa năng lực của AIVON: agent, skill, workflow, loop, plugin. Kèm mẫu file chuẩn và luật chống trùng.
 ```
 ```markdown
 ## Khi nào dùng
 
 Kích hoạt khi người dùng nói những câu như: "tạo agent chuyên X", "thêm kỹ năng Y",
 "dựng workflow nghiên cứu rồi viết", "tạo loop mỗi 2 tiếng làm Z", "viết tool/plugin
-tính ...", "làm cho Aivon biết làm ...".
+tính ...", "làm cho AIVON biết làm ...".
 ```
 LƯU Ý: `description` này chứa dấu hai chấm. YAML sẽ hiểu nhầm thành mapping. PHẢI bọc cả giá trị trong nháy kép:
 ```yaml
-description: "Tạo hoặc sửa năng lực của Aivon: agent, skill, workflow, loop, plugin. Kèm mẫu file chuẩn và luật chống trùng."
+description: "Tạo hoặc sửa năng lực của AIVON: agent, skill, workflow, loop, plugin. Kèm mẫu file chuẩn và luật chống trùng."
 ```
 
 `.claude/skills/ingest-source/SKILL.md` (81 ký tự):
@@ -499,7 +499,7 @@ thành:
 ```markdown
 ### Skill -> `skills/<slug>/SKILL.md`
 ```
-(canonical phẳng; Aivon tự mirror sang `.claude/skills` cho Claude Code nạp native)
+(canonical phẳng; AIVON tự mirror sang `.claude/skills` cho Claude Code nạp native)
 
 - [ ] **Step 2: Sửa dòng 23-24**
 
@@ -607,7 +607,7 @@ Ngay SAU dòng 253 (dấu ``` đóng khối) và TRƯỚC bullet "Tự phân nh�
 
 - [ ] **Step 3: Xác minh không có em dash lọt vào**
 
-Run: `cd "D:/Project/Aivon-OS" && ./.venv/Scripts/python.exe -c "import pathlib; t=pathlib.Path('CLAUDE.md').read_text(encoding='utf-8'); print('em dash:', t.count(chr(8212)))"`
+Run: `cd "D:/Project/AIVON-OS" && ./.venv/Scripts/python.exe -c "import pathlib; t=pathlib.Path('CLAUDE.md').read_text(encoding='utf-8'); print('em dash:', t.count(chr(8212)))"`
 Expected: `em dash: 0`
 
 - [ ] **Step 4: Commit**
@@ -848,7 +848,7 @@ git commit -m "feat(learn): nhung chuan viet skill vao prompt + chan description
 **Interfaces:**
 - Produces:
   - `skill_usage.SKILL_STALE_AFTER_DAYS: int` = 30
-  - `skill_usage.usage_path(brain_root) -> Path` = `<brain_root>/Aivon/skill-usage.json`
+  - `skill_usage.usage_path(brain_root) -> Path` = `<brain_root>/AIVON/skill-usage.json`
   - `skill_usage.read_usage(brain_root) -> dict` - `{slug: {use_count, last_used_at, first_used_at, created_at, created_by, pinned}}`. Lỗi/thiếu/hỏng → `{}`.
   - `skill_usage.bump(brain_root, slug) -> None` - best-effort, không bao giờ raise.
   - `skill_usage.is_stale(rec: dict, skill_md_mtime: Optional[float], now: float) -> bool`
@@ -911,8 +911,8 @@ check("bump slug khác không đè slug cũ", u.get("viet-email", {}).get("use_c
 check("bump slug khác tạo bản ghi riêng", u.get("skill-khac", {}).get("use_count") == 1)
 
 # ---- đúng vị trí ----
-check("sidecar nằm ở Aivon/skill-usage.json",
-      skill_usage.usage_path(_ROOT) == _ROOT / "Aivon" / "skill-usage.json")
+check("sidecar nằm ở AIVON/skill-usage.json",
+      skill_usage.usage_path(_ROOT) == _ROOT / "AIVON" / "skill-usage.json")
 check("sidecar thật sự tồn tại trên đĩa", skill_usage.usage_path(_ROOT).is_file())
 
 # ---- file hỏng: KHÔNG được làm gãy ----
@@ -987,8 +987,8 @@ Tạo `server/skill_usage.py`:
 """
 skill_usage.py - Sidecar TELEMETRY cho skill: đo skill nào THẬT SỰ được dùng.
 
-Vị trí: <brain>/Aivon/skill-usage.json. Đặt cạnh Aivon/loop-state.json theo đúng quy ước
-đã có của Aivon ("STATE runtime tách riêng, server sở hữu" - xem self_improve.py). KHÔNG
+Vị trí: <brain>/AIVON/skill-usage.json. Đặt cạnh AIVON/loop-state.json theo đúng quy ước
+đã có của AIVON ("STATE runtime tách riêng, server sở hữu" - xem self_improve.py). KHÔNG
 nhét vào frontmatter SKILL.md: brain là git repo, mỗi lần dùng skill sẽ đẻ một commit rác
 và tạo áp lực xung đột lên file do người viết.
 
@@ -1020,7 +1020,7 @@ _LOCK = threading.Lock()   # serialize read-modify-write trong process
 
 
 def usage_path(brain_root) -> Path:
-    return Path(brain_root) / "Aivon" / "skill-usage.json"
+    return Path(brain_root) / "AIVON" / "skill-usage.json"
 
 
 def read_usage(brain_root) -> dict:
@@ -1111,7 +1111,7 @@ Expected: PASS, in `OK - test_skill_usage: tất cả pass`.
 
 ```bash
 git add server/skill_usage.py server/test_skill_usage.py
-git commit -m "feat(skill): sidecar telemetry Aivon/skill-usage.json (tin hieu duong mot chieu)"
+git commit -m "feat(skill): sidecar telemetry AIVON/skill-usage.json (tin hieu duong mot chieu)"
 ```
 
 ---
@@ -1286,7 +1286,7 @@ Trong `dashboard/studio.js`, trong `renderSkillList()`, ngay SAU dòng khai báo
         const when = s.last_used_at ? new Date(s.last_used_at * 1000).toLocaleDateString("vi-VN") : "";
         usageHtml = ` · <span class="sk-usage">đã dùng ${s.use_count} lần${when ? ", gần nhất " + when : ""}</span>`;
       } else if (s.stale) {
-        usageHtml = ` · <span class="sk-usage sk-stale" title="Aivon chỉ đếm được skill nạp qua tool aivon_use_skill. Claude Code nạp native qua .claude/skills thì không đếm được, nên đây chỉ là tham khảo - không có nghĩa skill vô dụng.">chưa thấy dùng</span>`;
+        usageHtml = ` · <span class="sk-usage sk-stale" title="AIVON chỉ đếm được skill nạp qua tool aivon_use_skill. Claude Code nạp native qua .claude/skills thì không đếm được, nên đây chỉ là tham khảo - không có nghĩa skill vô dụng.">chưa thấy dùng</span>`;
       }
 ```
 
@@ -1573,7 +1573,7 @@ git commit -m "fix(sync): mirror_skills copy ca cay con + hash theo cay (referen
 **Interfaces:**
 - Produces: `git_brain._ensure_gitignore_lines(root) -> bool` (True = có thay đổi).
 
-**Ràng buộc:** hai chỗ ở **hai không gian đường dẫn KHÁC NHAU**. `.gitignore` tương đối gốc BRAIN → `Aivon/skill-usage.json`. `_BACKUP_SKIP_SUBSTR` so khớp chuỗi con trên rel tương đối thư mục CHA của brain và `_backup_skip` bọc rel trong hai slash → phải viết `"/Aivon/skill-usage.json/"` (cả slash đầu lẫn cuối), giống mọi mục hiện có.
+**Ràng buộc:** hai chỗ ở **hai không gian đường dẫn KHÁC NHAU**. `.gitignore` tương đối gốc BRAIN → `AIVON/skill-usage.json`. `_BACKUP_SKIP_SUBSTR` so khớp chuỗi con trên rel tương đối thư mục CHA của brain và `_backup_skip` bọc rel trong hai slash → phải viết `"/AIVON/skill-usage.json/"` (cả slash đầu lẫn cuối), giống mọi mục hiện có.
 
 - [ ] **Step 1: Viết test thất bại**
 
@@ -1583,8 +1583,8 @@ Thêm vào `server/test_skill_usage.py` trước `if _fails:`:
 # ---- sidecar là state runtime → phải bị gitignore + không lên mirror backup ----
 import git_brain  # noqa: E402
 
-check("_GITIGNORE có Aivon/skill-usage.json", "Aivon/skill-usage.json" in git_brain._GITIGNORE)
-check("_backup_skip bỏ qua sidecar", git_brain._backup_skip("brain/Aivon/skill-usage.json") is True)
+check("_GITIGNORE có AIVON/skill-usage.json", "AIVON/skill-usage.json" in git_brain._GITIGNORE)
+check("_backup_skip bỏ qua sidecar", git_brain._backup_skip("brain/AIVON/skill-usage.json") is True)
 check("_backup_skip KHÔNG bỏ nhầm skill thật",
       git_brain._backup_skip("brain/skills/viet-email/SKILL.md") is False)
 
@@ -1595,28 +1595,28 @@ _changed = git_brain._ensure_gitignore_lines(_gi_root)
 _txt = (_gi_root / ".gitignore").read_text(encoding="utf-8")
 check("reconcile báo có thay đổi", _changed is True)
 check("reconcile GIỮ dòng user tự thêm", "rieng-cua-toi/" in _txt)
-check("reconcile thêm dòng sidecar", "Aivon/skill-usage.json" in _txt)
+check("reconcile thêm dòng sidecar", "AIVON/skill-usage.json" in _txt)
 check("reconcile lần 2 là no-op", git_brain._ensure_gitignore_lines(_gi_root) is False)
 ```
 
 - [ ] **Step 2: Chạy test, xác nhận FAIL**
 
 Run: `cd server && ../.venv/Scripts/python.exe test_skill_usage.py`
-Expected: FAIL với `_GITIGNORE có Aivon/skill-usage.json`, `_backup_skip bỏ qua sidecar`, và `AttributeError` ở `_ensure_gitignore_lines`.
+Expected: FAIL với `_GITIGNORE có AIVON/skill-usage.json`, `_backup_skip bỏ qua sidecar`, và `AttributeError` ở `_ensure_gitignore_lines`.
 
 - [ ] **Step 3: Thêm dòng vào `_GITIGNORE`**
 
-Trong `server/git_brain.py`, đổi khối 62-72 thành (chèn 1 dòng sau `Aivon/loop-log/`, giữ nhóm `Aivon/` liền nhau; mỗi mục PHẢI tự mang `\n` vì đây là các literal nối chuỗi):
+Trong `server/git_brain.py`, đổi khối 62-72 thành (chèn 1 dòng sau `AIVON/loop-log/`, giữ nhóm `AIVON/` liền nhau; mỗi mục PHẢI tự mang `\n` vì đây là các literal nối chuỗi):
 
 ```python
 _GITIGNORE = (
-    "# Aivon brain - KHÔNG commit: khoá, log thô (có thể chứa secret), nhật ký nền.\n"
+    "# AIVON brain - KHÔNG commit: khoá, log thô (có thể chứa secret), nhật ký nền.\n"
     "# Git chỉ version TRI THỨC ĐÃ CHƯNG CẤT (facts/wiki/skills/MEMORY.md) → undo sạch, an toàn.\n"
     ".aivon-learn.lock\n"
-    "Aivon/learn-staging/\n"
-    "Aivon/learn-log/\n"
-    "Aivon/loop-log/\n"
-    "Aivon/skill-usage.json\n"
+    "AIVON/learn-staging/\n"
+    "AIVON/learn-log/\n"
+    "AIVON/loop-log/\n"
+    "AIVON/skill-usage.json\n"
     "memory/conversations/\n"
     "Memory/conversations/\n"
     "*.tmp\n"
@@ -1629,15 +1629,15 @@ Trong `server/git_brain.py`, đổi dòng 267-268 từ:
 
 ```python
 _BACKUP_SKIP_SUBSTR = ("/memory/conversations/", "/Memory/conversations/",
-                       "/Aivon/loop-log/", "/Aivon/learn-log/", "/Aivon/learn-staging/")
+                       "/AIVON/loop-log/", "/AIVON/learn-log/", "/AIVON/learn-staging/")
 ```
 
 thành:
 
 ```python
 _BACKUP_SKIP_SUBSTR = ("/memory/conversations/", "/Memory/conversations/",
-                       "/Aivon/loop-log/", "/Aivon/learn-log/", "/Aivon/learn-staging/",
-                       "/Aivon/skill-usage.json/")
+                       "/AIVON/loop-log/", "/AIVON/learn-log/", "/AIVON/learn-staging/",
+                       "/AIVON/skill-usage.json/")
 ```
 
 - [ ] **Step 5: Thêm helper reconcile**
@@ -1751,7 +1751,7 @@ Expected: `vi pham: 0`. Mọi skill in `ok` với độ dài <= 150. Trước kh
 
 - [ ] **Step 3: Chạy app, xác nhận skill vẫn route được**
 
-Khởi động server, mở chat, hỏi một câu khớp trigger của một skill (vd "chuyển file html này sang webcake"). Expected: Aivon nạp đúng skill `html-to-webcake`. Sau đó mở trang Skill, expected: `html-to-webcake` hiện `Đã dùng 1 lần`, chứng minh telemetry chạy end-to-end.
+Khởi động server, mở chat, hỏi một câu khớp trigger của một skill (vd "chuyển file html này sang webcake"). Expected: AIVON nạp đúng skill `html-to-webcake`. Sau đó mở trang Skill, expected: `html-to-webcake` hiện `Đã dùng 1 lần`, chứng minh telemetry chạy end-to-end.
 
 - [ ] **Step 4: Bump VERSION + CHANGELOG**
 
@@ -1761,7 +1761,7 @@ Khởi động server, mở chat, hỏi một câu khớp trigger của một sk
 echo "0.9.62" > VERSION
 ```
 
-Thêm mục vào đầu `CHANGELOG.md` theo đúng định dạng các mục đã có trong file, nội dung phủ: gom 3 điểm cắt description (60 ở hub, 100 ở system prompt, 140 ở fallback) về một hằng số `SKILL_DESC_MAX = 150`; ép trần ở `POST /skills` và learn.py; viết lại 5 description skill hệ thống (6/6 skill đang bị cắt, mất 79 tới 316 ký tự); thêm telemetry `Aivon/skill-usage.json` đếm ở `aivon_use_skill`; `mirror_skills` copy cả cây con và hash theo cây; gitignore sidecar + reconcile `.gitignore` cho brain cũ.
+Thêm mục vào đầu `CHANGELOG.md` theo đúng định dạng các mục đã có trong file, nội dung phủ: gom 3 điểm cắt description (60 ở hub, 100 ở system prompt, 140 ở fallback) về một hằng số `SKILL_DESC_MAX = 150`; ép trần ở `POST /skills` và learn.py; viết lại 5 description skill hệ thống (6/6 skill đang bị cắt, mất 79 tới 316 ký tự); thêm telemetry `AIVON/skill-usage.json` đếm ở `aivon_use_skill`; `mirror_skills` copy cả cây con và hash theo cây; gitignore sidecar + reconcile `.gitignore` cho brain cũ.
 
 - [ ] **Step 5: Commit + push**
 

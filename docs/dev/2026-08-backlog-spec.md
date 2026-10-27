@@ -1,6 +1,6 @@
 # Spec: 10 ý tưởng trong sổ tay phát triển (08/2026)
 
-Chốt cách làm cho 10 ý ghi trong sổ "Ý tưởng phát triển Aivon" ngày 2026-08-04, rồi làm luôn.
+Chốt cách làm cho 10 ý ghi trong sổ "Ý tưởng phát triển AIVON" ngày 2026-08-04, rồi làm luôn.
 Tài liệu này là **hồ sơ quyết định**: đọc để biết vì sao mỗi ý được làm theo cách đang thấy
 trong mã, và vì sao ba trong số đó hoá ra dễ hơn hẳn cái sổ tưởng.
 
@@ -24,7 +24,7 @@ Sổ tay ghi ba ý kèm câu "chưa biết có làm được không". Đào th�
 ## Quy tắc chung khi làm 10 ý này
 
 - **Không dựng bản thứ hai của thứ đã có.** Đây là bài học 0.15.0 và 0.15.1 (cây Vault) và
-  0.17.0 (Aivon CLI). Ba ý trong đợt này bị nó chi phối trực tiếp: ý 7 và 8 mượn lại trình sửa
+  0.17.0 (AIVON CLI). Ba ý trong đợt này bị nó chi phối trực tiếp: ý 7 và 8 mượn lại trình sửa
   và cây Vault sẵn có, ý 10 mượn lại đúng khối phân trang đã viết cho trang Việc định kỳ.
 - **Cột mới trong SQLite phải có migration.** `CREATE TABLE IF NOT EXISTS` không thêm cột cho
   DB cũ. `sessions.py` đã có sẵn vòng `ALTER TABLE ... ADD COLUMN` cho việc này, cột mới đi
@@ -35,7 +35,7 @@ Sổ tay ghi ba ý kèm câu "chưa biết có làm được không". Đào th�
 
 ## 1. Tích hợp MCP NotebookLM
 
-**Vấn đề.** Muốn hỏi Aivon về nội dung đang nằm trong NotebookLM (nguồn, ghi chú, chat của
+**Vấn đề.** Muốn hỏi AIVON về nội dung đang nằm trong NotebookLM (nguồn, ghi chú, chat của
 notebook) mà không phải mở trình duyệt copy sang.
 
 **Quyết định.** Thêm connector `notebooklm` vào `system/mcp-catalog.json`, chạy server MCP
@@ -61,7 +61,7 @@ sẵn có của `notebooklm-py` qua `uvx`. Không viết wrapper.
 
 **Chỗ chạm.** `system/mcp-catalog.json` (thêm 1 connector), `docs/09-mcp-va-so-lieu.md`.
 
-**Không làm.** Không tự cài `notebooklm-py` vào `requirements.txt` của Aivon: nó chạy trong
+**Không làm.** Không tự cài `notebooklm-py` vào `requirements.txt` của AIVON: nó chạy trong
 tiến trình con do `uvx` dựng, kéo vào lõi là thêm `fastmcp` + `playwright` cho một thứ đa số
 người dùng không đấu.
 
@@ -99,7 +99,7 @@ Ba hướng không loại trừ nhau: 1 và 2 ghép được, 3 nên tách hẳn
 ## 3. Gửi tin nhắn Zalo kèm ảnh
 
 **Vấn đề.** `zalo_send_message` của `zalo-agent-cli` chỉ nhận `text`. Muốn gửi ảnh (vd ảnh
-Aivon vừa tạo, ảnh báo cáo) thì phải tự tay mở Zalo.
+AIVON vừa tạo, ảnh báo cáo) thì phải tự tay mở Zalo.
 
 **Quyết định.** Viết plugin bundled `zalo-image` phơi tool `zalo_send_image`, gọi CLI
 `zalo-agent-cli msg send-image` bằng **đúng home cô lập của kết nối Zalo đang đăng nhập**.
@@ -111,7 +111,7 @@ Aivon vừa tạo, ảnh báo cáo) thì phải tự tay mở Zalo.
   phải merge tay.
 - *Gọi thẳng zca-js từ Python*: không có, zca-js là thư viện Node.
 - *Gọi CLI có sẵn*: chính `zalo-agent-cli` đã có lệnh `msg send-image <threadId> <paths...>`
-  hoạt động đúng bằng cách Aivon cần. Phiên đăng nhập nằm trong thư mục HOME
+  hoạt động đúng bằng cách AIVON cần. Phiên đăng nhập nằm trong thư mục HOME
   (`STATE_DIR/connector-home/zalo-*`, xem `server/zalo_login.py:157`), và `mcp_store` đã đặt
   `HOME` theo `config.home_dir` khi chạy MCP (`server/mcp_store.py:424`). Nên chỉ cần đặt lại
   đúng biến đó cho tiến trình con là dùng chung phiên, không đăng nhập lại, không quét QR lại.

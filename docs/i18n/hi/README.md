@@ -1,7 +1,7 @@
 <!-- translated-from: README.md sha256:2e10ad3d2a86 -->
 <div align="center">
 
-<img src="../../../dashboard/logo.svg" width="88" alt="AIVON का लोगो">
+<img src="../../../dashboard/logo.png" width="96" alt="AIVON का लोगो">
 
 # AIVON
 
@@ -9,11 +9,11 @@
 
 इसे अपने laptop या किसी छोटे VPS पर चलाइए। इससे आवाज़ में बात कीजिए। Claude, ChatGPT, Grok, Gemini या 12 providers में से किसी को भी जोड़िए, provider बदलने पर भी हर tool वैसा ही बना रहता है, और जब आप सो रहे हों तब इसे background में काम करने दीजिए।
 
-[![GitHub stars](https://img.shields.io/github/stars/blogminhquy/javis-os?style=flat&logo=github&label=stars)](https://github.com/blogminhquy/javis-os/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/kenwingroup/aivon?style=flat&logo=github&label=stars)](https://github.com/kenwingroup/aivon/stargazers)
 [![License: MIT](https://img.shields.io/badge/license-MIT-22c55e)](../../../LICENSE)
-[![Last commit](https://img.shields.io/github/last-commit/blogminhquy/javis-os?color=f97316)](https://github.com/blogminhquy/javis-os/commits/main)
+[![Last commit](https://img.shields.io/github/last-commit/kenwingroup/aivon?color=38bdf8)](https://github.com/kenwingroup/aivon/commits/main)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-3776ab?logo=python&logoColor=white)](../../../requirements.txt)
-[![Docker](https://img.shields.io/badge/docker-ghcr.io-2496ed?logo=docker&logoColor=white)](https://github.com/blogminhquy/javis-os/pkgs/container/javis-os)
+[![Docker](https://img.shields.io/badge/docker-ghcr.io-2496ed?logo=docker&logoColor=white)](https://github.com/kenwingroup/aivon/pkgs/container/aivon)
 [![MCP](https://img.shields.io/badge/tools-Model%20Context%20Protocol-8b5cf6)](https://modelcontextprotocol.io)
 
 <!-- flags:start -->
@@ -36,7 +36,7 @@
 
 [🇬🇧 English](../../../README.md) · [🇻🇳 Tiếng Việt](../vi/README.md) · [🇨🇳 简体中文](../zh/README.md) · [🇪🇸 Español](../es/README.md) · [🇯🇵 日本語](../ja/README.md) · 🇮🇳 **हिन्दी** · [🇧🇷 Português](../pt-BR/README.md) · [🇰🇷 한국어](../ko/README.md) · [🇷🇺 Русский](../ru/README.md) · [🇩🇪 Deutsch](../de/README.md) · [🇫🇷 Français](../fr/README.md) · [🇮🇩 Bahasa Indonesia](../id/README.md) · [🌍 अनुवाद में मदद करें](../../../CONTRIBUTING.md#translations)
 
-[क्विक स्टार्ट](#-क्विक-स्टार्ट) · [Aivon क्यों](#-aivon-क्यों) · [ब्रेन](#-12-ब्रेन-एक-toolkit) · [फ़ीचर्स](#-फ़ीचर्स) · [इंस्टॉल](#-इंस्टॉलेशन) · [Docs](../../../docs/en/README.md) · [सपोर्ट](#-aivon-os-को-सपोर्ट-करें)
+[क्विक स्टार्ट](#-क्विक-स्टार्ट) · [AIVON क्यों](#-aivon-क्यों) · [ब्रेन](#-12-ब्रेन-एक-toolkit) · [फ़ीचर्स](#-फ़ीचर्स) · [इंस्टॉल](#-इंस्टॉलेशन) · [Docs](../../../docs/en/README.md) · [सपोर्ट](#-aivon-को-सपोर्ट-करें)
 
 <br>
 
@@ -44,7 +44,7 @@
 
 </div>
 
-> 🌍 यह अंग्रेज़ी README का स्वचालित (automatic) अनुवाद है। आप जिस भाषा में लिखते हैं, Aivon उसी भाषा में जवाब देता है; इंटरफ़ेस फ़िलहाल अंग्रेज़ी और वियतनामी में उपलब्ध है। पूरा documentation अंग्रेज़ी में है ([docs/en](../../../docs/en/README.md))। सुधार का स्वागत है ([CONTRIBUTING](../../../CONTRIBUTING.md#translations))।
+> 🌍 यह अंग्रेज़ी README का स्वचालित (automatic) अनुवाद है। आप जिस भाषा में लिखते हैं, AIVON उसी भाषा में जवाब देता है; इंटरफ़ेस फ़िलहाल अंग्रेज़ी और वियतनामी में उपलब्ध है। पूरा documentation अंग्रेज़ी में है ([docs/en](../../../docs/en/README.md))। सुधार का स्वागत है ([CONTRIBUTING](../../../CONTRIBUTING.md#translations))।
 
 ---
 
@@ -54,22 +54,22 @@
 
 | मशीन | एक ही command सब कुछ इंस्टॉल कर देती है |
 |---|---|
-| **Linux / macOS** | `git clone https://github.com/blogminhquy/javis-os.git aivon && cd aivon && chmod +x install.sh && ./install.sh` |
-| **Windows** | `git clone https://github.com/blogminhquy/javis-os.git aivon; cd aivon; powershell -ExecutionPolicy Bypass -File install.ps1` |
-| **Docker** | `curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.yml && docker compose up -d` |
+| **Linux / macOS** | `git clone https://github.com/kenwingroup/aivon.git aivon && cd aivon && chmod +x install.sh && ./install.sh` |
+| **Windows** | `git clone https://github.com/kenwingroup/aivon.git aivon; cd aivon; powershell -ExecutionPolicy Bypass -File install.ps1` |
+| **Docker** | `curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.yml && docker compose up -d` |
 
 फिर **http://localhost:7979** खोलिए। Installer Python, चारों subscription CLI ब्रेन (`claude`, `codex`, `agy`, `grok`) और एक `.env` सेट करता है, फिर server शुरू कर देता है। हर ब्रेन में sign in आप **dashboard के Models page पर** करते हैं, अब commands टाइप करने की ज़रूरत नहीं।
 
 > [!NOTE]
-> Aivon पहले से चल रहा था और उसके **बाद** आपने कोई और CLI इंस्टॉल की? **Aivon को restart कीजिए।** चलता हुआ process वही PATH रखता है जिसके साथ वह शुरू हुआ था, इसलिए बाद में इंस्टॉल की गई CLI उसे दिखाई नहीं देती।
+> AIVON पहले से चल रहा था और उसके **बाद** आपने कोई और CLI इंस्टॉल की? **AIVON को restart कीजिए।** चलता हुआ process वही PATH रखता है जिसके साथ वह शुरू हुआ था, इसलिए बाद में इंस्टॉल की गई CLI उसे दिखाई नहीं देती।
 
 <p align="center">
-<img src="../../../docs/assets/diagrams/install-terminal.svg" width="100%" alt="Animated terminal: एक लाइन वाला installer Python, चारों subscription CLI ब्रेन और एक .env सेट करता है, फिर बताता है कि Aivon http://localhost:7979 पर चल रहा है">
+<img src="../../../docs/assets/diagrams/install-terminal.svg" width="100%" alt="Animated terminal: एक लाइन वाला installer Python, चारों subscription CLI ब्रेन और एक .env सेट करता है, फिर बताता है कि AIVON http://localhost:7979 पर चल रहा है">
 </p>
 
 ---
 
-## 🤔 Aivon क्यों?
+## 🤔 AIVON क्यों?
 
 AIVON कोई chatbot **नहीं** है। यह एक **self-hosted agentic AI** है जो आपकी अपनी मशीन या VPS पर चलता है: यह files पढ़ता और लिखता है, MCP के ज़रिए tools call करता है, skills चलाता है, background काम queue करता है और खुद को schedule करता है। यह सब एक **आवाज़ से चलने वाले dashboard** के पीछे है, जिसके साथ एक **Second Brain** (memory + wiki) है जो समय के साथ ज्ञान जमा करता जाता है।
 
@@ -86,9 +86,9 @@ AIVON कोई chatbot **नहीं** है। यह एक **self-hosted a
 
 तो आप वहीं रुक जाते हैं। इसलिए नहीं कि पुराना model अब भी सबसे अच्छा है, बल्कि इसलिए कि छोड़ने का मतलब है शून्य से शुरू करना। और जब vendor दाम बढ़ाता है, limits कड़ी करता है, कोई model बंद करता है या आपका account lock कर देता है, तो कोई plan B नहीं होता।
 
-### Aivon इसे उलट देता है: model किराए पर लीजिए, Brain अपना रखिए
+### AIVON इसे उलट देता है: model किराए पर लीजिए, Brain अपना रखिए
 
-Aivon में model एक ऐसा पुर्ज़ा है जिसे आप बदल सकते हैं। आप जो कुछ भी बनाते हैं, वह आपके पास रहता है, ऐसी files के रूप में जिन्हें आप खोल सकते हैं:
+AIVON में model एक ऐसा पुर्ज़ा है जिसे आप बदल सकते हैं। आप जो कुछ भी बनाते हैं, वह आपके पास रहता है, ऐसी files के रूप में जिन्हें आप खोल सकते हैं:
 
 | आप क्या बनाते हैं | यह कहाँ रहता है | Format |
 |---|---|---|
@@ -97,17 +97,17 @@ Aivon में model एक ऐसा पुर्ज़ा है जिसे
 | **ज्ञान** | आपके Brain के Wiki और Sources folders | Markdown, Obsidian-compatible |
 | **Skills** | `skills/<name>/SKILL.md` | Markdown |
 | **Agents और workflows** | `agents/*.md`, `workflows/*.md` | Front matter वाला Markdown |
-| **Loops और reminders** | `Aivon/loops/*.md`, `Aivon/reminders.json` | Markdown, JSON |
+| **Loops और reminders** | `AIVON/loops/*.md`, `AIVON/reminders.json` | Markdown, JSON |
 
 इससे आपको क्या मिलता है:
 
 - **नया model आया? Models page पर switch कीजिए और काम जारी रखिए।** वह वही memory पढ़ता है, वही skills, agents और workflows चलाता है, और MCP Hub के ज़रिए वही connections call करता है। न कुछ migrate करना, न कुछ दोबारा बनाना।
 - **एक साथ कई ब्रेन इस्तेमाल कीजिए।** बातचीत के लिए एक दमदार model, background काम के लिए एक सस्ता model, private notes के लिए एक local Ollama model, और सब एक ही Brain पर काम करते हुए।
-- **Aivon के बिना भी पढ़ा जा सकता है।** आपका Brain markdown का एक folder है। इसे Obsidian या किसी भी editor में खोलिए। अगर Aivon कल गायब हो जाए, तब भी आपका ज्ञान plain text में वहीं मौजूद रहेगा।
+- **AIVON के बिना भी पढ़ा जा सकता है।** आपका Brain markdown का एक folder है। इसे Obsidian या किसी भी editor में खोलिए। अगर AIVON कल गायब हो जाए, तब भी आपका ज्ञान plain text में वहीं मौजूद रहेगा।
 - **Versioned और portable।** हर learning pass एक git commit है जिसे आप एक tap में undo कर सकते हैं, और पूरा Brain आपकी अपनी private GitHub repo से sync हो सकता है, जो आपके laptop और VPS के बीच शेयर होती है।
-- **आपका data आपके hardware पर रहता है।** बीच में कोई Aivon cloud नहीं है। Request सिर्फ़ उसी model provider के पास जाती है जिसे आपने उसके लिए चुना है, और local Ollama model के साथ वह आपकी मशीन से बाहर ही नहीं जाती।
+- **आपका data आपके hardware पर रहता है।** बीच में कोई AIVON cloud नहीं है। Request सिर्फ़ उसी model provider के पास जाती है जिसे आपने उसके लिए चुना है, और local Ollama model के साथ वह आपकी मशीन से बाहर ही नहीं जाती।
 
-### Aivon बनाम एक आम chatbot
+### AIVON बनाम एक आम chatbot
 
 | | एक आम chatbot | **AIVON** |
 |---|---|---|
@@ -119,20 +119,20 @@ Aivon में model एक ऐसा पुर्ज़ा है जिसे
 | **आपका काम** | Vendor के servers पर, vendor के format में ही रह जाता है | **आपकी मशीन पर plain files**: history, memory, skills, agents और workflows किसी भी नए model के साथ चलते हैं |
 | **Deployment** | किसी और का cloud | **Self-hosted**: one-click [Hostinger](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN), Docker, या कोई भी VPS |
 
-> 💡 **फ़लसफ़ा: क्षमता Aivon में रहती है, model में नहीं।** हर ब्रेन को एक ही साझा connection hub (MCP Hub) के ज़रिए एक जैसा toolbox मिलता है। Claude से Gemini पर जाने में आपका कुछ नहीं जाता, सिवाय shell access के, जो सिर्फ़ CLI engines के पास होता है।
+> 💡 **फ़लसफ़ा: क्षमता AIVON में रहती है, model में नहीं।** हर ब्रेन को एक ही साझा connection hub (MCP Hub) के ज़रिए एक जैसा toolbox मिलता है। Claude से Gemini पर जाने में आपका कुछ नहीं जाता, सिवाय shell access के, जो सिर्फ़ CLI engines के पास होता है।
 
 <p align="center">
-<img src="../../../docs/assets/diagrams/chat-to-action.svg" width="100%" alt="Animated diagram: एक chat message Aivon में जाता है, जो काम पूरा करने वाला सबसे छोटा tool चुनता है, सीधे जवाब देने से लेकर task queue करने, agent, workflow, reminder या loop बनाने तक">
+<img src="../../../docs/assets/diagrams/chat-to-action.svg" width="100%" alt="Animated diagram: एक chat message AIVON में जाता है, जो काम पूरा करने वाला सबसे छोटा tool चुनता है, सीधे जवाब देने से लेकर task queue करने, agent, workflow, reminder या loop बनाने तक">
 </p>
 
 ---
 
 ## 🧠 12 ब्रेन, एक toolkit
 
-**Models** page पर ब्रेन चुनिए और जब चाहें बदल दीजिए। Aivon आज **12 providers** को सपोर्ट करता है।
+**Models** page पर ब्रेन चुनिए और जब चाहें बदल दीजिए। AIVON आज **12 providers** को सपोर्ट करता है।
 
 <p align="center">
-<img src="../../../docs/assets/diagrams/swappable-brain.svg" width="100%" alt="Animated diagram: बीच में Aivon core और उसके चारों ओर उसका toolkit (MCP Hub, Skills, Second Brain, Tasks, Schedules, Plugins), जबकि 12 ब्रेन बारी-बारी से जुड़ते हैं और हर tool जलता रहता है">
+<img src="../../../docs/assets/diagrams/swappable-brain.svg" width="100%" alt="Animated diagram: बीच में AIVON core और उसके चारों ओर उसका toolkit (MCP Hub, Skills, Second Brain, Tasks, Schedules, Plugins), जबकि 12 ब्रेन बारी-बारी से जुड़ते हैं और हर tool जलता रहता है">
 </p>
 
 | ब्रेन | भुगतान कैसे होता है | Shell, web, sub-agents |
@@ -141,15 +141,15 @@ Aivon में model एक ऐसा पुर्ज़ा है जिसे
 | **ChatGPT** (Codex के ज़रिए) | आपका ChatGPT plan | ✅ |
 | **Grok Build** | आपका SuperGrok या X Premium+ plan | ✅ |
 | **Antigravity CLI** | आपका Google plan (Antigravity IDE वाली ही model lineup, Claude समेत) | Shell ✅ |
-| **OpenRouter** | API key (एक key के पीछे सैकड़ों models) | Aivon tools के ज़रिए |
-| **OpenAI API** · **Anthropic API** · **Google Gemini** · **Groq** | API key | Aivon tools के ज़रिए |
-| **Ollama Cloud** · **इसी मशीन पर Ollama** | API key, या अपने hardware पर मुफ़्त | Aivon tools के ज़रिए |
-| **कोई भी OpenAI-compatible endpoint** | जो भी वह endpoint माँगे | Aivon tools के ज़रिए |
+| **OpenRouter** | API key (एक key के पीछे सैकड़ों models) | AIVON tools के ज़रिए |
+| **OpenAI API** · **Anthropic API** · **Google Gemini** · **Groq** | API key | AIVON tools के ज़रिए |
+| **Ollama Cloud** · **इसी मशीन पर Ollama** | API key, या अपने hardware पर मुफ़्त | AIVON tools के ज़रिए |
+| **कोई भी OpenAI-compatible endpoint** | जो भी वह endpoint माँगे | AIVON tools के ज़रिए |
 
 हर ब्रेन आपके जुड़े हुए MCP servers को call कर सकता है, Brain को पढ़ और लिख सकता है, skills चला सकता है, Kanban में काम queue कर सकता है, और agents, workflows, loops और reminders बना सकता है। CLI engines इसके अलावा **shell commands** चलाते हैं, **web से fetch और search** करते हैं, और **parallel sub-agents** शुरू करते हैं।
 
 > [!WARNING]
-> **किसी subscription से background काम करवाने से पहले यह पढ़िए।** Anthropic, Claude Pro/Max को Claude Code के **सामान्य निजी इस्तेमाल** तक सीमित रखता है। लगातार background execution (loops, reminders, Kanban jobs, chatbots), VPS पर चलाना, या कई लोगों का एक ही account शेयर करना, ये सब उस दायरे से बाहर हैं, और इसकी वजह से accounts **suspend हो चुके हैं**। Aivon आपका login token कभी नहीं पढ़ता: यह असली `claude` binary चलाता है, लेकिन इससे चौबीसों घंटे का background इस्तेमाल जायज़ नहीं हो जाता। सुरक्षित रहने के लिए Models page पर Claude Code को **API key** पर चलाइए, या **background-work model** को किसी दूसरे provider पर सेट कीजिए। यही सावधानी xAI plan पर भी लागू होती है। देखें `server/claude_auth.py`।
+> **किसी subscription से background काम करवाने से पहले यह पढ़िए।** Anthropic, Claude Pro/Max को Claude Code के **सामान्य निजी इस्तेमाल** तक सीमित रखता है। लगातार background execution (loops, reminders, Kanban jobs, chatbots), VPS पर चलाना, या कई लोगों का एक ही account शेयर करना, ये सब उस दायरे से बाहर हैं, और इसकी वजह से accounts **suspend हो चुके हैं**। AIVON आपका login token कभी नहीं पढ़ता: यह असली `claude` binary चलाता है, लेकिन इससे चौबीसों घंटे का background इस्तेमाल जायज़ नहीं हो जाता। सुरक्षित रहने के लिए Models page पर Claude Code को **API key** पर चलाइए, या **background-work model** को किसी दूसरे provider पर सेट कीजिए। यही सावधानी xAI plan पर भी लागू होती है। देखें `server/claude_auth.py`।
 
 ---
 
@@ -164,15 +164,15 @@ Aivon में model एक ऐसा पुर्ज़ा है जिसे
 <td width="50%" valign="top">
 
 ### 🗣️ इससे बात कीजिए
-- **Hands-free आवाज़**: आप बोलिए, Aivon सुनता है और बोलकर जवाब देता है (default रूप से मुफ़्त Edge TTS, या OpenAI और ElevenLabs)।
+- **Hands-free आवाज़**: आप बोलिए, AIVON सुनता है और बोलकर जवाब देता है (default रूप से मुफ़्त Edge TTS, या OpenAI और ElevenLabs)।
 - **Chat sessions** जिन्हें आप save कर सकते हैं, दोबारा खोल सकते हैं और full-text search कर सकते हैं। लंबे sessions काटे नहीं जाते, बल्कि summaries में compact हो जाते हैं।
-- **Telegram, Slack, WhatsApp, Zalo, एक CLI और एक web dashboard**, सब एक ही Aivon से बात करते हैं ([Slack और WhatsApp का setup](../../../docs/en/29-slack-whatsapp.md))।
-- **कोई भी भाषा**: आप जिस भाषा में लिखते हैं, Aivon उसी में जवाब देता है। इंटरफ़ेस अंग्रेज़ी और वियतनामी में आता है।
+- **Telegram, Slack, WhatsApp, Zalo, एक CLI और एक web dashboard**, सब एक ही AIVON से बात करते हैं ([Slack और WhatsApp का setup](../../../docs/en/29-slack-whatsapp.md))।
+- **कोई भी भाषा**: आप जिस भाषा में लिखते हैं, AIVON उसी में जवाब देता है। इंटरफ़ेस अंग्रेज़ी और वियतनामी में आता है।
 
 ### 🧠 सब कुछ याद रखिए
 - **Second Brain**: एक markdown vault (Obsidian-compatible), जिसमें long-term memory, एक Wiki और कच्चे Sources हैं।
 - `[[wikilink]]` से जुड़े आपके notes का **knowledge graph**, एक हल्के canvas पर जो offline भी चलता है।
-- **Self-learning**: हर बातचीत के बाद Aivon memories, wiki ज्ञान और skills निकालता है। हर learning pass एक git commit होता है, इसलिए उसे **एक tap में undo** किया जा सकता है।
+- **Self-learning**: हर बातचीत के बाद AIVON memories, wiki ज्ञान और skills निकालता है। हर learning pass एक git commit होता है, इसलिए उसे **एक tap में undo** किया जा सकता है।
 - **GitHub पर backup**: हर Brain की एक private repo के साथ two-way sync, जो आपके laptop और VPS के बीच शेयर होती है।
 
 </td>
@@ -185,7 +185,7 @@ Aivon में model एक ऐसा पुर्ज़ा है जिसे
 - **Chatbots**: किसी agent को उसके अपने Telegram, Slack, WhatsApp या Zalo bot पर अपने customers के सामने रखिए, एक shared inbox के साथ जिसे आप कभी भी अपने हाथ में ले सकते हैं।
 
 ### 🔌 कुछ भी जोड़िए
-- **MCP connection store**, हर service के लिए कई accounts और तीन permission levels के साथ, जिन्हें Aivon **सख़्ती से लागू** करता है।
+- **MCP connection store**, हर service के लिए कई accounts और तीन permission levels के साथ, जिन्हें AIVON **सख़्ती से लागू** करता है।
 - **Skills और plugins**: एक folder डालिए और हर engine के लिए know-how (skill) या एक native Python tool (plugin) जोड़िए।
 - आप जिस ChatGPT plan में पहले से signed in हैं, उसी पर **image generation**।
 - **Usage tracking**: हर दिन, हर provider के हिसाब से tokens और खर्च, इस बँटवारे के साथ कि क्या आपने टाइप किया और क्या अपने आप चला।
@@ -212,10 +212,10 @@ flowchart LR
     subgraph You
         W[Web dashboard<br>voice + graph]
         T[Telegram]
-        C[Aivon CLI]
+        C[AIVON CLI]
         Z[Zalo / bot channels]
     end
-    subgraph Aivon["AIVON (FastAPI, self-hosted)"]
+    subgraph AIVON["AIVON (FastAPI, self-hosted)"]
         R[Engine router]
         H[MCP Hub<br>shared toolbox]
         B[(Second Brain<br>Memory + Wiki + Sources)]
@@ -242,29 +242,29 @@ flowchart LR
 ## 🚀 इंस्टॉलेशन
 
 > [!IMPORTANT]
-> Aivon मशीन पर **पूरे अधिकारों** के साथ एक AI ब्रेन चलाता है। जब यह public रूप से चलता है (Docker, VPS, Hostinger), तो Aivon **खुद ही login ज़रूरी कर देता है**: app खोलते ही account बनाने या sign in करने की screen आती है, और password के बिना कोई इसे चला नहीं सकता।
+> AIVON मशीन पर **पूरे अधिकारों** के साथ एक AI ब्रेन चलाता है। जब यह public रूप से चलता है (Docker, VPS, Hostinger), तो AIVON **खुद ही login ज़रूरी कर देता है**: app खोलते ही account बनाने या sign in करने की screen आती है, और password के बिना कोई इसे चला नहीं सकता।
 
 <details open>
 <summary><b>विकल्प 1: Hostinger Docker Manager (domain + HTTPS, एक click में)</b></summary>
 
-> 🛒 **अभी VPS नहीं है?** [Hostinger VPS यहाँ से लीजिए](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN)। इसमें Docker Manager पहले से है, इसलिए Aivon एक click में install होता है। तैयार होने पर नीचे के steps पर लौट आइए।
+> 🛒 **अभी VPS नहीं है?** [Hostinger VPS यहाँ से लीजिए](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN)। इसमें Docker Manager पहले से है, इसलिए AIVON एक click में install होता है। तैयार होने पर नीचे के steps पर लौट आइए।
 
 Hostinger VPS → **Docker Manager → Compose → URL** → Hostinger वाली file paste कीजिए और **Deploy** दबाइए:
 
 ```
-https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.hostinger.yml
+https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.hostinger.yml
 ```
 
-**Environment** box में सिर्फ़ तीन fields चाहिए: `DOMAIN_NAME`, `AIVON_ADMIN_USER`, `AIVON_ADMIN_PASSWORD`, साथ में एक वैकल्पिक `AIVON_AUTO_UPDATE` (इसे `true` करने पर Aivon हर दिन खुद को update करता है)।
+**Environment** box में सिर्फ़ तीन fields चाहिए: `DOMAIN_NAME`, `AIVON_ADMIN_USER`, `AIVON_ADMIN_PASSWORD`, साथ में एक वैकल्पिक `AIVON_AUTO_UPDATE` (इसे `true` करने पर AIVON हर दिन खुद को update करता है)।
 
 `DOMAIN_NAME` सेट कीजिए ताकि Hostinger का Traefik HTTPS जारी करे:
-- **मुफ़्त link** (domain खरीदने की ज़रूरत नहीं): `DOMAIN_NAME=aivon.<vps-hostname>.hstgr.cloud` (hostname hPanel → VPS में मिलेगा, जैसे `javis.srv1562015.hstgr.cloud`)।
+- **मुफ़्त link** (domain खरीदने की ज़रूरत नहीं): `DOMAIN_NAME=aivon.<vps-hostname>.hstgr.cloud` (hostname hPanel → VPS में मिलेगा, जैसे `aivon.srv1562015.hstgr.cloud`)।
 - **आपका अपना domain:** `DOMAIN_NAME=example.com` और एक A record को VPS के IP पर point कीजिए।
 
 Certificate के लिए 1-3 मिनट इंतज़ार कीजिए, फिर `https://<DOMAIN_NAME>` खोलिए।
 
 **तीन एक-बार वाले कदम:**
-1. **GHCR image को Public कीजिए:** GitHub → repo → **Packages** → `aivon-os` → *Package settings* → Visibility = **Public**।
+1. **GHCR image को Public कीजिए:** GitHub → repo → **Packages** → `aivon` → *Package settings* → Visibility = **Public**।
 2. **Admin account बनाइए:** `AIVON_ADMIN_USER` + `AIVON_ADMIN_PASSWORD` भरिए (सुझाया गया तरीका), या deploy करते ही app खोलकर खुद एक बना लीजिए। जब तक कोई admin नहीं है, जो भी सबसे पहले link खोलेगा वह admin बना सकता है। उसके बाद **2FA चालू कीजिए** ([Security and accounts](../../../docs/en/14-security-and-accounts.md))।
 3. **Models** page पर **किसी ब्रेन में sign in कीजिए**।
 
@@ -280,7 +280,7 @@ Certificate के लिए 1-3 मिनट इंतज़ार कीजि
 ```bash
 # Docker required (don't have it?  curl -fsSL https://get.docker.com | sh)
 mkdir aivon && cd aivon
-curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.yml
+curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.yml
 
 docker compose run --rm aivon claude auth login --claudeai   # sign in to Claude once (optional)
 docker compose up -d                                          # pull the image and run
@@ -296,7 +296,7 @@ docker compose up -d                                          # pull the image a
 <summary><b>विकल्प 3: Linux या macOS, बिना Docker</b></summary>
 
 ```bash
-git clone https://github.com/blogminhquy/javis-os.git aivon && cd aivon
+git clone https://github.com/kenwingroup/aivon.git aivon && cd aivon
 chmod +x install.sh && ./install.sh
 ```
 
@@ -310,7 +310,7 @@ Script Python, Node और CLI ब्रेन इंस्टॉल करत�
 <summary><b>विकल्प 4: Windows (निजी मशीन)</b></summary>
 
 ```powershell
-git clone https://github.com/blogminhquy/javis-os.git aivon; cd aivon
+git clone https://github.com/kenwingroup/aivon.git aivon; cd aivon
 powershell -ExecutionPolicy Bypass -File install.ps1
 ```
 
@@ -328,7 +328,7 @@ Dashboard:                             http://localhost:7979
 </details>
 
 <details>
-<summary><b>एक VPS पर कई Aivon instances</b></summary>
+<summary><b>एक VPS पर कई AIVON instances</b></summary>
 
 हर instance के ब्रेन, settings और accounts पूरी तरह अलग रहते हैं। उनके बीच सिर्फ़ तीन values अलग होती हैं: `AIVON_NAME`, `AIVON_HOST_PORT`, `DOMAIN_NAME`।
 
@@ -342,16 +342,16 @@ Dashboard:                             http://localhost:7979
 
 ### 🎬 पहली बार चलाना
 
-Aivon खोलिए और setup wizard आपको आपके browser की भाषा में पूरी प्रक्रिया से गुज़ारता है:
+AIVON खोलिए और setup wizard आपको आपके browser की भाषा में पूरी प्रक्रिया से गुज़ारता है:
 
 1. **Admin account**: public रूप से चलाते समय ज़रूरी है, ताकि अजनबी अंदर न आ सकें।
 2. **एक ब्रेन चुनिए**: किसी subscription से एक बार sign in कीजिए, या एक API key paste कीजिए। Claude Code card पर एक **"Runs on"** switch है, जो आपके signed-in plan और एक Anthropic API key के बीच चुनता है।
 3. **एक model चुनिए**: बाद में provider बदलने पर कोई फ़ीचर नहीं खोता (shell commands को छोड़कर, जो सिर्फ़ CLI engines के पास हैं)।
-4. **Connections जोड़िए** (वैकल्पिक): **Connections** खोलिए, कोई service चुनिए और एक key paste कीजिए या QR code scan कीजिए। उसके बाद Aivon उसके असली आंकड़ों पर report करता है।
+4. **Connections जोड़िए** (वैकल्पिक): **Connections** खोलिए, कोई service चुनिए और एक key paste कीजिए या QR code scan कीजिए। उसके बाद AIVON उसके असली आंकड़ों पर report करता है।
 
 ---
 
-## 📖 Aivon का इस्तेमाल
+## 📖 AIVON का इस्तेमाल
 
 बाईं rail pages को **6 groups** में बाँटती है। हर page की guide [docs/en/](../../../docs/en/README.md) में है।
 
@@ -361,18 +361,18 @@ Aivon खोलिए और setup wizard आपको आपके browser क�
 | **Code** | Terminal, Coding | [Code terminal](../../../docs/en/27-code-terminal.md) |
 | **Capabilities** | Partners (agents और workflows), Chatbot, Skills, Plugins | [Agents and workflows](../../../docs/en/07-agents-and-workflows.md) · [Chatbots](../../../docs/en/25-chatbots.md) · [Customer conversations](../../../docs/en/28-customer-conversations.md) · [Skills](../../../docs/en/06-skills.md) · [Plugins](../../../docs/en/20-plugins.md) |
 | **Work** | Tasks, Scheduled | [Tasks (Kanban)](../../../docs/en/21-kanban-work.md) · [Recurring jobs and reminders](../../../docs/en/08-recurring-jobs.md) |
-| **Connections** | Connections, Aivon Store, Channels, Models | [Connections and business data](../../../docs/en/09-connections-and-business-data.md) · [Telegram](../../../docs/en/11-telegram.md) · [Zalo](../../../docs/en/12-zalo-agent-mcp.md) · [Models and engines](../../../docs/en/10-models-and-engines.md) |
-| **System** | Settings, Share links, Account | [Getting started](../../../docs/en/01-getting-started.md) · [Security and accounts](../../../docs/en/14-security-and-accounts.md) · [Usage and cost](../../../docs/en/23-usage-and-cost.md) · [Aivon CLI](../../../docs/en/24-cli.md) |
+| **Connections** | Connections, AIVON Store, Channels, Models | [Connections and business data](../../../docs/en/09-connections-and-business-data.md) · [Telegram](../../../docs/en/11-telegram.md) · [Zalo](../../../docs/en/12-zalo-agent-mcp.md) · [Models and engines](../../../docs/en/10-models-and-engines.md) |
+| **System** | Settings, Share links, Account | [Getting started](../../../docs/en/01-getting-started.md) · [Security and accounts](../../../docs/en/14-security-and-accounts.md) · [Usage and cost](../../../docs/en/23-usage-and-cost.md) · [AIVON CLI](../../../docs/en/24-cli.md) |
 
 और भी: [Second Brain: memory, Wiki and INGEST](../../../docs/en/13-second-brain.md) · [GitHub backup](../../../docs/en/18-github-backup.md) · [Tasks and Dataview in notes](../../../docs/en/19-tasks-and-dataview.md) · [Branding and custom domains](../../../docs/en/15-branding-and-domains.md) · [Troubleshooting](../../../docs/en/17-troubleshooting.md)
 
 ### कुछ चीज़ें आज़माइए
 
-- **आंकड़े पूछिए:** *"आज का revenue कल की तुलना में कैसा है?"* Aivon सही connection को call करता है और असली आंकड़ों के साथ सुझाव भी देता है।
-- **ज्ञान पचाइए:** कोई file या note डाल दीजिए। Aivon उसका सार निकालता है, insight निकालता है, उसे Wiki में लिखता है और tasks सुझाता है।
+- **आंकड़े पूछिए:** *"आज का revenue कल की तुलना में कैसा है?"* AIVON सही connection को call करता है और असली आंकड़ों के साथ सुझाव भी देता है।
+- **ज्ञान पचाइए:** कोई file या note डाल दीजिए। AIVON उसका सार निकालता है, insight निकालता है, उसे Wiki में लिखता है और tasks सुझाता है।
 - **Background काम सौंपिए:** **Tasks** → **+ Assign goal** → *"इस हफ़्ते की sales का सार निकालो, धीमे बिकने वाला stock ढूँढो, उसे आगे बढ़ाने के लिए तीन captions का draft बनाओ"*। AI उसका spec बनाता है, उसे चलाता है और नतीजे वापस भेजता है।
 - **कुछ schedule कीजिए:** *"हर कार्यदिवस सुबह 8:30 बजे मुझे ads budget चेक करने की याद दिलाना"*, chat में या **Scheduled** page पर।
-- **अपनी आवाज़ का इस्तेमाल कीजिए:** mic दबाइए (या hands-free चालू कीजिए), बोलिए, और Aivon बोलकर जवाब देता है।
+- **अपनी आवाज़ का इस्तेमाल कीजिए:** mic दबाइए (या hands-free चालू कीजिए), बोलिए, और AIVON बोलकर जवाब देता है।
 
 <div align="center">
 <img src="../../../docs/assets/screenshots/mobile.jpg" alt="फ़ोन पर AIVON: ऊपर knowledge graph, उसके नीचे बातचीत और सबसे नीचे chat bar" width="300">
@@ -383,7 +383,7 @@ Aivon खोलिए और setup wizard आपको आपके browser क�
 
 ## ⚙️ Configuration (`.env`)
 
-हर लाइन ख़ाली रह सकती है और Aivon फिर भी चलता है। `env.example` → `.env` copy कीजिए और जो चाहिए वह जोड़िए। हर variable की व्याख्या के साथ पूरी सूची [docs/en/16-env-configuration.md](../../../docs/en/16-env-configuration.md) में है।
+हर लाइन ख़ाली रह सकती है और AIVON फिर भी चलता है। `env.example` → `.env` copy कीजिए और जो चाहिए वह जोड़िए। हर variable की व्याख्या के साथ पूरी सूची [docs/en/16-env-configuration.md](../../../docs/en/16-env-configuration.md) में है।
 
 | Variable | मतलब | Default |
 |---|---|---|
@@ -422,7 +422,7 @@ App में: **Settings → Updates → Update now**, progress bar के स�
 
 | समस्या | क्या करें |
 |---|---|
-| Models page कहता है कि कोई CLI इंस्टॉल नहीं है, जबकि वह है | **Aivon को restart कीजिए**: चलता हुआ process वही PATH रखता है जो उसके शुरू होने के समय था। |
+| Models page कहता है कि कोई CLI इंस्टॉल नहीं है, जबकि वह है | **AIVON को restart कीजिए**: चलता हुआ process वही PATH रखता है जो उसके शुरू होने के समय था। |
 | Port 7979 पहले से इस्तेमाल में है और नया build शुरू नहीं होता | पहले पुराना process रोकिए (`stop-aivon.bat`, या PID को kill कीजिए), फिर दोबारा शुरू कीजिए। |
 | Hostinger image pull नहीं कर पाता | GHCR package को **Public** कीजिए और GitHub Action build पूरा होने का इंतज़ार कीजिए। |
 | कोई ब्रेन कहता है कि वह signed in नहीं है | **Models** → उस provider का card → sign in। |
@@ -434,7 +434,7 @@ App में: **Settings → Updates → Update now**, progress bar के स�
 ## 📂 Repository का ढाँचा
 
 ```
-aivon-os/
+aivon/
 ├── server/          # FastAPI backend: engines, connections, background work, channels, memory
 ├── dashboard/       # Frontend (plain JS, no build step)
 │   └── i18n/        # Interface strings, one JSON file per language
@@ -444,7 +444,7 @@ aivon-os/
 ├── tests/           # Python + JS test suite (python tests/run.py)
 ├── install.sh · install.ps1 · update.sh
 ├── Dockerfile · docker-compose*.yml
-└── CLAUDE.md        # The system prompt Aivon runs on
+└── CLAUDE.md        # The system prompt AIVON runs on
 ```
 
 ---
@@ -453,7 +453,7 @@ aivon-os/
 
 | क्या | आज की भाषाएँ |
 |---|---|
-| **Aivon के जवाब** | कोई भी भाषा: आप जिस भाषा में लिखते हैं उसी में जवाब देता है, या उस भाषा में जिसे आप Settings में pin करें |
+| **AIVON के जवाब** | कोई भी भाषा: आप जिस भाषा में लिखते हैं उसी में जवाब देता है, या उस भाषा में जिसे आप Settings में pin करें |
 | **Dashboard और server messages** | 🇬🇧 English · 🇻🇳 Tiếng Việt, हर device के हिसाब से: जब तक आप कोई भाषा न चुनें, हर browser की अपनी भाषा होती है |
 | **Connection store, plugins, नए ब्रेन की starter files** | 🇬🇧 English · 🇻🇳 Tiếng Việt |
 | **README और quick start** | 🇬🇧 English · 🇻🇳 Tiếng Việt · 🇨🇳 简体中文 · 🇪🇸 Español · 🇯🇵 日本語 · 🇮🇳 हिन्दी · 🇧🇷 Português · 🇰🇷 한국어 · 🇷🇺 Русский · 🇩🇪 Deutsch · 🇫🇷 Français · 🇮🇩 Bahasa Indonesia |
@@ -472,21 +472,21 @@ Bug reports, ideas, अनुवाद और pull requests, सबका स्
 | [CONTRIBUTING.md](../../../CONTRIBUTING.md) | Setup, tests चलाना (`python tests/run.py`), code conventions |
 | [ARCHITECTURE.md](../../../ARCHITECTURE.md) | सारे हिस्से आपस में कैसे जुड़ते हैं, और server modules का नक्शा |
 | [docs/dev/GLOSSARY.md](../../../docs/dev/GLOSSARY.md) | Code base वियतनामी में लिखा गया था: यह `nhac_hen` (reminder) जैसे नामों का मतलब समझाता है |
-| [docs/dev/adding-a-language.md](../../../docs/dev/adding-a-language.md) | Aivon को अपनी भाषा में अनुवाद करना, कदम-दर-कदम |
-| [Issue templates](https://github.com/blogminhquy/javis-os/issues/new/choose) | Bug report, feature request, अनुवाद की पेशकश |
+| [docs/dev/adding-a-language.md](../../../docs/dev/adding-a-language.md) | AIVON को अपनी भाषा में अनुवाद करना, कदम-दर-कदम |
+| [Issue templates](https://github.com/kenwingroup/aivon/issues/new/choose) | Bug report, feature request, अनुवाद की पेशकश |
 
 कृपया [Code of Conduct](../../../CODE_OF_CONDUCT.md) का पालन कीजिए, और security समस्याओं की रिपोर्ट [SECURITY.md](../../../SECURITY.md) में बताए तरीके से निजी रूप से कीजिए।
 
-अगर Aivon आपके काम आता है, तो repo पर एक ⭐ दूसरे लोगों को इसे ढूँढने में मदद करता है।
+अगर AIVON आपके काम आता है, तो repo पर एक ⭐ दूसरे लोगों को इसे ढूँढने में मदद करता है।
 
-[![Star History Chart](https://api.star-history.com/svg?repos=blogminhquy/javis-os&type=Date)](https://star-history.com/#blogminhquy/javis-os&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=kenwingroup/aivon&type=Date)](https://star-history.com/#kenwingroup/aivon&Date)
 
 ---
 
 ## 🙏 आभार
 
 - **ब्रेन:** [Claude Code](https://claude.com/claude-code) और [Claude Agent SDK](https://docs.claude.com/en/api/agent-sdk/overview) (Anthropic), [Codex CLI](https://developers.openai.com/codex/cli) (OpenAI), [Grok Build](https://x.ai) (xAI), [Antigravity](https://antigravity.google) (Google), साथ ही [OpenRouter](https://openrouter.ai), OpenAI, [Google Gemini](https://ai.google.dev), Anthropic, [Groq](https://groq.com) और [Ollama](https://ollama.com) की APIs।
-- **Tool standard:** [Model Context Protocol](https://modelcontextprotocol.io)। Aivon का पूरा connection store इसी पर चलता है।
+- **Tool standard:** [Model Context Protocol](https://modelcontextprotocol.io)। AIVON का पूरा connection store इसी पर चलता है।
 - Second Brain और digital Bullet Journal के patterns।
 
 ## 📄 License
@@ -495,17 +495,15 @@ Bug reports, ideas, अनुवाद और pull requests, सबका स्
 
 ---
 
-## ☕ AIVON को सपोर्ट करें
+## 📞 Contact & Support AIVON
 
-AIVON मुफ़्त और open source है, और इसका code अब भी एक ही व्यक्ति लिखता है और test servers का खर्च भी वही उठाता है। अगर Aivon आपके काम या ज़िंदगी में मदद करता है, तो एक छोटा-सा दान bug fixes और नए फ़ीचर्स के लिए और समय देता है।
+**AIVON — Intelligence · Vision · Always On**
 
-- 🌍 **PayPal**: [paypal.me/quy01](https://paypal.me/quy01)
-- 🏦 **MB Bank** (वियतनाम): `6636966369`
-- 📱 **MoMo wallet** (वियतनाम): `0372752740`
-
-दान नहीं कर सकते? Aivon का इस्तेमाल करना, feedback भेजना या pull request खोलना भी सपोर्ट ही है।
+- 👤 **Author / Owner**: **Minh Vũ**
+- 📞 **Hotline / Zalo**: `0989811931`
+- 🌐 **GitHub Repository**: [https://github.com/kenwingroup/aivon](https://github.com/kenwingroup/aivon)
 
 <div align="center">
 <br>
-<b><a href="https://minhquy.vn">Minh Quý</a></b> ने वियतनाम में ☕ के साथ बनाया
+Developed in Vietnam by <b>Minh Vũ · Hotline: 0989811931</b> · <a href="https://github.com/kenwingroup/aivon">AIVON</a>
 </div>

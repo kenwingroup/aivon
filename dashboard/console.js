@@ -1069,14 +1069,14 @@
     if (maLyDo === "watchtower_off") {
       // Short reason stays visible; the how-to folds into the (i) block (0.214.0).
       return window.t("cs.upd_wt_a") + " <b>" + window.t("cs.upd_wt_b") + "</b>" + infoBtn() + infoBody(window.t("cs.upd_wt_c")
-        + "<br><code>curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.yml</code>"
+        + "<br><code>curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.yml</code>"
         + "<br><code>docker compose up -d --pull always</code><br>"
         + window.t("cs.upd_wt_d")
         + "<br><code>docker compose --profile update up -d</code><br>"
         + window.t("cs.upd_wt_e")
         + " <code>docker compose up -d --pull always</code>."
         // Chủ repo gõ lệnh trên rồi lãnh "no configuration file provided: not found" - đứng sai
-        // thư mục, vì tên thư mục tuỳ lúc clone (aivon hay aivon-os). Câu "ở thư mục chứa file
+        // thư mục, vì tên thư mục tuỳ lúc clone (aivon hay aivon). Câu "ở thư mục chứa file
         // compose" đúng nhưng vô dụng khi người ta KHÔNG BIẾT nó nằm đâu. Docker biết, nên hỏi nó.
         + "<div class=\"upd-why-sub\">" + window.t("cs.upd_wt_f") + " <code>no configuration file provided: not found</code> "
         + window.t("cs.upd_wt_g") + "<br>"
@@ -1205,7 +1205,7 @@
           if (rollback && root.dataset.updateMode === "docker") {
             const prev = root.dataset.previousVersion || "";
             rollback.style.display = "";
-            rollback.innerHTML = "<b>" + window.t("cs.upd_rb_docker") + "</b><br><code>docker compose pull && docker compose up -d</code>" + (prev ? `<br>${window.t("cs.upd_pin_a")} <code>ghcr.io/blogminhquy/javis-os:${esc(prev)}</code> ${window.t("cs.upd_pin_b")}` : "");
+            rollback.innerHTML = "<b>" + window.t("cs.upd_rb_docker") + "</b><br><code>docker compose pull && docker compose up -d</code>" + (prev ? `<br>${window.t("cs.upd_pin_a")} <code>ghcr.io/kenwingroup/aivon:${esc(prev)}</code> ${window.t("cs.upd_pin_b")}` : "");
           }
           update.disabled = false;
         }
@@ -2918,7 +2918,7 @@
 
       <div class="si-log" id="lnBackupBox">
         <h3 style="font-size:15px;color:var(--text)">⇅ ${esc(window.t("cs.bk_head"))}${infoBtn()}</h3>
-        ${infoBody(`<p style="margin:0 0 8px">${esc(window.t("cs.bk_p_a"))} <b>${esc(window.t("cs.bk_p_b"))}</b> ${esc(window.t("cs.bk_p_c"))} <b>${esc(window.t("cs.bk_p_d"))}</b>${esc(window.t("cs.bk_p_e"))} <code>.conflict-*</code> ${esc(window.t("cs.bk_p_f"))} <a href="https://github.com/blogminhquy/javis-os/blob/main/docs/18-sao-luu-github.md" target="_blank" style="color:var(--link-ink)">docs/18-sao-luu-github.md</a>.</p>
+        ${infoBody(`<p style="margin:0 0 8px">${esc(window.t("cs.bk_p_a"))} <b>${esc(window.t("cs.bk_p_b"))}</b> ${esc(window.t("cs.bk_p_c"))} <b>${esc(window.t("cs.bk_p_d"))}</b>${esc(window.t("cs.bk_p_e"))} <code>.conflict-*</code> ${esc(window.t("cs.bk_p_f"))} <a href="https://github.com/kenwingroup/aivon/blob/main/docs/18-sao-luu-github.md" target="_blank" style="color:var(--link-ink)">docs/18-sao-luu-github.md</a>.</p>
         <ol style="line-height:1.7;margin:0;padding-left:20px">
           <li>${esc(window.t("cs.bk_li1_a"))} <b>Private</b> ${esc(window.t("cs.bk_li1_b"))} <code>aivon-brain-backup</code>.</li>
           <li>${esc(window.t("cs.bk_li2_a"))} <b>Fine-grained tokens</b> ${esc(window.t("cs.bk_li2_b"))} <b>Contents: Read and write</b> ${esc(window.t("cs.bk_li2_c"))} <code>github_pat_...</code>).</li>
@@ -3669,7 +3669,7 @@
             rb.style.display = "";
             rb.innerHTML = "<b>" + esc(window.t("cs.ov_rb_head")) + "</b><br>" + esc(window.t("cs.ov_rb_pin"))
               + "<br><code>docker compose pull && docker compose up -d</code>"
-              + (prev ? "<br>" + esc(window.t("cs.ov_rb_img")) + " <code>ghcr.io/blogminhquy/javis-os:" + esc(prev) + "</code> " + esc(window.t("cs.upd_pin_b")) : "");
+              + (prev ? "<br>" + esc(window.t("cs.ov_rb_img")) + " <code>ghcr.io/kenwingroup/aivon:" + esc(prev) + "</code> " + esc(window.t("cs.upd_pin_b")) : "");
           }
           verUpd.disabled = false;
         }
@@ -6497,7 +6497,7 @@
   // Hướng dẫn mở đúng bản theo ngôn ngữ giao diện: tiếng Việt ở docs/, mọi thứ tiếng khác ở docs/en/.
   const DOC_GUIDE = { slack: "29-slack-whatsapp.md", whatsapp: "29-slack-whatsapp.md",
                       discord: "30-discord-lark.md", lark: "30-discord-lark.md" };
-  const docGuideUrl = (k) => "https://github.com/blogminhquy/javis-os/blob/main/docs/"
+  const docGuideUrl = (k) => "https://github.com/kenwingroup/aivon/blob/main/docs/"
     + ((window.AivonI18n && window.AivonI18n.lang() === "vi") ? "" : "en/") + DOC_GUIDE[k];
   const ACH_TAB_KEY = "aivon.adminChannelTab";
   // Khoá viết rõ từng cái (không ghép chuỗi) để bộ soát i18n thấy được khoá nào đang dùng.
@@ -6868,8 +6868,8 @@
           <div id="tkNew"></div>
           <div id="tkList" class="tk-list"></div>
           <div class="tk-docs">
-            <a href="https://github.com/blogminhquy/javis-os/blob/main/docs/24-cli-terminal.md" target="_blank" rel="noopener">${esc(window.t("cs.ac_doc_cli"))} ↗</a>
-            <a href="https://github.com/blogminhquy/javis-os/blob/main/docs/14-bao-mat-tai-khoan.md" target="_blank" rel="noopener">${esc(window.t("cs.ac_doc_sec"))} ↗</a>
+            <a href="https://github.com/kenwingroup/aivon/blob/main/docs/24-cli-terminal.md" target="_blank" rel="noopener">${esc(window.t("cs.ac_doc_cli"))} ↗</a>
+            <a href="https://github.com/kenwingroup/aivon/blob/main/docs/14-bao-mat-tai-khoan.md" target="_blank" rel="noopener">${esc(window.t("cs.ac_doc_sec"))} ↗</a>
           </div>
         </div>
       </div>`;
@@ -6897,7 +6897,7 @@
             <button class="gcard-btn ghost" id="tkHide">${esc(window.t("cs.ac_tk_hide"))}</button>
           </div>
           <div class="gcard-meta">${esc(window.t("cs.ac_tk_paste"))} <code>aivon login ${esc(location.origin)} --token &lt;token&gt;</code></div>
-          <div class="gcard-meta">${esc(window.t("cs.ac_tk_nocli"))} <code>pip install aivon-cli</code> · <a class="tk-doclink" href="https://github.com/blogminhquy/javis-os/blob/main/docs/24-cli-terminal.md" target="_blank" rel="noopener">${esc(window.t("cs.ac_tk_seedoc"))} ↗</a></div>
+          <div class="gcard-meta">${esc(window.t("cs.ac_tk_nocli"))} <code>pip install aivon-cli</code> · <a class="tk-doclink" href="https://github.com/kenwingroup/aivon/blob/main/docs/24-cli-terminal.md" target="_blank" rel="noopener">${esc(window.t("cs.ac_tk_seedoc"))} ↗</a></div>
         </div>`;
       document.getElementById("tkCopy").onclick = () => {
         const c = document.getElementById("tkCopy");

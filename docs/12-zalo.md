@@ -2,8 +2,8 @@
 
 ***Tiếng Việt** · [English](en/12-zalo-agent-mcp.md)*
 
-> **Aivon có BA chỗ dính tới Zalo, đừng lẫn.** Trang này nói về chỗ thứ nhất: đăng nhập
-> **chính tài khoản Zalo của bạn** để Aivon thao tác thay bạn. Hai chỗ kia dùng API chính
+> **AIVON có BA chỗ dính tới Zalo, đừng lẫn.** Trang này nói về chỗ thứ nhất: đăng nhập
+> **chính tài khoản Zalo của bạn** để AIVON thao tác thay bạn. Hai chỗ kia dùng API chính
 > thức, an toàn, nhưng chỉ thấy được thứ người ta nhắn thẳng cho bot.
 >
 > | | Zalo Agent MCP (trang này) | [Kênh Zalo Bot](26-kenh-zalo-bot.md) | [Chatbot](25-chatbot.md) |
@@ -13,27 +13,27 @@
 > | Rủi ro khoá tài khoản | Có | Không | Không |
 > | Đọc được hội thoại cũ | Có | Chỉ tin gửi cho bot | Chỉ tin gửi cho bot |
 > | Nhắn cho người chưa quen bot | Được | Không | Không |
-> | Dùng để | Aivon làm việc thay bạn | **Bạn** nhắn cho Aivon | **Khách** nhắn cho Aivon |
+> | Dùng để | AIVON làm việc thay bạn | **Bạn** nhắn cho AIVON | **Khách** nhắn cho AIVON |
 >
 > Dùng cả ba cùng lúc cũng được, chúng không đụng nhau.
 
-Aivon kết nối Zalo cá nhân bằng MCP của
-[`javis-zalo`](https://github.com/blogminhquy/javis-zalo), bản CLI Zalo riêng của Aivon. Chỉ có
+AIVON kết nối Zalo cá nhân bằng MCP của
+[`aivon-zalo`](https://github.com/kenwingroup/aivon-zalo), bản CLI Zalo riêng của AIVON. Chỉ có
 một tiến trình MCP: đăng nhập QR, đọc hoặc tìm hội thoại và gửi tin qua các tool của nó.
 
-> `javis-zalo` dùng API Zalo không chính thức qua `zca-js`. Zalo không hỗ trợ cách
+> `aivon-zalo` dùng API Zalo không chính thức qua `zca-js`. Zalo không hỗ trợ cách
 > kết nối này và tài khoản có thể bị hạn chế hoặc khoá. Nên dùng tài khoản phụ, tránh
 > gửi tự động hàng loạt và tự chịu trách nhiệm khi sử dụng.
 
 ## Cần chuẩn bị
 
-- Node.js 20 trở lên trên máy hoặc VPS chạy Aivon, và máy tải được từ GitHub (lần đầu).
+- Node.js 20 trở lên trên máy hoặc VPS chạy AIVON, và máy tải được từ GitHub (lần đầu).
 - Điện thoại đã đăng nhập tài khoản Zalo cần kết nối.
-- Aivon đã được khởi động và bạn đăng nhập được dashboard.
+- AIVON đã được khởi động và bạn đăng nhập được dashboard.
 
-Aivon ghim `javis-zalo` theo tag phát hành (hiện là `v1.2.0`) và cài thẳng từ tarball của tag
+AIVON ghim `aivon-zalo` theo tag phát hành (hiện là `v1.2.0`) và cài thẳng từ tarball của tag
 đó trên GitHub, không cần tài khoản npm hay Git. Chỉ thư viện `zca-js` bên dưới đi theo bản chính
-thức trên npm. Từ 0.83.0 Aivon thay `zalo-agent-cli` 1.6.2 của tác giả ngoài bằng bản riêng này;
+thức trên npm. Từ 0.83.0 AIVON thay `zalo-agent-cli` 1.6.2 của tác giả ngoài bằng bản riêng này;
 kết nối đã đăng nhập từ trước tự chuyển sang mà không phải quét QR lại.
 
 ## Kết nối bằng QR
@@ -47,13 +47,13 @@ kết nối đã đăng nhập từ trước tự chuyển sang mà không phả
 
 Nút **Hướng dẫn trên GitHub** trong thẻ Zalo luôn mở trang tài liệu này:
 
-<https://github.com/blogminhquy/javis-os/blob/main/docs/12-zalo.md>
+<https://github.com/kenwingroup/aivon/blob/main/docs/12-zalo.md>
 
 ## Nhập tin cũ vào Hộp thư (từ 0.174.0)
 
-Mới đăng nhập Zalo vào Aivon thì Hộp thư chỉ có tin từ lúc bật **Ghi hội thoại** trở đi. Muốn có cả tin cũ, bấm **Nhập tin cũ** trên thẻ tài khoản Zalo ở trang Chatbot, thẻ Bot, mục Kênh chưa có bot. Zalo đã gắn bot thì bấm vào ô Zalo trên thẻ bot đó.
+Mới đăng nhập Zalo vào AIVON thì Hộp thư chỉ có tin từ lúc bật **Ghi hội thoại** trở đi. Muốn có cả tin cũ, bấm **Nhập tin cũ** trên thẻ tài khoản Zalo ở trang Chatbot, thẻ Bot, mục Kênh chưa có bot. Zalo đã gắn bot thì bấm vào ô Zalo trên thẻ bot đó.
 
-- Aivon lấy các tin javis-zalo tự kéo về mỗi lần kết nối: khoảng **2 tuần** gần nhất, vì Zalo không cho lấy xa hơn. Tối đa 5.000 tin mỗi lần.
+- AIVON lấy các tin aivon-zalo tự kéo về mỗi lần kết nối: khoảng **2 tuần** gần nhất, vì Zalo không cho lấy xa hơn. Tối đa 5.000 tin mỗi lần.
 - Chỉ nhập vào cuộc chat **chưa có tin nào** trong Hộp thư. Cuộc chat đã có tin thì bỏ qua, vì tin cũ chen vào sau sẽ hiện sai thứ tự.
 - Bot **không trả lời** các tin này, chúng **không tính là chưa đọc**, và nhóm vẫn chỉ giữ 100 tin gần nhất như thường lệ.
 - Vừa quét QR xong thì đợi vài phút cho Zalo tải xong tin cũ rồi hãy bấm. Bấm lại nhiều lần không bị nhân đôi.
@@ -75,41 +75,41 @@ Mới đăng nhập Zalo vào Aivon thì Hộp thư chỉ có tin từ lúc bậ
 | `zalo_send_message` | Gửi tin cho cá nhân hoặc nhóm | Nguy hiểm |
 | `zalo_send_file` | Gửi file (Excel, PDF, Word...) kèm lời nhắn, chỉ file nằm trong hộp gửi của phiên (xem "Gửi ảnh và file") | Nguy hiểm |
 
-Danh sách trên theo mã nguồn `javis-zalo` 1.5.0. Tên tham số lấy từ mã nguồn: kiểu cuộc chat của
+Danh sách trên theo mã nguồn `aivon-zalo` 1.5.0. Tên tham số lấy từ mã nguồn: kiểu cuộc chat của
 `zalo_send_message` là `threadType` (0 = chat riêng, 1 = nhóm), và `zalo_get_messages` đọc bằng
 `since` chứ không có `cursor`. Lịch sử chỉ có từ lúc MCP kết nối, cộng phần Zalo gửi lại lúc kết
 nối (khoảng hai tuần gần nhất); tin cũ hơn thì không API nào lấy được.
 
-### Khi nào có thể thiếu tin (từ 0.183.0, javis-zalo 1.5.0)
+### Khi nào có thể thiếu tin (từ 0.183.0, aivon-zalo 1.5.0)
 
-Ba tool đọc tin chỉ đọc kho do chính javis-zalo gom: tin tới lúc đang kết nối, cộng phần Zalo gửi
+Ba tool đọc tin chỉ đọc kho do chính aivon-zalo gom: tin tới lúc đang kết nối, cộng phần Zalo gửi
 lại mỗi lần vừa kết nối. Không có cách hỏi lại Zalo lịch sử chat riêng sau đó. Nên tin tới đúng lúc
-mất kết nối (Aivon khởi động lại hay cập nhật, mạng rớt, một phiên Zalo Web khác đang giữ kết nối)
+mất kết nối (AIVON khởi động lại hay cập nhật, mạng rớt, một phiên Zalo Web khác đang giữ kết nối)
 chỉ thấy được nếu phần gửi lại mang nó về.
 
 - Kho lịch sử giờ **lưu ra đĩa** (30 ngày) trong thư mục phiên của tài khoản, nên khởi động lại
   không còn xoá sạch.
 - Mỗi kết quả đọc có thêm `sync`. `sync.complete: false` nghĩa là trong khoảng đó có lúc mất kết
   nối mà phần gửi lại chưa phủ hết (`sync.gaps` ghi từ lúc nào đến lúc nào): có thể đang thiếu tin,
-  **không phải** là khách chưa trả lời. Aivon khi đó giữ bước đang chờ (duyệt, phát hành) và báo chủ.
+  **không phải** là khách chưa trả lời. AIVON khi đó giữ bước đang chờ (duyệt, phát hành) và báo chủ.
 - Tin tới lúc mất kết nối mà phần gửi lại mang về được đưa vào luồng tin mới, đánh dấu
   `recovered: true`, nên Hộp thư cũng có.
 
 ## Duyệt người xin vào nhóm
 
-Từ Aivon 0.84.7 (javis-zalo 1.2.0), với nhóm bật "duyệt thành viên":
+Từ AIVON 0.84.7 (aivon-zalo 1.2.0), với nhóm bật "duyệt thành viên":
 
-- **Aivon báo bạn khi có người xin vào**, qua chuông hòm thư và Telegram của bạn: một tin cho mỗi nhóm, có tên người
+- **AIVON báo bạn khi có người xin vào**, qua chuông hòm thư và Telegram của bạn: một tin cho mỗi nhóm, có tên người
   xin và tên nhóm.
-- **Bạn ra lệnh, Aivon làm.** Hỏi "ai đang xin vào nhóm Zoom | AIVON?" thì Aivon liệt kê; bảo "duyệt hết" hay
-  "duyệt Lan, từ chối Minh" thì Aivon làm và nói lại kết quả từng người.
+- **Bạn ra lệnh, AIVON làm.** Hỏi "ai đang xin vào nhóm Zoom | AIVON?" thì AIVON liệt kê; bảo "duyệt hết" hay
+  "duyệt Lan, từ chối Minh" thì AIVON làm và nói lại kết quả từng người.
 - **Bot chuyên trách không bao giờ tự duyệt.** Sự kiện xin vào nhóm không tới bot.
 - Tài khoản Zalo đã quét QR phải là **trưởng hoặc phó nhóm**, không thì Zalo từ chối. Duyệt là thao tác nguy hiểm
   (đổi thành viên nhóm), nên kết nối Zalo phải ở mức Toàn quyền.
 
 ## Người mới vào nhóm
 
-Từ Aivon 0.84.2 (javis-zalo 1.1.0), Aivon biết ai vừa vào nhóm và vào **lúc nào**, kể cả người
+Từ AIVON 0.84.2 (aivon-zalo 1.1.0), AIVON biết ai vừa vào nhóm và vào **lúc nào**, kể cả người
 được thêm vào bởi chính tài khoản của bạn:
 
 - **Hỏi lại được.** "Tuần này ai mới vào nhóm Zoom | AIVON?" thì bộ não gọi
@@ -118,23 +118,23 @@ Từ Aivon 0.84.2 (javis-zalo 1.1.0), Aivon biết ai vừa vào nhóm và vào 
   còn nguyên sau khi khởi động lại.
 - **Bot chuyên trách nhận được sự kiện.** Ở nhóm đã cho phép bot, mỗi người mới vào là một sự
   kiện gửi tới Agent của bot, bất kể chế độ "trả lời khi nào". Agent làm theo chỉ dẫn của nó (ví dụ
-  chào và hỏi thăm), và câu nó gửi tự tag đúng người mới. Aivon **không có lời chào mặc định**:
+  chào và hỏi thăm), và câu nó gửi tự tag đúng người mới. AIVON **không có lời chào mặc định**:
   chỉ dẫn của Agent không nói gì về người mới thì bot im. Nhiều người vào cùng lúc mà bot đã hết
   hạn mức thì bot cũng im chứ không nói "nhắn hơi nhanh".
 - **Giới hạn.** Zalo chỉ báo sự kiện này lúc đang kết nối, và danh sách thành viên không có ngày
-  vào nhóm. Người vào trước khi có tính năng này, hoặc trong lúc máy chạy Aivon tắt, thì không có
+  vào nhóm. Người vào trước khi có tính năng này, hoặc trong lúc máy chạy AIVON tắt, thì không có
   trong nhật ký.
 
-## Gói Zalo mở rộng (Aivon Store)
+## Gói Zalo mở rộng (AIVON Store)
 
 Ba nhóm tool dưới đây (đọc ảnh, gửi ảnh và file, tag người cùng ghi chú, nhắc hẹn, poll) bù đúng
-chỗ MCP chuẩn còn thiếu. Từ 0.73.0 chúng nằm trong gói **`aivon.zalo`** trên Aivon Store thay vì
+chỗ MCP chuẩn còn thiếu. Từ 0.73.0 chúng nằm trong gói **`aivon.zalo`** trên AIVON Store thay vì
 đi sẵn trong app, để ai không dùng Zalo thì không phải mang theo:
 
-- **Quét QR Zalo xong là Aivon mời cài gói**, qua đúng màn hình đồng ý của kho: liệt kê từng tệp
+- **Quét QR Zalo xong là AIVON mời cài gói**, qua đúng màn hình đồng ý của kho: liệt kê từng tệp
   mã, công tắc "chạy ngay" bật sẵn vì bạn vừa tự đấu Zalo. Bấm Cài là có đủ tool.
 - **Máy đã đấu Zalo từ trước** thì trang Kết nối hiện dải nhắc kèm nút **Cài gói đi kèm**.
-  Aivon không bao giờ tự cài gói có mã mà không hỏi.
+  AIVON không bao giờ tự cài gói có mã mà không hỏi.
 - Kết nối Zalo, Hộp thư và chatbot Zalo vẫn ở trong app, chạy bình thường dù chưa cài gói. Thiếu
   gói thì chỉ thiếu các tool mở rộng.
 
@@ -150,7 +150,7 @@ bằng trình xem ảnh của máy chủ chứ không đưa cho bộ não. Nên 
 
 Nói trong chat như bình thường, ví dụ “xem ảnh hoá đơn chị Lan vừa gửi trong nhóm Kinh doanh”.
 
-- **Ảnh lấy thẳng từ Zalo**, không phụ thuộc bộ đệm 2 giờ của MCP: Aivon hỏi Zalo các tin gần
+- **Ảnh lấy thẳng từ Zalo**, không phụ thuộc bộ đệm 2 giờ của MCP: AIVON hỏi Zalo các tin gần
   nhất của nhóm (mặc định 30, tối đa 100) và lấy tối đa 8 ảnh mới nhất. Chat riêng thì chỉ lấy
   được ảnh còn trong bộ đệm MCP.
 - **Ảnh lưu vào `attachments/zalo/<id nhóm>/`** của brain, nên hiện được ngay trong khung chat.
@@ -164,7 +164,7 @@ nên xem được cả mọi ảnh khác trong brain, có cài gói Zalo hay kh�
 
 ## Gửi ảnh và file
 
-`zalo_send_message` ở trên **chỉ gửi được chữ**. Muốn gửi ảnh (ví dụ ảnh Aivon vừa tạo) hay
+`zalo_send_message` ở trên **chỉ gửi được chữ**. Muốn gửi ảnh (ví dụ ảnh AIVON vừa tạo) hay
 file (báo cáo PDF, bảng tính) thì dùng tool `zalo_send_image` trong gói `aivon.zalo`. Nó dùng
 đúng tài khoản Zalo bạn đã quét QR.
 
@@ -178,36 +178,36 @@ tháng 7 cho anh Nam qua Zalo”.
 Ba điều nên biết:
 
 - **Chỉ gửi được file nằm trong bộ não đang dùng.** Đây là rào an toàn cố ý: nếu không, một
-  câu chat khéo léo có thể khiến Aivon gửi file bất kỳ trên máy chủ ra ngoài, mà tin nhắn Zalo
+  câu chat khéo léo có thể khiến AIVON gửi file bất kỳ trên máy chủ ra ngoài, mà tin nhắn Zalo
   thì không thu hồi được.
 - **Một lượt gửi cùng một loại**, hoặc toàn ảnh hoặc toàn file, tối đa 10 file. Trộn lẫn thì
-  Zalo hiển thị sai kiểu nên Aivon sẽ báo lại thay vì tự đoán.
-- **Đấu nhiều tài khoản Zalo thì Aivon hỏi lại** nên gửi bằng tài khoản nào. Gửi nhầm tài
+  Zalo hiển thị sai kiểu nên AIVON sẽ báo lại thay vì tự đoán.
+- **Đấu nhiều tài khoản Zalo thì AIVON hỏi lại** nên gửi bằng tài khoản nào. Gửi nhầm tài
   khoản là gửi dưới danh tính người khác, nên đây là chỗ không được đoán.
 
-Cần Node.js 20+ trên máy chạy Aivon, giống như phần kết nối Zalo.
+Cần Node.js 20+ trên máy chạy AIVON, giống như phần kết nối Zalo.
 
 ### Vì sao file đi đường khác ảnh (từ 0.139.0)
 
 Ảnh tải lên Zalo là có link ngay. File (Excel, PDF, Word, zip, video, cả ảnh `.bmp`) thì khác:
 Zalo nhận xong mới báo "đã tải lên" qua **kết nối thời gian thực** của tài khoản. Trước 0.139.0
-Aivon gửi file bằng một lệnh chạy một lần, không mở kết nối đó, nên lệnh chờ mãi rồi bị cắt ở
+AIVON gửi file bằng một lệnh chạy một lần, không mở kết nối đó, nên lệnh chờ mãi rồi bị cắt ở
 120 giây, file không tới (14/10/2026 gửi bảng Excel 11 KB cho nhân sự treo hai lần, phải đổi
 sang ảnh). Mở thêm kết nối riêng cũng không được: Zalo chỉ giữ một kết nối Web mỗi tài khoản và
 sẽ đá kết nối đang trực Hộp thư.
 
 Từ 0.139.0 file đi qua tool `zalo_send_file` của chính tiến trình MCP đang giữ kết nối:
 
-- Aivon chép file vào hộp gửi của phiên Zalo (`.zalo-agent-cli/outbox/` trong thư mục phiên), gọi
+- AIVON chép file vào hộp gửi của phiên Zalo (`.zalo-agent-cli/outbox/` trong thư mục phiên), gọi
   tool, xong thì xoá bản chép. Tool chỉ nhận file trong hộp gửi đó, nên model gọi thẳng tool cũng
   không gửi được file nào khác trên máy chủ.
 - **Zalo không xác nhận trong 60 giây thì báo lỗi rõ và KHÔNG gửi gì**, kể cả khi xác nhận tới
   muộn sau đó. Gửi lại là an toàn. Kết nối thời gian thực đang rớt thì báo ngay, không chờ.
 - Ảnh (jpg, png, webp, gif) vẫn đi đường cũ.
-- Kết nối Zalo còn chạy bản `javis-zalo` cũ (chưa có tool này) thì Aivon báo cập nhật Aivon rồi
+- Kết nối Zalo còn chạy bản `aivon-zalo` cũ (chưa có tool này) thì AIVON báo cập nhật AIVON rồi
   tắt-bật lại kết nối Zalo, không phải quét QR lại.
 
-Lệnh dòng lệnh `javis-zalo msg send-file` gửi file khi không có kết nối thời gian thực thì báo lỗi
+Lệnh dòng lệnh `aivon-zalo msg send-file` gửi file khi không có kết nối thời gian thực thì báo lỗi
 ngay. Thêm `--listen` để nó tự mở kết nối cho lượt gửi đó, nhưng chỉ dùng trên máy KHÔNG chạy MCP
 Zalo, vì kết nối mới sẽ đá MCP ra.
 
@@ -224,17 +224,17 @@ Zalo, vì kết nối mới sẽ đá MCP ra.
 | `zalo_create_reminder` | Nhắc hẹn hiện trong Zalo, chọn giờ và lặp (hằng ngày, tuần, tháng) | Nguy hiểm (mức Toàn quyền) |
 | `zalo_create_poll` | Poll cho nhóm: chọn nhiều đáp án, ẩn danh, hạn đóng | Nguy hiểm (mức Toàn quyền) |
 
-Nói trong chat như bình thường, ví dụ “nhắn nhóm Kinh doanh tag @minhquy họp lúc 9h nhé” hoặc “tạo poll trưa nay ăn gì trong nhóm Lớp Aivon”.
+Nói trong chat như bình thường, ví dụ “nhắn nhóm Kinh doanh tag @kenwingroup họp lúc 9h nhé” hoặc “tạo poll trưa nay ăn gì trong nhóm Lớp AIVON”.
 
 Bốn điều nên biết:
 
-- **Tag chỉ cần nói tên.** “@minhquy” hay “Minh Quý” đều được, không phân biệt hoa thường hay dấu. Aivon tìm ID Zalo thật trong
-  những người đã nhắn ở nhóm đó trước, rồi tới danh sách thành viên của Zalo. **Trùng tên hoặc không thấy thì Aivon hỏi lại kèm
+- **Tag chỉ cần nói tên.** “@kenwingroup” hay “Minh Vũ” đều được, không phân biệt hoa thường hay dấu. AIVON tìm ID Zalo thật trong
+  những người đã nhắn ở nhóm đó trước, rồi tới danh sách thành viên của Zalo. **Trùng tên hoặc không thấy thì AIVON hỏi lại kèm
   danh sách ứng viên**, không đoán, vì tag nhầm người thì không rút lại được. Tag cả nhóm (`@All`) chỉ khi bạn yêu cầu rõ.
-- **Nhắc hẹn này khác nhắc hẹn riêng của Aivon** (`aivon_schedule`): nó hiện trong Zalo nên cả nhóm cùng thấy. Giờ tính theo múi giờ của Aivon.
-- **Nhóm khoá quyền tạo ghi chú hoặc poll của thành viên** thì Zalo từ chối và Aivon báo thẳng lý do đó. Nếu lệnh quá giờ, Aivon nói
+- **Nhắc hẹn này khác nhắc hẹn riêng của AIVON** (`aivon_schedule`): nó hiện trong Zalo nên cả nhóm cùng thấy. Giờ tính theo múi giờ của AIVON.
+- **Nhóm khoá quyền tạo ghi chú hoặc poll của thành viên** thì Zalo từ chối và AIVON báo thẳng lý do đó. Nếu lệnh quá giờ, AIVON nói
   **không rõ đã tạo chưa** và dặn xem lại nhóm trước khi thử tiếp, để khỏi ra hai poll.
-- **Đấu nhiều tài khoản Zalo thì Aivon hỏi lại** nên dùng tài khoản nào, giống phần gửi ảnh.
+- **Đấu nhiều tài khoản Zalo thì AIVON hỏi lại** nên dùng tài khoản nào, giống phần gửi ảnh.
 
 Bot chuyên trách đứng trong nhóm Zalo thì **tự tag người nó đang trả lời**, không cần công cụ nào ở trên, xem [Chatbot](25-chatbot.md).
 
@@ -248,8 +248,8 @@ Có thể nói tự nhiên:
 - “Gửi nhóm Kinh doanh: 9 giờ sáng mai họp nhé.”
 
 Khi gửi tin, nên nêu rõ tên hoặc `threadId`, nội dung và đó là cá nhân hay nhóm. Nếu kết
-quả tìm kiếm có nhiều cuộc chat trùng tên, Aivon phải hỏi lại thay vì tự đoán.
-Nếu chỉ có một kết quả khớp chính xác, Aivon gửi ngay bằng `zalo_send_message`; không cần
+quả tìm kiếm có nhiều cuộc chat trùng tên, AIVON phải hỏi lại thay vì tự đoán.
+Nếu chỉ có một kết quả khớp chính xác, AIVON gửi ngay bằng `zalo_send_message`; không cần
 bật listener, không cần người nhận nhắn trước và không phụ thuộc danh sách theo dõi.
 
 ## Phân quyền
@@ -269,8 +269,8 @@ Luồng mới đã bỏ sidecar `listen --webhook`, endpoint `/hook/zalo`, panel
 tục”, file luật theo từng cuộc chat và hai plugin `aivon_zalo_rule`/`aivon_zalo_send`.
 Không còn việc một tiến trình listener tự tắt rồi bật lại connector MCP.
 
-Do đó Aivon không tự chuyển tiếp tin Zalo sang Telegram ở nền. Khi cần kiểm tra tin, hãy
-hỏi Aivon; MCP có thể dùng `zalo_get_messages` cho tin đang đệm hoặc
+Do đó AIVON không tự chuyển tiếp tin Zalo sang Telegram ở nền. Khi cần kiểm tra tin, hãy
+hỏi AIVON; MCP có thể dùng `zalo_get_messages` cho tin đang đệm hoặc
 `zalo_get_history` cho lịch sử.
 
 ## Xử lý lỗi
@@ -282,17 +282,17 @@ hỏi Aivon; MCP có thể dùng `zalo_get_messages` cho tin đang đệm hoặc
   `zalo_get_history` thay vì chỉ dùng `zalo_get_messages`.
 - **Tool gửi bị chặn**: mở menu chip tài khoản và chuyển quyền sang **Toàn quyền**.
 - **Báo phiên đang được dùng nơi khác**: đóng Zalo Web hoặc tiến trình
-  `javis-zalo` (hay `zalo-agent-cli` cũ) khác đang dùng cùng tài khoản, rồi thử lại.
-- **Bot im sau khi Aivon khởi động lại**: trước 0.114.0, nếu Aivon tắt không êm (crash, bị
-  dừng cứng khi cập nhật) thì tiến trình `javis-zalo` cũ còn sống. Server mới mở thêm một phiên,
+  `aivon-zalo` (hay `zalo-agent-cli` cũ) khác đang dùng cùng tài khoản, rồi thử lại.
+- **Bot im sau khi AIVON khởi động lại**: trước 0.114.0, nếu AIVON tắt không êm (crash, bị
+  dừng cứng khi cập nhật) thì tiến trình `aivon-zalo` cũ còn sống. Server mới mở thêm một phiên,
   và cùng một tài khoản có hai phiên nghe. Zalo chỉ đẩy tin về một phiên nên bot đọc phiên kia
-  và không thấy gì. Từ 0.114.0 Aivon ghi lại mọi tiến trình MCP nó mở và tự dọn tiến trình sót
+  và không thấy gì. Từ 0.114.0 AIVON ghi lại mọi tiến trình MCP nó mở và tự dọn tiến trình sót
   của lần chạy trước. Bản cũ hơn thì khởi động lại cả máy chủ (hoặc container) là sạch.
 - **Muốn đăng nhập lại từ đầu**: xoá connection trên dashboard, sau đó kết nối và quét QR
   lại. Thư mục phiên của connection khác không bị ảnh hưởng.
 
 ## Tham khảo
 
-- [Repository `javis-zalo`](https://github.com/blogminhquy/javis-zalo)
+- [Repository `aivon-zalo`](https://github.com/kenwingroup/aivon-zalo)
 - [zca-js](https://github.com/RFS-ADRENO/zca-js), thư viện nói chuyện với Zalo bên dưới
-- [Kết nối và phân quyền MCP trong Aivon](09-mcp-va-so-lieu.md)
+- [Kết nối và phân quyền MCP trong AIVON](09-mcp-va-so-lieu.md)

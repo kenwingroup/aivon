@@ -25,7 +25,7 @@ def deploy_mode() -> str:
     return "native"
 
 
-OFFICIAL_IMAGE = "ghcr.io/blogminhquy/javis-os"
+OFFICIAL_IMAGE = "ghcr.io/kenwingroup/aivon"
 
 
 def image_source() -> str:

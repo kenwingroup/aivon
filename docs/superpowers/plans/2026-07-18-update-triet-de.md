@@ -17,7 +17,7 @@
 - `config.STATE_DIR = Path(os.getenv("AIVON_STATE_DIR", <server dir>))`. Test set `AIVON_STATE_DIR` sang temp TRƯỚC khi import module.
 - App trong Docker KHÔNG có docker socket - không tự đổi/lùi image (giữ nguyên).
 - Không làm auto-update nền, không viết updater sidecar Docker.
-- Repo: `blogminhquy/javis-os`. Image GHCR: `ghcr.io/blogminhquy/javis-os`.
+- Repo: `kenwingroup/aivon`. Image GHCR: `ghcr.io/kenwingroup/aivon`.
 - Xong toàn bộ + test xanh mới bump VERSION + CHANGELOG + commit + push origin/main.
 
 ---
@@ -527,7 +527,7 @@ Expected: FAIL (updater.py chưa tồn tại → returncode != 0).
 
 ```python
 #!/usr/bin/env python
-"""Updater tách rời của Aivon cho bản GIT checkout (Windows + native Linux). Server spawn DETACHED:
+"""Updater tách rời của AIVON cho bản GIT checkout (Windows + native Linux). Server spawn DETACHED:
 
     python updater.py --old-sha <sha> --old-version <v> --target <v> --port <p>
 
@@ -909,7 +909,7 @@ Thay khối `if (verUpd) verUpd.onclick = async () => { ... };` (dòng 1411-1444
 
 ```javascript
     if (verUpd) verUpd.onclick = async () => {
-      if (!confirm("Cập nhật Aivon lên bản mới nhất?\nApp sẽ tự khởi động lại. Nếu bản mới lỗi, hệ thống sẽ tự quay về bản cũ (bản git) hoặc hiện cách lùi (Docker).")) return;
+      if (!confirm("Cập nhật AIVON lên bản mới nhất?\nApp sẽ tự khởi động lại. Nếu bản mới lỗi, hệ thống sẽ tự quay về bản cũ (bản git) hoặc hiện cách lùi (Docker).")) return;
       const st = document.getElementById("ovVerStatus");
       const rb = document.getElementById("ovVerRollback");
       const oldCur = window._ovVerCur || "";
@@ -960,7 +960,7 @@ Thay khối `if (verUpd) verUpd.onclick = async () => { ... };` (dòng 1411-1444
               rb.style.display = "";
               rb.innerHTML = "<b>Cách lùi về bản cũ (Docker):</b><br>Pin tag phiên bản cũ rồi kéo lại:"
                 + "<br><code>docker compose pull && docker compose up -d</code>"
-                + (prev ? "<br>Hoặc sửa image thành <code>ghcr.io/blogminhquy/javis-os:" + esc(prev) + "</code> rồi Redeploy." : "");
+                + (prev ? "<br>Hoặc sửa image thành <code>ghcr.io/kenwingroup/aivon:" + esc(prev) + "</code> rồi Redeploy." : "");
             }
             verUpd.disabled = false; return;
           }

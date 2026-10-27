@@ -2,7 +2,7 @@
 
 ***Tiếng Việt** · [English](en/20-plugins.md)*
 
-Plugin là cách thêm **công cụ mới** cho Aivon mà không phải sửa mã nguồn: một thư mục Python thả vào đúng chỗ, Aivon tự nạp, và từ đó mọi engine (Claude Code, ChatGPT/Codex, OpenRouter, OpenAI, Anthropic, Gemini) đều gọi được công cụ đó.
+Plugin là cách thêm **công cụ mới** cho AIVON mà không phải sửa mã nguồn: một thư mục Python thả vào đúng chỗ, AIVON tự nạp, và từ đó mọi engine (Claude Code, ChatGPT/Codex, OpenRouter, OpenAI, Anthropic, Gemini) đều gọi được công cụ đó.
 
 Trang này hướng dẫn đọc danh sách plugin trong dashboard, bật/tắt từng cái, hiểu 11 plugin có sẵn, và cách tự cài plugin riêng kèm rào an toàn bắt buộc phải biết trước khi làm.
 
@@ -13,12 +13,12 @@ Một plugin là **một thư mục** gồm 2 file:
 - `plugin.yaml`: khai báo tên, slug, mô tả, phiên bản, bật hay tắt, mức quyền tối thiểu, danh sách tool và hook.
 - `plugin.py`: mã Python, bắt buộc có hàm `register(ctx)`. Trong hàm đó bạn gọi `ctx.register_tool(...)` để thêm tool, và/hoặc `ctx.register_hook(...)` để thêm hook.
 
-Plugin cho Aivon hai thứ:
+Plugin cho AIVON hai thứ:
 
 - **Tool**: một công cụ engine gọi được, ví dụ `aivon_now` (hỏi bây giờ mấy giờ theo giờ Việt Nam) hay `aivon_generate_image` (tạo ảnh). Tool của plugin đi qua MCP Hub nên **mọi engine đều dùng được**, không riêng Claude Code.
-- **Hook**: đoạn mã chạy **quanh mỗi lần gọi tool**. Bản hiện tại hỗ trợ hai sự kiện quanh tool: `pre_tool_call` (trước khi tool chạy) và `post_tool_call` (sau khi tool chạy xong). Khi không plugin nào đăng ký hook thì Aivon không bọc gì cả, nên không tốn thêm gì. Sự kiện thứ ba, `chatbot_turn_context`, chạy một lần mỗi lượt bot chuyên trách và cho plugin thêm một dòng ngữ cảnh (xem [bên dưới](#hook-ngữ-cảnh-lượt-chatbot-chatbot_turn_context)).
+- **Hook**: đoạn mã chạy **quanh mỗi lần gọi tool**. Bản hiện tại hỗ trợ hai sự kiện quanh tool: `pre_tool_call` (trước khi tool chạy) và `post_tool_call` (sau khi tool chạy xong). Khi không plugin nào đăng ký hook thì AIVON không bọc gì cả, nên không tốn thêm gì. Sự kiện thứ ba, `chatbot_turn_context`, chạy một lần mỗi lượt bot chuyên trách và cho plugin thêm một dòng ngữ cảnh (xem [bên dưới](#hook-ngữ-cảnh-lượt-chatbot-chatbot_turn_context)).
 
-Tool của plugin **tôn trọng đúng 3 mức quyền** của Aivon y như tool khác, nên một loop đang ở chế độ chỉ-đọc sẽ không tự gọi được tool ghi của plugin.
+Tool của plugin **tôn trọng đúng 3 mức quyền** của AIVON y như tool khác, nên một loop đang ở chế độ chỉ-đọc sẽ không tự gọi được tool ghi của plugin.
 
 ## Plugin khác Skill và MCP thế nào
 
@@ -26,23 +26,23 @@ Ba thứ này hay bị lẫn. Phân biệt bằng câu hỏi "cái đang thiếu
 
 | Thiếu gì | Dùng cái nào | Bản chất |
 |---|---|---|
-| Aivon chưa biết **cách làm** một loại việc theo chuẩn của bạn | **Skill** | Một file `SKILL.md` chứa hướng dẫn. Không chạy mã, chỉ dạy AI làm đúng quy trình. Xem [Skills](06-skills.md). |
+| AIVON chưa biết **cách làm** một loại việc theo chuẩn của bạn | **Skill** | Một file `SKILL.md` chứa hướng dẫn. Không chạy mã, chỉ dạy AI làm đúng quy trình. Xem [Skills](06-skills.md). |
 | Cần một **hành động thật** bằng Python (tính toán, biến đổi dữ liệu, gọi một API đơn giản, đọc/ghi file theo luật riêng) mà chưa có nguồn nào phủ | **Plugin** | Mã Python chạy thật, thêm tool/hook cho mọi engine. |
 | Cần **nguồn dữ liệu ngoài** đã có server sẵn (POS, quảng cáo, lịch, email, ghi chú...) | **Kết nối (MCP)** | Đấu server có sẵn ở trang Kết nối, không phải viết mã. Xem [Kết nối & số liệu kinh doanh](09-mcp-va-so-lieu.md). |
 
 Nói ngắn: skill là **tri thức cách làm**, plugin là **mã chạy thật**, MCP là **nguồn dữ liệu có sẵn**. Nếu việc bạn cần đã có MCP thì đừng viết plugin.
 
-## Mở ở đâu trong Aivon
+## Mở ở đâu trong AIVON
 
 Mở dashboard (mặc định tại cổng 7979), nhìn thanh điều hướng bên trái, bấm nhóm **Năng lực** để mở ra, rồi bấm mục **Plugins**. Đầu trang hiện tiêu đề **Plugins** kèm dòng phụ "Tool/hook native cho mọi engine".
 
 Ngay dưới tiêu đề là ba khối giới thiệu:
 
-1. Dòng mô tả: "Plugin thêm **tool** (công cụ engine gọi được) và **hook** native cho Aivon mà không sửa lõi - dùng được ở MỌI engine (Claude Code, Codex, API) qua hub, tôn trọng 3 mức quyền như tool khác."
-2. Khung cảnh báo màu cam (chỉ hiện khi máy này tắt plugin người dùng): "**⚠ Plugin do bạn cài đang bị tắt trên máy này.** Máy này đặt biến môi trường `AIVON_ENABLE_USER_PLUGINS=false` nên plugin toàn cục/brain không chạy. Bỏ biến đó (hoặc đặt true) rồi khởi động lại Aivon. Plugin có sẵn (bundled) vẫn chạy bình thường."
-3. Dòng chỉ đường xám: "Thả plugin TOÀN CỤC (dùng cho MỌI brain) vào `<đường dẫn thật trên máy bạn>` · mỗi plugin gồm `plugin.yaml` + `plugin.py`. Hoặc bảo Aivon trong khung chat: "tạo plugin ..."."
+1. Dòng mô tả: "Plugin thêm **tool** (công cụ engine gọi được) và **hook** native cho AIVON mà không sửa lõi - dùng được ở MỌI engine (Claude Code, Codex, API) qua hub, tôn trọng 3 mức quyền như tool khác."
+2. Khung cảnh báo màu cam (chỉ hiện khi máy này tắt plugin người dùng): "**⚠ Plugin do bạn cài đang bị tắt trên máy này.** Máy này đặt biến môi trường `AIVON_ENABLE_USER_PLUGINS=false` nên plugin toàn cục/brain không chạy. Bỏ biến đó (hoặc đặt true) rồi khởi động lại AIVON. Plugin có sẵn (bundled) vẫn chạy bình thường."
+3. Dòng chỉ đường xám: "Thả plugin TOÀN CỤC (dùng cho MỌI brain) vào `<đường dẫn thật trên máy bạn>` · mỗi plugin gồm `plugin.yaml` + `plugin.py`. Hoặc bảo AIVON trong khung chat: "tạo plugin ..."."
 
-Đường dẫn trong dòng thứ 3 là đường dẫn **thật** trên máy đang chạy Aivon, cứ sao chép từ màn hình ra chứ đừng gõ tay theo tài liệu.
+Đường dẫn trong dòng thứ 3 là đường dẫn **thật** trên máy đang chạy AIVON, cứ sao chép từ màn hình ra chứ đừng gõ tay theo tài liệu.
 
 Bên dưới là danh sách thẻ plugin, xếp theo nguồn: Có sẵn trước, rồi Toàn cục, rồi Brain này; trong mỗi nhóm xếp theo tên. Nếu chưa có plugin nào, trang hiện dòng "Chưa có plugin nào. Thả một thư mục plugin vào `<đường dẫn>` rồi tải lại."
 
@@ -54,9 +54,9 @@ Mỗi plugin là một thẻ. Đọc từ trên xuống:
 
 | Nhãn nguồn | Nghĩa là | Nằm ở đâu |
 |---|---|---|
-| **Có sẵn** (xanh lá) | Plugin đi kèm app, do Aivon phát hành, tin cậy | `system/plugins/<slug>/` trong thư mục cài đặt |
-| **Toàn cục** (xanh dương) | Plugin bạn tự cài, dùng chung cho **mọi brain** | Thư mục state của Aivon, `<AIVON_STATE_DIR>/plugins/<slug>/` |
-| **Brain này** (cam) | Plugin bạn tự cài, chỉ dùng cho **một brain** | `<brain>/plugins/<slug>/` (brain cũ có thể là `<brain>/Aivon/plugins/<slug>/`) |
+| **Có sẵn** (xanh lá) | Plugin đi kèm app, do AIVON phát hành, tin cậy | `system/plugins/<slug>/` trong thư mục cài đặt |
+| **Toàn cục** (xanh dương) | Plugin bạn tự cài, dùng chung cho **mọi brain** | Thư mục state của AIVON, `<AIVON_STATE_DIR>/plugins/<slug>/` |
+| **Brain này** (cam) | Plugin bạn tự cài, chỉ dùng cho **một brain** | `<brain>/plugins/<slug>/` (brain cũ có thể là `<brain>/AIVON/plugins/<slug>/`) |
 
 Trùng slug thì nguồn sau đè nguồn trước: một plugin "Brain này" tên `datetime-vn` sẽ thay chỗ bản "Có sẵn" cùng tên.
 
@@ -64,9 +64,9 @@ Trùng slug thì nguồn sau đè nguồn trước: một plugin "Brain này" t�
 
 **Dòng mô tả:** nội dung trường `description` trong `plugin.yaml`.
 
-**Dòng thông tin:** ghép bằng dấu chấm giữa, gồm "quyền tối thiểu: ..." rồi phiên bản (`v1.0.0`) rồi tác giả. Ví dụ: "quyền tối thiểu: chỉ đọc · v1.0.0 · Aivon (bundled)".
+**Dòng thông tin:** ghép bằng dấu chấm giữa, gồm "quyền tối thiểu: ..." rồi phiên bản (`v1.0.0`) rồi tác giả. Ví dụ: "quyền tối thiểu: chỉ đọc · v1.0.0 · AIVON (bundled)".
 
-**Hàng chip:** mỗi tool plugin cung cấp là một chip có biểu tượng 🔧 kèm tên tool; mỗi hook là một chip 🪝 kèm tên sự kiện. Đây chính là những cái tên engine sẽ gọi, nên nếu muốn nhờ Aivon dùng đúng tool nào, cứ nhắc tên trong chip.
+**Hàng chip:** mỗi tool plugin cung cấp là một chip có biểu tượng 🔧 kèm tên tool; mỗi hook là một chip 🪝 kèm tên sự kiện. Đây chính là những cái tên engine sẽ gọi, nên nếu muốn nhờ AIVON dùng đúng tool nào, cứ nhắc tên trong chip.
 
 **Nút cuối thẻ:** **Bật** hoặc **Tắt** (nhãn đổi theo trạng thái hiện tại).
 
@@ -84,17 +84,17 @@ Vào **Năng lực > Plugins**. Nhìn cột trạng thái bên phải mỗi th�
 2. Bấm nút **Bật** (hoặc **Tắt**) ở cuối thẻ.
 3. Danh sách tự tải lại, trạng thái đổi ngay.
 
-Với plugin **Có sẵn**, Aivon không sửa file của app: lựa chọn bật/tắt được ghi ra file `plugins.json` trong thư mục state. Nhờ vậy cập nhật Aivon lên bản mới **không làm mất** lựa chọn của bạn.
+Với plugin **Có sẵn**, AIVON không sửa file của app: lựa chọn bật/tắt được ghi ra file `plugins.json` trong thư mục state. Nhờ vậy cập nhật AIVON lên bản mới **không làm mất** lựa chọn của bạn.
 
-Với plugin **Toàn cục** và **Brain này**, Aivon ghi thẳng `enabled: true/false` vào `plugin.yaml` của plugin đó.
+Với plugin **Toàn cục** và **Brain này**, AIVON ghi thẳng `enabled: true/false` vào `plugin.yaml` của plugin đó.
 
-Bật/tắt có hiệu lực ngay, không cần khởi động lại: Aivon làm mới bộ nhớ đệm của hub nên tool xuất hiện hoặc biến mất ở lượt chat kế tiếp, và chỉ mục năng lực `Aivon/index.md` của brain cũng được dựng lại.
+Bật/tắt có hiệu lực ngay, không cần khởi động lại: AIVON làm mới bộ nhớ đệm của hub nên tool xuất hiện hoặc biến mất ở lượt chat kế tiếp, và chỉ mục năng lực `AIVON/index.md` của brain cũng được dựng lại.
 
-Ngoại lệ duy nhất: nếu bạn bật một plugin **Toàn cục/Brain này** trên máy đặt `AIVON_ENABLE_USER_PLUGINS=false`, Aivon hiện hộp thoại báo: "Đã bật trong manifest NHƯNG máy này đang tắt plugin do người dùng cài bằng AIVON_ENABLE_USER_PLUGINS=false. Bỏ biến đó (hoặc đặt true) rồi khởi động lại để chạy." Thẻ khi đó chuyển sang **⚠ tắt bằng env**.
+Ngoại lệ duy nhất: nếu bạn bật một plugin **Toàn cục/Brain này** trên máy đặt `AIVON_ENABLE_USER_PLUGINS=false`, AIVON hiện hộp thoại báo: "Đã bật trong manifest NHƯNG máy này đang tắt plugin do người dùng cài bằng AIVON_ENABLE_USER_PLUGINS=false. Bỏ biến đó (hoặc đặt true) rồi khởi động lại để chạy." Thẻ khi đó chuyển sang **⚠ tắt bằng env**.
 
 ### Bước 3: Kiểm tra tool đã ra tới engine chưa
 
-Mở khung trò chuyện và hỏi thẳng, ví dụ "bây giờ mấy giờ" (plugin `datetime-vn`) hoặc "liệt kê các Trang Facebook của tôi" (plugin `meta-pages-graph`). Aivon biết plugin nào đang chạy vì danh sách "Plugins đang chạy" kèm tên tool được đưa sẵn vào ngữ cảnh mỗi lượt chat.
+Mở khung trò chuyện và hỏi thẳng, ví dụ "bây giờ mấy giờ" (plugin `datetime-vn`) hoặc "liệt kê các Trang Facebook của tôi" (plugin `meta-pages-graph`). AIVON biết plugin nào đang chạy vì danh sách "Plugins đang chạy" kèm tên tool được đưa sẵn vào ngữ cảnh mỗi lượt chat.
 
 Nếu tool bị chặn vì mức quyền, câu trả lời sẽ chứa nguyên văn dòng lỗi bắt đầu bằng `ERROR: tool '<tên>' cần mức quyền cao hơn`. Nếu tool cần một kết nối chưa có, lỗi sẽ nói rõ phải vào trang nào để đấu nối.
 
@@ -119,19 +119,19 @@ Nếu tool bị chặn vì mức quyền, câu trả lời sẽ chứa nguyên v
 Từng cái làm được gì:
 
 - **Giao việc Kanban**: giao một việc nền vào hàng đợi ngay từ chat (`op=add`) và xem việc đang chạy tới đâu (`op=list`). Có từ 0.17.1. Trước đó đường duy nhất để giao việc là `POST /kanban/task`, mà gọi được nó thì phải chạy được lệnh máy - nên chỉ Claude Code với Codex làm được, dù tài liệu vẫn hứa mọi bộ não đều làm được. Tool này gọi thẳng vào hàng đợi in-process, không mở thêm cửa HTTP nào. Mặc định giao việc ở mức `full` (tự thao tác ra ngoài như lúc chat); nói rõ nếu muốn việc chỉ ghi nháp (`auto`) hay chỉ đọc (`suggest`). Trước 0.55.62 tool này từ chối mức full và mặc định `suggest`. Chuyển cột, huỷ việc, duyệt việc chờ phê duyệt vẫn làm ở trang Việc. Từ 0.107.0 nhận thêm `route`: `auto` (một worker chung làm) hoặc `wf:<slug>` để chạy đúng một quy trình có thật; slug sai bị từ chối, còn route auto mà tên việc nhắc tới một quy trình có thật thì tool cảnh báo.
-- **Quản lý nhóm chat**: nhờ Aivon ngay trong chat tạo nhóm chat, đổi tên, thêm bớt trợ lý, chọn trưởng nhóm, lưu trữ hay xoá nhóm, và tạo trợ lý mới với model riêng rồi ghép vào nhóm trong một lần ("tạo nhóm thử gồm ba trợ lý, mỗi người một model"). Có từ 0.173.0. Tool gọi thẳng cùng bộ thao tác mà trang Nhóm dùng, nên luật y như bấm tay. Xoá chỉ nhận nhóm đã lưu trữ và chỉ khi bạn nói rõ là xoá; file trợ lý không bị xoá theo. Bot chăm khách không thấy tool này.
-- **Đấu thêm MCP**: nhờ Aivon ngay trong chat đấu một nguồn MCP mới, và nó **hiện ra trang Kết nối** ở khu "Đã kết nối" như tài khoản bạn tự thêm bằng tay, dùng chung cho mọi bộ não. Trước plugin này Aivon không có đường nào ghi vào kho kết nối, nên nó chỉ còn cách chạy `claude mcp add` - server đó rơi vào cấu hình riêng của Claude Code, sáu bộ não còn lại không thấy, và trên trang Kết nối nó không nằm ở khu "Đã kết nối" mà lọt xuống khu gập "Kết nối sẵn của Claude Code và Codex" (mặc định đóng), nên nhìn vào tưởng như chẳng có gì được thêm. Ba rào an toàn: mức quyền mặc định là **chỉ đọc** (muốn cho ghi thì bạn tự nâng ở trang Kết nối); nguồn chạy bằng **lệnh trên máy** (stdio) được thêm ở trạng thái **tắt** để bạn tự đọc lệnh rồi mới bật; dịch vụ đã có sẵn trong Kho kết nối (Gmail, Lịch, POS...) thì Aivon chỉ tay sang đúng card chứ không đẻ một bản tự khai song song. Thử kết nối hỏng thì mục đó **vẫn nằm lại** trang Kết nối kèm lý do, chứ không biến mất im lặng.
-- **Zalo mở rộng (gói `aivon.zalo` trên Aivon Store)**: từ 0.73.0 các tool Zalo bù chỗ MCP chuẩn còn thiếu không còn đi sẵn trong app nữa, để ai không dùng Zalo thì không phải mang theo. Gói gồm gửi ảnh và file (`zalo_send_image`), tag đúng người, ghi chú, nhắc hẹn, poll trong nhóm (`zalo_group_members`, `zalo_send_mention`, `zalo_create_note`, `zalo_create_reminder`, `zalo_create_poll`) và đọc ảnh trong nhóm (`zalo_read_images`). Quét QR Zalo xong là Aivon mời cài; máy đã dùng Zalo từ trước thì trang Kết nối hiện nút cài. Chi tiết ở [Zalo](12-zalo.md).
-- **Thời gian & ngày (VN)**: cho Aivon biết hôm nay là ngày nào, mấy giờ, thứ mấy theo giờ Việt Nam (UTC+7), và tính ngày tương đối ("3 ngày nữa", "tuần trước"). Thuần thư viện chuẩn, không cần mạng. Đây cũng là plugin mẫu đơn giản nhất để đọc khi bạn muốn tự viết plugin.
-- **Đặt việc định kỳ & nhắc hẹn**: cho phép tạo, liệt kê, huỷ việc định kỳ và nhắc hẹn **ngay trong câu chat**, khỏi gõ YAML tay. Việc lặp và bền được ghi ra `Aivon/loops/<slug>.md` (mở sửa được trong Obsidian); nhắc một lần hoặc lịch cron thì vào kho nhắc hẹn. Chi tiết ở [Việc định kỳ & Nhắc hẹn](08-viec-dinh-ky.md).
+- **Quản lý nhóm chat**: nhờ AIVON ngay trong chat tạo nhóm chat, đổi tên, thêm bớt trợ lý, chọn trưởng nhóm, lưu trữ hay xoá nhóm, và tạo trợ lý mới với model riêng rồi ghép vào nhóm trong một lần ("tạo nhóm thử gồm ba trợ lý, mỗi người một model"). Có từ 0.173.0. Tool gọi thẳng cùng bộ thao tác mà trang Nhóm dùng, nên luật y như bấm tay. Xoá chỉ nhận nhóm đã lưu trữ và chỉ khi bạn nói rõ là xoá; file trợ lý không bị xoá theo. Bot chăm khách không thấy tool này.
+- **Đấu thêm MCP**: nhờ AIVON ngay trong chat đấu một nguồn MCP mới, và nó **hiện ra trang Kết nối** ở khu "Đã kết nối" như tài khoản bạn tự thêm bằng tay, dùng chung cho mọi bộ não. Trước plugin này AIVON không có đường nào ghi vào kho kết nối, nên nó chỉ còn cách chạy `claude mcp add` - server đó rơi vào cấu hình riêng của Claude Code, sáu bộ não còn lại không thấy, và trên trang Kết nối nó không nằm ở khu "Đã kết nối" mà lọt xuống khu gập "Kết nối sẵn của Claude Code và Codex" (mặc định đóng), nên nhìn vào tưởng như chẳng có gì được thêm. Ba rào an toàn: mức quyền mặc định là **chỉ đọc** (muốn cho ghi thì bạn tự nâng ở trang Kết nối); nguồn chạy bằng **lệnh trên máy** (stdio) được thêm ở trạng thái **tắt** để bạn tự đọc lệnh rồi mới bật; dịch vụ đã có sẵn trong Kho kết nối (Gmail, Lịch, POS...) thì AIVON chỉ tay sang đúng card chứ không đẻ một bản tự khai song song. Thử kết nối hỏng thì mục đó **vẫn nằm lại** trang Kết nối kèm lý do, chứ không biến mất im lặng.
+- **Zalo mở rộng (gói `aivon.zalo` trên AIVON Store)**: từ 0.73.0 các tool Zalo bù chỗ MCP chuẩn còn thiếu không còn đi sẵn trong app nữa, để ai không dùng Zalo thì không phải mang theo. Gói gồm gửi ảnh và file (`zalo_send_image`), tag đúng người, ghi chú, nhắc hẹn, poll trong nhóm (`zalo_group_members`, `zalo_send_mention`, `zalo_create_note`, `zalo_create_reminder`, `zalo_create_poll`) và đọc ảnh trong nhóm (`zalo_read_images`). Quét QR Zalo xong là AIVON mời cài; máy đã dùng Zalo từ trước thì trang Kết nối hiện nút cài. Chi tiết ở [Zalo](12-zalo.md).
+- **Thời gian & ngày (VN)**: cho AIVON biết hôm nay là ngày nào, mấy giờ, thứ mấy theo giờ Việt Nam (UTC+7), và tính ngày tương đối ("3 ngày nữa", "tuần trước"). Thuần thư viện chuẩn, không cần mạng. Đây cũng là plugin mẫu đơn giản nhất để đọc khi bạn muốn tự viết plugin.
+- **Đặt việc định kỳ & nhắc hẹn**: cho phép tạo, liệt kê, huỷ việc định kỳ và nhắc hẹn **ngay trong câu chat**, khỏi gõ YAML tay. Việc lặp và bền được ghi ra `AIVON/loops/<slug>.md` (mở sửa được trong Obsidian); nhắc một lần hoặc lịch cron thì vào kho nhắc hẹn. Chi tiết ở [Việc định kỳ & Nhắc hẹn](08-viec-dinh-ky.md).
 - **Tạo ảnh (ChatGPT)**: tạo ảnh từ mô tả bằng chính **gói ChatGPT** bạn đang đăng nhập (OAuth), không cần khoá API OpenAI. Ảnh lưu vào `attachments/` của brain rồi nhúng thẳng vào câu trả lời. Cần đã kết nối ChatGPT ở trang **Models**; chưa kết nối thì tool trả về câu "Chưa kết nối ChatGPT (OAuth). Vào trang Model đăng nhập ChatGPT rồi thử lại...".
-- **Đọc video YouTube**: dán link video vào chat rồi nhờ tóm tắt. Plugin lấy **phụ đề thật** của video (đường mà trình phát YouTube dùng) nên Aivon đọc được lời thoại chứ không đoán theo tiêu đề. Không cần khoá API, không cần đăng nhập YouTube, chạy trên **mọi engine** kể cả engine API vốn không mở được URL. Khi YouTube chặn máy chủ, nó tự đổi lần lượt qua sáu kiểu trình phát rồi mới nhờ tới yt-dlp, nên vượt được phần lớn ca bị nghi là robot. Video không có phụ đề, video riêng tư hoặc bị YouTube chặn thì tool nói thẳng lý do để Aivon khỏi bịa. Video dài bị cắt bớt thì nhờ "đọc tiếp" là nó đọc khúc sau. Chi tiết ở [Trò chuyện](02-tro-chuyen-va-giong-noi.md).
-- **Luật cho từng cuộc chat Zalo**: đặt cách ứng xử cho từng nhóm hoặc từng khách trên Zalo bằng lời (im lặng, báo mọi tin, báo theo từ khoá, nhắc khi quên trả lời quá N phút). Luật ghi ra `Aivon/zalo/<slug>.md` nên xem và sửa lại được.
+- **Đọc video YouTube**: dán link video vào chat rồi nhờ tóm tắt. Plugin lấy **phụ đề thật** của video (đường mà trình phát YouTube dùng) nên AIVON đọc được lời thoại chứ không đoán theo tiêu đề. Không cần khoá API, không cần đăng nhập YouTube, chạy trên **mọi engine** kể cả engine API vốn không mở được URL. Khi YouTube chặn máy chủ, nó tự đổi lần lượt qua sáu kiểu trình phát rồi mới nhờ tới yt-dlp, nên vượt được phần lớn ca bị nghi là robot. Video không có phụ đề, video riêng tư hoặc bị YouTube chặn thì tool nói thẳng lý do để AIVON khỏi bịa. Video dài bị cắt bớt thì nhờ "đọc tiếp" là nó đọc khúc sau. Chi tiết ở [Trò chuyện](02-tro-chuyen-va-giong-noi.md).
+- **Luật cho từng cuộc chat Zalo**: đặt cách ứng xử cho từng nhóm hoặc từng khách trên Zalo bằng lời (im lặng, báo mọi tin, báo theo từ khoá, nhắc khi quên trả lời quá N phút). Luật ghi ra `AIVON/zalo/<slug>.md` nên xem và sửa lại được.
 - **Gửi tin Zalo an toàn**: gửi tin Zalo thay cho tool thô. Nó khoá cứng vào tài khoản đang nghe và chỉ gửi được cho cuộc chat trong danh sách đang theo dõi; tên khớp nhiều người thì từ chối và bắt hỏi lại. Hai plugin Zalo dùng chung với [Kênh Zalo](12-zalo.md).
 - **Meta Ads (Graph API)**: đọc số liệu quảng cáo Facebook/Instagram (danh sách tài khoản ads, chiến dịch, hiệu suất). **Chỉ đọc, không tiêu tiền.** Cần đã đấu kết nối "Meta Ads (tự tạo app - Graph API)" ở trang Kết nối.
 - **Facebook Trang (Graph API)**: quản lý Trang/Fanpage. Đọc danh sách Trang, bài và bình luận là chỉ-đọc; đăng bài, đăng ảnh, đăng album, đăng video, sửa chữ, xoá bài, trả lời bình luận là hành động **thật, công khai** và cần mức toàn quyền. Cần kết nối "Facebook Trang (tự tạo app - Graph API)".
 - **Theo dõi Facebook (Apify)**: theo dõi Trang và Nhóm **công khai** để tìm bài nhiều lượt chia sẻ, qua dịch vụ Apify. Chỉ đọc, không đụng tài khoản cá nhân, chạy được trên VPS. Cần dán Personal API token của apify.com vào kết nối "Theo dõi Facebook (Apify)".
-- **Nhật ký dùng tool**: đếm số lần **mỗi** tool được engine gọi (qua hook `post_tool_call`) rồi cho xem thống kê tool hay dùng nhất. Đây là ví dụ minh hoạ cơ chế hook, nên mặc định để tắt; bật ở trang Plugins, chat vài lượt có gọi tool, rồi hỏi Aivon "tool nào hay dùng nhất".
+- **Nhật ký dùng tool**: đếm số lần **mỗi** tool được engine gọi (qua hook `post_tool_call`) rồi cho xem thống kê tool hay dùng nhất. Đây là ví dụ minh hoạ cơ chế hook, nên mặc định để tắt; bật ở trang Plugins, chat vài lượt có gọi tool, rồi hỏi AIVON "tool nào hay dùng nhất".
 
 Lưu ý về cột "Quyền tối thiểu": đó là mức khai báo cho **cả plugin** và là cái hiển thị trên thẻ. Từng tool bên trong vẫn có mức riêng. Ví dụ `meta-pages-graph` ghi "toàn quyền" trên thẻ, nhưng ba tool đọc bài/bình luận của nó chỉ cần mức chỉ-đọc, còn các tool đăng và xoá mới cần toàn quyền.
 
@@ -143,23 +143,23 @@ Khác ba nguồn kia ở ba điểm:
 
 - **Bật, tắt và gỡ đều làm ở Kho cài đặt**, không làm ở đây. Plugin đi theo cả gói, nên tách ra bật lẻ chỉ gây nhầm. Thẻ ở trang này có nút dẫn thẳng sang đó.
 - **Biến môi trường `AIVON_ENABLE_USER_PLUGINS` không áp cho gói.** Gói đi qua trình cài, tức bạn đã xem màn hình liệt kê từng tệp mã rồi mới bấm đồng ý, và chữ ký mã được đối chiếu mỗi lần nạp.
-- **Mã trong gói bị khoá theo nội dung.** Lúc cài, Aivon ghi lại một dấu vân tay của toàn bộ mã trong gói. Mỗi lần nạp, nó tính lại và đối chiếu: lệch một byte là plugin **không chạy**, và thẻ nói rõ "mã trong gói đã đổi so với lúc bạn đồng ý cài". Muốn dùng tiếp thì cài lại ở Kho cài đặt để xem và xác nhận lại.
+- **Mã trong gói bị khoá theo nội dung.** Lúc cài, AIVON ghi lại một dấu vân tay của toàn bộ mã trong gói. Mỗi lần nạp, nó tính lại và đối chiếu: lệch một byte là plugin **không chạy**, và thẻ nói rõ "mã trong gói đã đổi so với lúc bạn đồng ý cài". Muốn dùng tiếp thì cài lại ở Kho cài đặt để xem và xác nhận lại.
 
 Lưu ý khi tự sửa: mở tệp `plugin.py` của một gói bằng trình soạn thảo trên Windows rồi lưu là đủ để dấu vân tay lệch, vì nhiều trình soạn thảo tự đổi ký tự xuống dòng. Đó không phải lỗi, chỉ là nội dung tệp thật sự đã khác. Sửa plugin thì nên sửa trong thư mục plugin của bạn chứ không sửa trong gói.
 
-Một gói **không được** mang plugin trùng tên với plugin có sẵn của Aivon. Trình cài từ chối ngay và nói tên bị trùng, để không có chuyện một gói lặng lẽ thay thế công cụ lõi.
+Một gói **không được** mang plugin trùng tên với plugin có sẵn của AIVON. Trình cài từ chối ngay và nói tên bị trùng, để không có chuyện một gói lặng lẽ thay thế công cụ lõi.
 
 ## Gỡ hẳn một plugin khỏi danh sách
 
 Nút **Tắt** giữ thẻ lại cho bạn nhìn; nút **Gỡ** thì cho nó biến khỏi danh sách chính. Cả hai đều làm tool của plugin biến mất khỏi mọi bộ não, khác nhau ở chỗ bạn còn định dùng lại hay không.
 
-Gỡ **không xoá tệp** trong bản cài. Aivon chỉ ghi nhớ lựa chọn đó vào thư mục state, nên cập nhật Aivon lên bản mới không làm plugin mọc lại, mà cài lại thì chỉ mất một cú bấm ở mục **Đã gỡ** nằm cuối trang (mặc định gập).
+Gỡ **không xoá tệp** trong bản cài. AIVON chỉ ghi nhớ lựa chọn đó vào thư mục state, nên cập nhật AIVON lên bản mới không làm plugin mọc lại, mà cài lại thì chỉ mất một cú bấm ở mục **Đã gỡ** nằm cuối trang (mặc định gập).
 
-Áp cho cả plugin **Có sẵn** đi kèm Aivon. Đây là cách dọn bộ mặc định cho gọn nếu bạn không dùng tới.
+Áp cho cả plugin **Có sẵn** đi kèm AIVON. Đây là cách dọn bộ mặc định cho gọn nếu bạn không dùng tới.
 
 ## Mức quyền tối thiểu và chế độ chạy
 
-Mỗi tool plugin khai báo một mức quyền tối thiểu; mỗi lượt chạy của Aivon lại có một trần quyền. Tool chỉ chạy khi trần của lượt chạy đủ cao.
+Mỗi tool plugin khai báo một mức quyền tối thiểu; mỗi lượt chạy của AIVON lại có một trần quyền. Tool chỉ chạy khi trần của lượt chạy đủ cao.
 
 | Mức tối thiểu của tool (nhãn trên thẻ) | Ý nghĩa | Chạy được ở chế độ nào |
 |---|---|---|
@@ -178,7 +178,7 @@ Có hai chỗ, tuỳ bạn muốn plugin dùng chung hay dùng riêng:
 - **Toàn cục** (khuyên dùng): `<AIVON_STATE_DIR>/plugins/<slug>/`. Mọi brain đều thấy plugin này, và mọi engine đều gọi được. Đường dẫn thật đang hiện sẵn ở dòng chỉ đường trên trang Plugins, cứ sao chép từ đó. Mặc định `AIVON_STATE_DIR` là thư mục `server/` của dự án; trên Docker/VPS thường là `/data/state`.
 - **Riêng một brain**: `<brain>/plugins/<slug>/`. Chỉ brain đó dùng được. Hợp khi plugin gắn chặt với dữ liệu của một brain cụ thể.
 
-`<slug>` là tên thư mục, phải là chữ thường ASCII không dấu, bắt đầu bằng chữ hoặc số, chỉ chứa chữ số, dấu chấm, gạch dưới, gạch nối. Sai kiểu chữ thì Aivon bỏ qua plugin và báo "slug không hợp lệ".
+`<slug>` là tên thư mục, phải là chữ thường ASCII không dấu, bắt đầu bằng chữ hoặc số, chỉ chứa chữ số, dấu chấm, gạch dưới, gạch nối. Sai kiểu chữ thì AIVON bỏ qua plugin và báo "slug không hợp lệ".
 
 ### Bước 2: Viết plugin.yaml
 
@@ -219,20 +219,20 @@ Vài điều cần nhớ khi viết:
 
 - Tên tool phải bắt đầu bằng chữ thường, chỉ gồm chữ thường, số và gạch dưới.
 - `description` là thứ engine đọc để quyết định **khi nào** gọi tool, nên viết rõ tình huống và tham số. Mô tả mờ thì tool nằm im không ai gọi.
-- Handler có thể là hàm thường hoặc `async`. Trả về chuỗi là gọn nhất; trả về dict thì Aivon tự chuyển thành JSON.
+- Handler có thể là hàm thường hoặc `async`. Trả về chuỗi là gọn nhất; trả về dict thì AIVON tự chuyển thành JSON.
 - `ctx` có sẵn `ctx.slug`, `ctx.vault_root` (brain đang làm việc) và `ctx.data_dir` (thư mục riêng để plugin lưu state, **không** nằm trong brain nên không làm bẩn ghi chú của bạn).
 - Muốn tool tự từ chối khi chưa đủ điều kiện (chưa đăng nhập, thiếu khoá), truyền thêm `check_fn=` là một hàm trả về `None` khi sẵn sàng hoặc một câu tiếng Việt giải thích khi chưa.
-- Một plugin lỗi **không làm sập** Aivon: mọi bước nạp, mọi lần gọi tool và hook đều được bọc lại, lỗi chỉ hiện trên thẻ plugin đó.
+- Một plugin lỗi **không làm sập** AIVON: mọi bước nạp, mọi lần gọi tool và hook đều được bọc lại, lỗi chỉ hiện trên thẻ plugin đó.
 
 ### Bước 4: Bật plugin
 
-Từ 0.162.0, Aivon **tải plugin do bạn cài theo mặc định**: plugin nào có `enabled: true` (tức bạn đã bấm **Bật** trên thẻ) là chạy, không cần biến môi trường nào.
+Từ 0.162.0, AIVON **tải plugin do bạn cài theo mặc định**: plugin nào có `enabled: true` (tức bạn đã bấm **Bật** trên thẻ) là chạy, không cần biến môi trường nào.
 
 Muốn chặn hẳn plugin người dùng trên một máy (ví dụ máy chủ dùng chung):
 
 1. Mở file `.env` ở thư mục gốc dự án (chưa có thì tạo, xem [Cấu hình .env](16-cau-hinh-env.md)).
 2. Thêm một dòng: `AIVON_ENABLE_USER_PLUGINS=false`
-3. Lưu file và **khởi động lại Aivon**.
+3. Lưu file và **khởi động lại AIVON**.
 
 Giá trị tắt nhận `0`, `false`, `no` hoặc `off` (không phân biệt hoa thường). Tên cũ `AIVON_ENABLE_VAULT_PLUGINS` vẫn còn tác dụng, nhưng nếu đặt cả hai thì tên mới thắng.
 
@@ -240,18 +240,18 @@ Giá trị tắt nhận `0`, `false`, `no` hoặc `off` (không phân biệt hoa
 
 Đây là phần quan trọng nhất của trang này.
 
-- **Plugin do bạn cài chạy mã Python thật, trong chính tiến trình server của Aivon.** Nó có quyền của tiến trình đó: đọc ghi file, gọi mạng, đọc biến môi trường. Từ 0.162.0 chủ dự án quyết định **cho tải mặc định**; chốt chặn còn lại là công tắc **Bật** của từng plugin (`enabled: true` trong `plugin.yaml`).
+- **Plugin do bạn cài chạy mã Python thật, trong chính tiến trình server của AIVON.** Nó có quyền của tiến trình đó: đọc ghi file, gọi mạng, đọc biến môi trường. Từ 0.162.0 chủ dự án quyết định **cho tải mặc định**; chốt chặn còn lại là công tắc **Bật** của từng plugin (`enabled: true` trong `plugin.yaml`).
 - **Chỉ bật plugin khi bạn đã tự đọc mã của nó.** Lưu ý: ai ghi được vào thư mục `plugins/` (kể cả model, vì nó ghi được vào brain) cũng có thể ghi `enabled: true`. Máy chủ dùng chung hoặc chạy bot cho người lạ thì nên đặt `AIVON_ENABLE_USER_PLUGINS=false`.
-- **Plugin có sẵn (nhãn "Có sẵn") không chịu công tắc này** vì chúng đi kèm bản phát hành Aivon. Chúng vẫn chạy bình thường kể cả khi máy đặt `false`.
-- **Plugin do Aivon tạo qua chat luôn ở trạng thái tắt** (`enabled: false`) và mức `readonly`. Aivon không tự bật hộ; bạn phải đọc mã rồi tự bấm **Bật**.
+- **Plugin có sẵn (nhãn "Có sẵn") không chịu công tắc này** vì chúng đi kèm bản phát hành AIVON. Chúng vẫn chạy bình thường kể cả khi máy đặt `false`.
+- **Plugin do AIVON tạo qua chat luôn ở trạng thái tắt** (`enabled: false`) và mức `readonly`. AIVON không tự bật hộ; bạn phải đọc mã rồi tự bấm **Bật**.
 - **Đừng viết plugin để làm hành động tiền bạc, tạo đơn, gửi tin hay đăng bài.** Những việc đó nên đi qua kết nối MCP và hệ mức quyền, nơi đã có lớp chặn và nhật ký. Plugin nên để `min_mode: readonly` trừ khi bạn cố ý cần khác.
 - **Đừng nhân bản plugin có sẵn vào brain.** Chúng đi theo app và tự cập nhật; bản sao trong brain sẽ đè mất bản gốc và không được cập nhật nữa.
 
-## Nhờ Aivon tạo plugin bằng lời
+## Nhờ AIVON tạo plugin bằng lời
 
 Bạn không cần tự gõ hai file. Mở khung trò chuyện và nói thẳng, ví dụ: "Tạo cho tôi một plugin tính phí ship theo cân nặng, bảng giá 5 nghìn một ký, dưới 1 ký tính tròn."
 
-Aivon sẽ tự chọn loại năng lực phù hợp trước (nếu chỉ cần hướng dẫn thì nó tạo skill, nếu là nguồn dữ liệu có sẵn thì nó khuyên đấu MCP), kiểm tra trùng với những gì brain đã có, rồi mới ghi thư mục plugin. Khi tạo xong nó báo lại tên file và nhắc bạn rằng plugin đang tắt cùng cách mở khoá biến môi trường.
+AIVON sẽ tự chọn loại năng lực phù hợp trước (nếu chỉ cần hướng dẫn thì nó tạo skill, nếu là nguồn dữ liệu có sẵn thì nó khuyên đấu MCP), kiểm tra trùng với những gì brain đã có, rồi mới ghi thư mục plugin. Khi tạo xong nó báo lại tên file và nhắc bạn rằng plugin đang tắt cùng cách mở khoá biến môi trường.
 
 Sau đó bạn tự làm 3 việc: mở `plugin.py` đọc lại mã (dùng trang **Tệp tin** nếu plugin nằm trong brain), đặt biến môi trường nếu chưa có, rồi vào **Plugins** bấm **Bật**.
 
@@ -266,7 +266,7 @@ Ngoài tool, plugin còn đăng ký được hook. Bản hiện tại có hai s�
 
 `turn` cho hook biết **ai đang nói** trong lượt gọi tool đó: `kenh` (kênh), `sender_id` (mã người gửi tin này, trong nhóm vẫn là người gửi chứ không phải nhóm), `chat_type` (`private` hoặc `group`), `chat_id` (cuộc trò chuyện) và `la_chu` (`true` ở dashboard và kênh quản trị của chủ, luôn `false` với bot chuyên trách). Không xác định được (việc nền, engine chưa mang được khoá lượt) thì `turn` là `None`: hook cần danh tính phải coi `None` là "không ai", đừng coi là chủ máy.
 
-Hook bọc **mọi** tool call, kể cả tool của MCP và tool lõi, chứ không riêng tool của plugin đó. Dùng để ghi nhật ký, đếm, cảnh báo. Khi không plugin nào đăng ký hook, Aivon không bọc gì nên không mất thêm hiệu năng. Plugin `tool-audit` là ví dụ chạy được: bật nó lên là mỗi lượt gọi tool được đếm vào một file riêng của plugin.
+Hook bọc **mọi** tool call, kể cả tool của MCP và tool lõi, chứ không riêng tool của plugin đó. Dùng để ghi nhật ký, đếm, cảnh báo. Khi không plugin nào đăng ký hook, AIVON không bọc gì nên không mất thêm hiệu năng. Plugin `tool-audit` là ví dụ chạy được: bật nó lên là mỗi lượt gọi tool được đếm vào một file riêng của plugin.
 
 ## Hook ngữ cảnh lượt chatbot (`chatbot_turn_context`)
 
@@ -285,7 +285,7 @@ Callback nhận các khoá sau (luôn khai `**kwargs`, khoá mới có thể th�
 | `vault_root` | Đường dẫn brain của bot |
 | `trial` | `true` ở lượt **Thử bot** |
 
-Callback trả về **một dòng chữ ngắn** hoặc `None`. Aivon đặt dòng đó vào prompt hệ thống của đúng lượt này, trong một khối có nhãn và rào `<operator_context>`, ghi rõ đây là thông tin từ hệ thống của chủ bot chứ không phải lời người nhắn tự khai.
+Callback trả về **một dòng chữ ngắn** hoặc `None`. AIVON đặt dòng đó vào prompt hệ thống của đúng lượt này, trong một khối có nhãn và rào `<operator_context>`, ghi rõ đây là thông tin từ hệ thống của chủ bot chứ không phải lời người nhắn tự khai.
 
 ```python
 def register(ctx):
@@ -296,7 +296,7 @@ def register(ctx):
     ctx.register_hook("chatbot_turn_context", _ngu_canh)
 ```
 
-Rào Aivon tự giữ, plugin không nới được:
+Rào AIVON tự giữ, plugin không nới được:
 
 - **Không plugin nào nghe thì prompt giống hệt từng byte** như trước khi có hook này.
 - Lõi **không bao giờ tự ghi mã người gửi vào prompt**. Chỉ dòng plugin trả về mới vào, nên plugin nên trả kết luận ("đã xác nhận") chứ đừng trả lại mã.
@@ -310,7 +310,7 @@ Plugin dùng hook này vẫn chịu đúng rào chung: plugin người dùng t�
 
 ## Trang riêng và đường HTTP (từ 0.64.26)
 
-Plugin mở được đường web của riêng nó, dưới `/ext/<slug>/`. Dùng cho trang cài đặt, hoặc cho dịch vụ bên ngoài gọi vào (webhook, cửa OAuth). Gói "Aivon trong ChatGPT" trong kho là ví dụ chạy thật.
+Plugin mở được đường web của riêng nó, dưới `/ext/<slug>/`. Dùng cho trang cài đặt, hoặc cho dịch vụ bên ngoài gọi vào (webhook, cửa OAuth). Gói "AIVON trong ChatGPT" trong kho là ví dụ chạy thật.
 
 ```python
 def register(ctx):
@@ -322,7 +322,7 @@ def register(ctx):
 
 - **Mặc định phải đăng nhập bằng trình duyệt.** Token API không mở được trang của plugin.
 - **`public=True`**: vào không cần đăng nhập, plugin tự xác thực (chữ ký, token). Chỉ áp cho đúng method đã khai.
-- **`no_cookie=True`** (đi cùng `public`): miễn chặn CSRF, và Aivon gỡ hẳn cookie trước khi giao request cho plugin.
+- **`no_cookie=True`** (đi cùng `public`): miễn chặn CSRF, và AIVON gỡ hẳn cookie trước khi giao request cho plugin.
 - **`register_well_known`**: chỉ GET, công khai, không cookie. Hai plugin xin cùng tên thì plugin nạp trước giữ.
 - Khai `page: ""` trong `plugin.yaml` thì thẻ plugin có nút **Mở trang**.
 - Chỉ plugin đi kèm app, plugin của gói đã cài và plugin toàn cục mới có đường. **Plugin trong brain thì không**, vì model ghi được vào brain.
@@ -352,22 +352,22 @@ def register(ctx):
 - Đặt plugin ở **Toàn cục** trừ khi có lý do rõ ràng để buộc vào một brain. Toàn cục không phụ thuộc brain nên bạn đổi brain vẫn dùng được.
 - Không dùng plugin nào thì **tắt** thay vì xoá thư mục, để lần sau bật lại là xong.
 - Tắt bớt plugin không dùng cũng làm gọn danh sách tool đưa cho model, giúp nó chọn tool đúng hơn.
-- Muốn biết Aivon đang thấy những năng lực gì (agent, skill, workflow, loop, plugin) thì mở file `Aivon/index.md` trong brain bằng trang **Tệp tin**; file này tự dựng lại mỗi khi bạn bật/tắt plugin.
+- Muốn biết AIVON đang thấy những năng lực gì (agent, skill, workflow, loop, plugin) thì mở file `AIVON/index.md` trong brain bằng trang **Tệp tin**; file này tự dựng lại mỗi khi bạn bật/tắt plugin.
 
 ## Sự cố thường gặp
 
-- **Thẻ ghi "⚠ tắt bằng env":** máy này đặt `AIVON_ENABLE_USER_PLUGINS=false`. Bỏ dòng đó trong `.env` (hoặc đặt `true`) rồi khởi động lại Aivon. Biến này chỉ được đọc lúc khởi động.
+- **Thẻ ghi "⚠ tắt bằng env":** máy này đặt `AIVON_ENABLE_USER_PLUGINS=false`. Bỏ dòng đó trong `.env` (hoặc đặt `true`) rồi khởi động lại AIVON. Biến này chỉ được đọc lúc khởi động.
 - **Đã đặt biến môi trường mà vẫn bị chặn:** kiểm tra file `.env` nằm đúng thư mục gốc dự án, dòng biến không bị dấu `#` ở đầu, và giá trị là `true` (hoặc `1`/`yes`/`on`). Trên Docker thì đặt biến ở phần Environment của container chứ không phải trong file trên máy chủ.
-- **Plugin mới thả vào mà không hiện trên trang:** thư mục phải nằm **trực tiếp** trong thư mục plugins (không lồng thêm cấp), và bên trong phải có `plugin.py` (hoặc `__init__.py`). Thiếu thì Aivon không coi đó là plugin. Tên thư mục cũng phải là slug hợp lệ (chữ thường không dấu).
+- **Plugin mới thả vào mà không hiện trên trang:** thư mục phải nằm **trực tiếp** trong thư mục plugins (không lồng thêm cấp), và bên trong phải có `plugin.py` (hoặc `__init__.py`). Thiếu thì AIVON không coi đó là plugin. Tên thư mục cũng phải là slug hợp lệ (chữ thường không dấu).
 - **Thẻ ghi "⚠ lỗi" kèm "thiếu plugin.py":** thư mục chỉ có `plugin.yaml`. Thêm file mã vào.
 - **Thẻ ghi "⚠ lỗi" kèm "manifest lỗi: ...":** `plugin.yaml` sai cú pháp YAML. Hay gặp nhất là mô tả có dấu hai chấm mà không bọc nháy.
 - **Thẻ ghi "⚠ lỗi" kèm "thiếu hàm register(ctx)":** `plugin.py` chưa có hàm `register`, hoặc bạn đặt tên khác. Hàm phải tên đúng là `register` và nhận một tham số.
-- **Thẻ ghi "⚠ lỗi" kèm tên một lỗi Python (ví dụ `ModuleNotFoundError`):** mã plugin dùng thư viện chưa cài trong môi trường Python của Aivon. Cài thư viện đó vào đúng môi trường ảo Aivon đang chạy, rồi khởi động lại.
-- **Plugin đang chạy nhưng engine không thấy tool:** nhiều khả năng tên tool **trùng** với một tool đã có của MCP hoặc tool lõi. Aivon không cho plugin chiếm chỗ tool lõi, nó bỏ qua tool trùng và ghi một dòng vào log server. Đổi tên tool trong `plugin.py` cho khác đi (đặt tiền tố riêng là cách chắc nhất). Các tên lõi không được dùng lại: `aivon_connections`, `aivon_read_file`, `aivon_list_dir`, `aivon_write_file`, `aivon_use_skill`.
+- **Thẻ ghi "⚠ lỗi" kèm tên một lỗi Python (ví dụ `ModuleNotFoundError`):** mã plugin dùng thư viện chưa cài trong môi trường Python của AIVON. Cài thư viện đó vào đúng môi trường ảo AIVON đang chạy, rồi khởi động lại.
+- **Plugin đang chạy nhưng engine không thấy tool:** nhiều khả năng tên tool **trùng** với một tool đã có của MCP hoặc tool lõi. AIVON không cho plugin chiếm chỗ tool lõi, nó bỏ qua tool trùng và ghi một dòng vào log server. Đổi tên tool trong `plugin.py` cho khác đi (đặt tiền tố riêng là cách chắc nhất). Các tên lõi không được dùng lại: `aivon_connections`, `aivon_read_file`, `aivon_list_dir`, `aivon_write_file`, `aivon_use_skill`.
 - **Tool trả về `ERROR: tool '<tên>' cần mức quyền cao hơn`:** lượt chạy đang bị hạn chế mức quyền. Nếu là việc định kỳ, nâng chế độ của việc đó (xem [Việc định kỳ & Nhắc hẹn](08-viec-dinh-ky.md)); nếu là plugin của bạn thì xem lại `min_mode` khai trong `register_tool`.
 - **Tool trả về "Chưa kết nối ...":** plugin cần một kết nối mà bạn chưa đấu. Làm theo đúng câu hướng dẫn trong lỗi, thường là vào trang **Kết nối** (hoặc **Models** với plugin tạo ảnh).
 - **Bấm Bật báo "không tìm thấy plugin":** danh sách trên màn hình đã cũ so với đĩa (bạn vừa xoá hoặc đổi tên thư mục). Tải lại trang.
-- **Bấm Bật báo "ghi manifest lỗi":** Aivon không ghi được vào `plugin.yaml`, thường do quyền thư mục hoặc file đang mở khoá bởi chương trình khác. Xem thêm [Khắc phục sự cố & FAQ](17-khac-phuc-su-co.md).
+- **Bấm Bật báo "ghi manifest lỗi":** AIVON không ghi được vào `plugin.yaml`, thường do quyền thư mục hoặc file đang mở khoá bởi chương trình khác. Xem thêm [Khắc phục sự cố & FAQ](17-khac-phuc-su-co.md).
 
 ## Liên quan
 
@@ -375,6 +375,6 @@ def register(ctx):
 - [Kết nối & số liệu kinh doanh](09-mcp-va-so-lieu.md) - đấu nguồn dữ liệu ngoài; các plugin Meta Ads, Facebook Trang và Apify lấy token từ đây.
 - [Models & engine](10-models-va-engine.md) - vì sao mọi engine đều gọi được tool của plugin.
 - [Việc định kỳ & Nhắc hẹn](08-viec-dinh-ky.md) - ba mức quyền của việc chạy nền, và plugin `aivon-schedule`.
-- [Zalo Agent MCP](12-zalo.md) - Zalo nay dùng MCP của CLI riêng `javis-zalo`, không còn plugin riêng.
+- [Zalo Agent MCP](12-zalo.md) - Zalo nay dùng MCP của CLI riêng `aivon-zalo`, không còn plugin riêng.
 - [Cấu hình .env](16-cau-hinh-env.md) - cách đặt biến môi trường và khởi động lại.
-- [Agents & Workflows](07-agents-va-workflows.md) - các loại năng lực khác của Aivon.
+- [Agents & Workflows](07-agents-va-workflows.md) - các loại năng lực khác của AIVON.

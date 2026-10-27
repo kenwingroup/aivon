@@ -49,7 +49,7 @@
 9. **Test:**
    - Helper chung bật agent cho test cũ M2 đến M5. Nội dung kiểm của chúng giữ nguyên.
    - Test mới cho ma trận 1 đến 7 và 11, 12.
-   - Transport: plugin trong tiến trình, hub HTTP với khoá `X-Aivon-Turn` (Codex), khoá giả hay đã chết.
+   - Transport: plugin trong tiến trình, hub HTTP với khoá `X-AIVON-Turn` (Codex), khoá giả hay đã chết.
 
 ## Nhóm 2: API của chủ dự án
 

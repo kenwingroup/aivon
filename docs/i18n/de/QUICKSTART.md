@@ -9,18 +9,18 @@ Bring AIVON in wenigen Minuten zum Laufen. Vollständige Anleitungen: [docs/en/]
 
 ## Option 1 - Hostinger VPS (Docker Manager, ein Klick)
 
-> 🛒 **Noch keinen VPS?** [Hol dir hier einen Hostinger VPS](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN). Docker Manager ist eingebaut, Aivon installiert sich also mit einem Klick. Sobald er bereit ist, mach mit den Schritten unten weiter.
+> 🛒 **Noch keinen VPS?** [Hol dir hier einen Hostinger VPS](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN). Docker Manager ist eingebaut, AIVON installiert sich also mit einem Klick. Sobald er bereit ist, mach mit den Schritten unten weiter.
 
 1. hPanel → VPS → **Docker Manager** → **Compose** → **Compose from URL**.
 2. Füge diese URL ein:
    ```
-   https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.hostinger.yml
+   https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.hostinger.yml
    ```
 3. (Optional, für HTTPS + eine Domain) trage dies im Feld **Environment** ein:
    ```
    DOMAIN_NAME=aivon.<vps-hostname>.hstgr.cloud
    ```
-   (Den Hostnamen findest du unter hPanel → VPS, z. B. `javis.srv1782015.hstgr.cloud`.)
+   (Den Hostnamen findest du unter hPanel → VPS, z. B. `aivon.srv1782015.hstgr.cloud`.)
 4. **Deploy**. Warte 1-3 Minuten. Öffne die App über den Button **Open** (oder unter `https://<DOMAIN_NAME>`).
 5. Beim ersten Start fordert dich der Bildschirm auf, ein Admin-Konto anzulegen. Melde dich danach einmal im Terminal des Containers bei Claude Code an: `claude auth login --claudeai`.
 
@@ -39,7 +39,7 @@ docker compose -f docker-compose.yml up -d
 
 1. Installiere Python 3.12 + Node 22.
 2. Führe im Projektordner einmal `setup.bat` aus: Es legt .venv an, installiert die Abhängigkeiten und installiert für dich die beiden CLI-Engines (Claude Code, Codex).
-3. `start-aivon.bat` startet Aivon im Hintergrund (`stop-aivon.bat` beendet es).
+3. `start-aivon.bat` startet AIVON im Hintergrund (`stop-aivon.bat` beendet es).
 4. Öffne http://localhost:7979.
 
 ## Sobald es läuft

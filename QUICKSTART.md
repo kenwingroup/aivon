@@ -11,13 +11,13 @@ Chạy AIVON trong vài phút. Chi tiết từng phần: [docs/](docs/README.md)
 1. hPanel → VPS → **Docker Manager** → **Compose** → **Compose from URL**.
 2. Dán URL:
    ```
-   https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.hostinger.yml
+   https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.hostinger.yml
    ```
 3. (Tùy chọn, để có HTTPS + tên miền) ở ô **Environment** đặt:
    ```
    DOMAIN_NAME=aivon.<hostname-vps>.hstgr.cloud
    ```
-   (hostname xem ở hPanel → VPS; ví dụ `javis.srv1782015.hstgr.cloud`.)
+   (hostname xem ở hPanel → VPS; ví dụ `aivon.srv1782015.hstgr.cloud`.)
 4. **Deploy**. Đợi 1-3 phút. Mở app bằng nút **Open** (hoặc `https://<DOMAIN_NAME>`).
 5. Lần đầu: màn hình sẽ hỏi tạo tài khoản admin. Sau đó đăng nhập Claude Code trong terminal container 1 lần: `claude auth login --claudeai`.
 

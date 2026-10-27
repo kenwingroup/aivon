@@ -26,7 +26,7 @@ A hook without `actions` has one branch, `main` of kind `ai` (its task or workfl
 | Field | Meaning |
 |---|---|
 | `body` | `fields` (the M2 mapped fields plus `_aivon`), `event` (`fields`, `payload`, `_aivon`), `raw` (the original body and content type) |
-| `headers` | the action's own headers (at most 10). `Cookie`, `Host`, `Content-Length`, `Idempotency-Key`, `X-Aivon-Delivery` are refused. Values are masked in the dashboard, never copied into the event store, and taken from the hook at run time (a rotated key applies to waiting events) |
+| `headers` | the action's own headers (at most 10). `Cookie`, `Host`, `Content-Length`, `Idempotency-Key`, `X-AIVON-Delivery` are refused. Values are masked in the dashboard, never copied into the event store, and taken from the hook at run time (a rotated key applies to waiting events) |
 | `retry` | `never` (default) or `safe`: the receiver drops a second copy with the same `Idempotency-Key`, so an ambiguous failure may be re-sent |
 | `timeout_s` | 1 to 60 (default 15; Apps Script 30) |
 | `allow_private` | allows a loopback/private address (and `http://`) for a receiver on the owner's own network |
@@ -34,8 +34,8 @@ A hook without `actions` has one branch, `main` of kind `ai` (its task or workfl
 ## Delivery id
 
 Each branch has a delivery id, `dlv_<hash of event id and action id>`. It never changes for that branch: not on an
-automatic re-send, not on the owner's Retry. It is sent as `Idempotency-Key`, as `X-Aivon-Delivery`, and as
-`_aivon.delivery_id` in the body. Aivon does not promise exactly-once delivery: a receiver that keeps the delivery id
+automatic re-send, not on the owner's Retry. It is sent as `Idempotency-Key`, as `X-AIVON-Delivery`, and as
+`_aivon.delivery_id` in the body. AIVON does not promise exactly-once delivery: a receiver that keeps the delivery id
 can drop the second copy.
 
 ## Outcomes
@@ -59,7 +59,7 @@ others keep their outcome.
 ## Apps Script: redirect and receipt
 
 `doPost` runs when Google receives the POST. Google then answers `302` to a one-time address on
-`script.googleusercontent.com` that holds the script's output. Aivon:
+`script.googleusercontent.com` that holds the script's output. AIVON:
 
 1. POSTs once to the `/exec` address and does not follow redirects. A POST is never repeated.
 2. Reads the `Location` with a plain GET (no body, none of the action's headers), and only on
@@ -132,7 +132,7 @@ def register(ctx):
   followed. Residual risk: DNS can change between the check and the connection (rebinding). The check reduces
   this risk but does not remove it.
 - `AIVON_WH_NO_NETWORK=1` makes the default transport refuse every request. Tests use it as a fail-fast guard.
-- Only an `ai` branch reaches Aivon Core's incident triage. A hook with only outside actions never calls a model.
+- Only an `ai` branch reaches AIVON Core's incident triage. A hook with only outside actions never calls a model.
 
 ## Where it sits
 

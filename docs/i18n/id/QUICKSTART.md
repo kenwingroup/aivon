@@ -9,18 +9,18 @@ Jalankan AIVON dalam beberapa menit. Panduan lengkap: [docs/en/](../../../docs/e
 
 ## Opsi 1 - VPS Hostinger (Docker Manager, sekali klik)
 
-> 🛒 **Belum punya VPS?** [Sewa VPS Hostinger di sini](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN). Docker Manager sudah tersedia, jadi Aivon terpasang sekali klik. Setelah siap, kembali ke langkah di bawah.
+> 🛒 **Belum punya VPS?** [Sewa VPS Hostinger di sini](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN). Docker Manager sudah tersedia, jadi AIVON terpasang sekali klik. Setelah siap, kembali ke langkah di bawah.
 
 1. hPanel → VPS → **Docker Manager** → **Compose** → **Compose from URL**.
 2. Tempel URL ini:
    ```
-   https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.hostinger.yml
+   https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.hostinger.yml
    ```
 3. (Opsional, untuk HTTPS + domain) isi ini di kotak **Environment**:
    ```
    DOMAIN_NAME=aivon.<vps-hostname>.hstgr.cloud
    ```
-   (Hostname ada di hPanel → VPS, contoh `javis.srv1782015.hstgr.cloud`.)
+   (Hostname ada di hPanel → VPS, contoh `aivon.srv1782015.hstgr.cloud`.)
 4. **Deploy**. Tunggu 1-3 menit. Buka aplikasi dengan tombol **Open** (atau `https://<DOMAIN_NAME>`).
 5. Saat pertama dijalankan, layar akan meminta Anda membuat akun admin. Setelah itu, login ke Claude Code sekali saja dari terminal container: `claude auth login --claudeai`.
 

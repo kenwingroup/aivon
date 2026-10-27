@@ -242,7 +242,7 @@ def _tim_aivon() -> Path:
     if os.getenv("AIVON_HOME"):
         ung_vien.append(Path(os.environ["AIVON_HOME"]))
     ung_vien += [Path.cwd(), Path.cwd().parent,
-                 Path(os.path.expanduser("~")) / "aivon-os",
+                 Path(os.path.expanduser("~")) / "aivon",
                  Path(os.path.expanduser("~")) / "Aivon-OS"]
     for p in ung_vien:
         try:

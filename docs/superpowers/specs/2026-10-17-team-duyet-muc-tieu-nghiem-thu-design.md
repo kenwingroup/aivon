@@ -77,7 +77,7 @@ Quyền làm việc của nhóm, cột mới `teams.work_mode`:
 Mức hub mới `gated`: liệt kê công cụ như `full` (để hành động bị chặn có thể thành yêu cầu và chạy được sau khi duyệt), trần
 như `auto` (`mcp_catalog._MODE_CAP`), nên chỗ nào không biết cổng thì đóng lại, không bao giờ chạy ở `full`. Khi `_guard` của hub
 hay `plugins_host._make_call` thấy lời gọi bị trần `gated` chặn mà kết nối cho phép ở `full`, nó hỏi cổng của lượt
-(`turn_context` khoá `team_gate`, đến qua `X-Aivon-Turn` hoặc ContextVar). Có dấu vân tay đã duyệt cho bước này thì tiêu ngay
+(`turn_context` khoá `team_gate`, đến qua `X-AIVON-Turn` hoặc ContextVar). Có dấu vân tay đã duyệt cho bước này thì tiêu ngay
 trong một giao dịch rồi cho qua; không thì từ chối TRƯỚC khi gọi và ghi lại lời gọi (tên, tham số, dấu vân tay). Không có cổng
 sống (thiếu hay giả khoá lượt) thì từ chối.
 

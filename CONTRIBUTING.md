@@ -8,7 +8,7 @@ By taking part you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md). Se
 
 ## Ways to help
 
-- **Report a bug** or **suggest a feature**: open an [issue](https://github.com/blogminhquy/javis-os/issues/new/choose) using the templates.
+- **Report a bug** or **suggest a feature**: open an [issue](https://github.com/kenwingroup/aivon/issues/new/choose) using the templates.
 - **Translate** the interface, the docs or the connection store into your language (see [Translations](#translations)). This is the easiest way to start.
 - **Add a connector** to the connection store, a **plugin** (a native Python tool every brain can call) or a **skill** (know-how in a markdown file).
 - **Fix code.** Read [ARCHITECTURE.md](ARCHITECTURE.md) first. The code base was written in Vietnamese; [docs/dev/GLOSSARY.md](docs/dev/GLOSSARY.md) decodes the Vietnamese words in identifiers such as `chuan_hoa` (normalise) or `nhac_hen` (reminder).
@@ -18,7 +18,7 @@ For anything bigger than a small fix, open an issue first so the direction can b
 ## Getting set up
 
 ```bash
-git clone https://github.com/<you>/aivon-os.git && cd aivon-os
+git clone https://github.com/<you>/aivon.git && cd aivon
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt pytest
 .venv/bin/python -m uvicorn main:app --app-dir server --port 7979   # http://localhost:7979
 ```
@@ -40,7 +40,7 @@ The script finds `.venv` by itself and runs from any folder inside the repo. Tes
 
 1. **Fork** the repo and create a branch named after the work (`fix-mobile-zoom`, `add-spanish-ui`).
 2. Make the change and run the tests locally. A PR that never ran the tests tends to trip over small things only CI catches.
-3. Open the PR against `main` of `blogminhquy/javis-os`. The template asks for **why** the change is needed, not only what changed: the diff already shows the what.
+3. Open the PR against `main` of `kenwingroup/aivon`. The template asks for **why** the change is needed, not only what changed: the diff already shows the what.
 4. CI must be green. The maintainer reviews every PR; there is no auto-merge for outside contributions.
 
 **Versions and changelogs:** each merge to `main` ships a new version (`VERSION` plus an entry in both [CHANGELOG.md](CHANGELOG.md), Vietnamese, and [CHANGELOG.en.md](CHANGELOG.en.md), English). As an outside contributor you can leave all three alone: the maintainer bumps the version and writes the entries when merging.

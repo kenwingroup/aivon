@@ -5,7 +5,7 @@
 
 > 이 문서는 영어 빠른 시작 안내를 자동 번역한 것입니다.
 
-몇 분이면 Aivon OS를 실행할 수 있습니다. 전체 안내서: [docs/en/](../../../docs/en/README.md).
+몇 분이면 AIVON OS를 실행할 수 있습니다. 전체 안내서: [docs/en/](../../../docs/en/README.md).
 
 ## 방법 1 - Hostinger VPS (Docker Manager, 원클릭)
 
@@ -14,13 +14,13 @@
 1. hPanel → VPS → **Docker Manager** → **Compose** → **Compose from URL**.
 2. 다음 URL을 붙여 넣습니다.
    ```
-   https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.hostinger.yml
+   https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.hostinger.yml
    ```
 3. (선택, HTTPS + 도메인을 쓰려면) **Environment** 상자에 다음을 설정합니다.
    ```
    DOMAIN_NAME=aivon.<vps-hostname>.hstgr.cloud
    ```
-   (호스트 이름은 hPanel → VPS에서 확인할 수 있습니다. 예: `javis.srv1782015.hstgr.cloud`.)
+   (호스트 이름은 hPanel → VPS에서 확인할 수 있습니다. 예: `aivon.srv1782015.hstgr.cloud`.)
 4. **Deploy** 를 누릅니다. 1-3분 기다린 뒤 **Open** 버튼(또는 `https://<DOMAIN_NAME>`)으로 앱을 엽니다.
 5. 처음 실행하면 관리자 계정을 만들라는 화면이 나옵니다. 그다음 컨테이너 터미널에서 Claude Code에 한 번 로그인합니다: `claude auth login --claudeai`.
 

@@ -17,7 +17,7 @@ AIVON là một AI agent cá nhân + Second Brain. "Bộ não" của nó là **C
 
 VPS Hostinger → **Docker Manager → Compose → URL** → dán link rồi **Deploy**:
 ```
-https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.yml
+https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.yml
 ```
 Hostinger pull image + chạy. Mở app bằng `http://<ip-vps>:7979` (IP xem ở hPanel → VPS) → ra
 màn **tạo tài khoản admin**.
@@ -27,7 +27,7 @@ màn **tạo tài khoản admin**.
 > **"Link mặc định + HTTPS trên Hostinger"** ở phần HTTPS bên dưới. Compose gốc này chỉ vào được bằng IP:7979.
 
 **3 việc làm 1 lần:**
-1. **Để image GHCR ở chế độ Public:** GitHub → repo `aivon-os` → **Packages** → `aivon-os`
+1. **Để image GHCR ở chế độ Public:** GitHub → repo `aivon` → **Packages** → `aivon`
    → *Package settings* → Visibility = **Public** (để Hostinger pull không cần đăng nhập registry).
    Image do CI tự build mỗi lần push lên `main` (xem mục Cập nhật).
 2. **Tạo tài khoản admin an toàn** (Claude chạy full quyền nên không để ai cũng tạo được):
@@ -50,7 +50,7 @@ màn **tạo tài khoản admin**.
 Cần Docker. Chưa có? `curl -fsSL https://get.docker.com | sh`
 ```bash
 mkdir aivon && cd aivon
-curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.yml
+curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.yml
 
 docker compose run --rm aivon claude auth login --claudeai   # ĐĂNG NHẬP CLAUDE 1 LẦN (link + code)
 docker compose up -d                                          # pull image GHCR + chạy
@@ -93,11 +93,11 @@ link riêng chạy HTTPS mà không cần mua tên miền. **Lưu ý (đã kiể
 1. Xem **hostname VPS** ở hPanel → VPS (vd `srv1782015.hstgr.cloud`).
 2. Docker Manager → Compose → URL:
    ```
-   https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.hostinger.yml
+   https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.hostinger.yml
    ```
 3. Ô **Environment** của mẫu mới chỉ còn 3 trường có ý nghĩa:
    - `DOMAIN_NAME`: đặt `aivon.<hostname-vps>.hstgr.cloud`
-     (vd `javis.srv1782015.hstgr.cloud`), hoặc tên miền riêng đã trỏ DNS A về IP VPS.
+     (vd `aivon.srv1782015.hstgr.cloud`), hoặc tên miền riêng đã trỏ DNS A về IP VPS.
    - `AIVON_ADMIN_USER`: tên đăng nhập, mặc định `admin`.
    - `AIVON_ADMIN_PASSWORD`: mật khẩu mạnh anh tự đặt; để trống thì phải tự tạo tài khoản trên
      màn chạy lần đầu ngay sau khi deploy (ai mở link trước sẽ tạo được admin).
@@ -110,7 +110,7 @@ link riêng chạy HTTPS mà không cần mua tên miền. **Lưu ý (đã kiể
 4. **Deploy** → đợi 1-3 phút Traefik cấp SSL → mở `https://<DOMAIN_NAME>`.
 
 > Thiếu `DOMAIN_NAME` thì vẫn deploy được (chạy tạm ở `:7979`, chưa có HTTPS). Không thấy ô Environment?
-> Bấm **Manage → sửa .yaml**, đổi thẳng dòng `Host(...)` thành `Host(\`javis.srv1782015.hstgr.cloud\`)`.
+> Bấm **Manage → sửa .yaml**, đổi thẳng dòng `Host(...)` thành `Host(\`aivon.srv1782015.hstgr.cloud\`)`.
 > **Điểm mấu chốt:** nhãn Traefik gắn thẳng vào service, **KHÔNG khai báo
 > `networks:` / `external: traefik-proxy`** (chỗ này trước đây làm deploy báo "network not found").
 > **Caddy (`docker-compose.https.yml`) KHÔNG dùng trên Hostinger** vì cổng 80/443 đã bị Traefik của họ chiếm.
@@ -169,7 +169,7 @@ máy**:
 
 ```bash
 docker network create aivon-web
-curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.proxy.yml
+curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.proxy.yml
 docker compose -f docker-compose.proxy.yml -p aivon-proxy up -d
 ```
 
@@ -177,8 +177,8 @@ Rồi mỗi bản một **thư mục riêng**:
 
 ```bash
 mkdir -p ~/aivon-shop && cd ~/aivon-shop
-curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.yml
-curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.multi.yml
+curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.yml
+curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.multi.yml
 cat > .env <<'EOF'
 AIVON_NAME=aivon-shop
 AIVON_HOST_PORT=7979
@@ -246,7 +246,7 @@ Mở giao diện Aivon từ máy khác mà KHÔNG cần mở port / không cần
 ## Cách 2 - Cài trực tiếp lên Linux/macOS (không Docker)
 
 ```bash
-git clone https://github.com/blogminhquy/javis-os.git aivon && cd aivon
+git clone https://github.com/kenwingroup/aivon.git aivon && cd aivon
 chmod +x install.sh && ./install.sh
 ```
 
@@ -289,7 +289,7 @@ Dừng bằng `stop-aivon.bat`. Mở http://localhost:7979
 >   Máy nào còn thiếu nút là đang chạy bằng file compose cũ (trước đó Watchtower nằm trong
 >   `profiles: ["update"]` nên `docker compose up -d` không bật nó). Lấy bản mới rồi dựng lại:
 >   ```bash
->   curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.yml
+>   curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.yml
 >   docker compose up -d --pull always
 >   ```
 >   Chưa muốn đổi file compose thì bật riêng cũng được: `docker compose --profile update up -d`.
@@ -310,7 +310,7 @@ Dừng bằng `stop-aivon.bat`. Mở http://localhost:7979
 >   cp compose.yml compose.yml.bak     # tên file có thể là docker-compose.yml
 >   docker compose config | grep -A1 "target:"   # đường dẫn bên trong phải là /data, /brains,
 >                                                 # /home/aivon/.claude, /home/aivon/.codex
->   sed -i 's#^\(\s*image:\s*\).*#\1ghcr.io/blogminhquy/javis-os:latest#' compose.yml
+>   sed -i 's#^\(\s*image:\s*\).*#\1ghcr.io/kenwingroup/aivon:latest#' compose.yml
 >   docker compose up -d --pull always
 >   ```
 >   Dòng `sed` đổi MỌI dòng `image:` trong file, nên chỉ dùng khi file có đúng một service; có nhiều

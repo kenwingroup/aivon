@@ -5,12 +5,12 @@ Trạng thái: đã duyệt thiết kế, chờ kế hoạch triển khai
 
 ## Bối cảnh
 
-So sánh Aivon với `NousResearch/hermes-agent` cho thấy Aivon tạo skill/agent/workflow
+So sánh AIVON với `NousResearch/hermes-agent` cho thấy AIVON tạo skill/agent/workflow
 không kém, nhưng thiếu hoàn toàn **vòng đời sau khi tạo**: không đo, không gộp, không dọn.
-Aivon có hệ miễn dịch mạnh (fork học read-only, Python là người ghi duy nhất, provenance
+AIVON có hệ miễn dịch mạnh (fork học read-only, Python là người ghi duy nhất, provenance
 tier, secret/injection scan, git undo) nhưng không có trao đổi chất. Hermes ngược lại.
 
-Định hướng: ghép cơ chế trao đổi chất của Hermes vào bộ khung an toàn sẵn có của Aivon,
+Định hướng: ghép cơ chế trao đổi chất của Hermes vào bộ khung an toàn sẵn có của AIVON,
 không phải ngược lại.
 
 Toàn bộ lộ trình gồm 4 hệ con. Spec này CHỈ phủ A và B.
@@ -27,7 +27,7 @@ biết gộp về hình gì.
 
 Đây là lỗi CÓ THẬT, đang chạy, đo được, không phải suy đoán từ Hermes.
 
-Aivon cắt description ở **ba** nơi, với **ba** hạn mức khác nhau:
+AIVON cắt description ở **ba** nơi, với **ba** hạn mức khác nhau:
 
 - `server/mcp_hub.py:256` - `(s['description'] or '')[:60]`, `metas[:20]`
 - `server/main.py:3471` - `(s.get("description") or "")[:100]`, `metas[:15]`
@@ -90,11 +90,11 @@ Kiến trúc: **index để tìm, thân file để làm.**
 
 ### A1. Nơi lưu
 
-File `<brain>/Aivon/skill-usage.json`. Module mới `server/skill_usage.py`.
+File `<brain>/AIVON/skill-usage.json`. Module mới `server/skill_usage.py`.
 
-Đặt ở `Aivon/` chứ không phải `skills/.usage.json` như Hermes, để bám quy ước Aivon đã có.
+Đặt ở `AIVON/` chứ không phải `skills/.usage.json` như Hermes, để bám quy ước AIVON đã có.
 `server/self_improve.py` ghi rõ: "STATE runtime tách riêng, server sở hữu:
-`<vault>/Aivon/loop-state.json`". Telemetry là state runtime, cùng loại với loop-state,
+`<vault>/AIVON/loop-state.json`". Telemetry là state runtime, cùng loại với loop-state,
 nên nằm cạnh nhau.
 
 Không nhét vào frontmatter SKILL.md: brain là git repo (`git_brain`), mỗi lần dùng skill sẽ
@@ -127,7 +127,7 @@ Hệ quả bắt buộc, áp cho toàn bộ spec và mọi vòng sau:
 
 Hermes tự nó cũng ra đúng luật này vì lý do khác (bộ đếm còn mới): "use=0 is not evidence a
 skill is valuable; it's absence of evidence either way. Corollary: use=0 is ALSO not a reason
-to PRUNE." Với Aivon luật đó còn bắt buộc hơn vì có điểm mù thật.
+to PRUNE." Với AIVON luật đó còn bắt buộc hơn vì có điểm mù thật.
 
 ### A4. Không có máy trạng thái
 
@@ -217,7 +217,7 @@ Nội dung:
   Dài hơn thì đẩy xuống `references/`.
 - Cấm skill kiểu router chỉ trỏ sang skill khác.
 - Nội dung lớn đẩy xuống `scripts/` và `references/`, tham chiếu bằng đường dẫn tương đối.
-- Giữ luật hiện có của Aivon: `group` bắt buộc, slug ASCII không dấu, cấm em dash.
+- Giữ luật hiện có của AIVON: `group` bắt buộc, slug ASCII không dấu, cấm em dash.
 
 ### B4. Skill thành package
 
@@ -339,7 +339,7 @@ hành vi cần theo dõi.
 `.claude/skills`, hoặc copy đè lên thứ người dùng sửa tay. Giữ nguyên tinh thần hiện tại
 (add/update-only, không xoá entry lạ).
 
-`Aivon/skill-usage.json` là state runtime, không phải tri thức, nên PHẢI được gitignore ở
+`AIVON/skill-usage.json` là state runtime, không phải tri thức, nên PHẢI được gitignore ở
 brain. Đây không phải chuyện cân nhắc: `.gitignore` của brain đã nêu nguyên tắc dứt khoát
 là "Git chỉ version TRI THỨC ĐÃ CHƯNG CẤT (facts/wiki/skills/MEMORY.md)" và đã loại sẵn
 learn-log, loop-log, conversations, lock. Telemetry rơi đúng vào nhóm bị loại.
@@ -355,9 +355,9 @@ Vị trí chính xác (bản đầu ghi lệch, đã kiểm chứng lại):
 
 Hai chỗ này ở **hai không gian đường dẫn KHÁC NHAU**, dễ sai:
 
-- `.gitignore` tương đối với gốc BRAIN, nên viết `Aivon/skill-usage.json` (không slash đầu).
+- `.gitignore` tương đối với gốc BRAIN, nên viết `AIVON/skill-usage.json` (không slash đầu).
 - `_BACKUP_SKIP_SUBSTR` so khớp chuỗi con trên rel tương đối với thư mục CHA của brain, và
-  `_backup_skip` bọc rel trong hai dấu slash. Nên phải viết `"/Aivon/skill-usage.json/"`
+  `_backup_skip` bọc rel trong hai dấu slash. Nên phải viết `"/AIVON/skill-usage.json/"`
   đúng dạng đó (cả slash đầu lẫn slash cuối), giống mọi mục hiện có.
 
 **Câu hỏi brain cũ đã có lời đáp dứt khoát: KHÔNG, brain cũ sẽ không bao giờ nhận template
@@ -378,7 +378,7 @@ thì commit bằng `commit_paths` với prefix `chore:` (KHÔNG dùng `learn:`/`
 `revert_last_learn` sẽ undo). Không thêm `add -A` mới: dòng 95 tự ghi rõ đó là chỗ DUY NHẤT
 được phép dùng `-A`.
 
-Hai điều còn lại phải xử lý: (a) brain cũ có thể ĐÃ track `Aivon/skill-usage.json` do
+Hai điều còn lại phải xử lý: (a) brain cũ có thể ĐÃ track `AIVON/skill-usage.json` do
 `add -A` baseline, mà gitignore không có tác dụng với file đã track, nên cần một lần
 `git rm --cached` khi path vừa bị ignore vừa đang được track; (b) không caller nào chạy lúc
 server khởi động (chỉ `/learn/enable` và `/reflect` gọi), nên việc reconcile chỉ xảy ra khi

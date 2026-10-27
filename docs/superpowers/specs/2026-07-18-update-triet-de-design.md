@@ -5,7 +5,7 @@ Trạng thái: đã duyệt thiết kế, chuẩn bị lập kế hoạch.
 
 ## Mục tiêu
 
-Làm cho tính năng cập nhật của Aivon chắc chắn và an toàn: người dùng bấm một nút
+Làm cho tính năng cập nhật của AIVON chắc chắn và an toàn: người dùng bấm một nút
 "Cập nhật ngay" là lên được bản mới trên mọi môi trường, trong lúc chạy hiện tiến
 trình rõ ràng, và nếu bản mới lỗi thì có đường quay về bản cũ.
 
@@ -19,7 +19,7 @@ Phạm vi đã chốt với chủ dự án:
 
 Đã có sẵn (không làm lại từ đầu):
 - `GET /version` (server/main.py ~3688): đọc `VERSION` local, so với
-  `raw.githubusercontent.com/blogminhquy/javis-os/main/VERSION`, so kiểu semver,
+  `raw.githubusercontent.com/kenwingroup/aivon/main/VERSION`, so kiểu semver,
   trả `{current, latest, update_available, mode, can_self_update, error}`.
 - `POST /update` (~3712): theo mode. Docker gọi Watchtower `http://watchtower:8080/v1/update`
   (chỉ khi Watchtower đang chạy); Windows ghi `_selfupdate.bat` (git pull + relaunch)

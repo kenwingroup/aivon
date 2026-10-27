@@ -1,7 +1,7 @@
 # POSCake: cutover to the webhook platform, and the way back (0.274.0, spec §9, §16, §17)
 
 **Known and not known.** This repository has no POSCake webhook contract: no documented signature, no event names, no
-payload schema, no statement of whether POSCake can send a custom header. Aivon does **not** guess any of it
+payload schema, no statement of whether POSCake can send a custom header. AIVON does **not** guess any of it
 (`provider: poscake` is refused when saved). Everything below that depends on POSCake's real data is a step to run
 on staging with the owner, not a fact. Nothing here was run against POSCake, Apps Script or Zalo.
 
@@ -68,14 +68,14 @@ confirms `status`, `shop_id` and `id` but puts the product name at `items[*].var
   with `?token=` keeps working. Add the rules and actions above **to that hook** (Configuration, Advanced) instead of
   creating a new one, unless step 2 shows POSCake can send a header. An older hook keeps `notify: all` (one
   message per order): set **Notifications** to `errors_only` there too, once its actions run without AI.
-- A **new** hook accepts the key only in a header (`X-Aivon-Token`, or one the owner names, or `Authorization:
+- A **new** hook accepts the key only in a header (`X-AIVON-Token`, or one the owner names, or `Authorization:
   Bearer`). Use one only if POSCake can send that header.
 - Never switch authentication off to make POSCake fit (spec §10). If POSCake signs its deliveries, its scheme becomes
   an adapter once its documentation is in hand (see the end of this page).
 
 ## Before you start
 
-- [ ] Aivon 0.274.0 or later on **staging**, with its own state folder.
+- [ ] AIVON 0.274.0 or later on **staging**, with its own state folder.
 - [ ] Back up `STATE_DIR/webhook_events.sqlite3*`, `webhook_keys.json` and `webhook_secrets.json`.
 - [ ] The data of spec §17 collected (see `staging-pilot-pack.md`, part 0): masked POSCake payloads and headers; ids of
       shop, order and event; what each status means; whether POSCake sends a custom header; what the Apps Script
@@ -85,7 +85,7 @@ confirms `status`, `shop_id` and `id` but puts the product name at `items[*].var
 
 ## Cutover (spec §16), one step at a time
 
-1. **Create the v2 configuration on staging** (the hook above, on the staging Aivon).
+1. **Create the v2 configuration on staging** (the hook above, on the staging AIVON).
 2. **Capture, then simulate.** Point a POSCake test shop at staging, or replay captured bodies with `curl`. Open the
    event, then Configuration, Advanced, **Test rules** with that body: the simulation writes nothing, sends nothing
    and calls no model. Compare its decision for each captured order with what the shop expects (run or ignore, and
@@ -118,7 +118,7 @@ confirms `status`, `shop_id` and `id` but puts the product name at `items[*].var
 - **Send traffic back to the old path:** point POSCake at the old address again, and switch the new path's Zalo or
   Apps Script action off before switching the old one on. Keep the new store: its delivery keys and receipts tell you
   what already happened.
-- **Go back to an older Aivon build:** follow `rollback.md`. A binary rollback never undoes what was already sent:
+- **Go back to an older AIVON build:** follow `rollback.md`. A binary rollback never undoes what was already sent:
   reconcile the receipts first.
 
 ## When POSCake's contract is known

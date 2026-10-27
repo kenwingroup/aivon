@@ -4,7 +4,7 @@
 #   ./bin/aivon-autostart.sh install     # start at login (default)
 #   ./bin/aivon-autostart.sh uninstall    # remove
 #
-# Generates ~/Library/LaunchAgents/vn.minhquy.aivon-os.plist with paths
+# Generates ~/Library/LaunchAgents/vn.kenwingroup.aivon.plist with paths
 # computed for THIS machine (nothing hardcoded in the repo).
 # ============================================================
 set -u

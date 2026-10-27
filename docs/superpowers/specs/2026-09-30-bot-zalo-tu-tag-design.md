@@ -2,7 +2,7 @@
 
 ## Vấn đề
 
-Chủ dự án (30/09/2026): trong nhóm Zalo, khách hỏi thì bot nên mở đầu câu trả lời bằng "@Minh Quý ...", để người hỏi được báo và cả nhóm biết
+Chủ dự án (30/09/2026): trong nhóm Zalo, khách hỏi thì bot nên mở đầu câu trả lời bằng "@Minh Vũ ...", để người hỏi được báo và cả nhóm biết
 bot đang nói với ai. Tool gửi tin của MCP `zalo-agent-cli` chỉ nhận chữ nên không tag được; chính CLI đó thì có `msg send --mention` (đã
 dùng ở 0.65.6 cho tool `zalo_send_mention`, xem `2026-09-30-zalo-tag-ghi-chu-poll-design.md`).
 

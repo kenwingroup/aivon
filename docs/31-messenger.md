@@ -6,12 +6,12 @@ Từ 0.134.0 một Bot chuyên trách trả lời được hộp thư Fanpage Fa
 
 | | Messenger |
 |---|---|
-| Aivon kết nối thế nào | Webhook: Meta gọi vào Aivon, **cần tên miền HTTPS** |
+| AIVON kết nối thế nào | Webhook: Meta gọi vào AIVON, **cần tên miền HTTPS** |
 | Nhóm | Không, chỉ chat riêng với Page |
 | File | Ảnh và tài liệu, cả hai chiều |
 | Tin thoại | Chép thành chữ (cần key Groq ở trang Models) |
 | Trả lời | Chỉ trong 24 giờ kể từ tin cuối của khách |
-| Định dạng | Chữ thường: Messenger không hiện Markdown, Aivon tự bỏ ký hiệu |
+| Định dạng | Chữ thường: Messenger không hiện Markdown, AIVON tự bỏ ký hiệu |
 
 ## 1. Tạo app Meta (một lần)
 
@@ -21,18 +21,18 @@ Từ 0.134.0 một Bot chuyên trách trả lời được hộp thư Fanpage Fa
 4. Vào **App settings → Basic**, bấm **Show** ở **App secret**. Chép lại.
 5. Lấy **Page ID**: hiện ngay cạnh tên Page ở bước 3, hoặc ở mục Giới thiệu → Minh bạch trang của Fanpage.
 
-## 2. Thêm tài khoản Messenger trong Aivon
+## 2. Thêm tài khoản Messenger trong AIVON
 
-1. Mở Aivon **bằng tên miền HTTPS** (không phải localhost hay IP), vào trang **Chatbot**, tab **Bot**, bấm **Thêm kênh**, chọn **Messenger**.
+1. Mở AIVON **bằng tên miền HTTPS** (không phải localhost hay IP), vào trang **Chatbot**, tab **Bot**, bấm **Thêm kênh**, chọn **Messenger**.
 2. Form hiện **Địa chỉ webhook** và **Mã xác minh**. Quay lại app Meta, mục **Configure webhooks** của Messenger: dán hai thứ này vào Callback URL và Verify token, bấm **Verify and save**. Tick hai trường **messages** và **messaging_postbacks**.
-3. Về Aivon, dán vào ô token ba thứ cách nhau dấu cách: `Page ID`, `Page access token`, `App secret`. Bấm **Kiểm tra** (Aivon hỏi Meta tên Page), rồi **Lưu**.
+3. Về AIVON, dán vào ô token ba thứ cách nhau dấu cách: `Page ID`, `Page access token`, `App secret`. Bấm **Kiểm tra** (AIVON hỏi Meta tên Page), rồi **Lưu**.
 
 ## 3. Gắn bot
 
 - **Dùng lại bot đang trực Zalo:** mở bot đó ở trang Chatbot, bấm **Sửa**, tick thêm tài khoản Messenger vừa tạo, **Lưu**. Bot trả lời cả Zalo lẫn Messenger bằng cùng một Agent và cùng giờ trực.
 - **Hoặc tạo bot mới** chỉ cho Messenger.
 
-Bật bot. Lúc bật, Aivon tự đăng ký Page với webhook của app (bạn không phải làm bước này tay); lỗi gì thì thẻ bot báo bằng lời. Nếu token thiếu quyền để tự đăng ký, bot vẫn chạy và thẻ bot nhắc bạn gắn tay một lần: app Meta, Messenger, Webhooks, **Add Subscriptions** cho Page.
+Bật bot. Lúc bật, AIVON tự đăng ký Page với webhook của app (bạn không phải làm bước này tay); lỗi gì thì thẻ bot báo bằng lời. Nếu token thiếu quyền để tự đăng ký, bot vẫn chạy và thẻ bot nhắc bạn gắn tay một lần: app Meta, Messenger, Webhooks, **Add Subscriptions** cho Page.
 
 ## 4. Thử, rồi mở cho mọi người
 
@@ -41,11 +41,11 @@ Bật bot. Lúc bật, Aivon tự đăng ký Page với webhook của app (bạn
 
 ## Lỗi hay gặp
 
-| Aivon báo | Nghĩa là | Cách sửa |
+| AIVON báo | Nghĩa là | Cách sửa |
 |---|---|---|
 | quá 24 giờ kể từ tin cuối | Khách nhắn đã hơn một ngày | Chờ khách nhắn lại, hoặc trả lời từ Meta Business Suite |
 | app chưa có quyền nhắn tin cho người ngoài (200) | Chưa qua App Review | Thử bằng tài khoản có vai trò trong app, hoặc nộp xét duyệt pages_messaging |
 | Page access token hết hạn hoặc sai (190) | Token tạm hoặc đã bị thu hồi | Tạo lại token ở bước 1.3, dán lại vào tài khoản kênh |
-| Aivon chưa tự gắn được Page vào webhook | Token thiếu quyền pages_manage_metadata | Bot vẫn chạy nếu Page đã gắn tay; chưa thì bấm Add Subscriptions cho Page ở Messenger, Webhooks, hoặc tạo lại token khi đang là quản trị viên Page |
-| App secret không khớp với app đã tạo Page access token | Chép App secret của app khác | Lấy lại App secret ở App settings, Basic của đúng app đã tạo token. Sai secret thì Meta gửi tin tới mà Aivon không tin được chữ ký, nên Aivon chặn ngay từ lúc lưu |
-| Meta báo không verify được webhook | Callback URL không phải HTTPS, hoặc sai mã | Mở Aivon bằng tên miền HTTPS rồi lấy lại địa chỉ ở form |
+| AIVON chưa tự gắn được Page vào webhook | Token thiếu quyền pages_manage_metadata | Bot vẫn chạy nếu Page đã gắn tay; chưa thì bấm Add Subscriptions cho Page ở Messenger, Webhooks, hoặc tạo lại token khi đang là quản trị viên Page |
+| App secret không khớp với app đã tạo Page access token | Chép App secret của app khác | Lấy lại App secret ở App settings, Basic của đúng app đã tạo token. Sai secret thì Meta gửi tin tới mà AIVON không tin được chữ ký, nên AIVON chặn ngay từ lúc lưu |
+| Meta báo không verify được webhook | Callback URL không phải HTTPS, hoặc sai mã | Mở AIVON bằng tên miền HTTPS rồi lấy lại địa chỉ ở form |

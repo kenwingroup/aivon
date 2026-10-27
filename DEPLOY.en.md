@@ -18,7 +18,7 @@ AIVON is a personal AI agent plus a Second Brain. Its "brain" is the **Claude Co
 
 On the Hostinger VPS go to **Docker Manager → Compose → URL**, paste the link and **Deploy**:
 ```
-https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.yml
+https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.yml
 ```
 Hostinger pulls the image and runs it. Open the app at `http://<vps-ip>:7979` (the IP is in
 hPanel → VPS) and you get the **create admin account** screen.
@@ -29,7 +29,7 @@ hPanel → VPS) and you get the **create admin account** screen.
 > is only reachable by IP:7979.
 
 **3 things to do once:**
-1. **Set the GHCR image to Public:** GitHub → the `aivon-os` repo → **Packages** → `aivon-os`
+1. **Set the GHCR image to Public:** GitHub → the `aivon` repo → **Packages** → `aivon`
    → *Package settings* → Visibility = **Public** (so Hostinger can pull without a registry login).
    The image is built by CI on every push to `main` (see the Updates section).
 2. **Create the admin account safely** (Claude runs at full power, so account creation must not be
@@ -54,7 +54,7 @@ hPanel → VPS) and you get the **create admin account** screen.
 Docker is required. Do not have it? `curl -fsSL https://get.docker.com | sh`
 ```bash
 mkdir aivon && cd aivon
-curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.yml
+curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.yml
 
 docker compose run --rm aivon claude auth login --claudeai   # SIGN CLAUDE IN ONCE (link + code)
 docker compose up -d                                          # pull the GHCR image and run
@@ -100,11 +100,11 @@ you **must set a `DOMAIN_NAME` variable**:
 1. Find the **VPS hostname** in hPanel → VPS (for example `srv1782015.hstgr.cloud`).
 2. Docker Manager → Compose → URL:
    ```
-   https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.hostinger.yml
+   https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.hostinger.yml
    ```
 3. The new template's **Environment** box has only 3 meaningful fields:
    - `DOMAIN_NAME`: set `aivon.<vps-hostname>.hstgr.cloud`
-     (for example `javis.srv1782015.hstgr.cloud`), or your own domain with an A record pointed at the
+     (for example `aivon.srv1782015.hstgr.cloud`), or your own domain with an A record pointed at the
      VPS IP.
    - `AIVON_ADMIN_USER`: the username, `admin` by default.
    - `AIVON_ADMIN_PASSWORD`: a strong password you choose; leaving it empty means creating the
@@ -117,7 +117,7 @@ you **must set a `DOMAIN_NAME` variable**:
 
 > Without `DOMAIN_NAME` it still deploys (running temporarily on `:7979` with no HTTPS). No Environment
 > box? Click **Manage → edit the .yaml** and change the `Host(...)` line directly to
-> `Host(\`javis.srv1782015.hstgr.cloud\`)`.
+> `Host(\`aivon.srv1782015.hstgr.cloud\`)`.
 > **The key point:** the Traefik labels attach straight to the service, with **NO
 > `networks:` / `external: traefik-proxy` declaration** (that is what used to make the deploy report
 > "network not found").
@@ -182,7 +182,7 @@ for the whole machine**:
 
 ```bash
 docker network create aivon-web
-curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.proxy.yml
+curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.proxy.yml
 docker compose -f docker-compose.proxy.yml -p aivon-proxy up -d
 ```
 
@@ -190,8 +190,8 @@ Then give each instance **its own folder**:
 
 ```bash
 mkdir -p ~/aivon-shop && cd ~/aivon-shop
-curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.yml
-curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.multi.yml
+curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.yml
+curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.multi.yml
 cat > .env <<'EOF'
 AIVON_NAME=aivon-shop
 AIVON_HOST_PORT=7979
@@ -270,7 +270,7 @@ Trust (free), take the token, put `TUNNEL_TOKEN=...` into `.env`, change the `tu
 ## Way 2 - Installing directly on Linux/macOS (no Docker)
 
 ```bash
-git clone https://github.com/blogminhquy/javis-os.git aivon && cd aivon
+git clone https://github.com/kenwingroup/aivon.git aivon && cd aivon
 chmod +x install.sh && ./install.sh
 ```
 
@@ -315,7 +315,7 @@ Stop it with `stop-aivon.bat`. Open http://localhost:7979
 >   older compose file (Watchtower used to sit under `profiles: ["update"]`, which
 >   `docker compose up -d` does not start). Fetch the new file and bring it up again:
 >   ```bash
->   curl -fsSLO https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.yml
+>   curl -fsSLO https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.yml
 >   docker compose up -d --pull always
 >   ```
 >   Not ready to swap the compose file? Starting it on its own works too:
@@ -339,7 +339,7 @@ Stop it with `stop-aivon.bat`. Open http://localhost:7979
 >   cp compose.yml compose.yml.bak     # the file may be called docker-compose.yml
 >   docker compose config | grep -A1 "target:"   # the paths inside must be /data, /brains,
 >                                                 # /home/aivon/.claude, /home/aivon/.codex
->   sed -i 's#^\(\s*image:\s*\).*#\1ghcr.io/blogminhquy/javis-os:latest#' compose.yml
+>   sed -i 's#^\(\s*image:\s*\).*#\1ghcr.io/kenwingroup/aivon:latest#' compose.yml
 >   docker compose up -d --pull always
 >   ```
 >   The `sed` line changes EVERY `image:` line in the file, so use it only when the file has a single

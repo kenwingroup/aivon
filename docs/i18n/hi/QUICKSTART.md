@@ -9,18 +9,18 @@
 
 ## विकल्प 1 - Hostinger VPS (Docker Manager, एक click में)
 
-> 🛒 **अभी VPS नहीं है?** [Hostinger VPS यहाँ से लीजिए](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN)। इसमें Docker Manager पहले से है, इसलिए Aivon एक click में install होता है। तैयार होने पर नीचे के steps पर लौट आइए।
+> 🛒 **अभी VPS नहीं है?** [Hostinger VPS यहाँ से लीजिए](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN)। इसमें Docker Manager पहले से है, इसलिए AIVON एक click में install होता है। तैयार होने पर नीचे के steps पर लौट आइए।
 
 1. hPanel → VPS → **Docker Manager** → **Compose** → **Compose from URL**।
 2. यह URL paste कीजिए:
    ```
-   https://raw.githubusercontent.com/blogminhquy/javis-os/main/docker-compose.hostinger.yml
+   https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.hostinger.yml
    ```
 3. (वैकल्पिक, HTTPS + domain के लिए) **Environment** box में यह सेट कीजिए:
    ```
    DOMAIN_NAME=aivon.<vps-hostname>.hstgr.cloud
    ```
-   (Hostname hPanel → VPS में मिलेगा, जैसे `javis.srv1782015.hstgr.cloud`।)
+   (Hostname hPanel → VPS में मिलेगा, जैसे `aivon.srv1782015.hstgr.cloud`।)
 4. **Deploy** कीजिए। 1-3 मिनट इंतज़ार कीजिए। App को **Open** button से खोलिए (या `https://<DOMAIN_NAME>` पर)।
 5. पहली बार चलाने पर screen आपसे एक admin account बनाने को कहती है। उसके बाद container के terminal में एक बार Claude Code में sign in कीजिए: `claude auth login --claudeai`।
 

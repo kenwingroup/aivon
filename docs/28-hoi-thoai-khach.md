@@ -2,11 +2,11 @@
 
 ***Tiếng Việt** · [English](en/28-customer-conversations.md)*
 
-Mọi tin khách nhắn cho **bot chuyên trách** (Telegram hoặc Zalo Bot) và cho **tài khoản Zalo cá nhân** đã nối đều được gom về một hộp thư trong Aivon. Bạn đọc lại cuộc trò chuyện giữa khách và bot, thấy cuộc nào bot đang bí, và **tiếp quản** một cuộc chat khi cần người thật.
+Mọi tin khách nhắn cho **bot chuyên trách** (Telegram hoặc Zalo Bot) và cho **tài khoản Zalo cá nhân** đã nối đều được gom về một hộp thư trong AIVON. Bạn đọc lại cuộc trò chuyện giữa khách và bot, thấy cuộc nào bot đang bí, và **tiếp quản** một cuộc chat khi cần người thật.
 
 Từ bản 0.61.0 trang này gộp luôn phần Chatbot: **một mục trên thanh bên, hai tab** (Hòm thư bot và Bot; từ 0.65.9, trước đó là ba tab Hòm thư bot, Tài khoản bot, Tạo chatbot), và bạn **trả lời khách ngay trong Hòm thư bot**.
 
-## Mở ở đâu trong Aivon
+## Mở ở đâu trong AIVON
 
 Thanh điều hướng bên trái, nhóm **Năng lực**, mục **Chatbot**. Trong trang có hai tab:
 
@@ -36,9 +36,9 @@ Bên trái là danh sách hội thoại, mới nhất trước. Mỗi dòng: tê
 
 **"Cần trả lời" nghĩa là gì.** Khách nhắn cuối, chưa ai đáp, chưa có người tiếp quản, và: là chat riêng, hoặc là nhóm mà bot vừa **cân nhắc nói rồi im** (chưa chắc, hết hạn mức tự nói, hay bộ phán xử lỗi, trong 24 giờ qua và bạn chưa bấm Đúng/Sai). Nhóm thì phải có điều kiện thứ hai, vì bot chỉ nói khi được gọi thì khách nhắn cuối trong nhóm là chuyện bình thường; đếm hết vào thì bộ lọc đầy rác. Cần bật Tự đánh giá thì mới có dấu "bot cân nhắc" này (xem [Bộ phán xử](25-chatbot.md#bộ-phán-xử-bot-tự-quyết-nói-hay-im-và-học-từ-nhóm)).
 
-**Nhóm chỉ giữ 100 tin gần nhất** (từ 0.65.12). Hòm thư lưu hết tin của chat riêng với khách, nhưng mỗi **nhóm** chỉ giữ 100 tin mới nhất; tin cũ hơn tự xoá khi có tin mới về. Lý do: kho không phình mãi, và Aivon không giữ lời của người lạ trong nhóm lâu hơn cần thiết (nick Zalo cá nhân ở nhiều nhóm thì Hòm thư ghi cả nhóm bot chưa được phép trả lời). Lần đầu sau khi cập nhật, các nhóm cũ đang có hơn 100 tin được cắt xuống 100; Aivon **sao lưu nguyên file kho một lần** trước khi cắt (file `customer_conversations.sqlite3.bak-truoc-cat-nhom-...` cạnh file kho) và **tự xoá bản sao lưu sau 14 ngày**. Muốn lấy lại tin đã cắt thì chép bản sao lưu đè lên file kho trong vòng 14 ngày đó. Số "tin từng nhận" của hội thoại không giảm theo.
+**Nhóm chỉ giữ 100 tin gần nhất** (từ 0.65.12). Hòm thư lưu hết tin của chat riêng với khách, nhưng mỗi **nhóm** chỉ giữ 100 tin mới nhất; tin cũ hơn tự xoá khi có tin mới về. Lý do: kho không phình mãi, và AIVON không giữ lời của người lạ trong nhóm lâu hơn cần thiết (nick Zalo cá nhân ở nhiều nhóm thì Hòm thư ghi cả nhóm bot chưa được phép trả lời). Lần đầu sau khi cập nhật, các nhóm cũ đang có hơn 100 tin được cắt xuống 100; AIVON **sao lưu nguyên file kho một lần** trước khi cắt (file `customer_conversations.sqlite3.bak-truoc-cat-nhom-...` cạnh file kho) và **tự xoá bản sao lưu sau 14 ngày**. Muốn lấy lại tin đã cắt thì chép bản sao lưu đè lên file kho trong vòng 14 ngày đó. Số "tin từng nhận" của hội thoại không giảm theo.
 
-**Tải dần, không đơ máy** (từ 0.65.11). Danh sách chỉ tải 40 dòng đầu; cuộn gần tới cuối thì tự tải 40 dòng nữa (hoặc bấm **Xem thêm**), dòng đếm ghi "40+ hội thoại" cho tới khi hết. Khung tin cũng vậy: mở một hội thoại chỉ tải 40 tin **mới nhất**, kéo lên gần đầu (hoặc bấm **Xem tin cũ hơn**) thì tải thêm 40 tin cũ hơn và giữ nguyên chỗ bạn đang đọc. Cứ 5 giây Aivon chỉ hỏi các tin **mới hơn tin cuối** rồi chèn vào cuối khung; đang đọc tin cũ mà có tin mới về thì khung đứng yên, không kéo bạn về đầu như trước.
+**Tải dần, không đơ máy** (từ 0.65.11). Danh sách chỉ tải 40 dòng đầu; cuộn gần tới cuối thì tự tải 40 dòng nữa (hoặc bấm **Xem thêm**), dòng đếm ghi "40+ hội thoại" cho tới khi hết. Khung tin cũng vậy: mở một hội thoại chỉ tải 40 tin **mới nhất**, kéo lên gần đầu (hoặc bấm **Xem tin cũ hơn**) thì tải thêm 40 tin cũ hơn và giữ nguyên chỗ bạn đang đọc. Cứ 5 giây AIVON chỉ hỏi các tin **mới hơn tin cuối** rồi chèn vào cuối khung; đang đọc tin cũ mà có tin mới về thì khung đứng yên, không kéo bạn về đầu như trước.
 
 Bấm một hội thoại là lịch sử tin hiện bên phải: tin khách bên trái, câu bot và câu bạn tự nhắn từ điện thoại bên phải. Lượt bot bị gãy cũng nằm đó kèm lý do kỹ thuật, để bạn phân biệt "bot trả lời sai" với "bot đang hỏng".
 
@@ -54,11 +54,11 @@ Trên điện thoại trang chỉ một cột: bấm một hội thoại là m�
 - **Gợi ý câu trả lời**: bot soạn nháp vào ô nhập, chưa gửi. Bạn sửa rồi bấm Gửi (gửi là tiếp quản). Bản nháp **không để lại dấu vết**: không vào kho phiên, không vào Hộp thư, lịch sử tạm của bot được dọn, nên nháp bỏ đi thì bot không "nhớ" mình từng nói câu đó với khách. Dùng được cả lúc bạn đang tiếp quản; ô nhập đang có chữ thì hỏi trước khi thay.
 - Chế độ **Tôi trả lời** thì nút thứ nhất thành **Trả lại cho bot**.
 
-**Nút chưa dùng được vẫn hiện** (viền đứt) và chạm vào thì nói lý do: đang tiếp quản, bot đang tắt (dòng trạng thái cũng nói thẳng "đang tắt nên không tự trả lời"), tin cuối không phải của khách, hay kênh chưa gửi được từ Aivon. Bot soạn xong mà gửi hỏng thì câu đã soạn nằm trong ô nhập để bạn gửi tay. Agent chọn im thì báo, không gửi gì. Mỗi cuộc chat chỉ chạy một lượt nhờ-bot một lúc. Tệp đính kèm bot soạn không đi kèm (chỉ chữ).
+**Nút chưa dùng được vẫn hiện** (viền đứt) và chạm vào thì nói lý do: đang tiếp quản, bot đang tắt (dòng trạng thái cũng nói thẳng "đang tắt nên không tự trả lời"), tin cuối không phải của khách, hay kênh chưa gửi được từ AIVON. Bot soạn xong mà gửi hỏng thì câu đã soạn nằm trong ô nhập để bạn gửi tay. Agent chọn im thì báo, không gửi gì. Mỗi cuộc chat chỉ chạy một lượt nhờ-bot một lúc. Tệp đính kèm bot soạn không đi kèm (chỉ chữ).
 
 Dưới tin khách cuối có dòng **"Bot im: lý do"** khi bộ phán xử đã ghi lý do (ví dụ "Điểm thấp hơn ngưỡng (0.52 / 0.60)"), kèm nút **Vì sao** mở thẳng bảng Bộ phán xử của bot đó. Dòng này chỉ hiện khi cuộc chat đang ở Tự động, tin cuối là của khách và quyết định gần nhất là im cho đúng tin đó; người thật đang tiếp quản thì bot im là hiển nhiên nên không nói.
 
-Dưới cùng một hội thoại là ô soạn tin: gõ rồi **Enter** để gửi (Shift+Enter xuống dòng). Tin đi qua đúng kênh của cuộc chat: bot Telegram hay Zalo Bot gửi bằng token của tài khoản đó, Zalo cá nhân gửi qua chính tài khoản bạn đã quét QR, **dưới tên bạn** (ô soạn tin nói rõ điều này). Kênh nào chưa gửi được từ Aivon thì ô soạn tin thay bằng một dòng nói vậy.
+Dưới cùng một hội thoại là ô soạn tin: gõ rồi **Enter** để gửi (Shift+Enter xuống dòng). Tin đi qua đúng kênh của cuộc chat: bot Telegram hay Zalo Bot gửi bằng token của tài khoản đó, Zalo cá nhân gửi qua chính tài khoản bạn đã quét QR, **dưới tên bạn** (ô soạn tin nói rõ điều này). Kênh nào chưa gửi được từ AIVON thì ô soạn tin thay bằng một dòng nói vậy.
 
 Gửi từ đây ở một cuộc chat có bot là bạn **tiếp quản** cuộc đó: bot im với khách này cho tới khi bạn gạt về **Tự động**. Không thì khách đọc hai giọng một lúc. Gạt công tắc sang **Tôi trả lời** làm y như vậy mà không cần gửi gì; gạt xong bạn trả lời trong app của kênh cũng được.
 
@@ -69,11 +69,11 @@ Hai điều nên biết:
 
 ## Kênh chưa có bot (tab Bot)
 
-Mọi tài khoản khách nhắn tới hiện thành **cùng một kiểu thẻ**, bất kể kênh: logo và tên kênh, tên tài khoản, trạng thái (đang chạy, đang tắt, lỗi kèm lý do), bot đang trực, số hội thoại và số chưa đọc, và các năng lực của kênh đó (vào nhóm, gửi file, trả lời từ Aivon). Không kênh nào có mục riêng, kể cả Zalo. Kênh thêm về sau chỉ việc xuất hiện thêm một thẻ.
+Mọi tài khoản khách nhắn tới hiện thành **cùng một kiểu thẻ**, bất kể kênh: logo và tên kênh, tên tài khoản, trạng thái (đang chạy, đang tắt, lỗi kèm lý do), bot đang trực, số hội thoại và số chưa đọc, và các năng lực của kênh đó (vào nhóm, gửi file, trả lời từ AIVON). Không kênh nào có mục riêng, kể cả Zalo. Kênh thêm về sau chỉ việc xuất hiện thêm một thẻ.
 
 Có hai loại tài khoản, khác nhau ở cách có nó chứ không ở cách hiện ra:
 
-**Tài khoản bot** (Telegram, Zalo Bot) là một token. Bấm **Thêm kênh**, chọn loại kênh, dán token, bấm **Kiểm tra** để Aivon hỏi đúng nền tảng token đó là bot nào, đặt tên gợi nhớ rồi Lưu. Tài khoản bot ghi vào hộp thư khi bot trực nó đang bật; chưa có bot trực thì thẻ nói thẳng và có nút **Tạo bot cho kênh này** mở sẵn form Bot mới với kênh đó được tick. Mục **Kênh chưa có bot** chỉ liệt kê kênh chưa có bot; tự mở khi có kênh cần xử lý, tự gập khi hết.
+**Tài khoản bot** (Telegram, Zalo Bot) là một token. Bấm **Thêm kênh**, chọn loại kênh, dán token, bấm **Kiểm tra** để AIVON hỏi đúng nền tảng token đó là bot nào, đặt tên gợi nhớ rồi Lưu. Tài khoản bot ghi vào hộp thư khi bot trực nó đang bật; chưa có bot trực thì thẻ nói thẳng và có nút **Tạo bot cho kênh này** mở sẵn form Bot mới với kênh đó được tick. Mục **Kênh chưa có bot** chỉ liệt kê kênh chưa có bot; tự mở khi có kênh cần xử lý, tự gập khi hết.
 
 ### Tài khoản bot thuộc về một brain (0.62.4)
 
@@ -91,23 +91,23 @@ Zalo cá nhân (`kind: account`) không bị lọc: nó là một kết nối �
 
 Đây là bước đầu của hướng dài hơn: chia quyền quản lý tài khoản cho brain, rồi tới agent, skill, workflow và chatbot, để sau này lên được bản nhiều người dùng.
 
-**Xoá một tài khoản:** bấm **Xoá**. Nếu đang có bot trực nó, Aivon nói rõ bot nào, ở brain nào, rồi hỏi một câu duy nhất: gỡ khỏi bot đó rồi xoá luôn? Đồng ý là xong trong một lần, không phải đổi brain rồi đi tìm bot để tự gỡ. Bot vẫn còn và vẫn trực các tài khoản khác của nó. Nếu đó là tài khoản **duy nhất** của bot thì Aivon nói trước, và sau khi xoá sẽ tắt bot đó đi (bản ghi bot vẫn còn, gắn tài khoản khác vào là bật lại được). Hội thoại đã ghi vẫn nằm nguyên trong hộp thư.
+**Xoá một tài khoản:** bấm **Xoá**. Nếu đang có bot trực nó, AIVON nói rõ bot nào, ở brain nào, rồi hỏi một câu duy nhất: gỡ khỏi bot đó rồi xoá luôn? Đồng ý là xong trong một lần, không phải đổi brain rồi đi tìm bot để tự gỡ. Bot vẫn còn và vẫn trực các tài khoản khác của nó. Nếu đó là tài khoản **duy nhất** của bot thì AIVON nói trước, và sau khi xoá sẽ tắt bot đó đi (bản ghi bot vẫn còn, gắn tài khoản khác vào là bật lại được). Hội thoại đã ghi vẫn nằm nguyên trong hộp thư.
 
-**Tài khoản của chính bạn** (Zalo cá nhân) đến từ trang **Kết nối** (quét QR ở Zalo Agent MCP) và hiện ở đây với công tắc **Ghi hội thoại**. Bật lên là Aivon đọc tin mới mỗi 20 giây qua MCP và đổ vào hộp thư. Ba điều về kênh này, nói thẳng:
+**Tài khoản của chính bạn** (Zalo cá nhân) đến từ trang **Kết nối** (quét QR ở Zalo Agent MCP) và hiện ở đây với công tắc **Ghi hội thoại**. Bật lên là AIVON đọc tin mới mỗi 20 giây qua MCP và đổ vào hộp thư. Ba điều về kênh này, nói thẳng:
 
-- **Mặc định tắt.** Bật là giữ phiên Zalo của bạn sống liên tục qua API không chính thức, tức tài khoản đăng nhập 24/7 trên máy chạy Aivon. Đó là lựa chọn của bạn, không phải của Aivon. Nên dùng tài khoản phụ.
-- **Chỉ lưu từ lúc bật.** Không kéo lịch sử cũ. Tin do chính bạn (hay nhân viên dùng chung nick) gửi từ điện thoại hiện là tin "Bạn". Với Zalo cá nhân điều này cần Aivon 0.108.0 trở lên: các bản trước dùng javis-zalo 1.2.0, bản đó bỏ mọi tin của chính tài khoản khỏi luồng tin mới nên tin bạn nhắn tay không bao giờ vào Hộp thư.
+- **Mặc định tắt.** Bật là giữ phiên Zalo của bạn sống liên tục qua API không chính thức, tức tài khoản đăng nhập 24/7 trên máy chạy AIVON. Đó là lựa chọn của bạn, không phải của AIVON. Nên dùng tài khoản phụ.
+- **Chỉ lưu từ lúc bật.** Không kéo lịch sử cũ. Tin do chính bạn (hay nhân viên dùng chung nick) gửi từ điện thoại hiện là tin "Bạn". Với Zalo cá nhân điều này cần AIVON 0.108.0 trở lên: các bản trước dùng aivon-zalo 1.2.0, bản đó bỏ mọi tin của chính tài khoản khỏi luồng tin mới nên tin bạn nhắn tay không bao giờ vào Hộp thư.
 - **Không có bot trực.** Trả lời từ Hòm thư bot là gửi dưới tên bạn. Muốn nick này tự trả lời khách thì tạo một Bot chuyên trách và chọn kênh Zalo cá nhân (chat riêng từ 0.64.80, nhóm và chế độ Tự đánh giá từ 0.64.82), xem [Chatbot](25-chatbot.md).
 
 ## Dữ liệu lưu ở đâu, giữ gì
 
-Kho nằm trong thư mục trạng thái của Aivon (`customer_conversations.sqlite3`), tách khỏi kho phiên chat. Giữ **chữ** lâu dài; ảnh, file, tin thoại chỉ giữ loại tin và mô tả, file gốc theo hạn dọn của Aivon. Tin trùng (đọc lại cùng một tin sau khi khởi động lại) không sinh dòng thứ hai.
+Kho nằm trong thư mục trạng thái của AIVON (`customer_conversations.sqlite3`), tách khỏi kho phiên chat. Giữ **chữ** lâu dài; ảnh, file, tin thoại chỉ giữ loại tin và mô tả, file gốc theo hạn dọn của AIVON. Tin trùng (đọc lại cùng một tin sau khi khởi động lại) không sinh dòng thứ hai.
 
 Xoá một bot **không** xoá hội thoại của nó, và cũng không xoá tài khoản kênh nó trực: lịch sử khách là tài sản của bạn, token là thứ dùng lại được. Bot tạo trước 0.61.0 (token nằm trong bot) tự chuyển sang mô hình tài khoản khi bạn cập nhật; token, hội thoại, nhóm cho phép đều giữ nguyên.
 
 ## Cho ai muốn nối thêm kênh
 
-Từ 0.61.0 mọi thứ lõi biết về một kênh nằm trong **sổ đăng ký kênh** (`server/channels/`, mỗi kênh một file). Một file kênh khai: id, tên, khoá logo, loại (`bot` dùng token, `account` dùng phiên đăng nhập sẵn có, `webhook` cho nền tảng gọi ngược), năng lực (nhóm, gửi chữ, gửi file), cách lấy token; và một bộ hàm: kiểm token và lớp long-poll (loại bot), liệt kê tài khoản và bật ghi (loại account), `gui` để trả lời từ Aivon. Tin nhận về thì đưa về khuôn chung (`channel`, `account_id`, `external_chat_id`, `sender_type`, `text`, `external_message_id`, `created_at`) rồi gọi kho.
+Từ 0.61.0 mọi thứ lõi biết về một kênh nằm trong **sổ đăng ký kênh** (`server/channels/`, mỗi kênh một file). Một file kênh khai: id, tên, khoá logo, loại (`bot` dùng token, `account` dùng phiên đăng nhập sẵn có, `webhook` cho nền tảng gọi ngược), năng lực (nhóm, gửi chữ, gửi file), cách lấy token; và một bộ hàm: kiểm token và lớp long-poll (loại bot), liệt kê tài khoản và bật ghi (loại account), `gui` để trả lời từ AIVON. Tin nhận về thì đưa về khuôn chung (`channel`, `account_id`, `external_chat_id`, `sender_type`, `text`, `external_message_id`, `created_at`) rồi gọi kho.
 
 Thêm một kênh = thêm một file ở sổ, một dòng đăng ký, một logo trong `icons.js`. Kho bot, bộ giám sát, API và cả hai tab tự nhận, không sửa gì khác. Chi tiết ở `docs/dev/2026-09-kenh-hoi-thoai-spec.md`. Đường API:
 
@@ -129,7 +129,7 @@ Thêm một kênh = thêm một file ở sổ, một dòng đăng ký, một log
 
 ## Muốn hơn thế: gói Quản lý khách hàng (CRM)
 
-Kho cài đặt có gói **Quản lý khách hàng (CRM)** (`aivon.khach-hang-crm`, cần bản 0.60.1 trở lên) đặt lên chính hộp thư này. Cài xong hỏi Aivon bằng lời: "khách nào chờ hơn 2 tiếng chưa được trả lời", "chị Lan đã hỏi gì", "gắn tag VIP cho chị Lan", "tuần này bao nhiêu khách mới", "xuất danh sách khách đã hỏi giá ra Excel". Kèm một trợ lý chăm sóc khách và một quy trình rà soát mỗi ngày. Gói chỉ đọc hộp thư và ghi tag, ghi chú lên khách; không gửi tin cho ai.
+Kho cài đặt có gói **Quản lý khách hàng (CRM)** (`aivon.khach-hang-crm`, cần bản 0.60.1 trở lên) đặt lên chính hộp thư này. Cài xong hỏi AIVON bằng lời: "khách nào chờ hơn 2 tiếng chưa được trả lời", "chị Lan đã hỏi gì", "gắn tag VIP cho chị Lan", "tuần này bao nhiêu khách mới", "xuất danh sách khách đã hỏi giá ra Excel". Kèm một trợ lý chăm sóc khách và một quy trình rà soát mỗi ngày. Gói chỉ đọc hộp thư và ghi tag, ghi chú lên khách; không gửi tin cho ai.
 
 ## Tham khảo
 

@@ -2,7 +2,7 @@
 
 > Bản kế hoạch dev, viết 2026-07-12 trên nền code v0.9.34. Mục tiêu: thay lớp tự chế spawn
 > `claude` CLI (subprocess + parse stream-json) bằng `claude-agent-sdk` chính chủ, giữ nguyên
-> giao diện với phần còn lại của Aivon.
+> giao diện với phần còn lại của AIVON.
 >
 > **Trạng thái: HOÀN TẤT - HỒ SƠ ĐÃ KHÉP (v0.9.37). Cả 4 phase xong; nhánh Popen ClaudeCLI
 > đã xoá theo yêu cầu user (bỏ giai đoạn giữ 1 bản phát hành); engine Claude duy nhất là
@@ -10,7 +10,7 @@
 
 ## 1. Vì sao (động lực)
 
-Aivon đang tự shell-out Claude Code CLI bằng `subprocess.Popen` + tự parse `--output-format
+AIVON đang tự shell-out Claude Code CLI bằng `subprocess.Popen` + tự parse `--output-format
 stream-json` trong `server/claude_cli.py` (~600 dòng). Lớp này là nơi dính bug liên tục:
 
 - **WinError 206** (v0.9.31): Windows trần command line 32767 ký tự, phải tự chuyển prompt sang
@@ -19,17 +19,17 @@ stream-json` trong `server/claude_cli.py` (~600 dòng). Lớp này là nơi dín
   riêng, tự registry `_ACTIVE_PROCS` để Stop theo tag - toàn việc SDK làm hộ và được Anthropic
   bảo trì theo mỗi bản CLI mới.
 - Quyền tool hiện là danh sách TĨNH `--allowedTools`/`--disallowedTools` truyền lúc spawn;
-  3 mức quyền suggest/auto/full của Aivon chỉ enforce được ở tầng hub MCP, KHÔNG chặn được
+  3 mức quyền suggest/auto/full của AIVON chỉ enforce được ở tầng hub MCP, KHÔNG chặn được
   tool builtin (Bash/Write) theo ngữ cảnh từng call.
 
 `claude-agent-sdk` (pip, chỉ cần Python, auth KẾ THỪA đăng nhập Claude Code CLI = vẫn chạy
-bằng gói subscription, đúng triết lý Aivon) cho:
+bằng gói subscription, đúng triết lý AIVON) cho:
 
 - `query()` / `ClaudeSDKClient` - vòng agentic + stream event có kiểu, khỏi tự parse JSON.
 - `can_use_tool` callback + hook `PreToolUse` - quyết định CHO/CHẶN từng tool call bằng code
   Python NGAY trong tiến trình server -> map 1-1 với ma trận quyền read/write/danger của
   `mcp_catalog.classify` + 3 mức suggest/auto/full. Đây là nâng cấp an toàn lớn nhất.
-- `@tool` + `create_sdk_mcp_server` - tool Python chạy IN-PROCESS: plugin host của Aivon
+- `@tool` + `create_sdk_mcp_server` - tool Python chạy IN-PROCESS: plugin host của AIVON
   (aivon_generate_image, datetime-vn...) đấu thẳng vào engine Claude không cần đi vòng hub HTTP.
 - `resume` / `fork_session` / `interrupt` / session utilities (list_sessions, rename) - thay
   `--resume` tự chế + registry kill theo tag.
@@ -106,7 +106,7 @@ Hub HTTP giữ nguyên cho Codex + engine API.
   bắt lệch sớm; adapter cô lập mọi import SDK vào 1 file.
 - **Windows/event loop:** claude_cli.py từng phải né asyncio-subprocess bằng Popen+thread
   (tương thích Selector/Proactor). SDK dùng anyio - spike PHẢI chạy trong đúng uvicorn loop
-  của Aivon, không chỉ script rời.
+  của AIVON, không chỉ script rời.
 - **Lệch phiên bản CLI:** SDK yêu cầu CLI mới hơn bản user cài -> spike xác định version sàn,
   trang Model hiện cảnh báo nếu CLI cũ.
 - **Hồi quy hành vi ngầm** (fork nền max_wall_s, kill theo họ tag, stderr surfacing...) ->
@@ -126,7 +126,7 @@ Hub HTTP giữ nguyên cho Codex + engine API.
 
 - Không migrate CodexCLI (không có SDK tương đương; giữ Popen + stdin fix v0.9.31).
 - Không bỏ hub MCP (Codex + engine API vẫn cần; hub vẫn là chỗ quản multi-account + OAuth).
-- Không dùng session_store/checkpointing của SDK thay SQLite sessions của Aivon (xem lại sau).
+- Không dùng session_store/checkpointing của SDK thay SQLite sessions của AIVON (xem lại sau).
 
 ## 8. Nhật ký triển khai
 
@@ -156,7 +156,7 @@ Hub HTTP giữ nguyên cho Codex + engine API.
   → chỉ họ tag nền (loop/dispatch/reminder/learn/lint/metrics/routines/workflow) dùng SDK,
   chat + telegram giữ CLI.
 - **Phase 3 - plugin in-process:** giải bài dedup bằng header: engine SDK (không gated) đọc
-  file mcp_config thành dict, gắn `X-Aivon-No-Plugins: 1` vào entry hub (hub bỏ nhóm plugin
+  file mcp_config thành dict, gắn `X-AIVON-No-Plugins: 1` vào entry hub (hub bỏ nhóm plugin
   khi thấy header - `discover_all(include_plugins=)`) rồi đấu server in-process
   `aivon-plugins` dựng từ plugins_host (min_mode enforce theo `aivon_mode` do _apply_mcp đặt,
   hook pre/post bọc như hub). Fork GATED giữ cô lập cũ - KHÔNG plugin in-process. Không có

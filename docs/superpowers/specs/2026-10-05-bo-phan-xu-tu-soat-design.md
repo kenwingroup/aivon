@@ -8,12 +8,12 @@ Nối tiếp đặc tả gốc `2026-09-30-bo-phan-xu-nhom-design.md`; đọc m�
 Bộ phán xử (0.65.x) học tức thì từ phản ứng trong nhóm và từ nút Đúng/Sai, nhưng:
 
 - **Không AI nào đọc được kho của nó.** Kho `chatbot_reply_policy.sqlite3` chỉ đi ra qua route của
-  trang Chatbot. Hỏi Aivon "vì sao bot im" thì Aivon đoán theo tài liệu, không nhìn số liệu thật
-  (ca 05/10: Aivon trên VPS khẳng định tin tag chủ "không để lại dòng nào", sai, dòng có ghi).
+  trang Chatbot. Hỏi AIVON "vì sao bot im" thì AIVON đoán theo tài liệu, không nhìn số liệu thật
+  (ca 05/10: AIVON trên VPS khẳng định tin tag chủ "không để lại dòng nào", sai, dòng có ghi).
 - **Có chỗ học không chạm tới được.** `coarse_gate` trả `addressed_other` cho tin mở đầu bằng
   `@người khác` TRƯỚC khi xét ca dương, nên chủ bấm Sai hay dạy bằng lời cũng không gỡ được.
 - Chủ muốn tự động hoá: máy tự soát, tự chỉnh; người chỉ can thiệp khi muốn, và can thiệp bằng
-  cách NÓI với Aivon chứ không tự tay sửa (nguyên tắc chung [ít cài đặt, đẩy về AI]).
+  cách NÓI với AIVON chứ không tự tay sửa (nguyên tắc chung [ít cài đặt, đẩy về AI]).
 
 ## 2. Mục tiêu và không làm
 
@@ -102,10 +102,10 @@ tệ hơn quá 0.15 (và có ít nhất 3 lỗi) thì hoàn CẢ lượt, trạn
 `kept`. Quá 14 ngày mà chưa đủ nhãn thì `kept`. Thay đổi do chủ nhờ không tự hoàn.
 
 **Góp ý mã**: `code_feedback` khác rỗng thì ghi một dòng `changes` trạng thái `noted` và nối vào
-`<brain của bot>/Aivon/gop-y-bo-phan-xu.md` (ngày, tên bot, nội dung, id bằng chứng).
+`<brain của bot>/AIVON/gop-y-bo-phan-xu.md` (ngày, tên bot, nội dung, id bằng chứng).
 
 **Báo lại**: có thay đổi, có góp ý, hoặc có tự hoàn thì gửi đúng một tin qua `_notify_owner("")`
-(hộp thư + Telegram của chủ), viết thường, có câu "không vừa ý thì nhắn Aivon hoàn lại".
+(hộp thư + Telegram của chủ), viết thường, có câu "không vừa ý thì nhắn AIVON hoàn lại".
 
 **Model**: `main._reply_policy_review_ask` dựng engine giống `_reply_policy_ask` (thư mục trống,
 không MCP, không công cụ) nhưng chọn **bộ não chính** qua `aux_engine.swap(spec=main_spec())`.
@@ -145,7 +145,7 @@ của khách khác, chỉnh kho là khách tự vặn bot. Nên:
 - `mcp_hub.OWNER_ONLY_TOOLS` = hai tool trên. `discover_all(..., for_bot=True)` bỏ chúng TRƯỚC
   tầng lazy (kẻo `aivon_run_tool` vẫn gọi được), và `for_bot` nằm trong khoá cache.
 - Đường API của bot (`_bot_tra_loi_co_tool`) truyền `for_bot=True`.
-- Đường Claude của bot: `claude_config_path(..., bot=True)` gắn header `X-Aivon-Bot: 1` (file
+- Đường Claude của bot: `claude_config_path(..., bot=True)` gắn header `X-AIVON-Bot: 1` (file
   config riêng hậu tố `_bot`); `handle_http` đọc header, chuyển xuống `discover_all`. Thêm lớp hai:
   `disallowed_tools` của bot có `mcp__aivon__aivon_reply_policy*`.
 - Engine Claude của bot là bản "gated" (có `allowed_tools`) nên không nạp plugin trong tiến trình;
@@ -177,5 +177,5 @@ Script chạy thẳng như các test bộ phán xử cũ (`tests/python/test_rep
 
 ## 6. Tài liệu
 
-`docs/25-chatbot.md` (và bản tiếng Anh nếu có): mục "Bộ phán xử tự soát", cách nhờ Aivon xem và
+`docs/25-chatbot.md` (và bản tiếng Anh nếu có): mục "Bộ phán xử tự soát", cách nhờ AIVON xem và
 chỉnh, cách hoàn lại, biến tắt, lưu ý gói thuê bao. CHANGELOG hai thứ tiếng cho 0.77.0.

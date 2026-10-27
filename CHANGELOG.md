@@ -841,7 +841,7 @@ Lịch sử phiên bản AIVON. Bản mới nhất ở trên cùng. Xem ngay tro
 ### Sửa lỗi
 - **Gửi file Excel, PDF, Word qua Zalo không còn treo.** Trước đây Aivon gửi file kiểu này phải chờ mãi tới 2 phút rồi báo lỗi, file không tới (ảnh thì vẫn gửi được). Giờ file đi qua đúng kết nối Zalo đang trực Hộp thư nên tới được người nhận.
 - **Zalo không xác nhận trong 1 phút thì Aivon báo lỗi rõ và không gửi gì**, gửi lại an toàn. Không còn cảnh chờ mãi không biết file đã đi chưa.
-- Sau khi cập nhật, **bấm "Có bản mới" của gói "Zalo mở rộng"** ở Kho cài đặt để lên bản 1.2.0, và Aivon tự chuyển kết nối Zalo sang javis-zalo 1.4.0 (không phải quét QR lại).
+- Sau khi cập nhật, **bấm "Có bản mới" của gói "Zalo mở rộng"** ở Kho cài đặt để lên bản 1.2.0, và Aivon tự chuyển kết nối Zalo sang aivon-zalo 1.4.0 (không phải quét QR lại).
 - Cảm ơn @thanhtmfyu-lang đã đóng góp.
 
 ## [0.137.0] - 2026-10-14
@@ -906,7 +906,7 @@ Lịch sử phiên bản AIVON. Bản mới nhất ở trên cùng. Xem ngay tro
 
 ## [0.123.0] - 2026-10-14
 ### Sửa lỗi
-- **Bot tag thật mọi người nó nhắc tên trong nhóm Zalo.** Trước đây chỉ người bot đang trả lời được tag; bot viết thêm "@Minh Quý" hay "@Phạm Đại" trong câu thì đó chỉ là chữ thường, Zalo không báo cho ai. Giờ mỗi "@Tên" khớp một người đã từng nhắn trong nhóm đều thành tag thật, không phân biệt hoa thường hay dấu.
+- **Bot tag thật mọi người nó nhắc tên trong nhóm Zalo.** Trước đây chỉ người bot đang trả lời được tag; bot viết thêm "@Minh Vũ" hay "@Phạm Đại" trong câu thì đó chỉ là chữ thường, Zalo không báo cho ai. Giờ mỗi "@Tên" khớp một người đã từng nhắn trong nhóm đều thành tag thật, không phân biệt hoa thường hay dấu.
 - **Câu bạn gõ ở Hộp thư có "@Tên" cũng tag thật.** Người chưa từng nhắn trong nhóm thì chưa tag được, tên vẫn hiện như chữ thường.
 
 ## [0.122.0] - 2026-10-14
@@ -943,7 +943,7 @@ Lịch sử phiên bản AIVON. Bản mới nhất ở trên cùng. Xem ngay tro
 ## [0.108.0] - 2026-10-13
 ### Sửa lỗi
 - **Bot không còn gửi câu báo hết lượt cho khách.** Câu như "You've hit your session limit" hay "API Error" từng được bot đăng thẳng vào nhóm Zalo kèm tag người hỏi. Giờ lượt đó tính là lượt hỏng: người hỏi nhận câu xin lỗi chung, lý do thật nằm trong nhật ký bot.
-- **Tin bạn nhắn tay trên Zalo cá nhân vào được Hộp thư.** Tin chủ hoặc nhân viên trả lời bằng điện thoại giờ hiện là tin "Bạn", và bot nhường cuộc chat đó. Gốc lỗi ở CLI Zalo: bản cũ bỏ mọi tin của chính tài khoản, Aivon giờ chạy javis-zalo 1.3.0.
+- **Tin bạn nhắn tay trên Zalo cá nhân vào được Hộp thư.** Tin chủ hoặc nhân viên trả lời bằng điện thoại giờ hiện là tin "Bạn", và bot nhường cuộc chat đó. Gốc lỗi ở CLI Zalo: bản cũ bỏ mọi tin của chính tài khoản, Aivon giờ chạy aivon-zalo 1.3.0.
 - **Không hiện trùng, bot không tự im oan.** Ảnh bot vừa gửi và câu bạn gõ ở Hộp thư quay về được nhận ra, không bị ghi lần hai và không làm bot tưởng bạn vừa nhắn tay.
 
 ## [0.107.0] - 2026-10-13
@@ -1217,7 +1217,7 @@ Cảm ơn người dùng đã gửi báo lỗi kèm bản vá chạy thử trên
 
 ## [0.83.0] - 2026-10-05
 ### Cải thiện
-- **Zalo chạy bản riêng của Aivon.** Kết nối Zalo cá nhân giờ dùng `javis-zalo`, do Aivon tự giữ và tự sửa, thay cho công cụ của tác giả bên ngoài. Tài khoản đã quét QR từ trước tự chuyển sang, không phải quét lại.
+- **Zalo chạy bản riêng của Aivon.** Kết nối Zalo cá nhân giờ dùng `aivon-zalo`, do Aivon tự giữ và tự sửa, thay cho công cụ của tác giả bên ngoài. Tài khoản đã quét QR từ trước tự chuyển sang, không phải quét lại.
 - **Đọc được lịch sử tin nhóm.** Bộ não lấy được tin cũ của cả nhóm lẫn chat riêng, biết ai trả lời ai và ai được tag, và tìm được mọi tin của một người hay trong một khoảng ngày.
 - Mã QR hết hạn hay bị Zalo từ chối thì cửa sổ đăng nhập nói đúng lý do, thay vì báo đăng nhập thành công rồi không dùng được.
 ### Bảo mật
@@ -1527,7 +1527,7 @@ Cảm ơn người dùng đã gửi báo lỗi kèm bản vá chạy thử trên
 
 ## [0.65.6] - 2026-09-30
 ### Thêm mới
-- **Aivon tag đúng người trong nhóm Zalo.** Chỉ cần nói tên (kiểu "@minhquy"), Aivon tự tìm ID Zalo thật. Trùng tên hoặc không thấy thì hỏi lại chứ không đoán, vì tag nhầm không rút lại được.
+- **Aivon tag đúng người trong nhóm Zalo.** Chỉ cần nói tên (kiểu "@kenwingroup"), Aivon tự tìm ID Zalo thật. Trùng tên hoặc không thấy thì hỏi lại chứ không đoán, vì tag nhầm không rút lại được.
 - **Tạo ghi chú nhóm, nhắc hẹn và poll trên Zalo** ngay từ chat, cho mọi bộ não. Nhắc hẹn hiện trong Zalo nên cả nhóm cùng thấy.
 ### Sửa lỗi
 - Gửi ảnh Zalo không còn báo "đã gửi" khi Zalo từ chối.
@@ -2771,7 +2771,7 @@ Cảm ơn người dùng đã gửi báo lỗi kèm bản vá chạy thử trên
 
 ## [0.55.59] - 2026-09-09
 ### Cải thiện
-- Nhãn tác giả ở đáy thanh điều hướng đổi từ "by Minh Quý" thành **"by AIVON team"**.
+- Nhãn tác giả ở đáy thanh điều hướng đổi từ "by Minh Vũ" thành **"by AIVON team"**.
 
 ## [0.55.58] - 2026-09-08
 ### Sửa lỗi
@@ -2975,7 +2975,7 @@ Cảm ơn người dùng đã gửi báo lỗi kèm bản vá chạy thử trên
 
 ## [0.55.30] - 2026-09-05
 ### Thêm mới
-- **Kho cài đặt chuyển sang kho riêng: [aivon-store](https://github.com/blogminhquy/javis-store).** Từ giờ thêm một món vào kho là mọi máy đang chạy Aivon **thấy ngay**, không phải chờ bản cập nhật nào cả.
+- **Kho cài đặt chuyển sang kho riêng: [aivon-store](https://github.com/kenwingroup/aivon-store).** Từ giờ thêm một món vào kho là mọi máy đang chạy Aivon **thấy ngay**, không phải chờ bản cập nhật nào cả.
 - **Ai cũng góp được món vào kho.** Repo kho công khai, kèm hướng dẫn gửi bài và danh sách những gì sẽ bị soi khi duyệt. Mọi món đều được đọc mã trước khi vào kho.
 - Mã nguồn từng món nằm ngay cạnh tệp tải về, nên bạn đọc được nó **trước khi** cài chứ không phải tải rồi mới xem.
 
@@ -3867,7 +3867,7 @@ Cảm ơn người dùng đã gửi báo cáo rất kỹ kèm log và bản vá 
 
 ## [0.26.28] - 2026-08-12
 ### Cải thiện
-- **Khung Cập nhật chỉ luôn cách tìm thư mục compose.** Bản trước bảo "chạy ở thư mục chứa file compose" nhưng không nói cách tìm, nên gõ xong hay lãnh `no configuration file provided: not found` - tên thư mục tuỳ lúc tải về, có máy là `aivon`, có máy là `aivon-os`.
+- **Khung Cập nhật chỉ luôn cách tìm thư mục compose.** Bản trước bảo "chạy ở thư mục chứa file compose" nhưng không nói cách tìm, nên gõ xong hay lãnh `no configuration file provided: not found` - tên thư mục tuỳ lúc tải về, có máy là `aivon`, có máy là `aivon`.
 - Tài liệu Khắc phục sự cố thêm bảng phân biệt ba kiểu báo `not found` khi gõ lệnh Docker, mỗi kiểu một cách xử lý.
 
 ## [0.26.27] - 2026-08-12
@@ -3902,8 +3902,8 @@ Cảm ơn người dùng đã gửi báo cáo rất kỹ kèm log và bản vá 
 - **CSS ép ảnh QR xuống 200px trong khi ảnh gốc 265px**, tức mỗi ô còn 3,77 pixel. Đây là thủ phạm nặng nhất: người dùng soi điện thoại vào MÀN HÌNH máy tính chứ không phải tờ giấy, nên cỡ mỗi ô quyết định tất cả. Nay để ảnh ra đúng cỡ server tính (8 pixel mỗi ô, hơn gấp đôi).
 - **Tên workspace dài làm QR phình lại.** Tên nằm HAI chỗ trong chuỗi otpauth nên mỗi ký tự tốn gấp đôi; đo thật thì tên 48 ký tự đẩy QR lên phiên bản 11 (69 ô). Nay cắt tên ở 24 ký tự, nên đặt tên kiểu gì QR cũng giữ được 8 pixel mỗi ô.
 - **Nền QR nay là trắng thật**, không còn trong suốt dựa vào màu nền của thẻ bọc - ai dùng tông tối trước đây sẽ thấy mã đen nằm trên nền tối.
-- **Tên trong app Authenticator lấy theo workspace và theo NGƯỜI.** Trước đây hiện "AIVON: admin" - đúng về kỹ thuật nhưng vô nghĩa khi nằm giữa chục tài khoản 2FA trên điện thoại. Nay lấy tên workspace thật cộng tên người dùng (`USER_NAME`), rơi về tên đăng nhập khi chưa đặt: "AIVON: Minh Quý".
-- **Nhãn GIỮ nguyên dấu tiếng Việt.** Bản đầu bóc sạch dấu ("Minh Quý" thành "Minh Quy") vì sợ app hiện chuỗi hỏng; nỗi sợ đó lỗi thời - Key Uri Format cho phép nhãn UTF-8 phần trăm-mã-hoá và các app phổ biến đọc đúng từ lâu. Chỉ còn bỏ ký tự điều khiển và dấu ':' (nó là dấu ngăn giữa tên workspace và tên tài khoản, lọt vào là vỡ nhãn). Đã đo: kể cả tên có dấu dài hết mức thì QR vẫn giữ 8 pixel mỗi ô.
+- **Tên trong app Authenticator lấy theo workspace và theo NGƯỜI.** Trước đây hiện "AIVON: admin" - đúng về kỹ thuật nhưng vô nghĩa khi nằm giữa chục tài khoản 2FA trên điện thoại. Nay lấy tên workspace thật cộng tên người dùng (`USER_NAME`), rơi về tên đăng nhập khi chưa đặt: "AIVON: Minh Vũ".
+- **Nhãn GIỮ nguyên dấu tiếng Việt.** Bản đầu bóc sạch dấu ("Minh Vũ" thành "Minh Quy") vì sợ app hiện chuỗi hỏng; nỗi sợ đó lỗi thời - Key Uri Format cho phép nhãn UTF-8 phần trăm-mã-hoá và các app phổ biến đọc đúng từ lâu. Chỉ còn bỏ ký tự điều khiển và dấu ':' (nó là dấu ngăn giữa tên workspace và tên tài khoản, lọt vào là vỡ nhãn). Đã đo: kể cả tên có dấu dài hết mức thì QR vẫn giữ 8 pixel mỗi ô.
 - Thêm canary đo bằng SỐ chứ không đọc chữ: mỗi ô phải >= 7 pixel ở cỡ tự nhiên, viền phải 4 ô, nền không được trong suốt, và CSS không được ép ảnh về một cỡ pixel cố định. Vế cuối là cách âm thầm nhất để phá lại mọi thứ ở trên - server trả ảnh đúng cỡ, trình duyệt nén lại, và không test phía server nào thấy được.
 
 ## [0.26.22] - 2026-08-12
@@ -5239,7 +5239,7 @@ Lỗi của dịch vụ trả về giữa lúc gọi tool nay được Aivon ch�
 ## [0.9.275] - 2026-07-30
 Đổi tài khoản Google mà Aivon vẫn chạy bằng tài khoản cũ: đổi ô đăng nhập giờ vứt luôn token cũ.
 ### Sửa lỗi
-- **Đăng nhập lại bằng email khác mà mọi tool vẫn trả về tài khoản cũ (báo từ người dùng thật).** Người dùng xoá kết nối rồi đăng nhập lại bằng `hi@minhquy.vn`, nhưng tool Google vẫn báo tài khoản `blogminhquy@gmail.com`. Nguyên nhân nối tiếp đúng vụ 0.9.274: `workspace-mcp` cache token theo email, còn ô "Email Google của bạn" chỉ CHỌN dùng credential nào chứ không ép đăng nhập lại. Token cũ nằm nguyên trên đĩa nên nó cứ chọn đúng cái cũ. Nay đổi bất kỳ ô đăng nhập nào (email, Client ID, Client Secret) trên nguồn tự giữ token là Aivon vứt luôn kho token của tài khoản cũ, lần gọi tool sau bắt buộc đăng nhập lại. Nhập lại y hệt giá trị cũ, hoặc chỉ đổi tên gợi nhớ, thì KHÔNG đụng gì - không bắt ai đăng nhập lại vô cớ.
+- **Đăng nhập lại bằng email khác mà mọi tool vẫn trả về tài khoản cũ (báo từ người dùng thật).** Người dùng xoá kết nối rồi đăng nhập lại bằng `hi@kenwingroup.vn`, nhưng tool Google vẫn báo tài khoản `kenwingroup@gmail.com`. Nguyên nhân nối tiếp đúng vụ 0.9.274: `workspace-mcp` cache token theo email, còn ô "Email Google của bạn" chỉ CHỌN dùng credential nào chứ không ép đăng nhập lại. Token cũ nằm nguyên trên đĩa nên nó cứ chọn đúng cái cũ. Nay đổi bất kỳ ô đăng nhập nào (email, Client ID, Client Secret) trên nguồn tự giữ token là Aivon vứt luôn kho token của tài khoản cũ, lần gọi tool sau bắt buộc đăng nhập lại. Nhập lại y hệt giá trị cũ, hoặc chỉ đổi tên gợi nhớ, thì KHÔNG đụng gì - không bắt ai đăng nhập lại vô cớ.
 ### Cải thiện
 - `test_cred_dir_rieng.py` thêm 7 phép thử, trong đó 4 phép chạy THẬT `update_connection` trên kho giả rồi soi thư mục token trên đĩa: nhập lại y hệt thì giữ, đổi tên thì giữ, đổi email thì vứt, đổi Client ID thì vứt. Đây là loại lỗi soi mã nguồn không thấy, phải chạy mới lộ.
 
@@ -5812,15 +5812,15 @@ Thêm công tắc tự chọn: giữ hay gỡ dấu nguồn gốc AI trên ảnh
 ### Thêm mới
 - **Công tắc "Dấu nguồn gốc ảnh AI"** ở Cài đặt, nhóm Giao diện & Brain. Ảnh sinh ra mang sẵn Content Credentials (C2PA) ghi rằng ảnh do AI tạo, và Facebook đọc dấu đó để gắn nhãn "Nội dung do AI tạo" lên bài. Công tắc cho chọn **Giữ dấu** (mặc định) hoặc **Gỡ dấu**.
 - **Mặc định là GIỮ**, và có test khoá mặc định đó lại: bản fork nào cũng khởi đầu ở trạng thái an toàn, muốn gỡ thì chủ workspace phải tự bật. Lúc bật có hộp xác nhận nói rõ nghĩa vụ công bố nội dung AI vẫn thuộc về người đăng.
-- **Nhãn tác giả javisos.com luôn được giữ** ở cả hai chế độ. Gỡ dấu chỉ là gỡ, không đánh tráo nguồn gốc thành của người khác.
+- **Nhãn tác giả github.com/kenwingroup/aivon luôn được giữ** ở cả hai chế độ. Gỡ dấu chỉ là gỡ, không đánh tráo nguồn gốc thành của người khác.
 - Chỉ ảnh tạo từ lúc bật trở đi mới bị ảnh hưởng; ảnh đã tạo trước đó không đổi.
 ### Kiểm thử
 - `test_image_gen.py` thêm 8 case: gỡ đúng chunk caBX và không đụng phần còn lại, ảnh không có dấu thì trả nguyên xi, mặc định phải là False, và hai nhánh bật/tắt cho ra file khác nhau đúng như mong đợi.
 
 ## [0.9.214] - 2026-07-28
-Ảnh Aivon tạo ra tự mang nhãn tác giả javisos.com.
+Ảnh Aivon tạo ra tự mang nhãn tác giả github.com/kenwingroup/aivon.
 ### Thêm mới
-- **Gắn nhãn tác giả vào ảnh**: mọi ảnh sinh bằng `aivon_generate_image` nay được ghi sẵn metadata `Software = AIVON`, `Source = https://javisos.com` và thời điểm tạo, dưới dạng chunk tEXt chuẩn PNG. Ai mở file bằng công cụ xem metadata sẽ thấy ảnh do Aivon tạo.
+- **Gắn nhãn tác giả vào ảnh**: mọi ảnh sinh bằng `aivon_generate_image` nay được ghi sẵn metadata `Software = AIVON`, `Source = https://github.com/kenwingroup/aivon` và thời điểm tạo, dưới dạng chunk tEXt chuẩn PNG. Ai mở file bằng công cụ xem metadata sẽ thấy ảnh do Aivon tạo.
 - Việc gắn nhãn **chỉ THÊM chunk, không gỡ gì**: phần Content Credentials (C2PA) mà nhà cung cấp ảnh nhúng sẵn vẫn nằm nguyên trong file, pixel không bị đụng vào. File không phải PNG hợp lệ thì trả nguyên xi, không làm hỏng ảnh.
 ### Kiểm thử
 - `test_image_gen.py` thêm 8 case, trong đó có case khoá hành vi "KHÔNG gỡ chunk C2PA có sẵn" để sau này không ai lặng lẽ đổi thành gỡ nguồn gốc rồi ghi đè tên mình.
@@ -6979,8 +6979,8 @@ Gom phần "mức dùng" thành một trang riêng có đồ thị, bỏ widget 
 Tinh chỉnh nút thu/mở rail (bản 0.9.72) theo góp ý: đổi icon, dời vị trí, và sửa link tác giả.
 ### Cải thiện
 - **Icon nút thu/mở đổi sang kiểu "panel sidebar"**: thay mũi tên kép `«` bằng khung vuông chia hai với cột trái có các dòng nội dung (giống icon toggle sidebar quen thuộc). Icon tĩnh, bỏ hiệu ứng xoay 180° khi thu (kiểu panel không cần chỉ hướng, trạng thái đã có tooltip).
-- **Dời nút thu/mở nằm CẠNH dòng version thay vì phía trên**: `.rail-foot` đổi từ xếp dọc sang hàng ngang, nút ở trái kề số phiên bản + "by Minh Quý". Khi thu gọn vẫn ẩn version/tác giả, chỉ còn mỗi nút căn giữa.
-- **Link "by Minh Quý" trỏ về javisos.com** thay cho minhquy.vn.
+- **Dời nút thu/mở nằm CẠNH dòng version thay vì phía trên**: `.rail-foot` đổi từ xếp dọc sang hàng ngang, nút ở trái kề số phiên bản + "by Minh Vũ". Khi thu gọn vẫn ẩn version/tác giả, chỉ còn mỗi nút căn giữa.
+- **Link "by Minh Vũ" trỏ về github.com/kenwingroup/aivon** thay cho kenwingroup.vn.
 
 ## [0.9.72] - 2026-07-18
 Làm gọn thanh điều hướng bên trái (rail) theo góp ý trực tiếp: chữ khó đọc vì dùng font monospace, header nhóm trơ không icon, và rail chiếm quá nhiều bề ngang màn hình.
@@ -7432,7 +7432,7 @@ Bản 0.9.70 ship tool `aivon_schedule` ra ngoài trong tình trạng KHÔNG dù
 
 ## [0.8.9] - 2026-07-03
 ### Thêm mới
-- **Trang chủ giới thiệu** (`website/index.html`): landing page 1 file HTML/CSS/JS thuần, phong cách dark nebula đồng bộ dashboard - hero gõ chữ tự động, nền đồ thị hạt sao canvas, bảng so sánh chatbot vs Aivon, bento 8 tính năng, mockup Telegram có bong bóng chạy, timeline 3 bước deploy, section giới thiệu tác giả Nguyễn Minh Quý, FAQ accordion, nút copy lệnh. Mọi link tài liệu trỏ về GitHub; KHÔNG hiển thị số phiên bản trên trang. Dùng ảnh thật: screenshot đồ thị tri thức trong ô tính năng lớn (kiêm og:image khi share) + chân dung tác giả (fallback chữ MQ nếu ảnh lỗi).
+- **Trang chủ giới thiệu** (`website/index.html`): landing page 1 file HTML/CSS/JS thuần, phong cách dark nebula đồng bộ dashboard - hero gõ chữ tự động, nền đồ thị hạt sao canvas, bảng so sánh chatbot vs Aivon, bento 8 tính năng, mockup Telegram có bong bóng chạy, timeline 3 bước deploy, section giới thiệu tác giả Nguyễn Minh Vũ, FAQ accordion, nút copy lệnh. Mọi link tài liệu trỏ về GitHub; KHÔNG hiển thị số phiên bản trên trang. Dùng ảnh thật: screenshot đồ thị tri thức trong ô tính năng lớn (kiêm og:image khi share) + chân dung tác giả (fallback chữ MQ nếu ảnh lỗi).
 
 ## [0.8.8] - 2026-07-03
 ### Sửa lỗi
@@ -7586,7 +7586,7 @@ Bản 0.9.70 ship tool `aivon_schedule` ra ngoài trong tình trạng KHÔNG dù
 
 ## [0.6.2] - 2026-07-02
 ### Sửa lỗi
-- docker-compose.hostinger.yml: đã kiểm chứng Hostinger KHÔNG cấp biến TRAEFIK_HOST cho compose dán tay (link ra "aivon-os." cụt). Nay Host BẮT BUỘC DOMAIN_NAME (dùng ${DOMAIN_NAME:?...}): thiếu thì deploy báo lỗi rõ ràng thay vì ra link hỏng. Tài liệu chỉ rõ đặt DOMAIN_NAME=aivon.<hostname-vps>.hstgr.cloud ở ô Environment.
+- docker-compose.hostinger.yml: đã kiểm chứng Hostinger KHÔNG cấp biến TRAEFIK_HOST cho compose dán tay (link ra "aivon." cụt). Nay Host BẮT BUỘC DOMAIN_NAME (dùng ${DOMAIN_NAME:?...}): thiếu thì deploy báo lỗi rõ ràng thay vì ra link hỏng. Tài liệu chỉ rõ đặt DOMAIN_NAME=aivon.<hostname-vps>.hstgr.cloud ở ô Environment.
 
 ## [0.6.1] - 2026-07-01
 ### Sửa lỗi
@@ -7599,7 +7599,7 @@ Bản 0.9.70 ship tool `aivon_schedule` ra ngoài trong tình trạng KHÔNG dù
 
 ## [0.5.1] - 2026-07-01
 ### Thay đổi
-- Đổi tên repo/image GitHub sang aivon-os (image ghcr.io/blogminhquy/javis-os, GITHUB_REPO, link cài đặt trong README/DEPLOY).
+- Đổi tên repo/image GitHub sang aivon (image ghcr.io/kenwingroup/aivon, GITHUB_REPO, link cài đặt trong README/DEPLOY).
 
 ## [0.5.0] - 2026-07-01
 ### Thay đổi

@@ -18,12 +18,12 @@ FROM python:3.12-slim
 # (Documentation / Quick start / Source). Trỏ về docs trên GitHub.
 LABEL org.opencontainers.image.title="AIVON" \
       org.opencontainers.image.description="AI operating layer: chat + voice + second brain + tự động hoá, xây trên CLI của nhà cung cấp AI (Claude Code, ChatGPT/Codex)." \
-      org.opencontainers.image.url="https://github.com/blogminhquy/javis-os" \
-      org.opencontainers.image.source="https://github.com/blogminhquy/javis-os" \
-      org.opencontainers.image.documentation="https://github.com/blogminhquy/javis-os/blob/main/docs/README.md" \
+      org.opencontainers.image.url="https://github.com/kenwingroup/aivon" \
+      org.opencontainers.image.source="https://github.com/kenwingroup/aivon" \
+      org.opencontainers.image.documentation="https://github.com/kenwingroup/aivon/blob/main/docs/README.md" \
       org.opencontainers.image.licenses="MIT" \
-      com.hostinger.documentation="https://github.com/blogminhquy/javis-os/blob/main/docs/README.md" \
-      com.hostinger.quickstart="https://github.com/blogminhquy/javis-os/blob/main/QUICKSTART.md"
+      com.hostinger.documentation="https://github.com/kenwingroup/aivon/blob/main/docs/README.md" \
+      com.hostinger.quickstart="https://github.com/kenwingroup/aivon/blob/main/QUICKSTART.md"
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -133,7 +133,7 @@ ENV AIVON_HOST=0.0.0.0 \
 # `security_opt: [apparmor:unconfined]`) để bubblewrap khởi động được.
 ENV AIVON_CODEX_SANDBOX=off
 
-# 0.267.0: the release workflow stamps where this image is published (ghcr.io/blogminhquy/javis-os). An image built
+# 0.267.0: the release workflow stamps where this image is published (ghcr.io/kenwingroup/aivon). An image built
 # somewhere else (a PC's `docker build`, then `docker save` / `docker load` onto a VPS) leaves it empty, and the Update
 # page then says that pulling cannot update it, instead of telling the owner to Redeploy (a user's VPS, 21/10/2026, ran
 # such an image and stayed on 0.206.0). Declared last so the stamp never invalidates the layers above.
