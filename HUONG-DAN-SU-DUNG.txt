@@ -1,0 +1,43 @@
+# Hướng dẫn AIVON
+
+Đã cài bản 0.278.0 tại C:\Users\Admin\Desktop\Aivon, gồm Python 3.12.15, thư viện và CLI Claude/Codex.
+
+## Mở và tắt
+
+- Mở: nhấp đúp AIVON.bat trong thư mục Aivon trên Desktop.
+- Dashboard: http://localhost:7979.
+- Tắt: nhấp đúp stop-aivon.bat. Đóng trình duyệt không tắt máy chủ.
+- Không cần chạy lại setup.bat hay install.ps1 mỗi lần dùng.
+
+## Thiết lập lần đầu
+
+1. Mở dashboard, đặt tên workspace. Bạn có thể đặt tài khoản admin với mật khẩu ít nhất 8 ký tự.
+2. Chọn nhà cung cấp AI. Muốn dùng tài khoản ChatGPT thì chọn ChatGPT/Codex.
+3. Bấm Bắt đầu dùng Aivon, vào Kết nối > Models.
+4. Bấm Đăng nhập/Kết nối tại thẻ nhà cung cấp và hoàn tất đăng nhập trong trình duyệt. Với nhà cung cấp API, nhập API key của bạn.
+5. Chờ trạng thái Đã kết nối, chọn Main Model từ danh sách tài khoản cung cấp.
+6. Vào Trợ lý > Trò chuyện và gửi câu hỏi thử.
+
+Nếu giao diện là tiếng Anh, đổi sang Tiếng Việt trong Cài đặt. Hãy kiểm tra trạng thái đăng nhập trong Models, kể cả khi bạn đã đăng nhập ứng dụng Codex Desktop.
+
+## Dùng hằng ngày
+
+- Trò chuyện: hỏi đáp, đính kèm tệp, mở lại phiên cũ.
+- Giọng nói: cho phép microphone rồi dùng nút micro trong chat.
+- Bộ não: lưu ký ức, ghi chú và nguồn kiến thức.
+- Kết nối: thêm dịch vụ ngoài và chọn quyền phù hợp.
+- Việc: dùng Kanban, nhắc hẹn và việc định kỳ. Máy tính và máy chủ phải đang chạy.
+- Mức dùng: theo dõi sử dụng; chi phí và hạn mức tùy nhà cung cấp AI.
+- Sao lưu: xem Tự học/Sao lưu GitHub; hoặc sao lưu cả thư mục khi đã tắt máy chủ.
+
+## Khi có lỗi
+
+- Không mở được dashboard: chạy AIVON.bat, chờ 10–45 giây.
+- Xem log: server\aivon.log. Log kiểm tra lần cài đầu: server\install-start-error.log.
+- Chat không trả lời: kiểm tra đăng nhập, model và hạn mức trong Models.
+- Cài thêm CLI xong cần tắt và mở lại máy chủ.
+- Giữ nguyên .runtime, .venv và .tools vì đây là Python, thư viện và CLI của bản cài.
+- Antigravity/Grok CLI là lựa chọn thêm, chưa cài trong lần này.
+
+Tài liệu tiếng Việt đầy đủ nằm ở docs\README.md trong thư mục dự án.
+Nguồn: https://github.com/blogminhquy/javis-os

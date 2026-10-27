@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- AIVON Official Brand Mark: Intelligence · Vision · Always On -->
+  <defs>
+    <linearGradient id="aivonWingL" x1="0" y1="1" x2="0.6" y2="0">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="45%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#f8fafc"/>
+    </linearGradient>
+    <linearGradient id="aivonWingR" x1="0.4" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="55%" stop-color="#e2e8f0"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="496" height="496" rx="112" fill="#060a15" stroke="#1e3a8a" stroke-width="4"/>
+  <path d="M98 396 L217 124 Q229 96 256 96 L264 96 L264 198 Q242 198 228 226 L176 356 Q162 396 122 396 Z" fill="url(#aivonWingL)"/>
+  <path d="M248 96 L256 96 Q283 96 295 124 L414 396 L384 396 Q346 396 332 356 L260 198 Q252 180 248 180 Z" fill="url(#aivonWingR)"/>
+  <path d="M126 396 Q162 394 176 356 L228 226 Q244 194 274 202" fill="none" stroke="#00d2ff" stroke-width="7" stroke-linecap="round"/>
+</svg>

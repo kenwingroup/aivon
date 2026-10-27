@@ -1,0 +1,6 @@
+#!/bin/bash
+# App bundle entrypoint -> delegates to bin/aivon-start.sh.
+# Resolves the repo root relative to this bundle, so keep "AIVON.app"
+# inside the repo folder (repo/AIVON.app/Contents/MacOS/aivon).
+DIR="$(cd "$(dirname "$0")/../../.." && pwd)"
+exec "${DIR}/bin/aivon-start.sh"
