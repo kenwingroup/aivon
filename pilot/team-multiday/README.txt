@@ -21,7 +21,7 @@ Các file
 
 Bản được ghim
   Ứng viên: 7b90482177ef05635e4e628451b30a8610cbac50
-  (commit mã và test cuối của 0.210.0 trên nhánh claude/openmausbot-jarvis-research-ewnzc6; commit sau nó chỉ ghi SHA
+  (commit mã và test cuối của 0.210.0 trên nhánh claude/openmausbot-aivon-research-ewnzc6; commit sau nó chỉ ghi SHA
   này vào tài liệu). Nếu PR #728 có thêm commit sửa mã trước khi chạy, ghim commit mã mới nhất và ghi lại vào
   report_template.txt. Không chạy trên main cho tới khi PR được chủ duyệt.
 

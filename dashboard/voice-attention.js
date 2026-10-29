@@ -7,7 +7,7 @@
    tên là đúng khâu từng làm cuộc gọi không nối lại được. */
 (function (root) {
   "use strict";
-  const wake = /^(?:(?:hey|hi|hello|ê|này|alo|chào)\s+)?(?:aivon|jarvis)(?=$|[\s,.!?:;])/iu;
+  const wake = /^(?:(?:hey|hi|hello|ê|này|alo|chào)\s+)?(?:aivon|aivon)(?=$|[\s,.!?:;])/iu;
   // Câu mở đầu GẦN GIỐNG tên gọi mà Web Speech hay chép lệch ("David ơi", "Gia vít"). KHÔNG mở
   // rào: chỉ cho phép đưa âm thanh cho tai nghe lại, rồi rào xét lại trên chữ của tai (0.65.15).
   const IDLE_MS = 30000;      // chủ dự án 01/10: 20 giây hơi ít

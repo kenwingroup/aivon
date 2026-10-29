@@ -189,7 +189,7 @@
   VoiceTurn.prototype.delayFor = function (text) {
     // Một tiếng gọi tên thường là mở đầu câu ra lệnh. Chờ thêm một nhịp để không gửi
     // riêng "Aivon" trước khi người dùng nói tiếp; vẫn đáp nếu họ chỉ gọi tên.
-    if (/^(aivon|jarvis)( ơi)?$/.test(normalize(text))) return this.opts.maxDelay;
+    if (/^(aivon|aivon)( ơi)?$/.test(normalize(text))) return this.opts.maxDelay;
     return looksUnfinished(text) ? this.opts.maxDelay : this.opts.minDelay;
   };
 

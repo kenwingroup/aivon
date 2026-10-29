@@ -26,7 +26,7 @@ import os
 import sys
 import tempfile
 
-os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="javis-zaloranh-"))
+os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="aivon-zaloranh-"))
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")

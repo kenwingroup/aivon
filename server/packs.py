@@ -69,8 +69,8 @@ from config import STATE_DIR
 PROJECT_ROOT = Path(__file__).parent.parent
 PACKS_DIR = STATE_DIR / "packs"
 MANIFEST_TEN = ("aivon-pack.yaml", "aivon-pack.yml",
-                # Aivon: vẫn đọc được gói viết cho Javis OS gốc (kho blogminhquy/javis-store)
-                "javis-pack.yaml", "javis-pack.yml")
+                # Aivon: vẫn đọc được gói viết cho Aivon OS gốc (kho kenwingroup/aivon-store)
+                "aivon-pack.yaml", "aivon-pack.yml")
 # Sổ cài đặt. `pack_install` ghi, ở đây chỉ ĐỌC - và chỉ đọc đúng một trường `enabled`, để
 # module này giữ nguyên luật "chỉ stdlib + config", không kéo theo cả tầng cài đặt vào đường
 # nóng. Gói KHÔNG có trong sổ (thả tay vào thư mục) mặc định là BẬT: đó là cách dùng của người
@@ -79,7 +79,7 @@ LEDGER = STATE_DIR / "packs.json"
 
 SPEC_HO_TRO = (1,)
 FORMAT_MAGIC = "aivon-pack"
-FORMAT_MAGIC_CHAP_NHAN = (FORMAT_MAGIC, "javis-pack")  # Aivon: nhận cả gói định dạng Javis OS gốc
+FORMAT_MAGIC_CHAP_NHAN = (FORMAT_MAGIC, "aivon-pack")  # Aivon: nhận cả gói định dạng Aivon OS gốc
 
 # Cùng luật với `plugins_host._SLUG_RE`: id đi thẳng vào đường dẫn hệ tệp và vào tên module,
 # nên nó phải hẹp trước khi có ai ghép chuỗi.

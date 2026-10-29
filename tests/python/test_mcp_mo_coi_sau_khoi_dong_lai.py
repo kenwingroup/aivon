@@ -3,7 +3,7 @@
     python tests/run.py mcp_mo_coi      (KHÔNG mạng; spawn vài tiến trình python ngủ)
 
 Báo cáo 13/10/2026, bot "Aivon Vũ": bot im trong nhóm Zalo từ 21:09. Tài khoản có HAI tiến trình
-`javis-zalo mcp start`, một từ 20:49 và một do server mở lại lúc 21:10. Zalo chỉ đẩy tin về một
+`aivon-zalo mcp start`, một từ 20:49 và một do server mở lại lúc 21:10. Zalo chỉ đẩy tin về một
 socket, bot đọc phiên mới, phiên mới gần như không nhận được gì.
 
 Điều được ghim:

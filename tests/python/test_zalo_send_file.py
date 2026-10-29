@@ -14,7 +14,7 @@ What is checked here:
      removes the subfolder afterwards, success or not.
   3. Every failure comes back as a sentence a person understands: older MCP without the tool, Zalo did not confirm, the MCP
      call itself timed out (marked so callers never resend), connection gone, odd result.
-  4. The three pins of javis-zalo agree, and the catalog lists the new tool as dangerous (it sends).
+  4. The three pins of aivon-zalo agree, and the catalog lists the new tool as dangerous (it sends).
 """
 from _paths import ROOT, SERVER  # noqa: E402,F401
 import asyncio
@@ -47,7 +47,7 @@ check("images and GIFs keep the CLI path (their URL comes back over HTTP)",
       not any(Z.needs_live_confirm(p) for p in ["a.jpg", "b.JPEG", "c.png", "d.webp", "e.gif"]))
 check("CANARY: xlsx, pdf, docx, zip, mp4, bmp and no extension need the live connection",
       all(Z.needs_live_confirm(p) for p in ["Danh sach.xlsx", "r.pdf", "d.docx", "z.zip", "v.mp4", "x.bmp", "noext"]))
-check("outbox is ~/.zalo-agent-cli/outbox of the session (same as OUTBOX_DIR in javis-zalo)",
+check("outbox is ~/.zalo-agent-cli/outbox of the session (same as OUTBOX_DIR in aivon-zalo)",
       Z.outbox_dir("/data/zalo/home").as_posix() == "/data/zalo/home/.zalo-agent-cli/outbox", Z.outbox_dir("/data/zalo/home"))
 
 # ============================================================
@@ -118,8 +118,8 @@ check("CANARY: outbox cleaned up after a failure too", list(outbox.iterdir()) ==
 
 reply["raise"] = RuntimeError("MCP error -32602: Tool zalo_send_file not found")
 ok, data, err = send([SRC / "Danh sach.xlsx"])
-check("older javis-zalo without the tool: says to update Aivon and restart the connection, no QR",
-      ok is False and "bản javis-zalo cũ" in err and "Cập nhật Aivon" in err, err)
+check("older aivon-zalo without the tool: says to update Aivon and restart the connection, no QR",
+      ok is False and "bản aivon-zalo cũ" in err and "Cập nhật Aivon" in err, err)
 
 reply["raise"] = TimeoutError("tool không phản hồi sau 120s")
 ok, data, err = send([SRC / "Danh sach.xlsx"])
@@ -162,7 +162,7 @@ def find_zalo(o):
 
 zalo = find_zalo(cat)
 # 0.183.0: v1.5.0 (history kept across restarts, `sync` coverage on reads); still has zalo_send_file from v1.4.0.
-check("CANARY: the three javis-zalo pins agree and are v1.4.0 or later (the first with zalo_send_file)",
+check("CANARY: the three aivon-zalo pins agree and are v1.4.0 or later (the first with zalo_send_file)",
       Z.CLI_PACKAGE == zalo_login._CLI_PACKAGE and Z.CLI_PACKAGE in zalo["args"] and Z.CLI_PACKAGE.endswith("/v1.5.0"),
       (Z.CLI_PACKAGE, zalo_login._CLI_PACKAGE, zalo["args"]))
 check("the previous pins are listed as old commands, so existing connections move to the new one",

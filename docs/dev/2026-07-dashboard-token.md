@@ -2,7 +2,7 @@
 
 Ngày: 2026-07-18
 Trạng thái: Spec, chờ duyệt
-Người yêu cầu: Minh Quy
+Người yêu cầu: Minh Vu
 
 ## 1. Mục tiêu
 
@@ -13,7 +13,7 @@ Một dashboard trong AIVON để theo dõi mức tiêu thụ token, trả lời
 3. Hiệu quả: đang dùng tiết kiệm hay lãng phí (cache hit, token/phiên, output/input, chi phí quy đổi).
 4. Hành động: sinh ra vài đề xuất cụ thể để tối ưu (giảm loop, hạ model, tách phiên, /compact...).
 
-Người xem chính là Minh Quy (human-facing). Endpoint tổng hợp có thể tái dùng sau này cho một tool để chính AIVON đọc, nhưng v1 không làm phần đó.
+Người xem chính là Minh Vu (human-facing). Endpoint tổng hợp có thể tái dùng sau này cho một tool để chính AIVON đọc, nhưng v1 không làm phần đó.
 
 ## 2. Nguồn dữ liệu và sự thật lịch sử
 

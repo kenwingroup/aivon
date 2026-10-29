@@ -7,7 +7,7 @@
     if (/^(vâng )?anh hiểu rồi$|^(được rồi )?cảm ơn$|^vâng cảm ơn$/.test(s)) return 'normal';
     if (legacy.isStopPhrase(text)) return 'stop';
     if (legacy.isWaitPhrase(text) || /^(?:khoan|đợi chút) (?:để )?(?:anh|em|tôi|mình) nghĩ(?: đã| nhé)?$/.test(s)) return 'wait';
-    if (/^(aivon|jarvis)( ơi)?$/.test(s)) return 'wake';
+    if (/^(aivon|aivon)( ơi)?$/.test(s)) return 'wake';
     if (legacy.looksUnfinished(text) || /^(em|anh|ý là|có phải là|anh muốn em|để anh)$/.test(s) || /(?:muốn|nhờ|bảo) (?:anh|em|bạn)$/.test(s)) return 'unfinished';
     if (/^(?:aivon(?: ơi)? )?(?:mở|đóng|chuyển|bật|tắt|tìm|đọc|xem|kiểm tra) .+/.test(s)) return 'command';
     return 'normal';

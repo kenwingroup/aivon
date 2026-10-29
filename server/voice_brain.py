@@ -122,7 +122,7 @@ SYSTEM_PROMPT = (
     "không kèm dòng lệnh nào; hệ thống đã tự huỷ trước khi bạn kịp nói.\n"
     "Chuyện trò thường, hỏi ý kiến, giải thích khái niệm, tính nhẩm, chuyển ngữ: trả lời thẳng.\n"
     "Câu của người dùng đến từ MÁY NGHE GIỌNG NÓI, và họ hay nói lẫn tiếng Việt với tiếng "
-    "Anh, nên từ hay bị chép thành từ GẦN ÂM: tên bạn (Aivon) thành 'David', 'Jarvis', 'Gia "
+    "Anh, nên từ hay bị chép thành từ GẦN ÂM: tên bạn (Aivon) thành 'David', 'Aivon', 'Gia "
     "vít'; từ tiếng Anh, tên công cụ, tên dự án, tên sản phẩm thành một từ nghe na ná. Hãy "
     "HIỂU CÂU THEO NGỮ CẢNH cuộc trò chuyện. DÒNG ĐẦU TIÊN luôn là " + NGHE_MARKER + " rồi "
     "câu người dùng ĐÚNG NHƯ HỌ ĐỊNH NÓI trên một dòng, bỏ khối ngữ cảnh giao diện nếu có: "

@@ -49,27 +49,27 @@
       "name": "Zalo Agent MCP",
       "icon": "/static/logos/zalo.png",
       "category": "Nhắn tin",
-      "description": "MCP của javis-zalo (bản CLI Zalo riêng của Aivon): đọc tin mới/lịch sử, tìm cuộc chat, biết ai vừa vào nhóm và vào lúc nào, duyệt người xin vào nhóm, xem media và gửi tin bằng tài khoản Zalo cá nhân.",
+      "description": "MCP của aivon-zalo (bản CLI Zalo riêng của Aivon): đọc tin mới/lịch sử, tìm cuộc chat, biết ai vừa vào nhóm và vào lúc nào, duyệt người xin vào nhóm, xem media và gửi tin bằng tài khoản Zalo cá nhân.",
       "status": "beta",
       "transport": "stdio",
       "command": "npx",
-      "args": ["-y", "--prefer-offline", "https://codeload.github.com/kenwingroup/javis-zalo/tar.gz/refs/tags/v1.5.0", "mcp", "start"],
+      "args": ["-y", "--prefer-offline", "https://codeload.github.com/kenwingroup/aivon-zalo/tar.gz/refs/tags/v1.5.0", "mcp", "start"],
       "lenh_cu": [
         { "command": "npx", "args": ["-y", "zalo-agent-cli", "mcp", "start"] },
         { "command": "npx", "args": ["-y", "zalo-agent-cli@1.6.2", "mcp", "start"] },
-        { "command": "npx", "args": ["-y", "--prefer-offline", "https://codeload.github.com/kenwingroup/javis-zalo/tar.gz/refs/tags/v1.0.0", "mcp", "start"] },
-        { "command": "npx", "args": ["-y", "--prefer-offline", "https://codeload.github.com/kenwingroup/javis-zalo/tar.gz/refs/tags/v1.1.0", "mcp", "start"] },
-        { "command": "npx", "args": ["-y", "--prefer-offline", "https://codeload.github.com/kenwingroup/javis-zalo/tar.gz/refs/tags/v1.2.0", "mcp", "start"] },
-        { "command": "npx", "args": ["-y", "--prefer-offline", "https://codeload.github.com/kenwingroup/javis-zalo/tar.gz/refs/tags/v1.3.0", "mcp", "start"] },
-        { "command": "npx", "args": ["-y", "--prefer-offline", "https://codeload.github.com/kenwingroup/javis-zalo/tar.gz/refs/tags/v1.4.0", "mcp", "start"] }
+        { "command": "npx", "args": ["-y", "--prefer-offline", "https://codeload.github.com/kenwingroup/aivon-zalo/tar.gz/refs/tags/v1.0.0", "mcp", "start"] },
+        { "command": "npx", "args": ["-y", "--prefer-offline", "https://codeload.github.com/kenwingroup/aivon-zalo/tar.gz/refs/tags/v1.1.0", "mcp", "start"] },
+        { "command": "npx", "args": ["-y", "--prefer-offline", "https://codeload.github.com/kenwingroup/aivon-zalo/tar.gz/refs/tags/v1.2.0", "mcp", "start"] },
+        { "command": "npx", "args": ["-y", "--prefer-offline", "https://codeload.github.com/kenwingroup/aivon-zalo/tar.gz/refs/tags/v1.3.0", "mcp", "start"] },
+        { "command": "npx", "args": ["-y", "--prefer-offline", "https://codeload.github.com/kenwingroup/aivon-zalo/tar.gz/refs/tags/v1.4.0", "mcp", "start"] }
       ],
-      "ngoai_le_ban_chinh_thuc": "Zalo KHÔNG đi theo bản gốc nữa (chủ repo chốt 2026-10-05): Aivon chạy bản CLI riêng javis-zalo (github.com/kenwingroup/javis-zalo), cài từ tarball của tag phát hành, chỉ thư viện zca-js bên dưới đi theo bản chính thức trên npm. Ghim theo tag vì đăng nhập QR (zalo_login.py), gửi ảnh/tag/ghi chú nhóm (zalo_cli.py) và gói aivon.zalo đọc thẳng định dạng của đúng bản đó. Ba chỗ ghim (ở đây, zalo_cli.py, zalo_login.py) phải luôn trùng nhau; --prefer-offline vì tag không đổi nên khỏi hỏi lại GitHub mỗi lần khởi động.",
+      "ngoai_le_ban_chinh_thuc": "Zalo KHÔNG đi theo bản gốc nữa (chủ repo chốt 2026-10-05): Aivon chạy bản CLI riêng aivon-zalo (github.com/kenwingroup/aivon-zalo), cài từ tarball của tag phát hành, chỉ thư viện zca-js bên dưới đi theo bản chính thức trên npm. Ghim theo tag vì đăng nhập QR (zalo_login.py), gửi ảnh/tag/ghi chú nhóm (zalo_cli.py) và gói aivon.zalo đọc thẳng định dạng của đúng bản đó. Ba chỗ ghim (ở đây, zalo_cli.py, zalo_login.py) phải luôn trùng nhau; --prefer-offline vì tag không đổi nên khỏi hỏi lại GitHub mỗi lần khởi động.",
       "requires": { "node": ">=20" },
       "isolate_home": true,
       "auth": {
         "type": "qr",
         "fields": [],
-        "guide": "Cần Node.js 20+. Bấm Kết nối, quét QR bằng app Zalo rồi dùng trực tiếp 12 tool MCP của javis-zalo. Không còn listener/webhook/luật Zalo riêng của Aivon.",
+        "guide": "Cần Node.js 20+. Bấm Kết nối, quét QR bằng app Zalo rồi dùng trực tiếp 12 tool MCP của aivon-zalo. Không còn listener/webhook/luật Zalo riêng của Aivon.",
         "guide_url": "https://github.com/kenwingroup/aivon/blob/main/docs/12-zalo.md"
       },
       "tool_meta": {
@@ -89,7 +89,7 @@
       "default_perm": "full",
       "companion_pack": "aivon.zalo",
       "purge_warning": "Xoá kết nối này là mất luôn phiên đăng nhập QR. Muốn dùng lại phải mở app Zalo trên điện thoại quét mã một lần nữa.",
-      "risk": "Connector này MẶC ĐỊNH ở mức TOÀN QUYỀN, tức tool gửi tin đang bật. Muốn chặn gửi, hãy hạ xuống Ghi nháp hoặc Chỉ đọc.\n\njavis-zalo dùng API Zalo không chính thức qua zca-js. Tài khoản CÓ THỂ bị hạn chế hoặc KHOÁ; khuyến nghị dùng tài khoản phụ và không tự động gửi hàng loạt.",
+      "risk": "Connector này MẶC ĐỊNH ở mức TOÀN QUYỀN, tức tool gửi tin đang bật. Muốn chặn gửi, hãy hạ xuống Ghi nháp hoặc Chỉ đọc.\n\naivon-zalo dùng API Zalo không chính thức qua zca-js. Tài khoản CÓ THỂ bị hạn chế hoặc KHOÁ; khuyến nghị dùng tài khoản phụ và không tự động gửi hàng loạt.",
       "rate_limit": { "calls_per_min": 20 }
     },
             {

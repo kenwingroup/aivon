@@ -1546,7 +1546,7 @@ def _doi_phien_that(request: Request):
 
 
 def _ten_hien_thi(cfg=None) -> str:
-    """Tên NGƯỜI để hiện trong app Authenticator, sau tên workspace: "AIVON: Minh Quý".
+    """Tên NGƯỜI để hiện trong app Authenticator, sau tên workspace: "AIVON: Minh Vũ".
 
     Thứ tự ưu tiên có lý do: `USER_NAME` là tên người dùng tự đặt cho chính mình, còn
     `auth.username` là tên ĐĂNG NHẬP - thường là "admin", đúng về kỹ thuật nhưng vô nghĩa khi
@@ -13570,9 +13570,9 @@ async def config():
 # ============================================
 # Phiên bản + cập nhật trong UI
 # ============================================
-GITHUB_REPO = "blogminhquy/javis-os"
-# Aivon: TẮT tự cập nhật. Repo gốc ở trên là của Javis OS - kéo bản mới từ đó sẽ ghi đè thương
-# hiệu Aivon. Tắt luôn việc tải tin tức/nhật ký phiên bản của Javis về trang Cập nhật.
+GITHUB_REPO = "kenwingroup/aivon"
+# Aivon: TẮT tự cập nhật. Repo gốc ở trên là của Aivon OS - kéo bản mới từ đó sẽ ghi đè thương
+# hiệu Aivon. Tắt luôn việc tải tin tức/nhật ký phiên bản của Aivon về trang Cập nhật.
 # Muốn bật lại (khi đã đổi GITHUB_REPO sang repo của mình): đặt biến môi trường AIVON_SELF_UPDATE=1.
 SELF_UPDATE_DISABLED = os.getenv("AIVON_SELF_UPDATE", "0").strip().lower() not in ("1", "true", "yes", "on")
 _UPDATE_TASKS = set()   # giữ ref mạnh cho asyncio.create_task (tránh GC nuốt mất task)
@@ -17974,7 +17974,7 @@ async def websocket_endpoint(ws: WebSocket):
             brain = payload.get("brain", "brain")
             _cfg_luot = cfgmod.read_settings()
             mcfg = _cfg_luot.get("model", {})
-            # Tin từ MIC: sửa TÊN nghe nhầm ("David", "Jarvis", "Gia vít" -> "Aivon" và từ vựng
+            # Tin từ MIC: sửa TÊN nghe nhầm ("David", "Aivon", "Gia vít" -> "Aivon" và từ vựng
             # người dùng khai) TRƯỚC khi lưu, bằng so khớp âm tất định của nghe_sua - không phải
             # AI hay STT phụ. 0.64.32 gỡ lớp này cùng lúc với việc chặn AI viết lại câu, làm
             # Aivon đáp "anh nói là David" (chủ dự án 24/09). Lớp này không đụng từ phủ định, số,

@@ -1,4 +1,4 @@
-"""Adapter kênh Zalo CÁ NHÂN cho Hộp thư hội thoại: đọc tin mới từ MCP `javis-zalo` rồi
+"""Adapter kênh Zalo CÁ NHÂN cho Hộp thư hội thoại: đọc tin mới từ MCP `aivon-zalo` rồi
 đổ vào kho `conversations`.
 
 Ở Việt Nam khách nhắn qua Zalo cá nhân nhiều hơn mọi kênh khác, và không phải ai bán hàng cũng
@@ -319,7 +319,7 @@ def _loai_tin(msg: dict) -> str:
 def _link_anh(msg: dict) -> str:
     """Link of the photo in an image message (0.74.1), or "".
 
-    The MCP normalizes a photo as `attachment: {type, url: content.href, description: content.title}` (javis-zalo,
+    The MCP normalizes a photo as `attachment: {type, url: content.href, description: content.title}` (aivon-zalo,
     `normalizeMessage` in src/mcp/message-normalize.js; same shape as zalo-agent-cli 1.6.2). Before 0.74.1 this was dropped here, so the inbox and the customer bot only ever got
     the caption and the bot answered "I can only see the caption". A bare photo also carries the link as its `text`."""
     att = msg.get("attachment") if isinstance(msg.get("attachment"), dict) else {}
@@ -331,9 +331,9 @@ def _link_anh(msg: dict) -> str:
 
 
 def _su_kien_vao_nhom(msg: dict) -> Optional[dict]:
-    """Someone joined the group (javis-zalo >= 1.1.0): `{time, added_by, added_by_me}` in seconds, else None.
+    """Someone joined the group (aivon-zalo >= 1.1.0): `{time, added_by, added_by_me}` in seconds, else None.
 
-    javis-zalo puts each join in the live feed as a message of type `group.join` sent BY the newcomer, with
+    aivon-zalo puts each join in the live feed as a message of type `group.join` sent BY the newcomer, with
     `event: {kind: "join", time (ms), addedBy, addedByMe}`. The type alone is enough; `event` adds detail."""
     ev = msg.get("event") if isinstance(msg.get("event"), dict) else {}
     if str(msg.get("type") or "").lower() != "group.join" and ev.get("kind") != "join":
@@ -343,9 +343,9 @@ def _su_kien_vao_nhom(msg: dict) -> Optional[dict]:
 
 
 def _su_kien_xin_vao(msg: dict) -> Optional[dict]:
-    """Someone asked to join a group that requires approval (javis-zalo >= 1.2.0): `{time, total_pending}`, else None.
+    """Someone asked to join a group that requires approval (aivon-zalo >= 1.2.0): `{time, total_pending}`, else None.
 
-    javis-zalo puts each request in the live feed as a message of type `group.join_request` sent BY the applicant."""
+    aivon-zalo puts each request in the live feed as a message of type `group.join_request` sent BY the applicant."""
     ev = msg.get("event") if isinstance(msg.get("event"), dict) else {}
     if str(msg.get("type") or "").lower() != "group.join_request" and ev.get("kind") != "join_request":
         return None
@@ -449,7 +449,7 @@ def chuan_hoa_tin(conn: dict, msg: dict, ten: Dict[str, dict]) -> Optional[dict]
 # ============================================================
 # Nhập tin cũ (0.174.0)
 # ============================================================
-# Chủ repo hỏi 16/10/2026: đăng nhập Zalo vào Aivon lần đầu thì Hộp thư trống trơn, dù điện thoại có cả trăm cuộc chat. javis-zalo
+# Chủ repo hỏi 16/10/2026: đăng nhập Zalo vào Aivon lần đầu thì Hộp thư trống trơn, dù điện thoại có cả trăm cuộc chat. aivon-zalo
 # (từ 1.1.0) tự kéo tin cũ về mỗi lần kết nối, khoảng 2 tuần gần nhất theo cửa sổ phát lại của Zalo, rồi giữ trong kho lịch sử của
 # nó (`zalo_search_history`). Vòng đọc ở dưới không dùng kho đó: nó chỉ đọc bộ đệm tin MỚI (`zalo_get_messages`), đúng như quyết
 # định 3 ở đầu file. Nút "Nhập tin cũ" là lựa chọn riêng của chủ, không chạy tự động.
@@ -467,7 +467,7 @@ _DANG_NHAP: set = set()     # conn_id đang nhập: bấm hai lần liền khôn
 
 
 async def nhap_lich_su(conn_id: str, ngay: int = NHAP_NGAY) -> dict:
-    """Nhập tin cũ javis-zalo đã giữ (tối đa `ngay` ngày, `NHAP_TOI_DA` tin) vào Hộp thư, chỉ cho cuộc chat chưa có tin nào.
+    """Nhập tin cũ aivon-zalo đã giữ (tối đa `ngay` ngày, `NHAP_TOI_DA` tin) vào Hộp thư, chỉ cho cuộc chat chưa có tin nào.
 
     Trả {"ok", "so_tin", "so_cuoc_chat", "bo_qua", "het_tran"} hoặc {"ok": False, "loi"}."""
     cid = str(conn_id or "")
@@ -493,8 +493,8 @@ async def nhap_lich_su(conn_id: str, ngay: int = NHAP_NGAY) -> dict:
             except Exception as e:
                 if not tin:
                     return {"ok": False, "loi": localefmt.chu(
-                        f"javis-zalo không trả được tin cũ: {str(e)[:200]}. Bản javis-zalo cần từ 1.1.0 trở lên.",
-                        f"javis-zalo could not return old messages: {str(e)[:200]}. javis-zalo 1.1.0 or newer is needed.")}
+                        f"aivon-zalo không trả được tin cũ: {str(e)[:200]}. Bản aivon-zalo cần từ 1.1.0 trở lên.",
+                        f"aivon-zalo could not return old messages: {str(e)[:200]}. aivon-zalo 1.1.0 or newer is needed.")}
                 break
             trang = (d.get("messages") if isinstance(d, dict) else None) or []
             tin.extend(m for m in trang if isinstance(m, dict))
@@ -726,7 +726,7 @@ async def doc_mot_lan(conn: dict) -> dict:
     return {"moi": moi, "trung": trung}
 
 
-# Lỗi chết của tiến trình javis-zalo (src/commands/mcp.js) mà người dùng tự xử được, dịch ra lời thường.
+# Lỗi chết của tiến trình aivon-zalo (src/commands/mcp.js) mà người dùng tự xử được, dịch ra lời thường.
 _LOI_ZALO = (
     (re.compile(r"duplicate zalo web session", re.I),
      "Zalo đã ngắt phiên của Aivon vì tài khoản này vừa được mở ở nơi khác: Zalo Web trên trình duyệt "
@@ -963,7 +963,7 @@ def nhan_dien_goi(conn_id: str, ev: dict, ten_khac=()) -> tuple:
 
 
 def _link_trong_quote(rt: dict) -> str:
-    """A photo link the quote itself carries, or "". javis-zalo 1.4 gives `replyTo` only {senderId, senderName, text,
+    """A photo link the quote itself carries, or "". aivon-zalo 1.4 gives `replyTo` only {senderId, senderName, text,
     msgId}; for a quoted photo Zalo may put the photo's serialized payload in `text` ({"href": ..., "thumb": ...}).
     Plain text is NOT read as a link: a quoted chat line that happens to hold a URL is not a photo."""
     for k in ("imageUrl", "image_url", "mediaUrl"):
@@ -1032,7 +1032,7 @@ def _chuan(text: str) -> str:
 # Zalo's own markup for a tag, e.g. `<a_mention href="zm://Profile/110413987_mention">@Minh</a_mention> Quý`.
 # Field report 2026-10-19: a group reply reached Zalo with this markup as plain text, so the group saw code instead
 # of a tag. The model copies it from messages that carry it, so it is stripped both ways: incoming (`chuan_hoa_tin`)
-# and outgoing (`channels.zalo_personal.gui`), leaving "@Minh Quý" for the real tag (`--mention`) to find.
+# and outgoing (`channels.zalo_personal.gui`), leaving "@Minh Vũ" for the real tag (`--mention`) to find.
 _MENTION_MARKUP = re.compile(r"</?a_mention\b[^>]*>", re.IGNORECASE)
 
 
@@ -1059,7 +1059,7 @@ def ghi_da_gui(conn_id: str, thread: str, text: str) -> None:
 def ghi_da_gui_anh(conn_id: str, thread: str, so: int = 1) -> None:
     """Bot is about to send `so` images: remember them so their echoes are not taken for the owner's hand.
 
-    Since javis-zalo keeps the account's own messages in the live feed (flag `isSelf`), an image the bot sends comes
+    Since aivon-zalo keeps the account's own messages in the live feed (flag `isSelf`), an image the bot sends comes
     back as an image "from the owner". It has no text to match, so without this the inbox shows it twice and the bot
     believes the owner just stepped in and goes quiet in that chat for TAY_IM seconds."""
     khoa = (str(conn_id), str(thread))

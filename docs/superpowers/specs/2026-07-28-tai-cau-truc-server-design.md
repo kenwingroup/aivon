@@ -343,7 +343,7 @@ Build trên GHCR chạy từ checkout sạch nên không dính, nhưng bất k�
 `.secret_key` và `.hub_token` của mình vào image.
 
 **2.4 Dọn rác gốc repo:** xoá thư mục `memory/` rỗng, xoá hai file không đuôi `agents` và `workflows`
-ở gốc (nội dung là mảnh log `  - Move: Jarvis\agents  -`), rồi gỡ hai dòng `/agents` `/workflows`
+ở gốc (nội dung là mảnh log `  - Move: Aivon\agents  -`), rồi gỡ hai dòng `/agents` `/workflows`
 ở `.gitignore:83-84` vì chúng đang vĩnh viễn chặn việc tạo thư mục `agents/` `workflows/` thật ở gốc.
 
 Nghiệm thu: `du -sh server/` dưới 50 MB. `git status --porcelain -uall server/` sạch.

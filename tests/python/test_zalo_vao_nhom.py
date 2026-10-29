@@ -1,9 +1,9 @@
-"""Người mới vào nhóm Zalo (0.84.2, javis-zalo 1.1.0).
+"""Người mới vào nhóm Zalo (0.84.2, aivon-zalo 1.1.0).
 
     python tests/run.py zalo_vao_nhom      (KHÔNG mạng, MCP và CLI giả)
 
 Chủ repo muốn biết ai vừa vào nhóm và vào lúc nào, rồi để Agent của bot tự chào và tag người đó
-theo chỉ dẫn chủ đã viết. Aivon chỉ lo phần KHẢ NĂNG, không tự có lời chào nào. javis-zalo 1.1.0
+theo chỉ dẫn chủ đã viết. Aivon chỉ lo phần KHẢ NĂNG, không tự có lời chào nào. aivon-zalo 1.1.0
 đưa mỗi lượt vào nhóm vào luồng tin dưới dạng tin `group.join` do chính người mới "gửi".
 
 File này canh bốn thứ:
@@ -98,7 +98,7 @@ chatbot_runtime.wire(answer=_engine, brain_root=lambda b: str(BRAIN),
 
 
 def join_msg(uid, ten, mid, thread=NHOM, giay_truoc=2, added_by_me=False):
-    """Đúng khuôn javis-zalo 1.1.0 (`joinToBufferMessage`)."""
+    """Đúng khuôn aivon-zalo 1.1.0 (`joinToBufferMessage`)."""
     t = _ms(giay_truoc)
     return {"id": f"join:{thread}:{uid}:{t}", "threadId": thread, "threadType": "group", "senderId": uid,
             "senderName": ten, "text": f"[{ten} joined the group]", "timestamp": t, "type": "group.join",

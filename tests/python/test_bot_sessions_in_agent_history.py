@@ -134,11 +134,11 @@ for lang in ("vi", "en"):
     d = json.loads((ROOT / "dashboard" / "i18n" / f"{lang}.json").read_text(encoding="utf-8"))
     check(f"i18n {lang} có sess.bot_badge", bool(d.get("sess.bot_badge")))
 
-# 7. Phiên của bot trong NHÓM mang tên NHÓM (chủ dự án 2026-09-30: xem lịch sử toàn "[Minh Quý] @Aivon Vũ ..." rất loạn)
+# 7. Phiên của bot trong NHÓM mang tên NHÓM (chủ dự án 2026-09-30: xem lịch sử toàn "[Minh Vũ] @Aivon Vũ ..." rất loạn)
 gs = ms.create_session(brain="brain", engine="cli", title="", channel="bot:" + slug1)
-ms.append_message(gs, "user", "[Minh Quý] @Aivon Vũ hầy")
+ms.append_message(gs, "user", "[Minh Vũ] @Aivon Vũ hầy")
 check("(chuẩn bị) phiên nhóm chưa có tên: tiêu đề hiện đang là tin đầu",
-      next(x for x in ms.list_sessions(limit=50, brain=["brain"], channel="*") if x["id"] == gs)["preview"].startswith("[Minh Quý]"))
+      next(x for x in ms.list_sessions(limit=50, brain=["brain"], channel="*") if x["id"] == gs)["preview"].startswith("[Minh Vũ]"))
 check("đặt tên phiên theo tên nhóm", ms.name_group_session(gs, "  Lớp AIVON ") is True
       and ms.get_session(gs)["title"] == "Lớp AIVON", ms.get_session(gs))
 check("đã có tên thì KHÔNG ghi đè (kể cả tên chủ tự đặt)", ms.name_group_session(gs, "Nhóm khác") is False

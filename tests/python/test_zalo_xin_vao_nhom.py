@@ -1,4 +1,4 @@
-"""Duyệt người xin vào nhóm Zalo (0.84.7, javis-zalo 1.2.0).
+"""Duyệt người xin vào nhóm Zalo (0.84.7, aivon-zalo 1.2.0).
 
     python tests/run.py zalo_xin_vao_nhom      (KHÔNG mạng, MCP giả)
 

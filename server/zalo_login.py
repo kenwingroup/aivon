@@ -1,11 +1,11 @@
 """
-Đăng nhập Zalo bằng QR ngay trong UI Aivon (connector "zalo" - CLI javis-zalo).
+Đăng nhập Zalo bằng QR ngay trong UI Aivon (connector "zalo" - CLI aivon-zalo).
 Flow: POST /connect/zalo/start → spawn `npx -y --prefer-offline <gói> login --json` với HOME
 cô lập riêng cho tài khoản → bắt event {"event":"qr", dataUrl} đưa lên modal →
 user quét bằng app Zalo → thành công thì TỰ TẠO connection (config.home_dir trỏ
 home cô lập đó, mcp_store.resolved tự set env HOME/USERPROFILE khi chạy MCP).
 
-Đã verify (zalo-agent-cli 1.6.2, giữ nguyên ở javis-zalo 1.0.0): account active là TOÀN CỤC theo home dir
+Đã verify (zalo-agent-cli 1.6.2, giữ nguyên ở aivon-zalo 1.0.0): account active là TOÀN CỤC theo home dir
 (thư mục phiên vẫn tên ~/.zalo-agent-cli để tài khoản đã đăng nhập không bị đăng xuất)
 → mỗi connection 1 home riêng để nhiều tài khoản Zalo chạy song song.
 """
@@ -30,7 +30,7 @@ _sessions = {}        # sid -> {state, qr, label, conn_id, error, proc, home, ts
 
 _SUCCESS_EVENTS = {"login", "login_success", "success", "ready", "logged_in", "authenticated"}
 _ERROR_EVENTS = {"error", "failed", "login_error"}   # CLI in {"event":"login_error","message":...} khi QR hỏng
-_CLI_PACKAGE = "https://codeload.github.com/blogminhquy/javis-zalo/tar.gz/refs/tags/v1.5.0"  # trùng zalo_cli.CLI_PACKAGE và catalog
+_CLI_PACKAGE = "https://codeload.github.com/kenwingroup/aivon-zalo/tar.gz/refs/tags/v1.5.0"  # trùng zalo_cli.CLI_PACKAGE và catalog
 
 
 def _sweep():

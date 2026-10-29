@@ -1,4 +1,4 @@
-"""Kênh Zalo CÁ NHÂN: tài khoản đã quét QR ở trang Kết nối (MCP `javis-zalo`). Đọc tin bằng
+"""Kênh Zalo CÁ NHÂN: tài khoản đã quét QR ở trang Kết nối (MCP `aivon-zalo`). Đọc tin bằng
 vòng cursor ở `zalo_personal_channel`, gửi tin bằng tool `zalo_send_message` của chính MCP đó.
 
 Gửi từ kênh này là gửi DƯỚI DANH TÍNH CHỦ (không phải bot), nên Hộp thư nói rõ điều đó ở ô
@@ -63,7 +63,7 @@ def bat(account_id: str, on: bool) -> dict:
 
 
 async def nhap_lich_su(account_id: str) -> dict:
-    """Nhập tin cũ (khoảng 2 tuần javis-zalo giữ được) vào Hộp thư, xem `zalo_personal_channel.nhap_lich_su`."""
+    """Nhập tin cũ (khoảng 2 tuần aivon-zalo giữ được) vào Hộp thư, xem `zalo_personal_channel.nhap_lich_su`."""
     import zalo_personal_channel
     return await zalo_personal_channel.nhap_lich_su(account_id)
 
@@ -125,10 +125,10 @@ def _bo_dau(s: str) -> str:
 def tag_ten_trong_cau(text: str, danh_ba, bo_qua=()) -> list:
     """`[(pos, uid, len)]` (UTF-16 units) for every "@Name" in `text` that names someone in `danh_ba`.
 
-    Field report 2026-10-14: a bot told to tag "@Minh Quý" and "@Phạm Đại" wrote both names, but only
+    Field report 2026-10-14: a bot told to tag "@Minh Vũ" and "@Phạm Đại" wrote both names, but only
     the person it was answering got a real Zalo tag; the others were plain text and Zalo notified no
     one. `danh_ba` is `[{uid, name}]` (conversations.group_speakers: everyone who has written in the
-    group). Longest names are tried first ("@Minh Quý Phạm" beats "@Minh Quý"), case and diacritics
+    group). Longest names are tried first ("@Minh Vũ Phạm" beats "@Minh Vũ"), case and diacritics
     are ignored ("@minh quy" still tags), a name must end on a word boundary, and `bo_qua` holds uids
     already tagged (the person being answered) or never to tag (the account itself)."""
     import re as _re
@@ -266,7 +266,7 @@ async def gui(tk: dict, chat_id: str, text: str, chat_type: str = "private", men
 
     `mention={"uid", "name"}` (chỉ có nghĩa trong nhóm): tag người đó, xem `_send_tagged`.
 
-    Khoá kiểu cuộc chat mà MCP javis-zalo (và zalo-agent-cli 1.6.2 trước nó) THẬT SỰ đọc là `threadType` (mcp-tools.js), không
+    Khoá kiểu cuộc chat mà MCP aivon-zalo (và zalo-agent-cli 1.6.2 trước nó) THẬT SỰ đọc là `threadType` (mcp-tools.js), không
     phải `type` như tài liệu mcp-guide ghi. MCP bỏ qua khoá lạ mà không báo lỗi, nên gửi `type` một
     mình thì tin nhóm đi như chat riêng và Zalo không giao được (chủ thấy bot trả lời trong Hộp thư
     mà nhóm im, 29/09/2026). Gửi cả hai: `threadType` cho bản đang ghim, `type` cho bản khác

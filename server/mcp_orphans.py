@@ -1,7 +1,7 @@
 """Stdio MCP processes that outlived the Aivon server which started them.
 
 Why this exists (field report 2026-10-13, bot "Aivon Vũ"): the bot stopped answering a Zalo group at
-21:09. The account had TWO `javis-zalo mcp start` processes: one from 20:49, one the server started
+21:09. The account had TWO `aivon-zalo mcp start` processes: one from 20:49, one the server started
 when it came back at 21:10. Zalo pushes each message to one socket only, the bot read the new process,
 and the new process received almost nothing (one sticker in two hours).
 

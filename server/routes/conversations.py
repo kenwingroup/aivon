@@ -73,7 +73,7 @@ def register(app, deps: ConversationsDeps):
 
         `tieng_vong=True`: trên Zalo cá nhân phải nhớ câu vừa gửi TRƯỚC khi gửi, y như `Transport._gui`, không thì vòng đọc thấy nó
         quay về như tin của chính chủ (bot tưởng chủ vừa nhắn tay nên im cả quãng) hoặc như tin của một khách (bot tự trả lời chính
-        mình trong nhóm). Câu CHỦ gõ ở Hộp thư cũng bật cờ này (0.108.0): Aivon đã tự ghi câu đó, và từ javis-zalo 1.3.0 tin của
+        mình trong nhóm). Câu CHỦ gõ ở Hộp thư cũng bật cờ này (0.108.0): Aivon đã tự ghi câu đó, và từ aivon-zalo 1.3.0 tin của
         chính tài khoản quay về vòng đọc kèm `isSelf`, nên không nhớ thì Hộp thư hiện câu chủ gõ HAI lần.
 
         `reply_to` (tin khách bot đang trả lời): trong nhóm Zalo cá nhân, câu của bot tag đúng người gửi tin đó, y như bot tự trả lời."""

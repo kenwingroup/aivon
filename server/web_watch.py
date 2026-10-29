@@ -58,7 +58,7 @@ MAX_REDIRECTS = 4
 TICK_S = 30
 PARALLEL = 3
 LIST_NEW, LIST_UPD, LIST_DEL = 8, 4, 4
-USER_AGENT = ("Mozilla/5.0 (compatible; AivonWatch/1.0; +https://github.com/blogminhquy/javis-os)")
+USER_AGENT = ("Mozilla/5.0 (compatible; AivonWatch/1.0; +https://github.com/kenwingroup/aivon)")
 # With the owner's own sign-in (login vault, 0.251.0) a bot user agent gets many sites to drop the session or
 # serve a bare page, so those requests look like the desktop browser the cookies came from.
 BROWSER_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "

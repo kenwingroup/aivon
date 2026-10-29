@@ -165,7 +165,7 @@ main._read_version = lambda: "0.65.26"
 main._docker_image_published = _img
 main._watchtower_update = _fake_wu
 _old_src = os.environ.get("AIVON_IMAGE_SOURCE")
-os.environ["AIVON_IMAGE_SOURCE"] = "ghcr.io/blogminhquy/javis-os"   # official image (stamped by the release workflow)
+os.environ["AIVON_IMAGE_SOURCE"] = "ghcr.io/kenwingroup/aivon"   # official image (stamped by the release workflow)
 try:
     us.write_state({"phase": "idle"})
     _ri = asyncio.run(main.do_update())
@@ -190,7 +190,7 @@ try:
     _sbb = json.loads(_sb.body) if isinstance(_sb, JSONResponse) else {}
     check("self-built image → says pulling cannot update it, names the official image, never calls Watchtower",
           isinstance(_sb, JSONResponse) and _sb.status_code == 400 and _sbb.get("self_built") is True
-          and "ghcr.io/blogminhquy/javis-os:latest" in _sbb.get("error", "") and _triggered == []
+          and "ghcr.io/kenwingroup/aivon:latest" in _sbb.get("error", "") and _triggered == []
           and _sbb.get("manual") == "docker compose up -d --pull always")
     check("self-built image → releases the claim", us.read_state().get("phase") == "idle")
 finally:
@@ -322,7 +322,7 @@ _ann_raw = json.dumps({
             "summary": "Nội dung",
             "published_at": "2099-01-01",
             "priority": "high",
-            "cta": {"label": "Xem", "url": "https://javisos.com"},
+            "cta": {"label": "Xem", "url": "https://aivon.vn"},
         },
         {
             "id": "tin-het-han",

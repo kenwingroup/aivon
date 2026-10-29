@@ -2,7 +2,7 @@
 
 Vì sao có lớp này (0.59.24): người dùng nói lẫn tiếng Việt và tiếng Anh, và máy nghe (Web
 Speech của trình duyệt lẫn Whisper) chép từ tiếng Anh thành từ gần âm: "Aivon" thành "David",
-"Jarvis", "Gia vít", "Ja vịt"; tên công cụ, tên dự án cũng cùng số phận. Câu đến bộ não mang
+"Aivon", "Gia vít", "Ja vịt"; tên công cụ, tên dự án cũng cùng số phận. Câu đến bộ não mang
 từ sai đó, Aivon trả lời bám nghĩa đen ("David là ai?") nghe rất buồn cười. Sửa ở tầng máy
 nghe thì không được: Web Speech không nhận từ điển riêng, còn Whisper chỉ nhận một gợi ý.
 
@@ -123,7 +123,7 @@ def bo_dau(s: str) -> str:
 def khoa_am(tu: str) -> str:
     """Rút một từ (hay cụm đã ghép liền) về khoá âm để so mờ.
 
-    Ví dụ: Aivon, David, Davis, Jarvis, Gia vít, Ja vịt, Đa vít -> đều là "davit".
+    Ví dụ: Aivon, David, Davis, Aivon, Gia vít, Ja vịt, Đa vít -> đều là "davit".
     """
     s = re.sub(r"[^a-z]", "", bo_dau(tu))
     if not s:
@@ -131,7 +131,7 @@ def khoa_am(tu: str) -> str:
     for a, b in _AM_DOI:
         s = s.replace(a, b)
     s = s.translate(_AM_DON)
-    s = _R_TRUOC_PHU_AM.sub("", s)             # "jarvis" -> "aivon": r trước phụ âm câm
+    s = _R_TRUOC_PHU_AM.sub("", s)             # "aivon" -> "aivon": r trước phụ âm câm
     s = re.sub(r"(.)\1+", r"\1", s)            # chữ kép -> đơn
     s = _DUOI_TAC.sub("t", s) if _DUOI_TAC.search(s) else s
     return s

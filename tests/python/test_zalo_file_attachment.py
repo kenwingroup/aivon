@@ -16,7 +16,7 @@ import zalo_attachments as za
 import zalo_personal_channel as zc
 from channels.zalo_personal import Transport
 
-# Shape emitted by installed javis-zalo 1.2.0 normalizeMessage(), not history.
+# Shape emitted by installed aivon-zalo 1.2.0 normalizeMessage(), not history.
 # Personal identifiers and the signed URL are anonymized for the public test.
 LIVE = {'id': 'f1', 'threadId': '1234567890', 'threadType': 'dm',
         'senderId': '1234567890', 'senderName': 'Example Sender',

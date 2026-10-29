@@ -26,7 +26,7 @@ def check(n, c):
 
 # ---- 1. Connector: đã dọn sang kho ----
 # Khuôn connector `facebook-pages` rời `system/mcp-catalog.json` ở 0.55.36 và giờ sống trong gói
-# `aivon.facebook-pages` của repo kho (blogminhquy/javis-store). Những assert về HÌNH DẠNG của nó
+# `aivon.facebook-pages` của repo kho (kenwingroup/aivon-store). Những assert về HÌNH DẠNG của nó
 # (provider, scope, fields, default_perm, phân loại tool, chữ cảnh báo) đi theo dữ liệu sang đó:
 # `tools/kiem-tra.py` của repo kho chạy đúng các phép kiểm ấy trên mọi Pull Request.
 #

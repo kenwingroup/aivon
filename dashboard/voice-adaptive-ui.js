@@ -82,8 +82,8 @@
         if(mode==='observe'){controller.reset();return false;}
         if(!running())return false;
         if(controller.state==='SAVED_DRAFT') {
-          if(/^(?:aivon|jarvis)(?:\s|[,!?]|$)/i.test(text.trim())) {
-            const addition=text.trim().replace(/^(?:aivon|jarvis)(?:\s+ơi)?[\s,!?]*/i,'');
+          if(/^(?:aivon|aivon)(?:\s|[,!?]|$)/i.test(text.trim())) {
+            const addition=text.trim().replace(/^(?:aivon|aivon)(?:\s+ơi)?[\s,!?]*/i,'');
             resume();
             if(addition) input(addition);
           }

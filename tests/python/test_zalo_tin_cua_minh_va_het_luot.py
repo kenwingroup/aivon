@@ -4,8 +4,8 @@
 
 Hai báo cáo 13/10/2026:
 
-1. Tin chủ / nhân viên trả lời bằng điện thoại không vào Hộp thư bot. Gốc ở javis-zalo: `mcp.js` bỏ mọi tin
-   `isSelf` khỏi bộ đệm sống. javis-zalo 1.3.0 giữ chúng kèm `isSelf: true`, nên phía Aivon phải chịu được:
+1. Tin chủ / nhân viên trả lời bằng điện thoại không vào Hộp thư bot. Gốc ở aivon-zalo: `mcp.js` bỏ mọi tin
+   `isSelf` khỏi bộ đệm sống. aivon-zalo 1.3.0 giữ chúng kèm `isSelf: true`, nên phía Aivon phải chịu được:
    - tin tay của chủ vào Hộp thư như "người thật" và bot nhường cuộc chat đó;
    - tiếng vọng câu bot vừa gửi KHÔNG bị ghi lần hai (đã có từ trước);
    - tiếng vọng ẢNH bot vừa gửi cũng không (không có chữ để so, trước đây sẽ bị tính là chủ nhắn tay
@@ -82,7 +82,7 @@ _SO_TIN = __import__("itertools").count(1)
 
 
 def _tin(**kw):
-    """One message in javis-zalo 1.3.0's live-feed shape (normalizeMessage)."""
+    """One message in aivon-zalo 1.3.0's live-feed shape (normalizeMessage)."""
     base = {"threadId": "u1", "threadType": "dm", "senderId": "u1", "senderName": "Khách A",
             "isSelf": False, "type": "text", "text": "", "id": f"m{next(_SO_TIN)}", "timestamp": _ms(1)}
     base.update(kw)

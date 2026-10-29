@@ -65,7 +65,7 @@ function moiTruong() {
 const SRC = fs.readFileSync(path.join(ROOT, "dashboard", "packs.js"), "utf8");
 const KHO = (them) => ({ ok: true, packs: [
   { id: "aivon.zalo", nguon: "kho", installed: false, enabled: true,
-    download: { url: "dist/javis-zalo-1.0.0.zip", sha256: "a".repeat(64) }, ...(them || {}) },
+    download: { url: "dist/aivon-zalo-1.0.0.zip", sha256: "a".repeat(64) }, ...(them || {}) },
   { id: "zalo", nguon: "app", installed: true, download: { url: "" } },
 ] });
 const SOI = { ok: true, tier: "code", id: "aivon.zalo", name: { vi: "Zalo mở rộng" }, staging_id: "b".repeat(64),
@@ -102,7 +102,7 @@ check("packs.js phơi ra caiGoiKho", typeof nap(KHO()).P.caiGoiKho === "function
   await nghi();
   check("mở màn hình đồng ý", kq === "mo", kq);
   check("tải đúng tệp của kho, kèm vân tay của kho",
-    a.goi.some(g => g.url === "/packs/install-url" && g.body.url === "dist/javis-zalo-1.0.0.zip"
+    a.goi.some(g => g.url === "/packs/install-url" && g.body.url === "dist/aivon-zalo-1.0.0.zip"
       && g.body.expect_sha256 === "a".repeat(64)), JSON.stringify(a.goi));
   check("CHƯA cài gì trước khi bấm Cài", !a.goi.some(g => g.url === "/packs/install"));
   check("màn hình vẫn hiện khối cảnh báo mã kèm tên tệp", a.hop.innerHTML.includes("pkm-canh do")

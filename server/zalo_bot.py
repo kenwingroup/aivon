@@ -1,9 +1,9 @@
 """Cổng Zalo Bot - API CHÍNH THỨC của Zalo (bot.zaloplatforms.com).
 
 Đây là kênh thứ tư của Aivon, sau dashboard, Telegram và CLI. Nó KHÔNG thay
-`javis-zalo` (xem docs/12-zalo.md): hai thứ khác bản chất và cùng tồn tại.
+`aivon-zalo` (xem docs/12-zalo.md): hai thứ khác bản chất và cùng tồn tại.
 
-  - `javis-zalo` đăng nhập CHÍNH tài khoản Zalo của bạn qua API không chính thức. Đọc
+  - `aivon-zalo` đăng nhập CHÍNH tài khoản Zalo của bạn qua API không chính thức. Đọc
     được hội thoại thật, nhắn cho bất kỳ ai, và tài khoản CÓ THỂ bị khoá.
   - Zalo Bot là một DANH TÍNH RIÊNG, chính thức, không bị khoá, nhưng chỉ thấy được thứ
     người ta nhắn thẳng cho nó.

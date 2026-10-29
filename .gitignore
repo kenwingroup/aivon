@@ -176,7 +176,7 @@ brain/Brain Default/Aivon/automations.json
 
 # File rÃ¡c / script cÃ¡ nhÃ¢n á»Ÿ gá»‘c (khÃ´ng thuá»™c sáº£n pháº©m public)
 # ÄÃ£ gá»¡ hai dÃ²ng /agents vÃ  /workflows á»Ÿ 0.9.241: chÃºng sinh ra Ä‘á»ƒ che hai file rÃ¡c 28 byte
-# (máº£nh log "- Move: Jarvis\agents -" do má»™t lá»‡nh redirect há»ng), nhÆ°ng há»‡ quáº£ lÃ  cháº·n vÄ©nh
+# (máº£nh log "- Move: Aivon\agents -" do má»™t lá»‡nh redirect há»ng), nhÆ°ng há»‡ quáº£ lÃ  cháº·n vÄ©nh
 # viá»…n viá»‡c táº¡o thÆ° má»¥c agents/ hay workflows/ THáº¬T á»Ÿ gá»‘c. Hai file rÃ¡c Ä‘Ã£ xoÃ¡ háº³n.
 parse_ads*.ps1
 

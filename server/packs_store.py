@@ -51,7 +51,7 @@ FORMAT_VERSION = 1
 #
 # Tách repo còn mở được đường đóng góp: người lạ gửi Pull Request vào kho, chủ kho đọc mã rồi mới
 # trộn - mà không ai phải có quyền ghi vào mã nguồn Aivon.
-STORE_MAC_DINH = ("https://raw.githubusercontent.com/blogminhquy/javis-store/"
+STORE_MAC_DINH = ("https://raw.githubusercontent.com/kenwingroup/aivon-store/"
                   "main/index.json")
 
 # Loại năng lực một mục trong kho mang lại. Đây là thứ chia lưới thành các tab "Trợ lý /
@@ -170,7 +170,7 @@ async def lay(lam_moi: bool = False) -> dict:
         d = json.loads(raw.decode("utf-8"))
         if not isinstance(d, dict):
             raise ValueError(localefmt.chu("gốc phải là object", "the root must be an object"))
-        if str(d.get("format")) not in (FORMAT, "javis-pack-index"):  # Aivon: nhận cả kho của Javis OS gốc
+        if str(d.get("format")) not in (FORMAT, "aivon-pack-index"):  # Aivon: nhận cả kho của Aivon OS gốc
             raise ValueError(localefmt.chu("tệp này không phải danh mục gói của Aivon", "this file is not a Aivon pack catalog"))
         fv = int(d.get("format_version") or 0)
         if fv > FORMAT_VERSION:

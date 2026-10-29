@@ -1,4 +1,4 @@
-"""Phần dùng chung để Aivon chạy lại CLI Zalo `javis-zalo` (server/zalo_cli.py), cho plugin zalo-image và zalo-group.
+"""Phần dùng chung để Aivon chạy lại CLI Zalo `aivon-zalo` (server/zalo_cli.py), cho plugin zalo-image và zalo-group.
 
     python tests/run.py zalo_cli      (KHÔNG mạng, không gọi npx thật)
 
@@ -176,8 +176,8 @@ def fresh_install_dir():
 GHI = ("import sys, pathlib\n"
        "root = pathlib.Path(sys.argv[sys.argv.index('--prefix') + 1])\n"
        "sys.stderr.write(' '.join(sys.argv[1:]))\n"
-       "(root / 'node_modules' / 'javis-zalo' / 'src').mkdir(parents=True)\n"
-       "(root / 'node_modules' / 'javis-zalo' / 'src' / 'index.js').write_text('')\n")
+       "(root / 'node_modules' / 'aivon-zalo' / 'src').mkdir(parents=True)\n"
+       "(root / 'node_modules' / 'aivon-zalo' / 'src' / 'index.js').write_text('')\n")
 fresh_install_dir()
 OLD = ROOT_INST.parent / "zalo-agent-cli"
 (OLD / "node_modules" / "zalo-agent-cli" / "src").mkdir(parents=True)
