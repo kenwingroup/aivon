@@ -4,7 +4,7 @@ $killed = $false
 # (con nay moi giu port). Vi vay chi loc theo COMMANDLINE, KHONG loc theo duong dan exe
 # (se bo sot thang con vi exe cua no la Python goc, khong phai venv).
 Get-CimInstance Win32_Process -Filter "Name='python.exe'" -ErrorAction SilentlyContinue | Where-Object {
-  $_.CommandLine -like '*server\main.py*'
+  $_.CommandLine -like '*Aivon*server\main.py*'
 } | ForEach-Object {
   Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue
   Write-Host "  - Da tat python PID $($_.ProcessId)"

@@ -11,10 +11,10 @@ procEnv("PYTHONUTF8") = "1"
 procEnv("PATH") = root & "\.tools\nodejs;" & root & "\.tools;" & root & "\.venv\Scripts;" & procEnv("PATH")
 
 ' Stop old instance first (hidden, wait). Output written to server\stop-last.log.
-sh.Run "cmd /c cd /d """" & root & """" && call """" & root & "\stop-aivon.bat""" > server\stop-last.log 2>&1", 0, True
+sh.Run "cmd /c cd /d """ & root & """ && call """ & root & "\stop-aivon.bat"" > server\stop-last.log 2>&1", 0, True
 
 ' Run server hidden (0 = hidden window, False = do not wait). Output -> server\aivon.log
-sh.Run "cmd /c cd /d """" & root & """" && .venv\Scripts\python.exe server\main.py > server\aivon.log 2>&1", 0, False
+sh.Run "cmd /c cd /d """ & root & """ && .venv\Scripts\python.exe server\main.py > server\aivon.log 2>&1", 0, False
 
 If WScript.Arguments.Count > 0 Then
   If LCase(WScript.Arguments(0)) = "/open" Then MoDashboard
@@ -46,7 +46,7 @@ Sub MoDashboard()
                 sh.ExpandEnvironmentStrings("%ProgramFiles%") & "\Microsoft\Edge\Application\msedge.exe")
   For Each c In cands
     If fso.FileExists(c) Then
-      sh.Run """"" & c & """" --app=" & url, 1, False
+      sh.Run """" & c & """ --app=" & url, 1, False
       Exit Sub
     End If
   Next
