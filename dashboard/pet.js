@@ -18,11 +18,12 @@
 (function () {
   "use strict";
 
-  var KHOA = "aivon.pet";
+  var KHOA = "aivon.pet.v2";
   var NGUONG_KEO = 16;   // px di chuyển tối thiểu mới coi là KÉO chứ không phải bấm
 
   // ---- Hình dáng (path trong viewBox 320x320, tâm 160/160) ----
   var SHAPES = {
+    robot:    { key: "pet.shape.robot",    d: "M160 48 C212 48 240 72 240 112 C240 144 218 167 184 172 L184 182 L198 182 C214 182 220 194 216 212 C209 246 186 282 160 282 C134 282 111 246 104 212 C100 194 106 182 122 182 L136 182 L136 172 C102 167 80 144 80 112 C80 72 108 48 160 48 Z" },
     circle:   { key: "pet.shape.circle",   d: "M160 82 A78 78 0 1 1 160 238 A78 78 0 1 1 160 82 Z" },
     square:   { key: "pet.shape.square",   d: "M111 85 H209 Q235 85 235 111 V209 Q235 235 209 235 H111 Q85 235 85 209 V111 Q85 85 111 85 Z" },
     triangle: { key: "pet.shape.triangle", d: "M147 85 Q160 64 173 85 L244 211 Q256 234 230 234 H90 Q64 234 76 211 Z" },
@@ -143,7 +144,7 @@
   // Mặc định là LINH VẬT CHÍNH THỨC: ngôi sao màu cam, trùng logo (chủ dự án chốt 24/09, 0.64.47).
   // `image`: the owner's own picture (a name from the /avatars store, "" = the drawn face). `favicon`: also use that
   // picture as the browser tab icon, so several Aivon open side by side tell apart at a glance (owner, 2026-11-07).
-  var MAC_DINH = { enabled: true, shape: "star", palette: "thanhthien", side: "right", pos: 0.62, size: 72, eye: "den", eyeSize: 1, color: "#0ea5e9", eyeColor: "#2a62b0", image: "", favicon: true };
+  var MAC_DINH = { enabled: true, shape: "robot", palette: "pearl", side: "right", pos: 0.62, size: 72, eye: "den", eyeSize: 1, color: "#f8fafc", eyeColor: "#d8b4fe", image: "", favicon: true };
   // Same name rule as server/avatar_upload.py: 20 hex characters of a content hash plus the real image type.
   var ANH_TEN = /^[0-9a-f]{20}\.(png|jpg|webp|gif)$/;
   function anhHopLe(v) { return typeof v === "string" && ANH_TEN.test(v); }
@@ -264,7 +265,7 @@
   var NGU_SAU = 90000;
 
   var el = null, svg = null, nutBody = null, menu = null;
-  var pRing = null, pFace = null, gEyes = null, gRig = null, pClip = null, pPhoto = null;
+  var pRing = null, pFace = null, pRobot = null, gEyes = null, gRig = null, pClip = null, pPhoto = null;
   var cfg = Object.assign({}, MAC_DINH);
   var state = "idle", mood = "neutral", dangChop = false;
   var raf = 0, truoc = 0, gocRing = 0, tocDo = STATES.idle.ring, tocDoDich = STATES.idle.ring;
@@ -357,6 +358,50 @@
   function mauMatCua(eye, mauRieng) {
     if (eye === "custom") return hex(mauRieng);
     return (MAU_MAT[eye] || {}).mau || "";
+  }
+  var _robotGradId = 0;
+  function veThanRobot(idPref, palette, tone) {
+    var isPearl = !palette || palette === "pearl";
+    var cMid = isPearl ? "#f4f5fb" : tone[0];
+    var cEdge = isPearl ? "#d7cef5" : tone[1];
+    return '<defs>' +
+      '<radialGradient id="' + idPref + 'Shell" cx="32%" cy="22%" r="76%">' +
+        '<stop offset="0%" stop-color="#ffffff"/>' +
+        '<stop offset="56%" stop-color="' + cMid + '"/>' +
+        '<stop offset="100%" stop-color="' + cEdge + '"/>' +
+      '</radialGradient>' +
+      '<radialGradient id="' + idPref + 'Visor" cx="50%" cy="44%" r="64%">' +
+        '<stop offset="0%" stop-color="#2d1954"/>' +
+        '<stop offset="58%" stop-color="#140a29"/>' +
+        '<stop offset="100%" stop-color="#070312"/>' +
+      '</radialGradient>' +
+      '<linearGradient id="' + idPref + 'Neck" x1="0%" y1="0%" x2="100%" y2="0%">' +
+        '<stop offset="0%" stop-color="#3b3554"/>' +
+        '<stop offset="48%" stop-color="#8b84a8"/>' +
+        '<stop offset="100%" stop-color="#2a243d"/>' +
+      '</linearGradient>' +
+    '</defs>' +
+    '<g class="pet-robot-body">' +
+      '<rect x="96" y="196" width="12" height="8" rx="3" fill="url(#' + idPref + 'Neck)"/>' +
+      '<rect x="212" y="196" width="12" height="8" rx="3" fill="url(#' + idPref + 'Neck)"/>' +
+      '<path class="pet-arm-l" d="M 96 194 C 85 192 71 218 67 244 C 65 254 75 257 82 246 C 91 230 100 208 100 198 Z" fill="url(#' + idPref + 'Shell)"/>' +
+      '<path class="pet-arm-r" d="M 224 194 C 235 192 249 218 253 244 C 255 254 245 257 238 246 C 229 230 220 208 220 198 Z" fill="url(#' + idPref + 'Shell)"/>' +
+      '<rect x="135" y="169" width="50" height="14" rx="4.5" fill="url(#' + idPref + 'Neck)"/>' +
+      '<path d="M 133 179 H 187" stroke="#5b527a" stroke-width="2.5" stroke-linecap="round"/>' +
+      '<path class="pet-robot-torso" d="M 122 181 H 198 C 214 181 221 193 217 211 C 210 246 186 284 160 284 C 134 284 110 246 103 211 C 99 193 106 181 122 181 Z" fill="url(#' + idPref + 'Shell)"/>' +
+      '<path d="M 118 192 Q 145 187 175 191" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="3.2" stroke-linecap="round"/>' +
+      '<path class="pet-robot-head" d="M 160 48 C 214 48 240 73 240 111 C 240 149 214 173 160 173 C 106 173 80 149 80 111 C 80 73 106 48 160 48 Z" fill="url(#' + idPref + 'Shell)"/>' +
+      '<path d="M 106 64 C 132 53 188 53 214 64" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="3.5" stroke-linecap="round"/>' +
+      '<path class="pet-robot-visor" d="M 160 66 C 203 66 224 85 224 111 C 224 137 203 156 160 156 C 117 156 96 137 96 111 C 96 85 117 66 160 66 Z" fill="url(#' + idPref + 'Visor)" stroke="rgba(192,132,252,0.32)" stroke-width="1.8"/>' +
+      '<path d="M 114 80 C 138 71 182 71 206 80" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2.4" stroke-linecap="round"/>' +
+    '</g>';
+  }
+  function miengRobot(ten) {
+    if (ten === "sad") return '<path class="pet-mouth" d="M -7 20 Q 0 13 7 20" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>';
+    if (ten === "surprised" || ten === "hearing") return '<ellipse class="pet-mouth" cx="0" cy="17" rx="5" ry="6"/>';
+    if (ten === "thinking" || ten === "nghi" || ten === "suspicious" || ten === "viet") return '<path class="pet-mouth" d="M -5.5 17 Q 0 15.5 5.5 17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>';
+    if (ten === "sleepy" || ten === "blink" || ten === "dizzy" || ten === "gang") return '<path class="pet-mouth" d="M -5 16.5 Q 0 19.5 5 16.5" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/>';
+    return '<path class="pet-mouth" d="M -8.5 13 Q 0 14.5 8.5 13 C 8.5 23.5 -8.5 23.5 -8.5 13 Z"/>';
   }
   function noiSuy(a, b, k) { return a + (b - a) * k; }
   function sang() { try { return !!(window.aivonTheme && window.aivonTheme.isLight()); } catch (e) { return false; } }
@@ -456,6 +501,7 @@
           '<g class="pet-rig">' +
             '<path class="pet-ring" pathLength="360"></path>' +
             '<path class="pet-face"></path>' +
+            '<g class="pet-robot-wrap"></g>' +
             // The owner's own picture, cut to the chosen shape. Hidden while there is none.
             '<image class="pet-photo" x="54" y="54" width="212" height="212" preserveAspectRatio="xMidYMid slice" ' +
               'clip-path="url(#aivonPetClip)" display="none"></image>' +
@@ -471,6 +517,7 @@
     gRig = el.querySelector(".pet-rig");
     pRing = el.querySelector(".pet-ring");
     pFace = el.querySelector(".pet-face");
+    pRobot = el.querySelector(".pet-robot-wrap");
     gEyes = el.querySelector(".pet-eyes");
     pClip = el.querySelector(".pet-clip");
     pPhoto = el.querySelector(".pet-photo");
@@ -531,7 +578,10 @@
   function apDung() {
     if (!el) return;
     var d = SHAPES[cfg.shape].d;
+    var isRobot = cfg.shape === "robot" && !cfg.image;
+    el.dataset.shape = cfg.shape;
     pFace.setAttribute("d", d);
+    pFace.style.display = isRobot ? "none" : "";
     pRing.setAttribute("d", d);
     // Own picture: it fills the shape and the drawn eyes step aside (eyes painted over a photo look like stickers).
     // The orbit ring and the body moves (hop, squish, shake) still show what Aivon is doing.
@@ -543,9 +593,11 @@
     if (gEyes) gEyes.style.display = cfg.image ? "none" : "";
     el.dataset.photo = cfg.image ? "1" : "0";
     var tone = toneCua(cfg.palette, cfg.color);
-    el.style.setProperty("--pet-face", tone[0]);
-    el.style.setProperty("--pet-ring", tone[1]);
+    if (pRobot) pRobot.innerHTML = isRobot ? veThanRobot("aivonLiveBot", cfg.palette, tone) : "";
+    el.style.setProperty("--pet-face", isRobot && cfg.palette === "pearl" ? "#a855f7" : tone[0]);
+    el.style.setProperty("--pet-ring", isRobot && cfg.palette === "pearl" ? "#c084fc" : tone[1]);
     el.style.setProperty("--pet-eye", mauMatCfg());
+    el.style.setProperty("--pet-visor-eye", cfg.eye === "custom" ? mauMatCfg() : "#f5d0fe");
     el.dataset.side = cfg.side;
     // Cỡ đi bằng BIẾN CSS chứ không phải style.width trực tiếp: menu, viền focus và luật màn
     // hẹp đều ăn theo cùng một con số, khai một chỗ thì không có chỗ nào lệch.
@@ -632,10 +684,19 @@
     var k = heSoMat();
     var kMax = Math.max(0.5, (nua - KHE_MAT / 2) / Math.max(nuaRongMat(trai), nuaRongMat(phai)));
     var kv = Math.min(k, kMax);
+    var isRobot = cfg.shape === "robot" && !cfg.image;
+    var cyMat = isRobot ? 105 : 160;
+    if (isRobot && (ten === "neutral" || ten === "curious" || ten === "excited" || ten === "hearing")) {
+      var rrx = ten === "neutral" ? 9.5 : (ten === "curious" ? 10.4 : 11.2);
+      var rry = ten === "neutral" ? 10.5 : (ten === "curious" ? 11.6 : 12.4);
+      trai = phai = '<ellipse rx="' + rrx + '" ry="' + rry + '"/>';
+    }
     var co = kv === 1 ? "" : " scale(" + (Math.round(kv * 1000) / 1000) + ")";
+    var mx = ((a[0] + b[0]) / 2);
+    var mouthHtml = isRobot ? '<g transform="translate(' + (160 + mx) + " " + cyMat + ")" + co + '">' + miengRobot(ten) + "</g>" : "";
     gEyes.innerHTML =
-      '<g transform="translate(' + (160 + a[0]) + " " + (160 + a[1]) + ")" + co + '">' + trai + "</g>" +
-      '<g transform="translate(' + (160 + b[0]) + " " + (160 + b[1]) + ")" + co + '">' + phai + "</g>";
+      '<g transform="translate(' + (160 + a[0]) + " " + (cyMat + a[1]) + ")" + co + '">' + trai + "</g>" +
+      '<g transform="translate(' + (160 + b[0]) + " " + (cyMat + b[1]) + ")" + co + '">' + phai + "</g>" + mouthHtml;
   }
 
   // ---- Vòng vẽ ----
@@ -1109,6 +1170,7 @@
       _logoRieng = !!((j.branding || {}).logo_ext);
       var petMayChu = (j.dashboard || {}).pet;
       if (petMayChu) {
+        if (petMayChu.shape === "star" && !petMayChu._v2Robot) { petMayChu.shape = "robot"; petMayChu.palette = "pearl"; }
         cfg = chuanHoa(Object.assign({}, cfg, petMayChu));
         ghiLocal(); apDung(); apDungTrangThai(); chay();
       }
@@ -1173,6 +1235,20 @@
     var k = heSo(o.coMat);
     var cach = 15 * (1 + (k - 1) * 0.47);
     var rx = 7.2 * k, ry = 17.5 * k;
+    if (shape === "robot") {
+      var gid = "petBot" + (++_robotGradId);
+      var rMat = o.mat === "custom" && hex(o.mauMat) ? hex(o.mauMat) : "#f5d0fe";
+      var rex = 160 + lx * 0.55, rey = 105 + ly * 0.45;
+      var rcach = 21 * (1 + (k - 1) * 0.4);
+      var rrx = 9.5 * k, rry = 10.5 * k;
+      return '<svg viewBox="' + (o.vanh ? "36 36 248 256" : "54 42 212 248") + '" aria-hidden="true">' + vanh +
+        veThanRobot(gid, palette, tone) +
+        '<g fill="' + rMat + '" style="filter:drop-shadow(0 0 5px #c084fc)">' +
+          '<ellipse cx="' + (rex - rcach) + '" cy="' + rey + '" rx="' + rrx + '" ry="' + rry + '"/>' +
+          '<ellipse cx="' + (rex + rcach) + '" cy="' + rey + '" rx="' + rrx + '" ry="' + rry + '"/>' +
+          '<g transform="translate(' + rex + ' ' + rey + ') scale(' + k + ')">' + miengRobot("neutral") + '</g>' +
+        '</g></svg>';
+    }
     return '<svg viewBox="' + (o.vanh ? "42 42 236 236" : "58 58 204 204") + '" aria-hidden="true">' + vanh +
       '<path d="' + d + '" fill="' + tone[0] + '"/>' +
       '<ellipse cx="' + (ex - cach) + '" cy="' + ey + '" rx="' + rx + '" ry="' + ry + '" fill="' + mat + '"/>' +

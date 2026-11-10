@@ -7334,5 +7334,6 @@
   "sec.d_wrong_pw": "sai mật khẩu",
   "sec.d_pw": "bằng mật khẩu",
   "sec.d_pw_2fa": "mật khẩu + 2FA",
-  "sec.d_setup": "lần đầu tạo"
+  "sec.d_setup": "lần đầu tạo",
+  "pet.shape.robot": "Robot AI"
 }

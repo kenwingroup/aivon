@@ -7665,6 +7665,51 @@ async def reflect(brain: str = Form("brain")):
             "status": res.get("status", ""), "report": rep, "git": g}
 
 
+
+
+@app.post("/desktop-app/open")
+async def desktop_app_open():
+    """Tạo biểu tượng AIVON trên Desktop/Start Menu và mở ngay cửa sổ App độc lập (--app)."""
+    import subprocess
+    root = PROJECT_ROOT
+    port = os.getenv("AIVON_PORT", "7979").strip() or "7979"
+    url = f"http://127.0.0.1:{port}"
+    launched = False
+    if sys.platform == "win32":
+        ico = root / "packaging" / "assets" / "aivon.ico"
+        vbs = root / "open-aivon.vbs"
+        ps_cmd = (
+            "$sh = New-Object -ComObject WScript.Shell; "
+            f"$root = '{root}'; $ico = '{ico}'; $vbs = '{vbs}'; "
+            "foreach ($d in @([Environment]::GetFolderPath('Desktop'), [Environment]::GetFolderPath('Programs'))) { "
+            "  $p = Join-Path $d 'AIVON.lnk'; $s = $sh.CreateShortcut($p); "
+            "  $s.TargetPath = Join-Path $env:SystemRoot 'System32\wscript.exe'; "
+            "  $s.Arguments = '//nologo "' + $vbs + '"'; $s.WorkingDirectory = $root; "
+            "  if (Test-Path $ico) { $s.IconLocation = $ico + ',0' }; $s.Save() "
+            "}"
+        )
+        try:
+            subprocess.Popen(["powershell", "-NoProfile", "-Command", ps_cmd],
+                             creationflags=winproc.no_window())
+        except Exception:
+            pass
+        cands = [
+            Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "Google/Chrome/Application/chrome.exe",
+            Path(os.environ.get("LOCALAPPDATA", "")) / "Google/Chrome/Application/chrome.exe",
+            Path(os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)")) / "Microsoft/Edge/Application/msedge.exe",
+            Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "Microsoft/Edge/Application/msedge.exe",
+        ]
+        for c in cands:
+            if c.exists():
+                try:
+                    subprocess.Popen([str(c), f"--app={url}"], creationflags=winproc.no_window())
+                    launched = True
+                    break
+                except Exception:
+                    pass
+    return {"ok": True, "launched": launched, "url": url}
+
+
 @app.get("/health")
 async def health():
     cli = find_claude_cli()

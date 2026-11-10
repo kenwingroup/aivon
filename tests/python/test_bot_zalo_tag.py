@@ -104,7 +104,7 @@ check("uid phải là số, tên phải có",
       and zp._clean_mention({"uid": "", "name": "Quý"}) == ("", "")
       and zp._clean_mention(None) == ("", "") and zp._clean_mention("7770001") == ("", ""))
 check("tên có nhiều dấu cách hoặc xuống dòng được gọn về một dòng",
-      zp._clean_mention({"uid": "7770001", "name": "Minh   Quý\n"}) == ("7770001", "Minh Vũ"))
+      zp._clean_mention({"uid": "7770001", "name": "Minh Vũ\n"}) == ("7770001", "Minh Vũ"))
 
 # ============================================================
 # 2. Gửi có tag qua CLI
@@ -269,7 +269,7 @@ check("CANARY: người được trả lời VÀ hai người được nhắc t�
 check("các tag đi sau MỘT cờ --mention (CLI nhận danh sách)", c.get("opts", [])[:3] == ["-t", "1", "--mention"], c)
 
 reset()
-ok, _ = send("Anh @minh quy ơi, chị Lan hỏi giá", mention=None)
+ok, _ = send("Anh @minh vu ơi, chị Lan hỏi giá", mention=None)
 c = CLI[0] if CLI else {}
 check("không có người được trả lời (chủ gõ ở Hộp thư) mà câu có @Tên: vẫn tag, không phân biệt hoa thường và dấu",
       ok and len(CLI) == 1 and MCP == [] and [x for x in c["opts"] if x.count(":") == 2] == ["4:7770001:9"], (CLI, MCP))

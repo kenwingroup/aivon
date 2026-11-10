@@ -25,9 +25,10 @@ OUT = ROOT / "packaging" / "assets"
 WIZ_BIG = (164, 314)
 WIZ_SMALL = (55, 55)
 SCALES = (100, 125, 150, 175, 200, 225, 250)
-BG_DARK = (31, 31, 31)        # #1F1F1F, the logo's eye colour, as in logo.svg
-ACCENT = (253, 97, 0)         # #FD6100, the logo's body colour
-FONT_CANDIDATES = ("/usr/share/fonts/opentype/inter/Inter-Bold.otf",
+BG_DARK = (7, 11, 20)        # #1F1F1F, the logo's eye colour, as in logo.svg
+ACCENT = (56, 189, 248)         # #FD6100, the logo's body colour
+FONT_CANDIDATES = ("C:/Windows/Fonts/segoeuib.ttf", "C:/Windows/Fonts/arialbd.ttf",
+                   "/usr/share/fonts/opentype/inter/Inter-Bold.otf",
                    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf")
 
 

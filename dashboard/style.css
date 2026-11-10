@@ -5109,3 +5109,33 @@ a.cp-mi.gh-more-conn { text-decoration: none; color: inherit; }
   .rail.collapsed .rail-foot .rf-install { flex: 0 0 auto; width: 32px; padding: 0; }
   .rail.collapsed .rail-foot .rf-install .rf-install-short { display: none; }
 }
+
+/* 3D Floating AI Robot Mascot (AIVON) */
+.pet[data-shape="robot"] .pet-eyes {
+  fill: var(--pet-visor-eye, #f5d0fe);
+  filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.95)) drop-shadow(0 0 13px rgba(168, 85, 247, 0.7));
+}
+.pet[data-shape="robot"] .pet-line {
+  stroke: var(--pet-visor-eye, #f5d0fe);
+}
+.pet[data-shape="robot"] .pet-robot-body {
+  filter: drop-shadow(0 6px 14px rgba(15, 23, 42, 0.36));
+}
+.pet[data-shape="robot"] .pet-arm-l {
+  transform-origin: 98px 198px;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pet[data-shape="robot"] .pet-arm-r {
+  transform-origin: 222px 198px;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.pet[data-shape="robot"]:hover .pet-arm-r,
+.pet[data-shape="robot"][data-state="speaking"] .pet-arm-r,
+.pet[data-shape="robot"][data-state="hearing"] .pet-arm-r,
+.pet[data-shape="robot"][data-anim="hop"] .pet-arm-r,
+.pet[data-shape="robot"][data-anim="squish"] .pet-arm-r {
+  transform: rotate(-118deg);
+}
+.pet[data-shape="robot"][data-state="listening"] .pet-arm-l {
+  transform: rotate(42deg);
+}

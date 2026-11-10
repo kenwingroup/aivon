@@ -7334,5 +7334,6 @@
   "sec.d_wrong_pw": "wrong password",
   "sec.d_pw": "with password",
   "sec.d_pw_2fa": "password + 2FA",
-  "sec.d_setup": "first setup"
+  "sec.d_setup": "first setup",
+  "pet.shape.robot": "AI Robot"
 }

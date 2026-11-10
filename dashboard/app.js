@@ -5549,24 +5549,36 @@ renderChips();
 (() => {
   const btn = document.getElementById("installAppBtn");
   if (!btn) return;
-  let deferredPrompt = null;
+  let deferredPrompt = window.__aivonDeferredPrompt || null;
   const daLaApp = () => {
     try {
       return window.matchMedia("(display-mode: standalone)").matches
+        || window.matchMedia("(display-mode: window-controls-overlay)").matches
         || window.navigator.standalone === true;   // iOS standalone cũ
     } catch (e) { return false; }
   };
+  const laLocalHost = /^(localhost|127\.0\.0\.1|\[::1\])$/i.test(location.hostname);
+  if (!daLaApp() && (deferredPrompt || laLocalHost)) {
+    btn.hidden = false;
+  }
   window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();   // chặn mini-infobar tự bung trên Android, để nút của mình chủ động
     deferredPrompt = e;
+    window.__aivonDeferredPrompt = e;
     if (!daLaApp()) btn.hidden = false;
   });
   btn.addEventListener("click", async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    try { await deferredPrompt.userChoice; } catch (e) {}
-    deferredPrompt = null;
-    btn.hidden = true;   // từ chối thì trình duyệt sẽ bắn lại event ở phiên sau, nút tự hiện lại
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      try { await deferredPrompt.userChoice; } catch (e) {}
+      deferredPrompt = null;
+      window.__aivonDeferredPrompt = null;
+      if (!laLocalHost) btn.hidden = true;
+      return;
+    }
+    try {
+      await fetch("/desktop-app/open", { method: "POST" });
+    } catch (e) {}
   });
   window.addEventListener("appinstalled", () => { deferredPrompt = null; btn.hidden = true; });
   // Mở cho install-nudge.js dùng chung ĐÚNG một event beforeinstallprompt này. Trình duyệt

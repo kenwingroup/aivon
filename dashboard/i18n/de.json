@@ -117,5 +117,6 @@
   "common.account": "Benutzername",
   "common.password": "Passwort",
   "common.default": "Standard",
-  "top.install_title": "Aivon als eigene App installieren: öffnen über Desktop/Dock, kein Suchen mehr zwischen Tabs"
+  "top.install_title": "Aivon als eigene App installieren: öffnen über Desktop/Dock, kein Suchen mehr zwischen Tabs",
+  "pet.shape.robot": "AI Robot"
 }

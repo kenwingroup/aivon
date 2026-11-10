@@ -10,7 +10,7 @@ import secrets
 
 import avatar_upload
 
-SHAPES = ("circle", "square", "triangle", "cloud", "pentagon", "star")
+SHAPES = ("robot", "circle", "square", "triangle", "cloud", "pentagon", "star")
 # 12 màu ĐẦU là bộ gốc và là bộ bốc mặc định theo slug. Đừng đổi thứ tự hay chèn vào giữa:
 # trợ lý cũ chưa lưu avatar lấy màu bằng `seed % 12`, đổi ở đây là cả danh sách đổi màu.
 PALETTES_MAC_DINH = ("amber", "pearl", "clay", "rose", "honey", "sage", "jade", "blue",

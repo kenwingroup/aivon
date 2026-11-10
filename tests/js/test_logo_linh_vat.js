@@ -12,10 +12,10 @@ function check(name, cond, extra) {
 const pet = read("dashboard/pet.js");
 const svg = read("dashboard/logo.svg");
 
-check("linh vật mặc định là NGÔI SAO", /var MAC_DINH = \{[^}]*shape: "star"/.test(pet));
-check("linh vật mặc định màu THANH THIÊN", /var MAC_DINH = \{[^}]*palette: "thanhthien"/.test(pet));
-check("nút Đặt lại trả về đúng ngôi sao thanh thiên",
-  /P\.setCfg\(\{ shape: "star", palette: "thanhthien",/.test(read("dashboard/console.js")));
+check("linh vật mặc định là ROBOT AI", /var MAC_DINH = \{[^}]*shape: "robot"/.test(pet));
+check("linh vật mặc định màu NGỌC TRAI", /var MAC_DINH = \{[^}]*palette: "pearl"/.test(pet));
+check("nút Đặt lại trả về đúng robot ngọc trai",
+  /P\.setCfg\(\{ shape: "robot", palette: "pearl",/.test(read("dashboard/console.js")));
 check("logo.svg là SVG thương hiệu AIVON hợp lệ", svg.includes("<svg") && svg.includes("</svg>"));
 
 for (const [ten, px] of [["logo.png", 512], ["icon-512.png", 512], ["icon-192.png", 192], ["favicon.png", 64]]) {

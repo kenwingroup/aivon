@@ -144,7 +144,7 @@ def tag_ten_trong_cau(text: str, danh_ba, bo_qua=(), chiem=()) -> list:
     the person it was answering got a real Zalo tag; the others were plain text and Zalo notified no
     one. `danh_ba` is `[{uid, name}]` (conversations.group_speakers: everyone who has written in the
     group). Longest names are tried first ("@Minh Vũ Phạm" beats "@Minh Vũ"), case and diacritics
-    are ignored ("@minh quy" still tags), a name must end on a word boundary, and `bo_qua` holds uids
+    are ignored ("@minh vu" still tags), a name must end on a word boundary, and `bo_qua` holds uids
     already tagged (the person being answered) or never to tag (the account itself).
 
     `chiem` holds `(pos, len)` stretches that already carry a tag (the person being answered). An "@" inside one is
