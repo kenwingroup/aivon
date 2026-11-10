@@ -18,7 +18,7 @@
 (function () {
   "use strict";
 
-  var KHOA = "aivon.pet.v2";
+  var KHOA = "aivon.pet.v3";
   var NGUONG_KEO = 16;   // px di chuyển tối thiểu mới coi là KÉO chứ không phải bấm
 
   // ---- Hình dáng (path trong viewBox 320x320, tâm 160/160) ----
@@ -144,7 +144,7 @@
   // Mặc định là LINH VẬT CHÍNH THỨC: ngôi sao màu cam, trùng logo (chủ dự án chốt 24/09, 0.64.47).
   // `image`: the owner's own picture (a name from the /avatars store, "" = the drawn face). `favicon`: also use that
   // picture as the browser tab icon, so several Aivon open side by side tell apart at a glance (owner, 2026-11-07).
-  var MAC_DINH = { enabled: true, shape: "robot", palette: "pearl", side: "right", pos: 0.62, size: 72, eye: "den", eyeSize: 1, color: "#f8fafc", eyeColor: "#d8b4fe", image: "", favicon: true };
+  var MAC_DINH = { enabled: true, shape: "robot", palette: "pearl", side: "right", pos: 0.62, size: 72, eye: "den", eyeSize: 1, color: "#f8fafc", eyeColor: "#38bdf8", image: "", favicon: true };
   // Same name rule as server/avatar_upload.py: 20 hex characters of a content hash plus the real image type.
   var ANH_TEN = /^[0-9a-f]{20}\.(png|jpg|webp|gif)$/;
   function anhHopLe(v) { return typeof v === "string" && ANH_TEN.test(v); }
@@ -362,8 +362,8 @@
   var _robotGradId = 0;
   function veThanRobot(idPref, palette, tone) {
     var isPearl = !palette || palette === "pearl";
-    var cMid = isPearl ? "#f4f5fb" : tone[0];
-    var cEdge = isPearl ? "#d7cef5" : tone[1];
+    var cMid = isPearl ? "#f4f8fc" : tone[0];
+    var cEdge = isPearl ? "#cfe2f7" : tone[1];
     return '<defs>' +
       '<radialGradient id="' + idPref + 'Shell" cx="32%" cy="22%" r="76%">' +
         '<stop offset="0%" stop-color="#ffffff"/>' +
@@ -371,14 +371,14 @@
         '<stop offset="100%" stop-color="' + cEdge + '"/>' +
       '</radialGradient>' +
       '<radialGradient id="' + idPref + 'Visor" cx="50%" cy="44%" r="64%">' +
-        '<stop offset="0%" stop-color="#2d1954"/>' +
-        '<stop offset="58%" stop-color="#140a29"/>' +
-        '<stop offset="100%" stop-color="#070312"/>' +
+        '<stop offset="0%" stop-color="#0f2547"/>' +
+        '<stop offset="58%" stop-color="#081326"/>' +
+        '<stop offset="100%" stop-color="#040812"/>' +
       '</radialGradient>' +
       '<linearGradient id="' + idPref + 'Neck" x1="0%" y1="0%" x2="100%" y2="0%">' +
-        '<stop offset="0%" stop-color="#3b3554"/>' +
-        '<stop offset="48%" stop-color="#8b84a8"/>' +
-        '<stop offset="100%" stop-color="#2a243d"/>' +
+        '<stop offset="0%" stop-color="#2c3e58"/>' +
+        '<stop offset="48%" stop-color="#7c93b4"/>' +
+        '<stop offset="100%" stop-color="#1e2b3e"/>' +
       '</linearGradient>' +
     '</defs>' +
     '<g class="pet-robot-body">' +
@@ -387,12 +387,12 @@
       '<path class="pet-arm-l" d="M 96 194 C 85 192 71 218 67 244 C 65 254 75 257 82 246 C 91 230 100 208 100 198 Z" fill="url(#' + idPref + 'Shell)"/>' +
       '<path class="pet-arm-r" d="M 224 194 C 235 192 249 218 253 244 C 255 254 245 257 238 246 C 229 230 220 208 220 198 Z" fill="url(#' + idPref + 'Shell)"/>' +
       '<rect x="135" y="169" width="50" height="14" rx="4.5" fill="url(#' + idPref + 'Neck)"/>' +
-      '<path d="M 133 179 H 187" stroke="#5b527a" stroke-width="2.5" stroke-linecap="round"/>' +
+      '<path d="M 133 179 H 187" stroke="#4a6285" stroke-width="2.5" stroke-linecap="round"/>' +
       '<path class="pet-robot-torso" d="M 122 181 H 198 C 214 181 221 193 217 211 C 210 246 186 284 160 284 C 134 284 110 246 103 211 C 99 193 106 181 122 181 Z" fill="url(#' + idPref + 'Shell)"/>' +
       '<path d="M 118 192 Q 145 187 175 191" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="3.2" stroke-linecap="round"/>' +
       '<path class="pet-robot-head" d="M 160 48 C 214 48 240 73 240 111 C 240 149 214 173 160 173 C 106 173 80 149 80 111 C 80 73 106 48 160 48 Z" fill="url(#' + idPref + 'Shell)"/>' +
       '<path d="M 106 64 C 132 53 188 53 214 64" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="3.5" stroke-linecap="round"/>' +
-      '<path class="pet-robot-visor" d="M 160 66 C 203 66 224 85 224 111 C 224 137 203 156 160 156 C 117 156 96 137 96 111 C 96 85 117 66 160 66 Z" fill="url(#' + idPref + 'Visor)" stroke="rgba(192,132,252,0.32)" stroke-width="1.8"/>' +
+      '<path class="pet-robot-visor" d="M 160 66 C 203 66 224 85 224 111 C 224 137 203 156 160 156 C 117 156 96 137 96 111 C 96 85 117 66 160 66 Z" fill="url(#' + idPref + 'Visor)" stroke="rgba(56,189,248,0.42)" stroke-width="1.8"/>' +
       '<path d="M 114 80 C 138 71 182 71 206 80" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2.4" stroke-linecap="round"/>' +
     '</g>';
   }
@@ -469,9 +469,10 @@
   }
   function chuanHoa(o) {
     var c = Object.assign({}, MAC_DINH, o || {});
-    if (!SHAPES[c.shape]) c.shape = MAC_DINH.shape;
+    c.shape = "robot";
     c.color = hex(c.color) || MAC_DINH.color;
     c.eyeColor = hex(c.eyeColor) || MAC_DINH.eyeColor;
+    if (c.eyeColor === "#d8b4fe") c.eyeColor = "#38bdf8";
     if (!PALETTES[c.palette] && c.palette !== "custom") c.palette = MAC_DINH.palette;
     if (c.side !== "left" && c.side !== "right") c.side = MAC_DINH.side;
     c.size = coThan(c.size);
@@ -594,10 +595,10 @@
     el.dataset.photo = cfg.image ? "1" : "0";
     var tone = toneCua(cfg.palette, cfg.color);
     if (pRobot) pRobot.innerHTML = isRobot ? veThanRobot("aivonLiveBot", cfg.palette, tone) : "";
-    el.style.setProperty("--pet-face", isRobot && cfg.palette === "pearl" ? "#a855f7" : tone[0]);
-    el.style.setProperty("--pet-ring", isRobot && cfg.palette === "pearl" ? "#c084fc" : tone[1]);
+    el.style.setProperty("--pet-face", isRobot && cfg.palette === "pearl" ? "#38bdf8" : tone[0]);
+    el.style.setProperty("--pet-ring", isRobot && cfg.palette === "pearl" ? "#60a5fa" : tone[1]);
     el.style.setProperty("--pet-eye", mauMatCfg());
-    el.style.setProperty("--pet-visor-eye", cfg.eye === "custom" ? mauMatCfg() : "#f5d0fe");
+    el.style.setProperty("--pet-visor-eye", cfg.eye === "custom" ? mauMatCfg() : (cfg.eye === "trang" ? "#ffffff" : "#38bdf8"));
     el.dataset.side = cfg.side;
     // Cỡ đi bằng BIẾN CSS chứ không phải style.width trực tiếp: menu, viền focus và luật màn
     // hẹp đều ăn theo cùng một con số, khai một chỗ thì không có chỗ nào lệch.
@@ -1170,7 +1171,7 @@
       _logoRieng = !!((j.branding || {}).logo_ext);
       var petMayChu = (j.dashboard || {}).pet;
       if (petMayChu) {
-        if (petMayChu.shape === "star" && !petMayChu._v2Robot) { petMayChu.shape = "robot"; petMayChu.palette = "pearl"; }
+        petMayChu.shape = "robot";
         cfg = chuanHoa(Object.assign({}, cfg, petMayChu));
         ghiLocal(); apDung(); apDungTrangThai(); chay();
       }
@@ -1237,13 +1238,13 @@
     var rx = 7.2 * k, ry = 17.5 * k;
     if (shape === "robot") {
       var gid = "petBot" + (++_robotGradId);
-      var rMat = o.mat === "custom" && hex(o.mauMat) ? hex(o.mauMat) : "#f5d0fe";
+      var rMat = o.mat === "custom" && hex(o.mauMat) ? hex(o.mauMat) : (o.mat === "trang" ? "#ffffff" : "#38bdf8");
       var rex = 160 + lx * 0.55, rey = 105 + ly * 0.45;
       var rcach = 21 * (1 + (k - 1) * 0.4);
       var rrx = 9.5 * k, rry = 10.5 * k;
       return '<svg viewBox="' + (o.vanh ? "36 36 248 256" : "54 42 212 248") + '" aria-hidden="true">' + vanh +
         veThanRobot(gid, palette, tone) +
-        '<g fill="' + rMat + '" style="filter:drop-shadow(0 0 5px #c084fc)">' +
+        '<g fill="' + rMat + '" style="filter:drop-shadow(0 0 5px #00d2ff)">' +
           '<ellipse cx="' + (rex - rcach) + '" cy="' + rey + '" rx="' + rrx + '" ry="' + rry + '"/>' +
           '<ellipse cx="' + (rex + rcach) + '" cy="' + rey + '" rx="' + rrx + '" ry="' + rry + '"/>' +
           '<g transform="translate(' + rex + ' ' + rey + ') scale(' + k + ')">' + miengRobot("neutral") + '</g>' +
@@ -1290,8 +1291,8 @@
   }
   function anhCua(v) { return { mau: v.color, mat: v.eye, mauMat: v.eyeColor, coMat: v.eyeSize }; }
   function hinhHtml(v, o) {
-    return Object.keys(SHAPES).map(function (k) {
-      return '<button type="button" class="pet-pick" data-pet-shape="' + esc(k) + '" aria-pressed="' + (k === v.shape) + '">' +
+    return ["robot"].map(function (k) {
+      return '<button type="button" class="pet-pick" data-pet-shape="' + esc(k) + '" aria-pressed="true">' +
         chanDung(k, v.palette, Object.assign({ vanh: !!o.vanh, anh: o.image ? v.image : "" }, anhCua(v))) + '<span>' + esc(t(SHAPES[k].key)) + '</span></button>';
     }).join("");
   }

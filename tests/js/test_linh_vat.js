@@ -393,8 +393,8 @@ check("ws.onclose gọi baoDutMang", /ws\.onclose = \(e?\) => \{[\s\S]{0,320}bao
 {
   const icons = read("dashboard/icons.js");
   check("icons.js có icon riêng aivon-pet", /"aivon-pet":/.test(icons));
-  check("aivon-pet vẽ robot 3D + mắt tím phát sáng",
-    /fill="#140D2B"/i.test(icons) && /fill="#E9D5FF"/i.test(icons));
+  check("aivon-pet vẽ robot 3D + mắt xanh logo phát sáng",
+    /fill="#0B1528"/i.test(icons) && /fill="#38BDF8"/i.test(icons));
   check("bodyOf tra bảng icon riêng trước Lucide", /if \(RIENG\[name\]\) return RIENG\[name\];/.test(icons));
   check("console.js: trang pet dùng icon đó chứ không phải mặt cười chung",
     /pet: "aivon-pet",/.test(console_js));

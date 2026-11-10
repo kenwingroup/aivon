@@ -5112,11 +5112,15 @@ a.cp-mi.gh-more-conn { text-decoration: none; color: inherit; }
 
 /* 3D Floating AI Robot Mascot (AIVON) */
 .pet[data-shape="robot"] .pet-eyes {
-  fill: var(--pet-visor-eye, #f5d0fe);
-  filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.95)) drop-shadow(0 0 13px rgba(168, 85, 247, 0.7));
+  fill: var(--pet-visor-eye, #38bdf8);
+  color: var(--pet-visor-eye, #38bdf8);
+  filter: drop-shadow(0 0 6px rgba(0, 210, 255, 0.95)) drop-shadow(0 0 13px rgba(56, 189, 248, 0.75));
 }
 .pet[data-shape="robot"] .pet-line {
-  stroke: var(--pet-visor-eye, #f5d0fe);
+  stroke: var(--pet-visor-eye, #38bdf8);
+}
+.pet[data-shape="robot"] .pet-mouth {
+  fill: var(--pet-visor-eye, #38bdf8);
 }
 .pet[data-shape="robot"] .pet-robot-body {
   filter: drop-shadow(0 6px 14px rgba(15, 23, 42, 0.36));

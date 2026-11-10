@@ -38,10 +38,10 @@
     "aivon-pet":
       '<circle cx="12" cy="12" r="11" fill="none" stroke="#38BDF8" stroke-width="1.2" opacity=".45"/>' +
       '<rect x="5.2" y="3.8" width="13.6" height="10.2" rx="5.1" fill="#F8FAFC" stroke="#38BDF8" stroke-width="1.1"/>' +
-      '<rect x="6.8" y="5.3" width="10.4" height="7.2" rx="3.6" fill="#140D2B" stroke="none"/>' +
-      '<ellipse cx="10.1" cy="8.5" rx="1.15" ry="1.35" fill="#E9D5FF" stroke="none"/>' +
-      '<ellipse cx="13.9" cy="8.5" rx="1.15" ry="1.35" fill="#E9D5FF" stroke="none"/>' +
-      '<path d="M10.7 10.74 Q12 11.8 13.3 10.74" fill="none" stroke="#E9D5FF" stroke-width="1.1" stroke-linecap="round"/>' +
+      '<rect x="6.8" y="5.3" width="10.4" height="7.2" rx="3.6" fill="#0B1528" stroke="none"/>' +
+      '<ellipse cx="10.1" cy="8.5" rx="1.15" ry="1.35" fill="#38BDF8" stroke="none"/>' +
+      '<ellipse cx="13.9" cy="8.5" rx="1.15" ry="1.35" fill="#38BDF8" stroke="none"/>' +
+      '<path d="M10.7 10.74 Q12 11.8 13.3 10.74" fill="none" stroke="#38BDF8" stroke-width="1.1" stroke-linecap="round"/>' +
       '<path d="M8.2 14.8 H15.8 Q17.2 14.8 16.7 16.8 C16.1 19.2 14.2 21.2 12 21.2 C9.8 21.2 7.9 19.2 7.3 16.8 Q6.8 14.8 8.2 14.8 Z" fill="#F8FAFC" stroke="#38BDF8" stroke-width="1.1"/>',
     // "neural-net" (2026-11-05, owner picked it from a side-by-side sheet): a 2-3-2 neural network for the home page
     // ("Mạng nơ-ron"). Lucide has no such icon. Lines stop at each node's edge, so the nodes stay hollow and crisp
