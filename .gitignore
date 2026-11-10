@@ -241,3 +241,9 @@ packaging/windows/Vietnamese.isl
 .runtime/
 .tools/
 server/cache/
+server/github_work.db*
+server/job_marks.sqlite3*
+server/webhook_events.sqlite3*
+server/aivon_core.json
+server/connect_smoke.json
+server/plan_limits.json
