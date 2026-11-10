@@ -527,7 +527,7 @@ Expected: FAIL (updater.py chưa tồn tại → returncode != 0).
 
 ```python
 #!/usr/bin/env python
-"""Updater tách rời của AIVON cho bản GIT checkout (Windows + native Linux). Server spawn DETACHED:
+"""Updater tách rời của Aivon cho bản GIT checkout (Windows + native Linux). Server spawn DETACHED:
 
     python updater.py --old-sha <sha> --old-version <v> --target <v> --port <p>
 
@@ -909,7 +909,7 @@ Thay khối `if (verUpd) verUpd.onclick = async () => { ... };` (dòng 1411-1444
 
 ```javascript
     if (verUpd) verUpd.onclick = async () => {
-      if (!confirm("Cập nhật AIVON lên bản mới nhất?\nApp sẽ tự khởi động lại. Nếu bản mới lỗi, hệ thống sẽ tự quay về bản cũ (bản git) hoặc hiện cách lùi (Docker).")) return;
+      if (!confirm("Cập nhật Aivon lên bản mới nhất?\nApp sẽ tự khởi động lại. Nếu bản mới lỗi, hệ thống sẽ tự quay về bản cũ (bản git) hoặc hiện cách lùi (Docker).")) return;
       const st = document.getElementById("ovVerStatus");
       const rb = document.getElementById("ovVerRollback");
       const oldCur = window._ovVerCur || "";

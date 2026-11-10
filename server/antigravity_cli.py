@@ -86,6 +86,7 @@ def find_antigravity_cli() -> Optional[str]:
         Path("/usr/local/bin/agy"),
         Path("/opt/homebrew/bin/agy"),
         Path(os.environ.get("LOCALAPPDATA", "")) / "Programs" / "antigravity" / "agy.exe",
+        Path(os.environ.get("LOCALAPPDATA", "")) / "agy" / "bin" / "agy.exe",   # official Windows installer
         Path(os.environ.get("APPDATA", "")) / "npm" / "agy.cmd",
     ]
     for p in ung_vien:
@@ -265,6 +266,26 @@ def _la_het_gio_luot(loi: str) -> bool:
         "timeout" in l and "turn in progress" in l)
 
 
+# What Aivon hands `agy --print-timeout` when there is no cap. Left unset, agy cuts itself off at minute 5, so
+# "no cap" still has to pass a number: 30 days is far past any real turn. Go duration syntax, like "900s".
+NO_CAP_PRINT_TIMEOUT = "720h"
+# The suggest mode does not auto-approve tools, and nobody has measured whether headless agy then stops to ask (which
+# would hang forever), so with no cap set that mode alone keeps the old 15-minute safety net.
+SUGGEST_MODE_CAP = 900.0
+
+
+def turn_cap_seconds() -> float:
+    """The time cap for one `agy` turn from AIVON_AGY_TIMEOUT, in seconds; 0 means no cap (the default).
+
+    Owner, 2026-11-07: heavy tool work kept hitting the old 15-minute default and stopping half way. Claude Code
+    and Codex have no wall-clock cap either; the Stop button still ends a turn at any moment.
+    """
+    try:
+        return max(0.0, float(os.environ.get("AIVON_AGY_TIMEOUT") or 0))
+    except ValueError:
+        return 0.0
+
+
 def _la_loi_tam_thoi(loi: str) -> bool:
     """Câu lỗi này có phải kiểu CHỜ MỘT NHỊP LÀ HẾT không (nhà cung cấp gãy, không phải ta sai).
 
@@ -314,19 +335,25 @@ def _cau_bao_tam_thoi(loi: str, so_lan: int = len(_NHIP_THU_LAI)) -> str:
 
 def _cau_bao_het_gio(loi: str, giay: float) -> str:
     """Say what really happened when `agy` stops a turn at its time cap (see `_la_het_gio_luot`)."""
-    phut = max(1, int(round(giay / 60)))
+    if giay and giay > 0:
+        phut = str(max(1, int(round(giay / 60))))
+        vi_luot, en_luot = "Lượt này chạy quá " + phut + " phút", "This turn ran over " + phut + " minutes"
+    else:
+        vi_luot, en_luot = "Lượt này chạy quá lâu", "This turn ran too long"
     return localefmt.chu(
-        "Lượt này chạy quá " + str(phut) + " phút nên Antigravity CLI tự dừng. Đây là trần thời gian "
+        vi_luot + " nên Antigravity CLI tự dừng. Đây là trần thời gian "
         "Aivon đặt cho một lượt, không phải lỗi của Google hay cấu hình của bạn. Các bước đã chạy xong "
         "vẫn giữ kết quả.\n\n"
         "Nhắn \"làm tiếp\" để làm nốt phần còn lại, hoặc giao việc dài như vậy thành việc nền ở trang "
-        "Việc. Cần trần dài hơn thì đặt biến môi trường AIVON_AGY_TIMEOUT (tính bằng giây).\n\n"
+        "Việc. Trần này đến từ biến môi trường AIVON_AGY_TIMEOUT (tính bằng giây): xoá biến đó hoặc đặt "
+        "bằng 0 để bỏ trần.\n\n"
         "_Nguyên văn:_ " + (loi or "")[:400],
-        "This turn ran over " + str(phut) + " minutes, so Antigravity CLI stopped it. That is the time "
+        en_luot + ", so Antigravity CLI stopped it. That is the time "
         "cap Aivon sets for one turn, not a Google error or your configuration. Steps that finished keep "
         "their results.\n\n"
         "Send \"continue\" to finish the rest, or give a job this long to the background queue on the "
-        "Work page. For a longer cap, set the environment variable AIVON_AGY_TIMEOUT (in seconds).\n\n"
+        "Work page. The cap comes from the environment variable AIVON_AGY_TIMEOUT (in seconds): remove it "
+        "or set it to 0 for no cap.\n\n"
         "_Raw message:_ " + (loi or "")[:400])
 
 
@@ -484,10 +511,17 @@ def _do_stdin(cli: str, timeout: float = 75.0) -> str:
 
 # Dấu hiệu "prompt không tới nơi" trong thứ CLI in ra. Nhận ra thì phải đổi đường ngay chứ không
 # được đưa nguyên câu tiếng Anh cho người dùng rồi bỏ mặc - họ không sửa được gì với nó.
+#
+# Chỉ khớp những câu nói về CHÍNH prompt đầu vào. Bản trước khớp "prompt" + "required"/"missing"
+# ở bất kỳ đâu trong câu lỗi, nên một lỗi kiểu "permission prompt required" (tool cần duyệt khi
+# chạy nền) cũng bị đọc thành "CLI từ chối stdin" - và cả máy bị hạ xuống đường file ngữ cảnh,
+# đúng cảnh chủ repo gặp 2026-11-03 trên agy 1.4.12 dù bản đó nhận stdin hoàn toàn bình thường.
 def _la_loi_thieu_prompt(loi: str) -> bool:
     l = (loi or "").lower()
     return (("empty prompt" in l) or ("no prompt" in l)
-            or ("prompt" in l and ("usage:" in l or "required" in l or "missing" in l))
+            or ("prompt" in l and "usage:" in l)
+            or ("prompt is required" in l) or ("prompt required" in l and "permission" not in l)
+            or ("missing prompt" in l) or ("as its prompt" in l)
             or ("flag needs an argument" in l))
 
 
@@ -506,12 +540,16 @@ def duong_prompt_dai(cli: Optional[str] = None) -> str:
     ep = (os.environ.get("AIVON_AGY_PROMPT_DAI") or "").strip().lower()
     if ep in ("file", "argv"):
         return ep
+    nho = _doc_nho_duong()
     if ep == "stdin":
-        return "stdin:rong"
+        # Ép stdin thì dùng công thức đã đo dương tính nếu có, không thì "trong" (không `-p`):
+        # đúng câu CHANGELOG 1.1.1 và đo được trên 1.4.12. "rong" (`-p ""`) thì 1.4.12 chối
+        # bằng "Error: empty prompt", nên mặc định cũ "stdin:rong" làm cửa thoát này hỏng hẳn.
+        d = str(nho.get("duong") or "")
+        return d if d.startswith("stdin:") and d != "stdin:" else "stdin:trong"
     cli = cli or find_antigravity_cli()
     if not cli:
         return "file"
-    nho = _doc_nho_duong()
     if nho.get("chu_ky") == _chu_ky_cli(cli):
         duong = str(nho.get("duong") or "")
         if duong.startswith("stdin"):
@@ -726,13 +764,54 @@ _CANH_BAO_HONG_DAU_EN = (
 _CANH_BAO_DOC_HONG = (
     "\n\n_(Lưu ý của Aivon: `agy` có thử mở file ngữ cảnh nhưng KHÔNG đọc được (thường là do mức "
     "quyền hoặc sandbox chặn), nên lượt vừa rồi trả lời mà chưa có system prompt và bộ nhớ của "
-    "Aivon. Nâng cấp `agy` lên bản nhận prompt qua stdin là hết hẳn đường vòng này.)_"
+    "Aivon. `agy` từ bản 1.1.1 nhận prompt qua stdin và Aivon tự đo lại đường đó mỗi ngày; muốn "
+    "ép ngay thì đặt biến môi trường AIVON_AGY_PROMPT_DAI=stdin.)_"
 )
 _CANH_BAO_DOC_HONG_EN = (
     "\n\n_(Note from Aivon: `agy` tried to open the context file but could NOT read it (usually blocked by "
     "the permission level or sandbox), so the last answer was given without Aivon's system prompt and "
-    "memory. Upgrading `agy` to a version that takes the prompt over stdin removes this detour.)_"
+    "memory. `agy` 1.1.1 and later takes the prompt over stdin, and Aivon re-measures that route daily; "
+    "to force it now, set the environment variable AIVON_AGY_PROMPT_DAI=stdin.)_"
 )
+
+
+_TU_LOI_DOC = ("error", "fail", "denied", "not found", "no such", "permission",
+               "cannot", "can't", "unable")
+
+
+def _su_kien_doc_file(ev: dict, ten_ngan: str) -> str:
+    """Một sự kiện của `agy` nói gì về chuyện đọc file ngữ cảnh: "doc_duoc", "da_thu" hay "".
+
+    Phải nhận HAI hình dạng stream. Bản đầu chỉ biết `{"type": "tool_result", ...}`, còn `agy`
+    1.x (đo 2026-11-04 trên 1.4.12) phát mọi thứ dưới dạng
+    `{"event": "step_update", "step_update": {"step_type": "tool", "state": "DONE",
+    "tool_info": {"name": "read_file", "parameters": {"Path": ...}, "output": "1 lines, 34 bytes"}}}`.
+    Không có chữ `tool_result` nào, nên MỌI sự kiện nhắc tên file bị tính là "đã thử mà hỏng" và
+    mọi lượt đi đường file bị dán câu "KHÔNG đọc được" - trong khi model đọc trọn file. Người
+    dùng thấy cảnh báo, tin rằng Aivon quên luật, mà thật ra không quên gì.
+    """
+    if not ten_ngan or ten_ngan not in str(ev):
+        return ""
+    su = ev.get("step_update") if isinstance(ev.get("step_update"), dict) else None
+    if su is not None:
+        if str(su.get("step_type") or "").lower() != "tool":
+            return "da_thu"       # câu trả lời nhắc tên file: chưa chứng minh được gì
+        ti = su.get("tool_info") if isinstance(su.get("tool_info"), dict) else {}
+        if ten_ngan not in str(ti.get("parameters") or ""):
+            return "da_thu"
+        trang_thai = str(su.get("state") or "").upper()
+        if trang_thai != "DONE":
+            return "da_thu"       # ACTIVE (đang chạy) hoặc ERROR/CANCELED
+        tt = (str(ti.get("output") or "") + " " + str(su.get("error") or ti.get("error") or ""))
+        if any(k in tt[:300].lower() for k in _TU_LOI_DOC):
+            return "da_thu"
+        return "doc_duoc"
+    t = str(ev.get("type") or ev.get("event") or "").lower()
+    if t in ("tool_result", "tool_output"):
+        tt = (str(ev.get("status") or "") + " "
+              + str(ev.get("output") or ev.get("content") or "")[:300]).lower()
+        return "da_thu" if any(k in tt for k in _TU_LOI_DOC) else "doc_duoc"
+    return "da_thu"
 
 
 # ---------------------------------------------------------------------------
@@ -875,6 +954,67 @@ _AUTH_CACHE: dict = {"ts": 0.0, "val": None}
 _AUTH_TTL = 60.0
 
 
+# ---- Disconnect from the Models page ----
+#
+# `agy` keeps its Google session in the OS keyring, which Aivon cannot touch. Until 05/11/2026 the card had no Disconnect
+# button at all for that reason, so an owner whose Google plan ran out had no way to tell Aivon "stop using this one"
+# (owner's report, 05/11/2026). Disconnect now does what it honestly can: it runs the CLI's own sign-out when the
+# binary on this machine lists one in `--help`, and otherwise switches the card off IN AIVON (`model.antigravity_off`).
+# The keyring session stays; "Connect again" on the card switches it back on.
+_OFF_KEY = "antigravity_off"
+
+
+def aivon_off() -> bool:
+    """The owner switched this card off in Aivon. Read from settings (cached by mtime, so cheap on every call)."""
+    try:
+        import config as cfgmod
+        return bool((cfgmod.read_settings().get("model") or {}).get(_OFF_KEY))
+    except Exception:
+        return False
+
+
+def _off_status() -> dict:
+    return {"connected": False, "method": "", "email": "", "aivon_off": True,
+            "error": localefmt.chu("Đã ngắt khỏi Aivon. Bấm Kết nối lại để dùng tiếp.",
+                                   "Disconnected from Aivon. Tap Connect again to use it.")}
+
+
+def logout_argv() -> Optional[list]:
+    """The sign-out command of the `agy` on this machine, or None when its `--help` lists none.
+
+    Measured, not guessed (see the top of this file): a subcommand the binary does not list is never run."""
+    cli = find_antigravity_cli()
+    txt = _help_text() if cli else ""
+    if not txt:
+        return None
+    for words in (("auth", "logout"), ("logout",), ("signout",), ("sign-out",)):
+        if re.search(r"(?m)^\s*" + r"\s+".join(map(re.escape, words)) + r"\b", txt):
+            return [cli, *words]
+    return None
+
+
+def forget_status() -> None:
+    """Drop the cached sign-in answer so the next look asks again."""
+    _AUTH_CACHE.update(ts=0.0, val=None)
+
+
+def logout() -> dict:
+    """Run the CLI's own sign-out when there is one. {ok, cli_logout, error}. Never raises."""
+    argv = logout_argv()
+    if not argv:
+        return {"ok": True, "cli_logout": False}
+    try:
+        r = subprocess.run(argv, capture_output=True, text=True, encoding="utf-8", errors="replace",
+                           timeout=30, creationflags=_no_window(), stdin=subprocess.DEVNULL)
+    except Exception as e:
+        return {"ok": True, "cli_logout": False, "error": f"{type(e).__name__}: {e}"}
+    forget_status()
+    if r.returncode != 0:
+        return {"ok": True, "cli_logout": False,
+                "error": ((r.stderr or r.stdout or "").strip()[:300] or f"exit {r.returncode}")}
+    return {"ok": True, "cli_logout": True}
+
+
 def auth_status(bo_qua_cache: bool = False) -> dict:
     """Đã đăng nhập chưa: {connected, method, email, error}.
 
@@ -890,6 +1030,8 @@ def auth_status(bo_qua_cache: bool = False) -> dict:
     if not cli:
         return {"connected": False, "method": "", "email": "",
                 "error": _chua_cai()}
+    if aivon_off():
+        return _off_status()
     now = time.time()
     if not bo_qua_cache and _AUTH_CACHE["val"] and now - _AUTH_CACHE["ts"] < _AUTH_TTL:
         return _hien_auth(_AUTH_CACHE["val"])
@@ -963,6 +1105,8 @@ def auth_status_nen() -> dict:
     if not cli:
         return {"connected": False, "method": "", "email": "",
                 "error": _chua_cai()}
+    if aivon_off():
+        return _off_status()
     now = time.time()
     cu = _AUTH_CACHE["val"]
     if cu and now - _AUTH_CACHE["ts"] < _AUTH_TTL:
@@ -1003,7 +1147,7 @@ def login_huong_dan() -> dict:
         "cai": lenh_cai(),
         "dang_nhap": "agy",
         "ghi_chu": localefmt.chu(
-            "Dùng trang Code (Terminal) NGAY TRONG Aivon - nó mở shell bằng đúng user "
+            "Dùng trang Terminal (nhóm Năng lực) NGAY TRONG Aivon - nó mở shell bằng đúng user "
             "đang chạy Aivon, đăng nhập ở đó là Aivon nhận liền. (SSH bằng user khác, "
             "vd root, đăng nhập xong Aivon vẫn không thấy - đây là lý do hay gặp nhất "
             "của cảnh 'cài rồi mà không nhận'.) Gõ `agy`: nó in ra một đường link. Mở "
@@ -1230,6 +1374,7 @@ class AntigravityCLI:
                  instructions: Optional[str] = None):
         self.cli_path = find_antigravity_cli()
         self.cwd = cwd or os.getcwd()
+        self.agy_home = None   # an extra Google account's HOME (plan_accounts); None = the machine's own login
         self.tag = tag
         self.model = model
         self.instructions = instructions
@@ -1245,10 +1390,19 @@ class AntigravityCLI:
         # Chỉ tới được dòng lệnh khi `co_effort` thấy bản CLI này khai đủ cờ lẫn giá trị.
         self.effort = None
         self.include_dirs: list[str] = []
-        # Trần thời gian một lượt. Gemini CLI không cần vì `--approval-mode` chặn mọi câu hỏi;
-        # ở đây mức suggest/auto CHƯA ĐO được là CLI có dừng hỏi không, mà headless dừng hỏi là
-        # treo vĩnh viễn. Thà cắt và báo còn hơn để một việc nền ngậm tiến trình cả đêm.
-        self.timeout = float(os.environ.get("AIVON_AGY_TIMEOUT") or 900)
+        # Time cap for one turn in seconds, 0 = none (the default since 2026-11-07, see `turn_cap_seconds`). The old
+        # 900s default stopped heavy tool work half way. Read it through `turn_cap()`, which adds the suggest-mode net.
+        self.timeout = turn_cap_seconds()
+
+    def turn_cap(self) -> float:
+        """The cap this turn really runs under, in seconds; 0 = none.
+
+        full/auto pass --dangerously-skip-permissions, so agy never stops to ask and an uncapped turn ends on its own,
+        on Stop, or on a server restart. suggest keeps SUGGEST_MODE_CAP unless AIVON_AGY_TIMEOUT sets one.
+        """
+        if self.timeout and self.timeout > 0:
+            return float(self.timeout)
+        return 0.0 if str(self.mode or "").strip().lower() in ("full", "auto") else SUGGEST_MODE_CAP
 
     def is_available(self) -> bool:
         return self.cli_path is not None
@@ -1277,7 +1431,8 @@ class AntigravityCLI:
         # nền dài bị chính CLI cắt ở phút thứ 5 trong khi Aivon còn ngồi đợi tới 15 - và cắt kiểu
         # đó trả về câu trả lời dở dang chứ không báo lỗi, nên rất khó đoán ra.
         if co_co("--print-timeout"):
-            args += ["--print-timeout", f"{int(self.timeout)}s"]
+            cap = self.turn_cap()
+            args += ["--print-timeout", f"{int(cap)}s" if cap > 0 else NO_CAP_PRINT_TIMEOUT]
         args += list(self.extra_args)
         # Cờ prompt PHẢI nằm CUỐI CÙNG. `agy` bỏ qua mọi cờ đứng sau `-p`, nên chèn thêm cờ ở
         # dưới là `--output-format stream-json` bị rơi, CLI in chữ thuần, bộ đọc stream không
@@ -1287,7 +1442,7 @@ class AntigravityCLI:
         else:
             # Đi stdin: cú pháp lấy từ công thức đã ĐO được trên chính máy này, không phải công
             # thức đoán. Xem `_CT_STDIN` và `_do_stdin`.
-            args += list(dict(_CT_STDIN).get(ct_stdin or "rong", ["-p", ""]))
+            args += list(dict(_CT_STDIN).get(ct_stdin or "trong", []))
         return args
 
     def _chon_duong(self, full: str) -> str:
@@ -1422,7 +1577,7 @@ class AntigravityCLI:
                 # LỖI PHÍA GOOGLE và Aivon đã tự thử lại rồi, chứ không phải một câu tiếng Anh
                 # sáu dòng nghe như mình cấu hình sai (chủ repo gửi đúng ảnh đó, 2026-09-08).
                 if _la_het_gio_luot(_l):
-                    _noi = _cau_bao_het_gio(_l, self.timeout)
+                    _noi = _cau_bao_het_gio(_l, self.turn_cap())
                 elif _la_loi_tam_thoi(_l):
                     _noi = _cau_bao_tam_thoi(_l, _da_thu)
                 else:
@@ -1515,7 +1670,9 @@ class AntigravityCLI:
 
         # agy stops itself at --print-timeout and still prints a partial answer; the watchdog only steps in after
         # that, so it does not win the race and lose the partial output (its clock starts earlier, at Popen).
-        deadline = self.timeout + (60 if co_co("--print-timeout") else 0)
+        # No cap means no watchdog deadline: wait(None) returns only when the turn ends or is stopped.
+        cap = self.turn_cap()
+        deadline = (cap + (60 if co_co("--print-timeout") else 0)) if cap > 0 else None
 
         def publish(event):
             # Cancellation can close the consumer's loop before the reader exits.
@@ -1527,10 +1684,21 @@ class AntigravityCLI:
         def doc_luong():
             proc = None
             try:
+                try:   # what agy's shell leaves running is adopted after the turn (tien_trinh_nen.ENV_MARK)
+                    import tien_trinh_nen
+                    _env = tien_trinh_nen.mark_env(None, self.tag)
+                except Exception:  # noqa: BLE001
+                    _env = None
+                # An extra Google account (plan_accounts, Linux only): agy runs with that account's own HOME and keeps
+                # its token in a file there instead of the machine's one keyring login.
+                if getattr(self, "agy_home", None):
+                    _env = dict(_env if _env is not None else os.environ)
+                    _env["HOME"] = self.agy_home
+                    _env["GEMINI_FORCE_FILE_STORAGE"] = "true"
                 proc = subprocess.Popen(
                     args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                     cwd=self.cwd, text=True, encoding="utf-8", errors="replace", bufsize=1,
-                    creationflags=_no_window(), start_new_session=(os.name != "nt"),
+                    creationflags=_no_window(), start_new_session=(os.name != "nt"), env=_env,
                 )
                 with _PROC_LOCK:
                     _ACTIVE_PROCS[proc] = self.tag
@@ -1581,22 +1749,22 @@ class AntigravityCLI:
                         publish(json.loads(line))
                     except json.JSONDecodeError:
                         publish({"_raw": line})
-                ma = proc.wait(timeout=self.timeout)
+                ma = proc.wait(timeout=cap or None)
                 luong_loi.join(timeout=5)
                 err = "".join(phan_loi).strip()
                 if deadline_expired.is_set():
                     # Reuse the existing time-cap classification: never retry a turn
                     # that may already have performed outside actions.
                     publish({"_exit": -1, "_err":
-                             f"[agy] print timeout after {self.timeout:g}s with turn in progress"})
+                             f"[agy] print timeout after {cap:g}s with turn in progress"})
                 elif ma != 0 or err:
                     publish({"_exit": ma, "_err": err})
             except subprocess.TimeoutExpired:
                 publish({"_exit": -1, "_err": localefmt.chu(
-                        f"Antigravity CLI chạy quá {int(self.timeout)}s nên bị "
+                        f"Antigravity CLI chạy quá {int(cap)}s nên bị "
                         f"cắt. Nếu việc thật sự dài thì nâng biến môi trường "
                         f"AIVON_AGY_TIMEOUT.",
-                        f"Antigravity CLI ran over {int(self.timeout)}s and was cut off. "
+                        f"Antigravity CLI ran over {int(cap)}s and was cut off. "
                         f"If the job really is long, raise the environment variable "
                         f"AIVON_AGY_TIMEOUT.")})
             except OSError as e:
@@ -1666,18 +1834,14 @@ class AntigravityCLI:
                 if ev.get("_qua_tran"):
                     qua_tran_argv = True      # query() sẽ chạy lại bằng stdin/file
                 if duong == "file" and not doc_duoc:
-                    t = str(ev.get("type") or ev.get("event") or "").lower()
                     if "_raw" not in ev and "_exit" not in ev:
                         co_json = True
-                    if ten_ngan and ten_ngan in str(ev):
-                        if t in ("tool_result", "tool_output"):
-                            tt = (str(ev.get("status") or "") + " "
-                                  + str(ev.get("output") or ev.get("content") or "")[:300]).lower()
-                            if not any(k in tt for k in ("error", "fail", "denied", "not found",
-                                                         "no such", "permission")):
-                                doc_duoc = True
-                        else:
-                            da_thu_doc = True
+                    _kq = _su_kien_doc_file(ev, ten_ngan)
+                    if _kq == "doc_duoc":
+                        doc_duoc = True
+                    elif _kq == "da_thu":
+                        da_thu_doc = True
+                _n = len(cac_manh)
                 for ra in self._doi_su_kien(ev, cac_manh, chan):
                     if ra.get("type") == "tool_call":
                         co_tool = True      # đã đụng thế giới bên ngoài -> KHÔNG được chạy lại
@@ -1687,6 +1851,12 @@ class AntigravityCLI:
                         if giu_loi:
                             continue      # lượt này còn có thể thử lại bằng đường khác
                     yield ra
+                # 0.438.6: chữ xem trước, ra ngay từng mẩu. Câu trả lời thật vẫn là `final` cuối lượt
+                # (đã qua `_chot_van`); nơi nào không biết `delta` thì bỏ qua. Dòng `_raw` không hiện trước.
+                if len(cac_manh) > _n and "_raw" not in ev:
+                    for _m in cac_manh[_n:]:
+                        if _m:
+                            yield {"type": "delta", "content": _m}
         finally:
             stop_requested.set()
             # A second Stop may interrupt this wait; the worker still owns cleanup.

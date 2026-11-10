@@ -27,9 +27,9 @@ import sys
 import tempfile
 from pathlib import Path
 
-os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="aivon-gitchu-"))
-
 from _paths import ROOT, SERVER  # noqa: E402,F401
+
+os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="aivon-gitchu-"))
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")

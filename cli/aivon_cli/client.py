@@ -32,7 +32,7 @@ class Client:
         if r.status_code == 401:
             raise LoiAivon(
                 "Máy chủ từ chối: token thiếu hoặc đã bị thu hồi.\n"
-                "Tạo token mới ở dashboard (Tài khoản > Token API) rồi chạy lại `aivon login`.")
+                "Tạo token mới ở dashboard (Tích hợp > Token API) rồi chạy lại `aivon login`.")
         if r.status_code == 403:
             raise LoiAivon("Máy chủ từ chối: token này không có quyền cho lệnh đó.")
         if r.status_code == 429:

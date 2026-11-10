@@ -12,7 +12,7 @@ Ngày chốt hướng: 08/10/2026. Mã đối chiếu: main `09f254d0e4d009451dc
 - Luật nền ít và cố định; cách làm, lịch, bài học và cách trình bày được thay đổi trong phạm vi đó.
 - M1–M5 không làm lại: giữ kho mục tiêu, revision, receipt, bằng chứng, guard, hạn mức, bàn giao sản phẩm, thẻ và thử phương pháp.
 
-Phạm vi “toàn bộ tiến độ” trong đợt rà này là chương trình Resonance cùng các hệ agent/workflow/loop/học có liên quan trong AIVON. Không phải kiểm toán mọi tính năng khác của AIVON hay kiểm chứng lại toàn bộ suite.
+Phạm vi “toàn bộ tiến độ” trong đợt rà này là chương trình Resonance cùng các hệ agent/workflow/loop/học có liên quan trong Aivon. Không phải kiểm toán mọi tính năng khác của Aivon hay kiểm chứng lại toàn bộ suite.
 
 ## 2. Bốn bất biến làm khung chung
 
@@ -61,7 +61,7 @@ Một công tắc **Cộng hưởng** trong cấu hình agent, mặc định t�
 
 ### Di chuyển dữ liệu cũ
 
-- `AIVON/resonance.json` cũ là cờ theo brain; không được tự nhân nó thành “mọi agent đều bật”. Có thể giữ nó làm công tắc quản trị tổng trong giai đoạn chuyển đổi, nhưng UI phải nói rõ khi nó chặn agent.
+- `Aivon/resonance.json` cũ là cờ theo brain; không được tự nhân nó thành “mọi agent đều bật”. Có thể giữ nó làm công tắc quản trị tổng trong giai đoạn chuyển đổi, nhưng UI phải nói rõ khi nó chặn agent.
 - Goal cũ chưa có danh tính agent đáng tin cậy: giữ nguyên lịch sử, đưa vào danh sách chờ gán. Không tự gán theo tên gần giống hay phiên mới nhất. Owner gán một lần qua đường có kiểm quyền; sau đó mới đủ điều kiện chạy tiếp.
 - Goal mới chỉ thuộc agent; chat thường có thể hiển thị tiến độ đã được uỷ quyền, không được tự thành chủ thể thực thi.
 - Không xoá SQLite, bằng chứng hoặc mục tiêu đã nghiệm thu để “làm sạch” migration. Kiểm với bản sao dữ liệu cũ và đường khôi phục trước khi phát hành.

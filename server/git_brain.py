@@ -44,7 +44,9 @@ def _no_window():
 
 
 def has_git() -> bool:
-    return shutil.which("git") is not None
+    # git_setup also finds a git installed after this server started, and adds its folder to PATH (09/11/2026).
+    import git_setup
+    return git_setup.available()
 
 
 def _git_env() -> dict:
@@ -201,6 +203,11 @@ _GITIGNORE_BODY = (
        ".antigravity/",
        ".antigravitycli/",
        ".gemini/",
+       "# Cấu hình MCP của Grok Build - cũng chứa hub token (vá bảo mật 2026-11-05).",
+       ".grok/",
+       "# Learned knowledge that carries customer chat text (owner decision 2026-10-25, see",
+       "# server/learned_mirror.py): it stays in the brain folder but never goes to the backup.",
+       "Aivon/learned/**/*.private.json",
        "*.tmp",
        "# Vùng cache media: ảnh sinh ra + file user gửi lên. Là NGUYÊN LIỆU đi qua, không phải",
        "# tri thức, và media_gc.py tự dọn theo hạn. Bốn dòng attachments vì tên thư mục có thể",
@@ -281,8 +288,12 @@ def _ensure_gitignore_lines(root) -> bool:
 _ATTACH_RE = r"^(\d+\s*[-_.]\s*)?attachments$"
 
 
+# Thư mục cấu hình engine mang hub token: brain cũ lỡ commit thì cũng gỡ khỏi index như media.
+_UNTRACK_SECRET_DIRS = (".grok",)
+
+
 def untrack_media(root: str) -> int:
-    """Gỡ attachments/ + inbox/ khỏi INDEX git, GIỮ NGUYÊN file trên đĩa.
+    """Gỡ attachments/ + inbox/ (và .grok/, chứa hub token) khỏi INDEX git, GIỮ NGUYÊN file trên đĩa.
 
     Vì sao cần: .gitignore không có tác dụng với file git ĐÃ theo dõi từ trước, nên brain cũ
     (đã lỡ commit ảnh) vẫn tiếp tục commit ảnh mới dù template ignore đã vá. Phải gỡ một lần.
@@ -299,7 +310,8 @@ def untrack_media(root: str) -> int:
             if not os.path.isdir(os.path.join(root, name)):
                 continue
             ten = name.strip()
-            if ten.lower() != "inbox" and not re.match(_ATTACH_RE, ten, re.IGNORECASE):
+            if (ten.lower() != "inbox" and ten not in _UNTRACK_SECRET_DIRS
+                    and not re.match(_ATTACH_RE, ten, re.IGNORECASE)):
                 continue
             # Hỏi trước bằng ls-files: không có gì được theo dõi thì khỏi gọi git rm, và
             # quan trọng hơn là khỏi đếm nhầm thư mục vốn đã sạch (giữ tính idempotent).
@@ -574,7 +586,11 @@ _BACKUP_SKIP_SUBSTR = ("/memory/conversations/", "/Memory/conversations/",
                        # ĐÚNG file mcp_config.json chứ không chặn cả `.agents/`: thư mục đó
                        # còn là một trong các chỗ chứa skill của brain, phải được sao lưu.
                        "/.agents/mcp_config.json/",
-                       "/.antigravity/", "/.antigravitycli/", "/.gemini/")
+                       "/.antigravity/", "/.antigravitycli/", "/.gemini/",
+                       # Grok Build đọc `<brain>/.grok/config.toml`, file đó mang Bearer hub token,
+                       # đuôi .toml là chữ nên khối 2 mở lại. Sót ở đây tới 2026-11-05 (audit bảo
+                       # mật): token đi lên remote sao lưu và ai cầm nó gọi được hub ở mức full.
+                       "/.grok/")
 
 
 def _raw_kept_out(rel: str) -> bool:
@@ -599,9 +615,24 @@ def _raw_kept_out(rel: str) -> bool:
     return False
 
 
+# Learned-knowledge mirror files that carry customer chat text (server/learned_mirror.py). Owner decision 2026-10-25
+# ("Tach rieng"): what a bot or agent learned WITHOUT chat text is backed up, but the `*.private.json` files under
+# `Aivon/learned/` stay in the brain folder only. A suffix cannot be expressed in `_BACKUP_SKIP_SUBSTR`, so
+# `_backup_skip` checks it right after that list, on every path (push, apply back, self-heal).
+_LEARNED_DIR = "/Aivon/learned/"
+_LEARNED_PRIVATE_SUFFIX = ".private.json"
+
+
+def _learned_private(rel: str) -> bool:
+    r = "/" + rel.replace("\\", "/")
+    return _LEARNED_DIR in r and r.endswith(_LEARNED_PRIVATE_SUFFIX)
+
+
 def _backup_skip(rel: str, sync_images: bool = False) -> bool:
     r = "/" + rel.replace("\\", "/") + "/"
     if any(s in r for s in _BACKUP_SKIP_SUBSTR):
+        return True
+    if _learned_private(rel):
         return True
     name = rel.replace("\\", "/").rsplit("/", 1)[-1]
     if name == ".aivon-learn.lock" or name.endswith(".tmp"):

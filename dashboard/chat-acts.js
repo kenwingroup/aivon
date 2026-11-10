@@ -1,7 +1,7 @@
 /* chat-acts.js - hang nut duoi moi tin nhan trong khung chat Aivon.
 
-   Moi bong bong co mot hang nho ben duoi. Tin cua NGUOI DUNG: gio gui, gui lai, sua lai,
-   trich dan, sao chep. Tin cua AIVON: gio gui, trich dan, sao chep. Hang nay AN san (opacity 0), chi hien khi
+   Moi bong bong co mot hang nho ben duoi. Tin cua NGUOI DUNG: gio gui, tua lai,
+   trich dan, sao chep. Tin cua AIVON: gio gui, trich dan, sao chep, ghim vao muc luc, doc thanh tieng. Hang nay AN san (opacity 0), chi hien khi
    hover tren may tinh hoac khi cham vao tin tren dien thoai (.acts-on).
 
    File nay chi giu phan THUAN (khong dung tai lieu DOM that) de test bang node:
@@ -64,29 +64,37 @@
   // (chu repo yeu cau 01/09): no nam ngay canh nut sao chep, ma sao chep la thao tac
   // hay dung nhat duoi mot cau tra loi - bam truot mot ly la Aivon chay lai ca luot,
   // ton tien va de mat cau tra loi dang doc. Ai muon hoi lai thi go lai cau hoi, hoac
-  // bam "Gui lai cau nay" ngay tren bong bong cau hoi cua chinh minh - van con day.
+  // bam "Tua lai" ngay tren bong bong cau hoi cua chinh minh - van con day.
   //
   // canResend=false khi khong co CHU de gui lai (tin chi co anh, khong kem loi nhan).
-  // Khi do bo han nut gui lai + sua lai thay vi de nut bam vao khong ra gi. Bo trong
+  // Khi do bo han nut tua lai thay vi de nut bam vao khong ra gi. Bo trong
   // tham so nay thi mac dinh van co nut, de cac cho goi cu khong doi hanh vi.
   function actsHtml(role, ts, canResend) {
     var t = fmtTime(ts);
     var time = t
       ? '<span class="msg-time" title="' + esc(fmtTimeFull(ts)) + '">' + esc(t) + "</span>"
       : "";
+    // 0.349.0: "Gui lai" va "Sua lai" gop thanh MOT nut Tua lai (chu repo 27/10/2026): xoa cau nay cung moi thu
+    // ben duoi, dua cau hoi ve o nhap de sua hoac gui lai, hoi thoai di tiep tu do. Gui lai = tua lai roi bam gui.
     var send = "";
     if (canResend !== false && role === "user") {
-      send = '<button class="msg-act" type="button" data-act="retry" title="' + esc(tw("cact.retry")) + '">↻</button>' +
-        '<button class="msg-act" type="button" data-act="edit" title="' + esc(tw("cact.edit")) + '">' + ic("pencil") + '</button>';
+      send = '<button class="msg-act" type="button" data-act="rewind" title="' + esc(tw("cact.rewind")) + '">↺</button>';
     }
     // Trich dan (0.171.0): dat doan nay len tren o nhap de hoi tiep, khoi go lai. Co o ca tin
     // nguoi dung lan tin Aivon. Bam truot cung vo hai: no chi dat chip, khong chay gi.
     // Tin nguoi dung chi co anh thi khong co chu de trich, bo nut nhu nut gui lai.
     var quote = (role === "user" && canResend === false) ? "" :
       '<button class="msg-act" type="button" data-act="quote" title="' + esc(tw("cact.quote")) + '">' + ic("quote") + '</button>';
+    // 0.374.0 (chu repo 28/10/2026): duoi cau tra loi them nut GHIM vao muc luc cua cuoc chat (thanh moc /
+    // nut "≡ n/m") va nut LOA doc thanh tieng cau do. Nut ghim chi hien khi bong bong da co ma tin (CSS
+    // .msg-aivon[data-mid]): cau dang stream chua luu thi chua ghim duoc.
+    var them = role === "aivon"
+      ? '<button class="msg-act" type="button" data-act="pin" title="' + esc(tw("cact.pin")) + '">' + ic("pin") + '</button>' +
+        '<button class="msg-act" type="button" data-act="speak" title="' + esc(tw("cact.speak")) + '">' + ic("volume-2") + '</button>'
+      : "";
     return '<div class="msg-acts">' + time + send + quote +
       '<button class="msg-act" type="button" data-act="copy" title="' + esc(tw("cact.copy")) + '">⧉</button>' +
-      "</div>";
+      them + "</div>";
   }
 
   function isUserMsg(el) {
@@ -198,6 +206,7 @@
     toggleClamp: toggleClamp,
     selectedIn: selectedIn,
     enterSends: enterSends,
+    touchMain: touchMain,
     trackComposition: trackComposition,
     fmtTime: fmtTime,
     fmtTimeFull: fmtTimeFull,

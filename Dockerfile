@@ -9,7 +9,10 @@
 
 # ---------- Stage 1: Node 22 LTS source ----------
 # Copy node/npm/npx from the official image instead of apt (Debian's nodejs lags LTS).
-FROM node:22-bookworm-slim AS node_source
+# Pinned to an exact patched release: a floating `node:22` tag can be served from the gha build
+# cache long after a security release. 22.23.4 = Node.js security release of 2026-10-21
+# (CVE-2026-111497 Brotli RCE and 9 more). Bump together with server/node_security.py.
+FROM node:22.23.4-bookworm-slim AS node_source
 
 # ---------- Stage 2: runtime ----------
 FROM python:3.12-slim
@@ -55,7 +58,11 @@ RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
 #
 # Để riêng MỘT lớp để đo được nó tốn bao nhiêu (`docker history`), và để tắt được bằng
 # `--build-arg WITH_BROWSER_DEPS=0` khi ai đó muốn ảnh gọn nhất có thể.
+#
+# Since 0.375.0 the server downloads the browser itself on first start when nothing is there
+# (server/optional_tools.py). Without the libraries it could not run, so tell the server.
 ARG WITH_BROWSER_DEPS=1
+ENV AIVON_BROWSER_DEPS=${WITH_BROWSER_DEPS}
 RUN if [ "$WITH_BROWSER_DEPS" = "1" ]; then \
         npx -y playwright@latest install-deps chromium \
         && rm -rf /var/lib/apt/lists/* /root/.npm; \

@@ -28,10 +28,13 @@ const cases = {
 Object.keys(cases).forEach((id) => check("model name: " + id + " -> " + cases[id], pretty(id) === cases[id], pretty(id)));
 
 check("chip text is the model name only, provider and pin move to the tooltip",
-  /mt\.textContent = chipLabel\(eff, p\);/.test(mp) && !/mt\.textContent = \(p \? provShort/.test(mp)
-  && /mt\.title = \(p \? p\.label/.test(mp));
-check("no model set: the provider name stands in", /eff\.model \? prettyModel\(eff\.model\) : \(p \? provShort\(p\.label\) : "Model"\)/.test(mp));
-check("a broken pin still shows, as the dot colour", /classList\.toggle\("is-pin-broken", pinBroken\)/.test(mp)
+  /mt\.textContent = fb \? chipLabel\(\{ provider: fb\.provider, model: fb\.model \}, runP\) : chipLabel\(eff, p\);/.test(mp)
+  && !/mt\.textContent = \(p \? provShort/.test(mp) && /: \(p \? p\.label \+ " · "/.test(mp));
+// 0.355.0: no model set names the provider's default model when the server knows it, else the provider name stands in.
+check("no model set: the default model's name, else the provider name",
+  /\(state\.defaults \|\| \{\}\)\[eff\.provider\] \? prettyModel\(state\.defaults\[eff\.provider\]\) : \(p \? provShort\(p\.label\) : "Model"\)/.test(mp));
+// Owner, 05/11/2026: a fallback card answering takes over the amber dot (is-fallback); a broken pin shows when it does not.
+check("a broken pin still shows, as the dot colour", /classList\.toggle\("is-pin-broken", pinBroken && !fb\)/.test(mp)
   && css.includes(".mb-chip.is-pin-broken .mb-dot { background: var(--warn-ink); }"));
 check("the per-session pin stays visible: a pin icon on the chip, in words for screen readers",
   /chip\.classList\.toggle\("is-pinned", !!sessionPin\)/.test(mp) && /pin\.hidden = !\(sessionPin \|\| pinBroken\);/.test(mp)
@@ -39,11 +42,13 @@ check("the per-session pin stays visible: a pin icon on the chip, in words for s
   && css.includes(".mb-pin[hidden] { display: none; }") && css.includes(".mb-chip.is-pin-broken .mb-pin { color: var(--warn-ink); }"));
 check("pinning itself is untouched: picking a model still pins it to the open session",
   /sessionPin = \{ provider: prov, model: model \};/.test(mp) && /await pinToSession\(sid, prov, model\);/.test(mp));
-// 0.182.0: the owner reversed the phone move; the chip is back in the top bar (centred), still short and with the pin icon.
-check("phone: the chip goes back up to the header, centred, with its picker under the bar",
-  /headerRoot\.insertBefore\(mbOpen, headerCenter\.nextSibling\)/.test(mobile) && /headerRoot\.insertBefore\(mbPop, mbOpen\.nextSibling\)/.test(mobile)
-  && ccss.includes(".hud-top #mbOpen { display: inline-flex; margin-left: auto; margin-right: auto; max-width: 56vw; }")
-  && ccss.includes(".hud-top #mbPop { position: fixed;") && !ccss.includes(".hud-top .new-chat-btn { margin-left: auto; }"));
+// Owner, 2026-11-09: on a phone too the chip sits in the composer next to the Effort chip, as on a computer (0.182.0 to
+// then it was in the top bar). mobile-chat.js no longer moves it, the header keeps + on the right, and the picker, still a
+// child of the card, is never wider than the screen.
+check("phone: the chip stays in the composer next to Effort, nothing moves it into the header",
+  !/getElementById\("mb(Open|Pop)"\)|insertBefore\(mb(Open|Pop)/.test(mobile) && !/#mbOpen|#mbPop/.test(ccss)
+  && ccss.includes(".hud-top .new-chat-btn { margin-left: auto; }")
+  && css.includes(".hud-voice .mb-pop { width: min(340px, calc(100vw - 32px)); }"));
 check("long model names end in ...", /#mbModelTxt \{ min-width: 0; overflow: hidden; text-overflow: ellipsis; \}/.test(css)
   && !css.includes("#cpChips .mb-chip { max-width: 42vw; }"));
 // The hold lives in chat-scroll.js (shared with the Team chat): checked by behaviour on a fake chat area.

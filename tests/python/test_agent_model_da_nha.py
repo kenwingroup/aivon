@@ -20,9 +20,9 @@ Chạy:
 import os
 import tempfile
 
-os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="aivon-agentmodel-"))
-
 from _paths import ROOT, SERVER  # noqa: E402,F401  - nạp server/ vào sys.path
+
+os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="aivon-agentmodel-"))
 
 import aux_engine  # noqa: E402
 import main  # noqa: E402

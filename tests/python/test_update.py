@@ -94,7 +94,7 @@ check("hook boot: _record_boot_version(_read_version()) chạy + đặt last_goo
 # --- /update/status ---
 us.write_state({"phase": "health_check", "result": None})
 (us.STATE_DIR / "update.log").write_text("dong 1\ndong 2\ndong 3\n", encoding="utf-8")
-_s = asyncio.run(main.update_status())
+_s = main.update_status()   # a plain def since 2026-11-08 (thread pool)
 check("/update/status trả state.phase", _s["state"].get("phase") == "health_check")
 check("/update/status trả log_tail", "dong 3" in _s["log_tail"])
 
@@ -302,12 +302,16 @@ _truoc = dict(_khoa)
 _cjs = main.DASHBOARD_PATH / "console.js"
 _goc = _cjs.read_bytes()
 try:
-    _cjs.write_bytes(_goc + b"\n// canary\n")
+    # Một dòng CODE, không phải chú thích: từ 0.416.0 khoá băm bản đã nén gọn, mà chú thích bị bỏ khi nén nên sửa riêng
+    # chú thích (cố ý) không đổi khoá.
+    _cjs.write_bytes(_goc + b"\n;window.__canary = 1;\n")
     _sau = dict(_re2.findall(r'/static/(\S+?\.(?:js|css))\?v=([\w.]+)',
                              _aio.run(main.root()).body.decode("utf-8")))
     check("sửa console.js thì RIÊNG nó đổi khoá",
           _sau.get("console.js") != _truoc.get("console.js"))
-    _lay = [k for k in _truoc if k != "console.js" and _sau.get(k) != _truoc[k]]
+    # 2026-11-09: the startup scripts also ship as one bundle (static_bundle.py), whose key follows any file in it; the
+    # bundle is one gzip download, and every file keeps its own key for the fallback and the lazily loaded pages.
+    _lay = [k for k in _truoc if k != "console.js" and not k.startswith("_bundle/") and _sau.get(k) != _truoc[k]]
     check("và mọi file khác GIỮ NGUYÊN khoá (cache vẫn ăn qua bản cập nhật)", not _lay)
 finally:
     _cjs.write_bytes(_goc)

@@ -77,8 +77,13 @@ check("onTranscript vẫn gửi thẳng, không qua bước xác nhận",
 // Chỗ thứ 10 (0.65.28) VẪN là hoãn: trong cuộc gọi, câu nói lúc Aivon đang trả lời không dừng
 // lượt cũ nữa mà xếp hàng, gửi khi lượt xong và loa đọc xong (guiCauChoLuot).
 const goiGui = (app.match(/(?<!function )\bsendMessage\(/g) || []).length;
-check("có 10 chỗ gọi sendMessage (giọng nói, thử lại, Enter, nút gửi, sau khi tải file xong, sau khi dừng lượt cũ, sau khi nối lại mạng, sau khi mở agent/workflow, adaptive commit, câu chờ lượt trong cuộc gọi, bấm Nghe cuộc gọi hẹn giờ)",
+// 0.349.0: nút "Gửi lại câu này" nhường chỗ cho nút Tua lại, vốn chỉ đưa câu hỏi về ô nhập, không tự gửi: bớt một chỗ.
+// 06/11/2026: thêm một chỗ HOÃN, không phải đường mới: câu người dùng vừa nói cho ChatGPT Live lúc nó hết lượt
+// được gửi qua đường Cơ bản (chuyenSangCoBan), thay vì mất. Chỉ chạy khi máy chủ báo hết lượt (code quota/use_basic).
+check("có 11 chỗ gọi sendMessage (giọng nói, Enter, nút gửi, sau khi tải file xong, sau khi dừng lượt cũ, sau khi nối lại mạng, sau khi mở agent/workflow, adaptive commit, câu chờ lượt trong cuộc gọi, bấm Nghe cuộc gọi hẹn giờ, câu dở khi Live hết lượt)",
   goiGui === 11, goiGui);
+check("chỗ thứ 11 chỉ gửi câu đã nói dở, khi chuyển đường Cơ bản",
+  /function chuyenSangCoBan\(cauDangNoi = ""[\s\S]{0,500}if \(cauDangNoi\) sendMessage\(cauDangNoi\);/.test(app));
 // Chỗ thứ 11 (0.203.0) KHÔNG phải mic tự gửi: người dùng bấm Nghe trên thẻ cuộc gọi hẹn giờ, đường giọng cơ bản
 // gửi câu mở đầu nhờ Aivon đọc nhắc hẹn (goiDenTheoLich, test_incoming_call_0203.js).
 // Reconnect sends and cancellation across chats execute in test_voice_app_session.js.
@@ -98,7 +103,10 @@ check("push_to_chat ghi vai assistant, không bao giờ là user",
 // của câu họ vừa NÓI do nhà cung cấp trả về - đó là giọng thật của họ, không phải máy tự nhập.
 // Con số này nhích lên là có đường mới đẻ ra tin của người dùng - phải đọc lại xem nó đến từ
 // đâu trước khi sửa test.
-const ghiUser = (server.match(/append_message\([^)]*"user"/g) || []).length;
+// 2026-11-08 (performance stage 3): a write may run in a worker thread, `asyncio.to_thread(store.append_message, sid,
+// "user", ...)`: the same write, so both spellings count.
+const GHI_USER = /append_message(?:\(|, )[^)]*"user"/g;
+const ghiUser = (server.match(GHI_USER) || []).length;
 // 0.64.66 thêm chỗ thứ sáu: lượt nối tiếp sau khi việc chạy nền xong (_start_followup_turn)
 // ghi tin mở lượt, có đánh dấu "[Việc chạy nền đã xong]", để mở lại hội thoại vẫn hiểu vì sao
 // Aivon tự nói tiếp. Không phải chữ của mic nên không đụng luật "mic không tự gửi".
@@ -108,15 +116,18 @@ const ghiUser = (server.match(/append_message\([^)]*"user"/g) || []).length;
 // session when that turn reads it (steer_inbox sink in _tg_answer). Typed and sent by the owner, never the mic.
 // 0.236.0 adds the ninth, inside voice_live_ws: a message with files TYPED in the chat during a Live call (the "ask"
 // frame) is stored there instead of by an ordinary chat turn. Typed and sent by the owner, never the mic.
-check("chỉ 9 chỗ ghi vai user (web + bot + 3 Live + duyệt quy trình + nối tiếp việc nền + gửi thêm lúc đang chạy, web và kênh)", ghiUser === 9, ghiUser);
+// 0.441.0 adds the tenth, main._gate_luu_luot: a Aivon Gate note (chat_bridge.ghi_chep) in which ChatGPT or Claude
+// records what the OWNER said in that outside chat. It carries the Gate block naming its source, and no engine runs on
+// it. Written by an outside AI the owner connected and allowed (Draft or Full level), never the mic.
+check("chỉ 10 chỗ ghi vai user (web + bot + 3 Live + duyệt quy trình + nối tiếp việc nền + gửi thêm lúc đang chạy, web và kênh + ghi chép Aivon Gate)", ghiUser === 10, ghiUser);
 check("chỗ thứ sáu nằm TRONG _start_followup_turn",
   /async def _start_followup_turn[\s\S]{0,1600}store\.append_message\(conv_sid, "user", text\)/.test(server));
 const approvalBody = server.slice(server.indexOf('if action == "wf_resume":'), server.indexOf('if action == "resume_now":'));
 check("đường ghi thứ năm chỉ thuộc thao tác duyệt quy trình",
-  (approvalBody.match(/append_message\([^)]*"user"/g) || []).length === 1
+  (approvalBody.match(GHI_USER) || []).length === 1
   && approvalBody.includes('store.append_message(_sid, "user", _msg)'));
 const liveBody = (server.match(/async def voice_live_ws\([\s\S]*?\n@app\./) || [""])[0];
-check("ba chỗ nằm TRONG voice_live_ws (gõ chữ, câu đã nói, tin có file)", (liveBody.match(/append_message\([^)]*"user"/g) || []).length === 3);
+check("ba chỗ nằm TRONG voice_live_ws (gõ chữ, câu đã nói, tin có file)", (liveBody.match(GHI_USER) || []).length === 3);
 
 // ---- 5. cache-bust ----
 const v = (f) => Number((html.match(new RegExp(f.replace(/\./g, "\\.") + "\\?v=(\\d+)")) || [])[1] || 0);

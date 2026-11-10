@@ -80,7 +80,7 @@ vendor:
 |------|------------------|-------|----------------|
 | `cli` | `anthropic-cli` (Claude Code), `grok-cli`, `antigravity-cli` | `claude_sdk_engine.py` via `claude_cli.claude_engine()`, `grok_cli.py`, `antigravity_cli.py` | Runs the vendor's own agent binary on the user's subscription: native MCP, shell, web fetch, sub-agents |
 | `oauth` | `openai-oauth` (ChatGPT via Codex) | `CodexCLI` in `claude_cli.py` (spawns `codex exec`) | Same as `cli` |
-| `api` | `openrouter`, `anthropic-api`, `openai`, `gemini`, `groq`, `ollama` (Cloud), `ollama-local`, `openai-compat` | `engine.py` (`*_chat_with_mcp`), driven by `main._api_stream_mcp()` | Tool loop over the hub, vault file tools, at most `AIVON_MAX_TOOL_ROUNDS` (default 30, max 120) tool rounds per turn |
+| `api` | `openrouter`, `anthropic-api`, `openai`, `gemini`, `groq`, `ollama` (Cloud), `ollama-local`, `openai-compat` | `engine.py` (`*_chat_with_mcp`), driven by `main._api_stream_mcp()` | Tool loop over the hub, vault file tools, at most `AIVON_MAX_TOOL_ROUNDS_CODING` (default 500, max 2000, 0 = none) tool rounds per turn for the owner's work including background work, `AIVON_MAX_TOOL_ROUNDS` (default 30) for customer bots; older tool results are trimmed past `AIVON_TOOL_LOOP_BUDGET_CHARS` |
 
 Things worth knowing:
 
@@ -154,6 +154,8 @@ line each, grouped by area.
 - `config.py`: `STATE_DIR`, `settings.json` read/write with secret fields encrypted, admin auth.
 - `secrets_store.py`: Fernet encryption at rest (`enc:` prefix), key in `STATE_DIR/.secret_key`.
 - `web_security.py`: CSRF and DNS-rebinding protection for the local API.
+- `bot_shield.py`: outermost middleware; `noindex` on every answer, `/robots.txt`, 403 for
+  self-declared crawlers, AI agents and scanners, so a leaked admin link is neither listed nor read.
 - `totp.py`: two-factor login codes (pure math, no config access).
 - `routes/`: route groups split out of `main.py` (`channels`, `coding`, `conversations`,
   `domain`, `graph`, `packs`, `tools`); each has `register(app, deps)` and never imports `main`.
@@ -419,8 +421,10 @@ python tests/run.py zalo -v    # files whose name contains "zalo", print failing
 - CI is [.github/workflows/ci.yml](.github/workflows/ci.yml): byte-compile `server/` and
   `system/plugins/`, really `import main` (catches import cycles), run every JS and Python test
   file, and build the Docker image to report its size.
-  [.github/workflows/docker-publish.yml](.github/workflows/docker-publish.yml) publishes the
-  image to GHCR on every push to `main`.
+  [.github/workflows/release.yml](.github/workflows/release.yml) runs on every push to `main`:
+  it turns `changelog.d/` fragments into version numbers (tools/release.py), then calls
+  [.github/workflows/docker-publish.yml](.github/workflows/docker-publish.yml) to publish the
+  image to GHCR.
 
 ## Conventions you must know
 

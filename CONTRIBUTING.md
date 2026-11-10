@@ -43,7 +43,7 @@ The script finds `.venv` by itself and runs from any folder inside the repo. Tes
 3. Open the PR against `main` of `kenwingroup/aivon`. The template asks for **why** the change is needed, not only what changed: the diff already shows the what.
 4. CI must be green. The maintainer reviews every PR; there is no auto-merge for outside contributions.
 
-**Versions and changelogs:** each merge to `main` ships a new version (`VERSION` plus an entry in both [CHANGELOG.md](CHANGELOG.md), Vietnamese, and [CHANGELOG.en.md](CHANGELOG.en.md), English). As an outside contributor you can leave all three alone: the maintainer bumps the version and writes the entries when merging.
+**Versions and changelogs:** each merge to `main` ships a new version (`VERSION` plus an entry in both [CHANGELOG.md](CHANGELOG.md), Vietnamese, and [CHANGELOG.en.md](CHANGELOG.en.md), English). A PR never edits those three: it adds one file `changelog.d/<slug>.md` (template in [changelog.d/README.md](changelog.d/README.md)) and the Release workflow assigns the number after merge. As an outside contributor you can skip even that: the maintainer adds it when merging.
 
 ## Code conventions
 
@@ -57,17 +57,17 @@ The script finds `.venv` by itself and runs from any folder inside the repo. Tes
   - Prompts and tool descriptions sent to the AI model are a different case: they stay as they are (in Vietnamese). The model reads them fine and answers in the user's language.
 - **Commit messages and PR descriptions** in English are preferred.
 
-The maintainer's own working rules (version reservation, merge policy, how changelog entries are phrased) live in [docs/quy-uoc-dev.md](docs/quy-uoc-dev.md), in Vietnamese.
+The maintainer's own working rules (release numbering, merge policy, how changelog entries are phrased) live in [docs/quy-uoc-dev.md](docs/quy-uoc-dev.md), in Vietnamese.
 
 ## Translations
 
 Aivon already **replies** in whatever language you write in. A translation adds the interface, the docs and the voice in that language. Three ways to help, from small to large:
 
 1. **The README.** The translated READMEs and quick starts (Chinese, Spanish, Japanese, Hindi, Portuguese, Korean, Russian, German, French, Indonesian) in `docs/i18n/<code>/` are machine translations: corrections from native speakers are very welcome, just keep the `translated-from` marker on the first line. For a new language, translate [README.md](README.md) and [QUICKSTART.en.md](QUICKSTART.en.md) into `docs/i18n/<code>/` (for example `docs/i18n/fr/README.md`), fix the relative links (they go three folders up: `../../../`), add your language to `LANGS` in `tools/check_translations.py`, then run `python tools/check_translations.py --bars` (rewrites the language bar and the flag row in every README and quick start) and `--stamp <file>` (adds the marker).
-2. **The dashboard.** Copy `dashboard/i18n/en.json` to `dashboard/i18n/<code>.json` and translate the values, never the keys. A half-finished file is fine: any key you have not translated yet shows in English.
+2. **The dashboard.** The interface ships in English and Vietnamese only (maintainer's decision, November 2026; the German dictionary was removed then). Corrections to `dashboard/i18n/en.json` and `vi.json` are welcome; a dictionary for another language is not taken on its own, only as part of a whole language (item 3) the maintainer has agreed to.
 3. **The whole language.** Register it in `server/lang_registry.py` so the voice, date formats and currency follow it too, and optionally add `system/mcp-catalog.<code>.json` for the connection store. The step-by-step handbook is [docs/dev/adding-a-language.md](docs/dev/adding-a-language.md).
 
-English is the source language for the README and the quick start. When either changes, the **Translations** workflow lists which translations are now behind (a warning, never a failed build); after updating one, run `python tools/check_translations.py --stamp <file>`. The server, the voice and the full-language handbook stay in English and Vietnamese. A dashboard translation (item 2) is welcome on its own: it shows for readers whose browser uses that language and appears in the language pickers, while everything the server says (Telegram, background work, the voice) stays in English for them.
+English is the source language for the README and the quick start. When either changes, the **Translations** workflow lists which translations are now behind (a warning, never a failed build); after updating one, run `python tools/check_translations.py --stamp <file>`. The server, the voice and the full-language handbook stay in English and Vietnamese.
 
 ## Getting help
 

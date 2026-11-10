@@ -24,9 +24,9 @@ import sys
 import tempfile
 from pathlib import Path
 
-os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="aivon-botnguoi-"))
-
 from _paths import ROOT, SERVER  # noqa: E402,F401  - nạp server/ vào sys.path
+
+os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="aivon-botnguoi-"))
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")

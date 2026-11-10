@@ -5,15 +5,15 @@
   <title>Aivon Voice - Test</title>
   <style>
     body {
-      background: #070b14; color: #f4f7fb;
+      background: #0a0a0f; color: #e8e8f0;
       font-family: -apple-system, sans-serif;
       max-width: 700px; margin: 40px auto; padding: 20px;
     }
-    h1 { color: #38bdf8; }
-    .row { margin: 20px 0; padding: 16px; background: #0d1322; border-radius: 8px; border: 1px solid #1e2b45; }
-    .label { font-size: 11px; color: #7e8fa8; letter-spacing: 2px; margin-bottom: 8px; }
+    h1 { color: #ff6b2b; }
+    .row { margin: 20px 0; padding: 16px; background: #111118; border-radius: 8px; border: 1px solid #2a2a3a; }
+    .label { font-size: 11px; color: #8888aa; letter-spacing: 2px; margin-bottom: 8px; }
     button {
-      background: #0284c7; color: white; border: none;
+      background: #ff6b2b; color: white; border: none;
       padding: 10px 18px; border-radius: 6px; cursor: pointer;
       font-size: 14px; font-weight: 600; margin-right: 8px;
     }
@@ -67,11 +67,11 @@
     <textarea id="ttsText">Xin chào, em là Aivon, trợ lý AI của bạn. Em sẽ báo cáo kết quả kinh doanh và cuộc sống dựa trên các nguồn dữ liệu bạn kết nối. Hôm nay bạn muốn xem báo cáo gì?</textarea>
     <div style="margin-top:10px">
       <button id="speakBtn">🔊 Đọc (Edge TTS)</button>
-      <button id="speakBrowserBtn" style="background:#2563eb">🔊 Đọc (Browser - fallback)</button>
+      <button id="speakBrowserBtn" style="background:#7c3aed">🔊 Đọc (Browser - fallback)</button>
       <button id="stopSpeakBtn">⏹ Dừng đọc</button>
       <label style="margin-left:14px;font-size:13px">Tốc độ:
         <input type="range" id="rate" min="0.7" max="1.8" step="0.05" value="1.1" style="width:140px;vertical-align:middle">
-        <span id="rateVal" style="font-family:monospace;color:#38bdf8;margin-left:6px">1.10×</span>
+        <span id="rateVal" style="font-family:monospace;color:#ff6b2b;margin-left:6px">1.10×</span>
       </label>
     </div>
     <div id="ttsStatus" style="margin-top:10px;font-size:12px;color:#8888aa"></div>

@@ -107,7 +107,7 @@ NGUYEN_VAN = [
     "https://github.com/yikart/AiToEarn đọc mã này giúp anh",
     "Xem giúp https://www.youtube.com/watch?v=_2105LHq1lI nhé",
     "Doanh thu tăng 3.5 lần so với tháng trước",
-    "[File đính kèm để ĐỌC (đường dẫn):\n- D:\\Project\\Aivon-OS\\server\\.staging\\a.txt\n- b.md]",
+    "[File đính kèm để ĐỌC (đường dẫn):\n- D:\\Project\\AIVON\\server\\.staging\\a.txt\n- b.md]",
     "Dòng một\nDòng hai\n\nDòng bốn",
     "A.B.C viết tắt là gì?",
 ]

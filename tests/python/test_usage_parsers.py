@@ -30,7 +30,7 @@ def check(name, cond):
 # 01:30 (+7) NGAY HOM SAU (30) - de bat loi doi mui gio.
 line_bg = {
     "type": "assistant", "entrypoint": "sdk-cli", "isSidechain": False,
-    "sessionId": "sess-bg", "cwd": "D:\\Project\\Aivon-OS",
+    "sessionId": "sess-bg", "cwd": "D:\\Project\\AIVON",
     "timestamp": "2026-06-29T18:30:00.000Z",
     "message": {"model": "claude-opus-4-8", "usage": {
         "input_tokens": 10, "output_tokens": 300,
@@ -43,7 +43,7 @@ check("claude: activity=background (session ngoai chat set)", ev["activity"] == 
 check("claude: giu du input+cache", ev["input"] == 10 and ev["cache_read"] == 14447 and ev["cache_create"] == 18184)
 check("claude: output", ev["output"] == 300)
 check("claude: day doi sang UTC+7 (hom sau)", ev["day"] == "2026-06-30")
-check("claude: project = basename cwd", ev["project"] == "Aivon-OS")
+check("claude: project = basename cwd", ev["project"] == "AIVON")
 check("claude: model giu nguyen", ev["model"] == "claude-opus-4-8")
 
 ev_chat = up.parse_claude_line(line_bg, {"sess-bg"})

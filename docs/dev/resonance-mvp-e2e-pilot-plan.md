@@ -96,7 +96,7 @@ Bộ chạy sau sửa vòng 2: **14/14 kiểm xanh, 0 lượt engine**, khoảng
 ## Lệnh chạy khi được duyệt
 
 ```bash
-AIVON_RESONANCE_E2E=real AIVON_RESONANCE_PILOT_SETTINGS=D:/Project/AIVON-OS/server/settings.json AIVON_RESONANCE_E2E_MAX_CALLS=3 AIVON_RESONANCE_E2E_OUT=docs/dev/resonance-mvp-e2e-pilot-2.json D:/Project/AIVON-OS/.venv/Scripts/python.exe tests/python/test_resonance_mvp_e2e_pilot.py
+AIVON_RESONANCE_E2E=real AIVON_RESONANCE_PILOT_SETTINGS=D:/Project/AIVON/server/settings.json AIVON_RESONANCE_E2E_MAX_CALLS=3 AIVON_RESONANCE_E2E_OUT=docs/dev/resonance-mvp-e2e-pilot-2.json D:/Project/AIVON/.venv/Scripts/python.exe tests/python/test_resonance_mvp_e2e_pilot.py
 ```
 
 ## Sửa theo review e2e (PR #579, diff `d38d033a..2ba6f74b`)
@@ -196,7 +196,7 @@ Script `exports/reviews/PR-579-tool-path-probe.py` (ngoài repo), sau đó thàn
 
 1. **Đăng ký đúng brain: đạt.** `aivon_goal` chỉ có trong `plugins_host.plugin_tools` khi brain bật Resonance; brain tắt hoặc không rõ brain thì không có. `aivon_task` luôn có.
 2. **Danh sách tới engine: đạt.** Engine Claude nhận plugin qua MCP in-process `aivon-plugins` (32 tool, có `aivon_goal`). Đường chat đặt `aivon_vault` trong `main._apply_mcp`; thiếu nó thì `aivon_goal` không có mặt.
-3. **Đường tìm: sai trên Claude Code.** Khi engine Claude dựng được server plugin in-process, nó báo hub bỏ nhóm plugin (`X-AIVON-No-Plugins: 1`) để khỏi trùng tool, nên `aivon_search_tools` của hub không trả về `aivon_goal`. Kết luận chỉ áp cho đường đó; nhánh lùi khi server in-process lỗi (hub giữ nhóm plugin) không được kiểm ở đây. Với engine API hay Codex, hub có nhóm plugin nên `aivon_search_tools` tìm ra. Dòng gợi ý cũ chỉ nêu `aivon_search_tools`.
+3. **Đường tìm: sai trên Claude Code.** Khi engine Claude dựng được server plugin in-process, nó báo hub bỏ nhóm plugin (`X-Aivon-No-Plugins: 1`) để khỏi trùng tool, nên `aivon_search_tools` của hub không trả về `aivon_goal`. Kết luận chỉ áp cho đường đó; nhánh lùi khi server in-process lỗi (hub giữ nhóm plugin) không được kiểm ở đây. Với engine API hay Codex, hub có nhóm plugin nên `aivon_search_tools` tìm ra. Dòng gợi ý cũ chỉ nêu `aivon_search_tools`.
 4. **Nguồn tin người dùng: đạt.** `luot_dang_chay` trả đúng phiên, id tin và lời người dùng của lượt đang chạy; hết lượt thì không còn.
 
 **Chưa kiểm được khi không gọi model:** ToolSearch của SDK có luôn sẵn không, và Claude Code có hoãn nạp tool `mcp__aivon-plugins__*` không. Bằng chứng gián tiếp duy nhất là lần chạy 1 (bộ não tìm thấy `mcp__aivon-plugins__aivon_task` qua ToolSearch). Chỗ sai ở mục 3 có thật, nhưng **chưa chứng minh nó là nguyên nhân** của lần chạy 2.
@@ -310,7 +310,7 @@ Danh sách tool trong tin `init` của Claude Code không đọc được từ n
 2. **Lộ một chỗ hở thật của sản phẩm**, đúng ca review đã lường ("làm phần hữu ích ngay và vẫn lưu trách nhiệm vào mục tiêu"). Khi bộ não viết bản đầu trong lượt rồi lập mục tiêu:
    - host vẫn tiêu một lượt việc nền làm lại bản đầu;
    - bản đó không đăng được vì xung đột;
-   - tin báo nói sai nguồn gốc ("file đã được sửa sau lần AIVON ghi trước", trong khi AIVON chưa từng ghi).
+   - tin báo nói sai nguồn gốc ("file đã được sửa sau lần Aivon ghi trước", trong khi Aivon chưa từng ghi).
    Hướng sửa cần review trước khi làm, ví dụ: lúc lập mục tiêu, host nhận file bộ não vừa ghi trong chính lượt đó làm bản đầu (có hash, đúng phiên, đúng file của tiêu chí) và không xếp lượt việc nền cho tới khi có góp ý.
 3. **Bản Sonnet bị mất** vì vùng làm việc nằm trong sandbox. Bộ chạy nên lưu cả đầu ra việc nền khi không đăng được.
 4. ~~Trace thiếu kết quả của khung công cụ~~ (sai, xem trên): `aivon_goal` gọi hai lần vì lần đầu thiếu `at_iso`.

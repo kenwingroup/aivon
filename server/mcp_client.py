@@ -31,6 +31,24 @@ import httpx
 import mcp_orphans
 import winproc
 
+
+def _owner_tz_env(own_env) -> dict:
+    """`TZ` for a local MCP server: the timezone the owner picked in Settings (0.443.0).
+
+    A POS or chat MCP that works out "today" by itself reads the process clock, and on a VPS that is UTC, so "orders
+    today" asked at 6am in Vietnam returned yesterday's. Handing it the owner's timezone makes the server's own idea
+    of a day match Aivon's. A connector that sets its own `TZ` keeps it. Not on Windows: its C runtime reads `TZ` in
+    the POSIX "EST5EDT" form and would misread an IANA name, which is worse than the machine's local time.
+    """
+    if os.name == "nt" or "TZ" in (own_env or {}):
+        return {}
+    try:
+        import localefmt
+        name = localefmt.valid_tz(localefmt.ten_tz())
+    except Exception:       # noqa: BLE001 - a missing setting must never stop an MCP from starting
+        return {}
+    return {"TZ": name} if name else {}
+
 PROTOCOL = "2025-06-18"
 # _IDLE_TTL PHẢI LỚN HƠN connect_health.HEALTH_INTERVAL (600). Khi hai số bằng nhau,
 # session vừa bị dọn xong ngay trước mỗi vòng quét sức khoẻ → vòng nào cũng spawn server
@@ -38,6 +56,12 @@ PROTOCOL = "2025-06-18"
 # session ấm: một tiến trình sống lâu thay vì đẻ mới mỗi 10 phút. Vụ VPS Hostinger
 # 15/08: 100 tiến trình mcp-google-sheets, ăn 6,9 GB RAM.
 _IDLE_TTL = 900          # đóng session không dùng > 15 phút
+# A tools/list answer is reused this long on the same live session (2026-11-09). The hub keeps one tool list per mode,
+# plugin set, bot or coding session, and each of those refreshed every 60 s by asking EVERY server for its whole tool
+# list again and parsing it on the event loop: /health/loop showed `mcp_client _rpc < list_tools` 6 times in half an
+# hour, up to 1.37 s. A server's tools change when its process or config changes, both of which give a new session,
+# or when it says so (`notifications/tools/list_changed`). The health check and the Test button still ask for real.
+_TOOLS_TTL = 600
 _DOWN_TTL = 60           # nguồn vừa khởi động hỏng: trả lỗi ngay trong chừng này giây (SessionPool.call_tool)
 _INTERNAL = {"botcake": "botcake_mcp", "substack": "substack_mcp"}   # transport internal → tên module
 
@@ -190,7 +214,7 @@ class McpHttpSession:
         """
         res = await self._rpc("initialize", {
             "protocolVersion": PROTOCOL, "capabilities": {},
-            "clientInfo": {"name": "aivon-os", "version": "1.0"},
+            "clientInfo": {"name": "aivon", "version": "1.0"},
         }, cho_lam_moi=False)
         if isinstance(res, dict) and res.get("error"):
             raise McpHttpError("initialize lỗi: "
@@ -271,6 +295,29 @@ class McpHttpSession:
 # ============================================================
 # stdio - subprocess NDJSON (Windows-first)
 # ============================================================
+def npx_node_argv(resolved) -> list | None:
+    """`npx.cmd` -> `[node.exe, npx-cli.js]` of the same Node install, so Windows never routes npx through cmd.exe.
+
+    Why (#898, item 2): `cmd.exe /c "C:\\Program Files\\nodejs\\npx.cmd" --user-data-dir "C:\\My Aivon\\x"` loses its
+    quotes: when the command line after /c starts with a quote, cmd strips the first and the last one, and the
+    connector died with "'C:\\Program' is not recognized". The default Node install lives in "Program Files", so
+    any argument with a space broke. cmd also expands `% ^ & |` in arguments. zalo_cli.npx_command does the same.
+    None when `resolved` is not npx.cmd or the npm CLI is not where Node ships it: the caller keeps cmd.exe.
+    """
+    p = Path(str(resolved))
+    if p.name.lower() not in ("npx.cmd", "npx.bat"):
+        return None
+    candidates = [p.parent / "node.exe"]
+    found = shutil.which("node")
+    if found:
+        candidates.append(Path(found))
+    for node in candidates:
+        cli = node.parent / "node_modules" / "npm" / "bin" / "npx-cli.js"
+        if node.is_file() and cli.is_file():
+            return [str(node), str(cli)]
+    return None
+
+
 class McpStdioSession:
     def __init__(self, command, args=None, env=None, label="", key=""):
         self.command = command
@@ -283,6 +330,7 @@ class McpStdioSession:
         self.label = label or command
         self.proc = None
         self._id = 0
+        self.tools_changed = False    # the server sent notifications/tools/list_changed since the last tools/list
         self._lock = asyncio.Lock()   # NDJSON tuần tự - serialize request/response
         # 50 dòng: traceback Python lồng nhau (uvx crash lúc import) dễ vượt 20 dòng,
         # mà dòng NGUYÊN NHÂN nằm cuối cùng - thiếu chỗ chứa là mất đúng dòng đó.
@@ -310,6 +358,9 @@ class McpStdioSession:
         resolved = shutil.which(self.command, path=search) or self.command
         # CreateProcess không chạy .cmd/.bat trực tiếp (npx trên Windows là npx.cmd)
         if str(resolved).lower().endswith((".cmd", ".bat")):
+            direct = npx_node_argv(resolved)
+            if direct:
+                return direct + self.args
             return ["cmd.exe", "/c", resolved] + self.args
         return [resolved] + self.args
 
@@ -326,6 +377,17 @@ class McpStdioSession:
     def alive(self):
         return self.proc is not None and self.proc.returncode is None
 
+    def single_socket_home(self) -> str:
+        """The isolated HOME of a Zalo `mcp start` session ("" for every other server): one account, one socket."""
+        home = str(self.env.get("HOME") or "")
+        words = [str(a) for a in self.args]
+        if not home or "zalo" not in " ".join(words).lower():
+            return ""
+        return home if any(words[i] == "mcp" and words[i + 1] == "start" for i in range(len(words) - 1)) else ""
+
+    def stderr_lines(self) -> list:
+        return list(self._stderr)
+
     # asyncio mặc định trần StreamReader 64KB MỖI DÒNG - tools/list của workspace-mcp là MỘT
     # dòng NDJSON vài trăm KB nên readline() nổ LimitOverrun (đội lốt ValueError). Nới hẳn 16MB.
     _STREAM_LIMIT = 16 * 1024 * 1024
@@ -340,6 +402,16 @@ class McpStdioSession:
             await asyncio.to_thread(mcp_orphans.reap_all)
         except Exception as e:      # noqa: BLE001 - cleanup must never block a session
             print(f"[mcp orphans] {type(e).__name__}: {e}", file=sys.stderr)
+        # A Zalo account allows ONE live socket: any other `mcp start` on this connection's own HOME, from whatever
+        # lifetime, would evict the one we are about to start (0.283.0, see mcp_orphans.reap_same_home).
+        if self.single_socket_home():
+            try:
+                await asyncio.to_thread(mcp_orphans.reap_same_home, self.single_socket_home())
+            except Exception as e:      # noqa: BLE001
+                print(f"[mcp orphans] {type(e).__name__}: {e}", file=sys.stderr)
+        env = dict(os.environ)
+        env.update(_owner_tz_env(self.env))
+        env.update(self.env)
         kwargs = {}
         if os.name == "nt":
             kwargs["creationflags"] = getattr(subprocess, "CREATE_NO_WINDOW", 0)
@@ -347,8 +419,6 @@ class McpStdioSession:
             # Nhóm tiến trình RIÊNG cho cả cây con - xem docstring _kill_tree (vụ 15/08:
             # uvx bị kill nhưng server thật thành mồ côi, 96 tiến trình ăn hết RAM VPS).
             kwargs["start_new_session"] = True
-        env = dict(os.environ)
-        env.update(self.env)
         self.proc = await asyncio.create_subprocess_exec(
             *self._argv(), stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE, env=env, limit=self._STREAM_LIMIT, **kwargs)
@@ -417,6 +487,8 @@ class McpStdioSession:
                 continue   # noise (log npx...) → bỏ qua
             if obj.get("id") == msg["id"]:
                 return obj
+            if obj.get("method") == "notifications/tools/list_changed":
+                self.tools_changed = True   # the pool's cached tool list is stale (SessionPool.cached_tools)
             # notification/request từ server → bỏ qua (Aivon không hỗ trợ sampling)
 
     async def ensure_init(self):
@@ -455,7 +527,7 @@ class McpStdioSession:
                            else _env_seconds("AIVON_MCP_INIT_TIMEOUT", _INIT_TIMEOUT))
                 await self._rpc("initialize", {
                     "protocolVersion": PROTOCOL, "capabilities": {},
-                    "clientInfo": {"name": "aivon-os", "version": "1.0"},
+                    "clientInfo": {"name": "aivon", "version": "1.0"},
                 }, timeout=timeout)
                 await self._rpc("notifications/initialized", notify=True)
                 self._init_done = True
@@ -499,6 +571,7 @@ class McpStdioSession:
     async def list_tools(self):
         await self.ensure_init()
         async with self._lock:
+            self.tools_changed = False   # a list_changed read during this request sets it again
             res = await self._rpc("tools/list", timeout=60)
         return ((res or {}).get("result") or {}).get("tools", []) or []
 
@@ -566,7 +639,13 @@ def _spec_hash(spec):
     elif t == "internal":
         core = (spec.get("internal"), tuple(sorted((spec.get("secrets") or {}).items())))
     else:
-        core = (spec.get("url"), tuple(sorted((spec.get("headers") or {}).items())))
+        hdr = dict(spec.get("headers") or {})
+        if spec.get("oauth_conn_id"):
+            # 0.400.0: the bearer of an OAuth connection changes at every refresh. Hashing it closed the live session
+            # each time, a tool call running on it included (a Canva design mid-generation). `_get` puts the new
+            # token on the session that is already open instead.
+            hdr.pop("Authorization", None)
+        core = (spec.get("url"), tuple(sorted(hdr.items())))
     return hash(core)
 
 
@@ -634,8 +713,20 @@ class SessionPool:
         if not ent:
             ent = {"obj": self._make(spec), "hash": h, "last": time.time(), "epoch": next(_EPOCH)}
             self._sessions[key] = ent
+        elif isinstance(ent["obj"], McpHttpSession):
+            ent["obj"].base_headers = dict(spec.get("headers") or {})   # the current OAuth bearer
         ent["last"] = time.time()
         return key, ent["obj"]
+
+    def stderr_lines(self, key) -> list:
+        """The last stderr lines of the live stdio session under `key` ([] when none)."""
+        fn = getattr((self._sessions.get(key) or {}).get("obj"), "stderr_lines", None)
+        return list(fn()) if callable(fn) else []
+
+    def session_pid(self, key) -> int:
+        """Pid (= process group, POSIX) of the live stdio session under `key`, 0 when none."""
+        proc = getattr((self._sessions.get(key) or {}).get("obj"), "proc", None)
+        return int(getattr(proc, "pid", 0) or 0) if proc is not None and proc.returncode is None else 0
 
     def epoch(self, spec) -> int:
         """Số hiệu của phiên MCP đang sống cho spec này, 0 nếu chưa có phiên nào.
@@ -660,6 +751,25 @@ class SessionPool:
         XẾP HÀNG chờ khoá chứ chưa gửi đi byte nào - khác hẳn "server treo giữa request"."""
         ent = self._sessions.get(spec.get("key") or _spec_hash(spec))
         return bool(ent and ent.get("ban"))
+
+    def cached_tools(self, spec):
+        """The last tools/list answer of the live session for this spec while it is recent, else None.
+
+        None when there is no session, it was replaced or marked stale, its config changed, its process died, it
+        said its tools changed, or the answer is older than _TOOLS_TTL. A hit counts as use of the session, as the
+        real tools/list it replaces did, so the idle sweep keeps treating discovery as activity."""
+        ent = self._sessions.get(spec.get("key") or _spec_hash(spec))
+        if not ent or ent.get("stale") or ent["hash"] != _spec_hash(spec):
+            return None
+        tools = ent.get("tools")
+        if not tools or time.time() - ent.get("tools_at", 0) > _TOOLS_TTL:
+            return None
+        obj = ent["obj"]
+        alive = getattr(obj, "alive", None)
+        if getattr(obj, "tools_changed", False) or (callable(alive) and not alive()):
+            return None
+        ent["last"] = time.time()
+        return tools
 
     def tool_da_biet(self, spec):
         """Danh sách tool của lần dò gần nhất trên phiên này (None nếu chưa dò được lần nào)."""
@@ -767,8 +877,54 @@ class SessionPool:
         finally:
             self._danh_dau_ban(key, -1)
 
-    async def list_tools(self, spec):
-        tools = await self._retry(spec, lambda s: s.list_tools(), idempotent=True)
+    @staticmethod
+    async def _oauth_fresh(spec, force=False, rejected=""):
+        """The spec with the CURRENT bearer of its OAuth connection (0.400.0), or the spec itself.
+
+        The hub keeps the spec of a route for up to 15 minutes (mcp_hub `_CACHE_STALE_MAX`) with the header it had at
+        discovery, so a call made after that token expired went out with it and got 401. Asking oauth_mcp here, right
+        before the request, costs nothing while the token is fresh and refreshes it when it is not."""
+        cid = spec.get("oauth_conn_id")
+        if not cid:
+            return spec
+        try:
+            import oauth_mcp
+            fresh = await oauth_mcp.auth_headers(cid, force=force, rejected=rejected)
+        except Exception as e:
+            print(f"[mcp oauth] {spec.get('label') or cid}: {type(e).__name__}: {e}", file=sys.stderr)
+            return spec
+        if not fresh:
+            return spec
+        return dict(spec, headers={**(spec.get("headers") or {}), **fresh})
+
+    @staticmethod
+    def _is_401(e) -> bool:
+        return isinstance(e, McpHttpError) and str(e).startswith("HTTP 401")
+
+    async def _with_oauth(self, spec, run):
+        """Run `run(spec)` with a fresh bearer; on 401, refresh once more and run again. A 401 means the server turned
+        the request down before doing anything, so running a tool call again cannot do it twice."""
+        spec = await self._oauth_fresh(spec)
+        try:
+            return await run(spec)
+        except Exception as e:
+            if not (spec.get("oauth_conn_id") and self._is_401(e)):
+                raise
+            sent = (spec.get("headers") or {}).get("Authorization", "")
+            again = await self._oauth_fresh(spec, force=True, rejected=sent)
+            if (again.get("headers") or {}).get("Authorization", "") == sent:
+                raise                      # no new token (refresh token revoked): sign in again
+            return await run(again)
+
+    async def list_tools(self, spec, fresh=False):
+        """Tool list of the server behind `spec`. Reuses the live session's recent answer (`cached_tools`) unless
+        `fresh`: a health check or the Test button must reach the server, not a copy."""
+        if not fresh:
+            cached = self.cached_tools(spec)
+            if cached is not None:
+                return cached
+        tools = await self._with_oauth(
+            spec, lambda sp: self._retry(sp, lambda s: s.list_tools(), idempotent=True))
         # Dò được là nguồn đã sống lại (nút Kiểm tra, vòng quét sức khoẻ): bỏ dấu "vừa hỏng" ngay.
         self._down.pop(spec.get("key") or _spec_hash(spec), None)
         self._init_errors.pop(spec.get("key") or _spec_hash(spec), None)
@@ -776,6 +932,7 @@ class SessionPool:
         ent = self._sessions.get(spec.get("key") or _spec_hash(spec))
         if ent is not None and tools:
             ent["tools"] = tools
+            ent["tools_at"] = time.time()
         return tools
 
     async def call_tool(self, spec, tool, arguments):
@@ -792,6 +949,14 @@ class SessionPool:
             except Exception as e:
                 print(f"[mcp] inject_args {spec.get('label')}: {type(e).__name__}: {e}",
                       file=sys.stderr)
+        # Zalo tag markup never goes out as text (0.309.0): the model may call a Zalo send tool directly (owner chat,
+        # reminders, loops), outside the bot's own send path that already strips it.
+        if str(tool or "").startswith("zalo_send"):
+            try:
+                import zalo_markup
+                args = zalo_markup.clean_send_args(tool, args)
+            except Exception as e:
+                print(f"[mcp] zalo markup: {type(e).__name__}: {e}", file=sys.stderr)
         # Nguồn vừa KHỞI ĐỘNG hỏng thì trả lỗi ngay, không dựng phiên mới (0.83.2). Trước đây mỗi lần gọi
         # vào một nguồn chết là một lần spawn lại: server stdio treo chờ tới 90 giây ở `initialize`, model
         # còn gọi lại 2-3 lần, một vòng loop kẹt vài phút và tốn token vô ích. Chỉ nhớ lỗi KHỞI ĐỘNG
@@ -814,7 +979,7 @@ class SessionPool:
             return await s.call_tool(tool, args)
 
         try:
-            res = await self._retry(spec, _op, idempotent=False, ban=True)
+            res = await self._with_oauth(spec, lambda sp: self._retry(sp, _op, idempotent=False, ban=True))
             self._down.pop(key, None)
             return res
         except Exception as e:
@@ -841,6 +1006,7 @@ def _conn_spec(conn):
             "env": conn.get("env") or {}, "internal": conn.get("internal") or "",
             "secrets": conn.get("secrets") or {}, "config": conn.get("config") or {},
             "inject_args": conn.get("inject_args") or {},
+            "oauth_conn_id": conn["id"] if conn.get("auth") == "oauth" else "",
             "label": conn.get("label", "")}
 
 

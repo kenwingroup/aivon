@@ -8,6 +8,1851 @@ English entries start at 0.66.0. Every earlier release is described in the Vietn
 
 Format: each release is a `## [x.y.z] - date` block, with changes grouped under `### Added / Fixed / Improved / Security`.
 
+## [0.526.1] - 2026-11-10
+### Improved
+- **Node and Link counts sit inside the graph.** The line beside the brain picker is gone; the counts now show in the graph's top-left corner, and the eye button hides them with the other labels.
+- **A tidier brain list.** Each brain reads "1920 Nodes · 2480 Links" on a single line in slightly smaller text, no longer split in two.
+
+## [0.526.0] - 2026-11-09
+### Added
+- **Every chat in the history column has a "..." button** in place of the four separate icons (pin, move to project, rename, delete). Its menu: Pin to top, Move to project, Rename (right on the row), Share a link, Export as .md, Mark as unread, Archive and Delete. A right click, or a long press on a phone, opens it too; on a phone it slides up from the bottom with large rows.
+- **Archive a chat:** it leaves the list but keeps every message, so Aivon still remembers it and search still finds it. The "Archived" row at the bottom of the column lists them; an archived chat that is open shows "Back to the list" in its title bar. Writing in an archived chat brings it back to the list.
+### Improved
+- **Delete asks again inside the menu**, suggesting Archive when the goal is only a tidier list, instead of the browser's dialog.
+- **No more "Show more" button:** the list loads more by itself at its end.
+- **Tidier rows:** a pinned chat shows a small pin before its title, the project name has a folder icon in normal weight, the AI brain name is in light grey.
+
+## [0.525.3] - 2026-11-09
+### Fixed
+- **Notice times now match the timezone in Settings.** On a VPS, security alerts and the "System notice" card in Aivon Core printed the server's clock (UTC), seven hours off Vietnam time. They now follow the timezone you picked.
+- The same fix covers the "back at" time when ChatGPT Live runs out, the backup sync time, the last Threads reply, and the webhook event time Aivon reads.
+
+## [0.525.2] - 2026-11-09
+### Fixed
+- **Workflows run by a Claude agent can use every Aivon connection.** Jobs routed to a workflow (even at Full access) and workflows run from chat no longer report "missing tool" when they need Gmail, Sheets, Zalo or another MCP.
+- **Chatbot, the Conversations tab shows only the open brain's chats.** Pages and bots moved to another brain no longer show in the old one, counts included. Turn on "every brain" in the Channels tab to see them all.
+
+## [0.525.1] - 2026-11-09
+### Fixed
+- **The automated check is green again.** Two updates added server routes at the same time, so the reference table had stale positions. Nothing changes for users.
+
+## [0.525.0] - 2026-11-09
+### Added
+- **Choose which brain is the default.** In the brain picker, tap the star on a brain to make it the default. Work that names no brain runs there, and every synced machine follows.
+- **The old Brain Default can be deleted.** Once another brain is the default, Brain Default is an ordinary brain and deletes like any other (still kept in the trash for 30 days). It no longer comes back on its own.
+- **Know before you delete.** The delete box now says how many loops and reminders stop with the brain, and which bots answer from it so you can move them first.
+
+## [0.524.0] - 2026-11-09
+### Added
+- **Connecting GitHub checks for git first and installs it when it is missing, then opens the sign-in step.** Windows uses winget or the official Git installer (no admin rights), Mac uses Homebrew or Apple's tools, Linux uses the package manager when Aivon is allowed to.
+- **A connected GitHub card on a machine without git gets an Install git button.** If the install fails, Aivon shows the exact command to run by hand, Try again and Skip.
+### Fixed
+- **A git installed while Aivon runs is picked up right away, no restart needed.** A server started before git was installed used to keep saying "git is not installed".
+
+## [0.523.1] - 2026-11-09
+### Improved
+- **Reopening the neural graph, opening another tab or a phone reconnecting no longer freezes the whole app.** The app shares one file watcher per folder, built once and kept for 15 minutes after the graph screen closes. Before, each opening built it again, once making everything else wait almost 3 seconds.
+- **The tool list of each MCP connection is remembered for 10 minutes** instead of asking every server again each minute, so far fewer one or two second freezes while chatting. The Test button and the health check still ask the server directly, and a connection that announces new tools is asked again at once.
+
+## [0.523.0] - 2026-11-09
+### Fixed
+- **The install button at the foot of the left menu no longer spills out** on touch tablets and laptops: it is the size of the star button, reads "Install app", and shows only its icon when the menu is folded.
+### Improved
+- **Phone: the model picker moved into the input card, right next to the effort picker**, just like on a computer. Tapping it opens the model list right above the card, never wider than the screen.
+- **A cleaner top bar:** only the menu button, the notification bell and the + for a new conversation remain.
+
+## [0.522.0] - 2026-11-09
+### Improved
+- **Changing the password now has a "Confirm new password" box.** Aivon saves only when both entries match, so one typo can no longer lock you out. It applies to the Account page and to the login block in Settings.
+
+## [0.521.1] - 2026-11-09
+### Improved
+- **Opening the neural graph no longer freezes the whole app.** The graph's file watcher is built on its own thread, so a brain with many folders no longer makes everything else wait up to 2 seconds each time the screen opens.
+- **Every outgoing connection shares one set of security certificates**, loaded once on a background thread at start-up. Before, each outgoing call (community news, Telegram, Zalo, models...) loaded the whole set again, once freezing the app for almost 2 seconds.
+- **Reading the personal Zalo history runs in the background.** After each read, looking for missed messages in the history file no longer blocks anything else.
+
+## [0.521.0] - 2026-11-09
+### Improved
+- **Answers stretch across the whole chat instead of leaving a wide gap on the right:** on the Partners page an answer now reaches the right edge of your own messages (on an iPad from about 780px to over 1,000px), so there is much less scrolling. On a very wide monitor it stops at about 120 letters per line so reading stays easy.
+- **The Chat and Teams pages follow the same rule:** answers are as wide as the chat column, and agent replies in a team are no longer held at 680px.
+
+## [0.520.0] - 2026-11-09
+### Added
+- **Export and upload a whole brain as one .zip file:** each row of the brain picker has an Export button. The file carries notes, images, agents, skills, workflows and memory, and leaves out tokens, raw chats and git history. "Upload a brain (.zip)" always makes a new brain and never overwrites one. Plugins, loops and reminders that come with the file arrive switched off; turn them on where they live if you want them. There is no fixed size limit: the server takes what its free disk can hold, up to a million files. Packing and unpacking run in the background with progress, and the upload goes in 32MB pieces, so a large brain still gets through Cloudflare Tunnel.
+- **Rename and delete right on each row of the brain picker**, with New brain, Upload a brain and Open an outside folder at the bottom. The four separate buttons beside the picker in the top bar are gone.
+### Improved
+- **Start-up screen:** opening Aivon shows the logo and "Starting Aivon…" until the first page has its data. Right after an update or a restart it also says the first open can take a little longer.
+- **Every screen that waits for data uses the Partners page's loading look:** a small spinner with "Loading", or a centered one for a whole page. A page still loading no longer says "in development" by mistake.
+- **The node and link counts in the top bar show only on the neural graph screen**, so other pages are tidier.
+- **The brain picker shows each brain's node and link counts**, as its graph counts them. They are counted only when the picker opens, so page load is not slowed.
+
+## [0.519.0] - 2026-11-09
+### Security
+- **A leaked admin link stays out of Google.** Every Aivon page now carries `noindex`, the login screen and share links included.
+- **AI bots cannot read Aivon.** GPTBot, ClaudeBot, PerplexityBot, SEO tools and scanners such as Shodan and Censys get a 403 and see nothing. Aivon also serves a `/robots.txt` that forbids them.
+- Real browsers, link previews in Zalo or Telegram, webhooks and Aivon Gate work as before. To turn the blocking off, set `AIVON_BLOCK_BOTS=0`.
+
+## [0.518.1] - 2026-11-09
+### Security
+- **Account security files stay out of git and Docker images.** The account fingerprint, security log, sign-in networks and session details are now ignored, so `git add -A` or a local `docker build` no longer picks them up.
+
+## [0.518.0] - 2026-11-09
+### Improved
+- **The Partners and Teams pages show "Loading…"** where a list or a conversation has not arrived yet, instead of an empty space that looked frozen.
+- **A team opens with its Info tab showing** in the side panel on a wide screen. Close the panel and Aivon remembers it next time.
+- **Team search, settings and close buttons look cleaner:** square, borderless, in the same style as the tabs beside them.
+- **The team list loads about 2.5 times faster**, and opening a team takes the same time whether it holds a hundred or tens of thousands of messages.
+
+## [0.517.1] - 2026-11-09
+### Fixed
+- **Opening a chat on the Partners page no longer says "taking too long" by mistake.** No error while the page is reconnecting. A Aivon Core open that hangs shows the error with Retry, and Retry really loads again instead of waiting on the stuck load.
+- **Background work on ChatGPT (Codex) that was refused file writes now says it is an environment problem**, with what to change, instead of sitting in "waiting for your answer".
+- **Memories written by background work no longer get the source of a chat** that happened to be open at the same time.
+
+## [0.517.0] - 2026-11-09
+### Improved
+- **A tidier Account page.** The page header is gone, the Account and Security tabs sit right at the top.
+- **CLI API tokens moved to the Integrations page** (Work group, formerly Webhooks), tab API token. Both are doors for another program to call Aivon, so they now live together. Existing tokens keep working.
+
+## [0.516.1] - 2026-11-09
+### Fixed
+- **ChatGPT (Codex) keeps its tools when a chat resumes after a few idle minutes.** Calendar, Zalo and Drive work on the next turn. On Windows, Codex background work at the "Can write" level writes files again.
+- **Memories no longer break or lose their details after a chat turn.** A memory with a colon in its description keeps its type, description and tags. A memory already broken heals when edited in the app.
+- **Ollama Local runs Team jobs and background work.** No more "engine is not ready" when Ollama at home has no key.
+- **Steadier connections:** behind Caddy (Hostinger VPS) the Facebook sign-in button is no longer locked, the CapCut card signs in, and GitHub in chat uses the saved check commands and understands apps in a subfolder.
+
+## [0.516.0] - 2026-11-09
+### Security
+- **A bot reads only the documents in its Agent's Documents section**, plus the `rieng-theo-nhom/` folder and the Google files linked from the Agent. Before, every note of the brain counted as a document, so a bot could quote the owner's private notes to customers.
+- **To do after updating:** open each bot's Agent and add the price lists, policies and guides the bot should read. A bot with no listed file answers from its Agent's role only.
+### Fixed
+- **Bot document lookups, auto learning and reminders no longer freeze the app for seconds.** They run on worker threads and no longer walk the whole brain.
+- **The Partners page no longer waits on the Resonance data lock**, and the connection catalog is no longer re-checked on disk at every call.
+
+## [0.515.0] - 2026-11-09
+### Security
+- **New Security tab on the Account page.** See 2FA, the devices signed in (IP, browser, last activity) and the history of successful and failed sign-ins and every account change. Sign out one device or all others without changing the password.
+- **Instant alerts on account changes.** Username, password or 2FA changes and sign-ins from a new network reach the owner's bell and Telegram right away. If the settings file is edited outside Aivon, every device is signed out and a red warning shows.
+- **The AI assistant can no longer touch secret files** (settings, encryption key, sessions) at any permission level. To remove 2FA when locked out, add `AIVON_RESET_2FA=1` and redeploy.
+- **Hostinger: port 7979 closes to the Internet once an HTTPS domain is set**, leaving only the encrypted way in.
+
+## [0.514.0] - 2026-11-09
+### Added
+- **File editors save by themselves, like Google Docs.** About a second after you stop typing the file is saved, and the Save button shows "Saving…" then "Saved". Closing, switching files, reloading or a stray Back swipe no longer loses typed text.
+- **Text survives a lost connection.** Unsaved text is kept in the browser and restored the next time the file opens.
+- **A dictation mic in the .md and .txt editors.** Press, speak, and the words land at the cursor, rewritten in context, like the mic in the chat box.
+### Fixed
+- **Text blocks (such as an email draft's TEXT block) wrap** instead of running off to the right. While editing, a sideways touchpad swipe no longer sends the browser Back.
+
+## [0.513.0] - 2026-11-09
+### Improved
+- **The app opens noticeably faster.** The ~110 interface files loaded at startup now travel as one bundle. With 150 ms of network delay the Partners list shows after about 2 seconds instead of nearly 5.
+- **No stall on the first page after a restart or an update.** Minified files are kept on disk, so the server does not redo them from scratch; only files that just changed are minified again.
+- **The Partners page no longer waits in a queue.** The reads for the list, the Resonance status and background work now run off the main loop and stop holding up other requests.
+
+## [0.512.0] - 2026-11-09
+### Added
+- **Personal Zalo bots show "typing..." in groups.** It starts only after the bot has decided to answer (it was called, or the judge chose to speak up) and lasts until the reply is sent, so a group no longer sits in silence for 20-30 seconds. A message the bot leaves alone shows nothing.
+- **An on/off switch on the Chatbot page** for each bot, on by default.
+### Fixed
+- **Private-chat "typing..." no longer goes quiet for an hour.** One chat that Zalo refused, or an MCP restart, used to switch it off in every chat of the account for an hour. Now only that turn loses it, and it lasts until the message has gone out.
+
+## [0.511.0] - 2026-11-09
+### Added
+- **Each chat in the left column carries a small folder tag with its project name.** You can tell which group a chat belongs to at a glance. The tag hides while the list is filtered to that one project.
+- **The engine tag names the brain:** "Claude" instead of "cli", plus "Codex", "Grok", "OpenRouter" and so on instead of internal ids.
+
+## [0.510.1] - 2026-11-08
+### Fixed
+- **Zalo's "Import old messages" button actually imports.** Any chat with even one message in the Inbox used to be skipped, so on an account already recording conversations the import added almost nothing. A chat that has messages now gets the ones older than its first message, placed above it in time order.
+- Imported old messages do not land at the bottom of an open chat, the bot does not take them for new messages, and groups still keep only their latest messages.
+
+## [0.510.0] - 2026-11-08
+### Added
+- **The seven API-key brains show the "Plan" card in the chat too.** OpenRouter, OpenAI, Anthropic API, Gemini, Groq, DeepSeek and Ollama get a `aivon_plan` tool: for a job of three steps or more the model lists the steps and ticks each one off, like Claude Code, Codex and Grok Build. Ordinary questions do not use it.
+- It costs about 200 tokens a request for the tool description (cached by most providers), plus one short tool round each time the list is updated. Switch it off in the composer "+" menu, "Plan long jobs (API brains)". Only the owner's chat gets it, not customer bots or background jobs.
+
+## [0.509.0] - 2026-11-08
+### Added
+- **The chat shows the engine's task plan as a checklist.** When Claude Code, ChatGPT (Codex) or Grok Build plans a multi-step job, a "Plan 2/5" card appears above the answer: done items ticked and struck through, the running one in bold, the rest open. The activity line under the chat says which step it is on. The card stays after a reload.
+- No extra tokens: Aivon only draws the list the engine already made, with no extra model call.
+- **The Jobs tab on the Partners page shows what the assistant is doing in the chat.** The tab only listed queued jobs, so it looked empty while the assistant worked through several steps in the chat beside it. A "Working in the chat" card now shows the step count and the plan, and goes when the turn ends.
+- **The Jobs tab lists the workflow runs the assistant took part in.** One card per run: while it runs it says which step and whose, a run waiting for review sits under Needs you, a failed one is marked failed, and Open goes to that workflow. The source filter gains "Workflows". A run cut off mid-way (the server stopped during it) no longer stays In progress for ever.
+### Fixed
+- **The status dot on an assistant's card agrees with its Jobs tab.** A finished job you pressed Done on (archived) or deleted no longer lights the green "just finished" dot, or the red one when it failed.
+
+## [0.508.1] - 2026-11-08
+### Fixed
+- **The Partners page chat box no longer locks.** Since 0.503, clicking a partner (or a reply just finishing) could leave the chat box refusing the cursor, even after Ctrl+Shift+R. Conversations open at once again.
+- **A conversation that takes too long to open shows an error with a Retry button**, instead of a silently locked chat box.
+- **A new version refreshes what Aivon keeps in the browser by itself**, no Ctrl+Shift+R needed.
+
+## [0.508.0] - 2026-11-08
+### Improved
+- **GitHub cross review is now your call, off by default.** Green CI merges, with no extra model called to review. To review, turn it on per repo (GitHub card, the "..." menu, Cross review), press **Review now** on the chat's GitHub icon, or say "review this PR".
+- **The review runs on the model you are chatting with by default**; it no longer has to be another vendor. Another model can be picked per repo or per review.
+- **Findings wait for your pick.** Aivon no longer sends them off to be fixed: it holds the merge and lists them with **Fix them** and **Skip and merge**.
+
+## [0.507.2] - 2026-11-08
+### Fixed
+- **GitHub cross review runs on the model you picked.** It used to send an empty model, so a Groq card fell back to `llama-3.3-70b-versatile`, which Groq shut down on 16/08/2026, and every review answered 404 and was skipped. The background model now reviews first (when it is from another vendor than the author), other cards use the model and reasoning level picked on the card, and the chat names the model that reviewed.
+- **Groq's default model is now `openai/gpt-oss-120b`**, the replacement Groq names for `llama-3.3-70b-versatile`.
+
+## [0.507.1] - 2026-11-08
+### Improved
+- **Accept or send back right in chat.** When a background job fails its automatic check twice, the notice on Telegram, Zalo or the web chat now lets you just reply "accept" or "fix it", no need to open the Tasks page. With several jobs waiting, Aivon asks which one.
+
+## [0.507.0] - 2026-11-08
+### Added
+- **Zalo OA grants access with OAuth v4.** On Add channel, Zalo OA, paste the App ID, App secret key and OA secret key and click Grant access with Zalo: pick the OA, click Allow and Aivon saves the channel by itself. No more copying a refresh token from API Explorer. The form shows the Callback URL to paste into the Zalo app once.
+- **Grant again in one click.** When the refresh token dies, open Edit on the channel and click Grant access again with Zalo; Aivon uses the saved keys and the bot on duty restarts.
+
+## [0.506.3] - 2026-11-08
+### Fixed
+- **Dictation no longer stops when you switch tab.** Alt Tab or another page while dictating, the computer keeps listening and the words are all there when you come back.
+- **On a phone it picks up again when you return.** A phone cuts the mic while the browser is in the background, so speech said in another app is not heard. What was already recorded is kept, and the mic reopens by itself when you come back to Aivon, no new press needed.
+
+## [0.506.2] - 2026-11-08
+### Fixed
+- **Updating no longer "loses" teams.** When the page reopened while the server was still starting, Aivon silently switched to Brain Default, so the Teams page listed another brain's teams and new teams were created there. Aivon now always opens the brain you picked and keeps retrying until the brain list loads.
+- No team data was ever deleted: a team that "vanished" before is in the other brain, pick that brain in the brain selector to see it.
+
+## [0.506.1] - 2026-11-08
+### Fixed
+- **A background job that fails its automatic check no longer shows an empty "Type your answer" box.** Before, a finished job that failed the check moved to "needs your answer" even though there was no question.
+- **On the first miss the job goes back to its worker to fix**, using the checker's reason, without bothering you.
+- **Only a second miss reaches you**, as a card saying "Automatic check did not pass" with two buttons: **Fix and run again** or **Accept as is**. Checking a finished job again and failing shows the same two buttons.
+
+## [0.506.0] - 2026-11-08
+### Added
+- **Your ChatGPT plan hears your voice, no key needed.** Once ChatGPT is connected on the Models page, dictation, Basic calls and Telegram or Zalo voice messages are heard by the plan itself, and a Vietnamese sentence with English words keeps both languages.
+- **The ear follows the model in use.** With ChatGPT as the main brain the plan hears first; with Groq or OpenAI, that vendor's ear. Claude, Antigravity and Grok offer no ear on their plans, so Aivon uses the best one it has.
+### Improved
+- **Agents hear with their own ear.** An agent on a vendor's model has its dedicated bot's voice messages and its chat's dictation heard by that vendor, not by the main brain's.
+- **Ears upgrade with the vendor, scored first.** Once a day Aivon asks Groq, OpenAI and Google for their models. When a new one appears, it and the model in use hear the same Vietnamese and English sentences, and the new one is used only if it is not worse. When an ear fails the next one hears, so the sentence is not lost.
+
+## [0.505.2] - 2026-11-08
+### Fixed
+- **Zalo messages no longer slip past the inbox after a short connection drop.** Aivon uses aivon-zalo 1.9.1. When the Zalo connection dropped for under 5 seconds and came back on its own, the messages in between only reached the history, not the inbox or the bot. They now arrive live like any other message. One faulty message also no longer takes the rest of its batch down with it.
+
+## [0.505.1] - 2026-11-08
+### Fixed
+- **Bots no longer send "You've hit your monthly spend limit" to customers.** Once the Claude plan's monthly extra-usage cap was spent too, Claude Code printed a new notice Aivon did not recognise, so a Zalo bot pasted that English line into its reply to a customer. It now counts as a failed turn like every other plan-limit notice: the customer receives nothing and the owner is told in the notification bell. Chat, Kanban jobs and workflows also read it as the plan running out, with the reset time.
+- **Plan-limit notices with a curly apostrophe (You’ve) are recognised** like the straight one.
+
+## [0.505.0] - 2026-11-08
+### Improved
+- **The reading voice follows the language of each answer.** An English answer is read in proper English by an English-speaking voice, no more "Vinglish". A Vietnamese answer is read by Hoai My or Nam Minh, and English words inside it are still said the Vietnamese way.
+- The voice picked in Settings decides male or female: with Hoai My picked, English answers are read by Emma; with Andrew picked, Vietnamese answers are read by Nam Minh. Voice notes sent on Telegram follow the same rule.
+- **The interface now comes in English and Vietnamese only.** The German translation was removed from the language picker. A device set to German falls back to English.
+
+## [0.504.0] - 2026-11-08
+### Added
+- **The Zalo bot on the Admin channels page can call a partner, like Telegram.** Type `@<name> <question>` to ask once, or `/agent <name>` to let that partner answer the whole chat.
+- **Assistant cards on the Partners page show their tags right under the name**, beside the avatar. Aivon Core's "System" badge moved to that line too. In a narrow column the extra tags fold into "+n".
+### Fixed
+- **Chats from Zalo and Telegram (Admin channels) now show in Aivon Core's history**, and a chat that called a partner shows in that partner's history, labelled TG or zalo.
+- **`/brain`, `/reset`, `/stop` and `/model` on the Zalo admin bot act on the chat you are in.** Before, they changed another session, so the chat could land in the default brain.
+- **A dedicated bot can no longer share the Zalo admin bot's token.** Sharing it split the messages and half of them went to the customer inbox, missing from your chat.
+
+## [0.503.2] - 2026-11-08
+### Improved
+- **While Aivon answers or runs a Kanban job, other clicks no longer wait in line.** Reading and writing the chat history during each turn (including reading back a long chat to send to the model) and every write of a Kanban job now run on worker threads, off the loop that serves the interface.
+- **Read-heavy pages (Files, memory, backup, self-learning, reminders, loops, chat groups, chat assets...) no longer stall the whole server on a large brain.** Blocking calls on the main loop went from 347 down to 218, Kanban to 0.
+- A new test stops that number from growing again.
+
+## [0.503.1] - 2026-11-08
+### Fixed
+- **The Aivon home-screen app on iPhone (iOS 26/27) no longer shows a blur strip at the top.** The status bar is now solid and the page starts right below it, so iOS has nothing left to blur.
+- **One-time step:** remove the Aivon icon from the Home Screen, then open Safari, tap Share, Add to Home Screen again. iOS only reads the status bar style when the icon is added.
+
+## [0.503.0] - 2026-11-08
+### Improved
+- **Opening the app, a page or a chat now asks the server in one trip instead of several waves.** Aivon learns what each of these moments reads, then sends it all together next time, and the server streams each answer back as soon as it is ready. Measured over a slow link: app start from 3.5 s to 2.6 s and from 47 requests to 22; a chat switch from 5 requests to 1.
+- Anything the server leaves out of a batch is simply asked for on its own, as before, so nothing goes missing.
+
+## [0.502.0] - 2026-11-08
+### Improved
+- **Going back to a chat shows it at once, even after reloading the page.** Aivon keeps the last part of the 50 most recent chats in this browser, draws from it, then asks the server for the newest copy. Measured over a slow link: from about 0.3 s down to 0.03-0.04 s.
+- **The chat you are teaching Aivon in no longer loads from scratch.** Leaving a chat with new messages fetches its new copy in the background, and so does a reply that finishes in another chat. The first chats of the list are loaded ahead when the device is idle, phones included.
+- **The Skills, Connections, Channels, Settings, Models, Self-learning, Plugins and Webhooks pages show at once on a return visit.** A page draws the data of the last visit, then updates itself if anything changed, unless you already clicked or typed on it. Measured over a slow link: from 0.3-0.7 s down to 0.02-0.1 s.
+- Signing out clears the chats kept in the browser.
+
+## [0.501.4] - 2026-11-08
+### Improved
+- **Private Zalo catch-up no longer runs on a schedule.** Aivon only reacts when the Zalo history file actually gets new messages, and only looks at those. A day without messages costs almost nothing (one file size check after each read), with no Zalo call and no scan of quiet chats.
+
+## [0.501.3] - 2026-11-08
+### Fixed
+- **Bots hear Zalo voice messages.** A Zalo voice message is bare AAC, which Groq and OpenAI refuse, so the bot said it could not hear it. Aivon now detects the format from the file's bytes and converts it to mp3 before sending, on every channel.
+
+## [0.501.2] - 2026-11-08
+### Fixed
+- **Pages and chat switches no longer stall for seconds while Aivon works in the background.** The Kanban dispatcher (every 5 seconds) wrote its job store on the server's main loop, so whenever that store was busy every click waited too, sometimes over a second. That work now runs on a worker thread.
+- **The Claude Code self-update no longer freezes the server for 3 seconds.** Reading the model list out of the `claude` program moved to a worker thread as well.
+### Improved
+- **`/health/loop` now records short freezes too (from 0.3 seconds).** Each one is counted against the code that caused it and ranked by total time lost, so the next slowdown names its own cause.
+
+## [0.501.1] - 2026-11-08
+### Fixed
+- **Private Zalo chats no longer have holes in the inbox.** A private chat could stop at one message while the phone kept going both ways. About every 1.5 minutes Aivon now compares the inbox with the Zalo history and writes what is missing, including messages typed on the phone. Recovered messages show as unread, are not handed to the bot for a late reply, do not duplicate what the bot already sent, and never replace the chat's last message.
+
+## [0.501.0] - 2026-11-08
+### Improved
+- **Every model time cap is gone.** Grok no longer stops at minute 15, a single Claude Code or ChatGPT command is no longer cut at one hour, and background work and Teams run until done. The Stop button still ends anything at any moment.
+- To bring a cap back, set the matching environment variable (seconds), such as `AIVON_GROK_TIMEOUT` or `AIVON_BG_MAX_WALL_S`. Old Grok builds that cannot auto-approve tools keep a 15-minute net so they never hang forever.
+
+## [0.500.5] - 2026-11-08
+### Fixed
+- **Antigravity CLI no longer stops at minute 15.** Heavy, many-step work now runs until done, like Claude Code and Codex. The Stop button still ends a turn at any moment.
+- To set a cap again, use the `AIVON_AGY_TIMEOUT` environment variable (seconds). The read-only mode keeps a 15-minute net because it does not auto-approve tools.
+
+## [0.500.4] - 2026-11-07
+### Fixed
+- **Moving to a second Claude account now really works.** Before, when account 1 ran out, Aivon picked account 2 but still tried to resume the old conversation thread, which lives in account 1's folder. Claude Code could not find it and exited at once, so every later message failed with "SDK engine: ProcessError: Command failed with exit code 1". Aivon now sees the thread belongs to another account, opens a new one on the running account and primes it from the saved history, so the chat carries on.
+- **A lost thread is restored even when Claude Code reports it by exiting.** Newer Claude Code releases report "No conversation found" by exiting with code 1 instead of returning an error result, so the old restore path never ran. Both ways are recognised now.
+
+## [0.500.3] - 2026-11-07
+### Improved
+- **A tidier Team page.** The team description sits in the (i) beside the team name instead of a line under it. The remaining explanation lines (Advanced, the reply log, the coordinator's authority, how to write mandate sources, Files and Links) fold into the (i) too.
+- **Files and Links no longer cut their text off.** When empty they show one short line; the explanation is in the (i) by the heading.
+
+## [0.500.2] - 2026-11-07
+### Fixed
+- **A merged PR no longer sticks on "waiting for CI".** When a PR was merged while Aivon had lost its GitHub connection, the chat kept the working-branch icon forever. It now shows as merged, and `aivon_github` no longer reports "waiting for CI" for a merged PR.
+
+## [0.500.1] - 2026-11-07
+### Fixed
+- **CI no longer fails at random on the startup speed check.** The old test timed the server import and went red on slow runners. It now lists the libraries loaded at startup: no clock involved, and a heavy library that slips in is named.
+
+## [0.500.0] - 2026-11-07
+### Improved
+- **Cleaner assistant cards.** The grey, cut-off role line under each assistant's name is gone. The full role now opens from an (i) button in the card's top right corner, right above the Auto switch.
+
+## [0.499.0] - 2026-11-07
+### Added
+- **Call Aivon over the API without holding a connection open.** `POST /chat/jobs` answers at once with a job id, the turn runs in the background, and `GET /chat/jobs/{id}` returns the answer later. Good for serverless backends, and a dropped connection no longer loses the result.
+- **Each job belongs to the token that started it.** Other tokens cannot read it, each token runs at most 4 jobs at once, one per session. Results are kept for 24 hours.
+
+## [0.498.0] - 2026-11-07
+### Improved
+- **Partner voice calls keep longer instructions.** The partner file text sent into a call grows from 4,000 to 12,000 characters and memory from 2,000 to 6,000, adjustable with `AIVON_VOICE_AGENT_BODY_CHARS` and `AIVON_VOICE_AGENT_MEMORY_CHARS`. Rules placed between `<!-- AIVON_VOICE_RULES_START -->` and `<!-- AIVON_VOICE_RULES_END -->` in the partner file always move to the top and are never cut.
+- **Partners do not make up figures on a call.** Every partner call carries a rule that is never cut: changing facts come from tools, and a task is reported done only when a tool returned success.
+
+## [0.497.0] - 2026-11-07
+### Added
+- **Your own mascot picture.** In Settings > Mascot, tap Upload a picture: it is cut to the chosen shape and shows on the pet, the sidebar mark and the shape picker. Use the Aivon face brings the drawn face back.
+- **The same picture becomes the browser tab icon**, so several Aivon open at once tell apart at a glance. A switch keeps the logo on the tab if you prefer.
+
+## [0.496.0] - 2026-11-07
+### Added
+- **Name the account at its first sign-in.** The ChatGPT, Claude Code, Grok and Antigravity cards and an API card's first key ask for a name before signing in, and the name shows on the card's status line, so accounts are never mixed up.
+- **Rename an account any time.** A card's ⋯ has "Name the account", and every account in a card's list has "Rename". A newly added account needs a name.
+### Improved
+- **Connect another provider has no popup any more.** One tap unfolds every provider card right below, a second tap folds them.
+
+## [0.495.1] - 2026-11-07
+### Fixed
+- **The chat no longer sits on "Lost the connection to the server" for hours.** A message the server failed on used to drop the connection, the page reconnected and sent the same message again, which dropped it again, forever, even across server restarts. Now the server shows the error under that message and the connection stays up.
+- **A message sent 3 times without being taken goes back to the input box** instead of being resent forever.
+- **An expired sign-in shows the sign-in screen** instead of "reconnecting" forever with every list at 0.
+- **A brain on Google Drive or OneDrive freezes the server less:** the folder scans at the start and end of each chat turn run on their own and no longer block the connection.
+
+## [0.495.0] - 2026-11-07
+### Added
+- **Your next message, suggested right in the chat box.** Once Aivon answers, the empty box shows in grey what you will most likely type next (for example "ok, go with the proposal for both PRs"). Press **Tab** to fill it in, edit it or press Enter to send; on a phone tap the **Tab** button next to the box.
+- Works in the main chat and on the Teams page. Suggestions run on the background model, not the main brain. Switch it off or on from the chat's **+** menu, "Suggest my next message".
+
+## [0.494.0] - 2026-11-07
+### Added
+- **Per-partner ChatGPT Live voice selection.** Pick a supported realtime v3 voice in the shared partner editor; Default inherits the global voice. The preference is stored with the partner frontmatter and follows Brain Sync.
+- **Session isolation.** Other partners, Aivon Core and non-ChatGPT Live engines keep their existing voice settings.
+
+## [0.493.2] - 2026-11-07
+### Fixed
+- **Partner voice calls no longer call themselves ChatGPT.** The partner's identity now leads the call's instructions, so "who are you?" (in English too) gets the partner's own name.
+- **A partner call no longer pulls in the main brain's shared memory,** only that partner's own instructions and memory, so it stays within its role.
+
+## [0.493.1] - 2026-11-07
+### Fixed
+- **Workflow agents with no model of their own now run on the main model.** Before, such a step always ran on Claude whatever brain was picked on the Models page. An agent with its own model keeps it.
+
+## [0.493.0] - 2026-11-07
+### Added
+- **Unread chats get a red dot.** When Aivon has answered and you have not opened the chat since, its row in the chat history shows a red dot and a heavier title, on the Chat page and in the history column of the Partners page.
+- **Opening a chat clears its dot.** New replies to the chat you are looking at never light it, and a chat read in one tab clears in the others.
+- **Unread counts in the Teams and Partners lists turn red.** A muted team or partner keeps its grey count.
+- Chats from before this version count as read, so the history does not all light up at once.
+
+## [0.492.1] - 2026-11-07
+### Improved
+- **The Chatbot page opens much faster on a busy inbox.** The "messages today" counts on Conversations and on each bot card used to read every stored message every 5 seconds; now they read only the time range they need.
+- **The Stats tab counts faster and remembers.** The earlier period it compares against is kept for 10 minutes, so switching tabs does not count everything again.
+- **Conversations asks for the list and the channels at the same time** instead of one after the other. While the page counts, the rest of Aivon no longer freezes.
+
+## [0.492.0] - 2026-11-07
+### Added
+- **Turn scheduled jobs off on one machine.** With one brain shared across machines, each reminder used to run once on every machine running Aivon. The Recurring view on the Tasks page now has a switch for the machine you are on; other machines keep running the schedule.
+
+## [0.491.0] - 2026-11-06
+### Fixed
+- **One failed GitHub push no longer stalls for good.** After a failed push, later turns counted as "nothing changed" and never pushed again, even after signing in to GitHub again. Aivon now retries on the next turn, every few minutes, and right when GitHub is connected again, then opens the PR, waits for CI and auto-merges as usual.
+- **Push errors in plain words.** Instead of git's `could not read Username`, Aivon says whether the sign-in or the write permission is missing, and what to do on the Connections page.
+### Added
+- **Push again button** in the chat's GitHub panel, for a push waiting to be retried.
+### Improved
+- **The model knows the repo's real state** (on GitHub or not, PR, CI, why it is stuck), so it no longer answers "I am not allowed to push" or offers code edits just to trigger a push.
+
+## [0.490.1] - 2026-11-06
+### Improved
+- **The "Repos downloaded for this brain" dialog looks like the Tasks page.** Each repo is a compact card: its name, chat count and auto-merge state, with a switch to turn auto-merge on or off.
+- **Checks, Numbers and Remove from brain move into a ⋯ button.** It opens a menu like the Tasks page, sliding up from the bottom on a phone, with Remove in red so it is not hit by mistake.
+
+## [0.490.0] - 2026-11-06
+### Added
+- **A QR code for every share link.** The QR icon on each row of the Share links page shows the code, and a phone scan opens that link. A PNG download is there for printing or sending.
+
+## [0.489.1] - 2026-11-06
+### Fixed
+- **Press Merge, close the panel, and the PR still merges.** Closing the GitHub detail panel (or the tab) right after pressing Merge used to cancel the merge halfway. Aivon now finishes it in the background and posts the result in the chat.
+- Reopening the panel during a merge shows "Merging..." instead of the Merge button, so it never merges twice.
+
+## [0.489.0] - 2026-11-06
+### Improved
+- **Dictation shows the words right in the chat box** again while you speak on a computer, like before, with no faded bubble above. Phones still show the text when the recording ends.
+- **What you said is rewritten in context before it is used.** On stop, Enter or Send, a model reads the last few messages and rewrites the whole sentence, fixing every mishearing, not just a few words like "Travis OS" into "AIVON". Sending right away sends the rewritten sentence.
+- **The fast path goes first.** A main model on an API key does it itself. With Claude Code or Codex as the main model, an API key on the machine does it (Groq first) and the CLI is only the last resort, so it usually takes about a second.
+- A network error or a model slower than 25 seconds keeps the words as heard, nothing is lost. The Groq or OpenAI ear now always keeps the Aivon name in its hint, even with many connections.
+
+## [0.488.0] - 2026-11-06
+### Added
+- **Change a share link's address.** The pencil edits both the name and the part after `/s/`, like `/s/vibecode-aivon`. The random-code link you already sent keeps working.
+- **View counts per link.** Each row shows views, people, the last 7 days, the last view and a 14-day chart. Link-preview bots and your own opens while signed in are not counted.
+### Improved
+- **A tidier Share links page.** Actions are icons like the Tasks page, with filters (Files, Conversations, Never viewed) and sorting (Newest, Most viewed, Recently viewed), and revoking asks first.
+### Fixed
+- **Buttons on page 2 and later of the link list work again.** Before, only the first page responded.
+
+## [0.487.3] - 2026-11-06
+### Fixed
+- **A message sent right before swiping to another app on a phone no longer vanishes.** The phone sometimes let the connection die silently, so the message never reached the server and the whole exchange was gone on return, History included. The server now confirms every message it receives, Aivon resends any unconfirmed one after reconnecting, and a resend never runs twice.
+
+## [0.487.2] - 2026-11-06
+### Fixed
+- **The chat's GitHub icon no longer stays orange after a merge.** A chat with two repos where only one had work now shows "merged". An untouched repo no longer skews the state.
+- **A repo blocked by the pre-push checks now shows red "needs a person"** with the reason. It used to pulse orange as if Aivon were working on it, mostly after a restart, so the repo looked forgotten.
+
+## [0.487.1] - 2026-11-06
+### Fixed
+- **Aivon pushes to GitHub even when the repo has CI jobs for macOS or Windows.** A Linux machine used to run the Mac install test too, which hung, turned red and stopped the push of an unrelated change. Jobs for another OS are now left to GitHub CI, and Aivon still merges on its own once CI is green.
+
+## [0.487.0] - 2026-11-06
+### Added
+- **The dictation bubble fixes words as you speak (computer), in the main chat, Teams and the Chatbot inbox.** The faded bubble shows what was heard, then the fixed text a moment later: Aivon uses Groq when you have added its key, otherwise the background model. Stop recording and the box gets the fixed text. If the server does not answer, the words stay as heard.
+### Fixed
+- **Aivon hears AI product names more accurately.** "Groq", "Grok", "Claude", "ChatGPT", "Gemini", "OpenRouter"... come out spelled right, and "Groq" is no longer changed into "Grok".
+- **"AIVON" now comes out as "AIVON".**
+- **Dictation on Android no longer loses words.** The previous version dropped a short sentence said right after a longer one that began with the same word. The text is now rebuilt from everything the phone heard, still without repeats like "I I am".
+### Improved
+- **A team's GitHub repo shows the GitHub logo, as in the main chat**, on the repo chip, in the "+" menu and in the team info panel.
+
+## [0.486.5] - 2026-11-06
+### Fixed
+- **The iPhone menu no longer overlaps itself.** At the bottom of the menu, the "System" group used to cover the language picker (clearly on Safari). Each now has its own row, and a long menu scrolls as usual.
+- **The home screen app no longer looks frozen.** Sometimes iPhone slid the whole page on launch, so every tap missed its button. Aivon now slides the page back on launch, on return from the background and as you touch.
+
+## [0.486.4] - 2026-11-06
+### Improved
+- **Release checks finish sooner.** The recipe archive tests are split into three files so the CI runners share the load more evenly.
+
+## [0.486.3] - 2026-11-06
+### Improved
+- **Release checks finish sooner.** Python tests now split across 4 runners instead of 2. Nothing changes for users.
+
+## [0.486.2] - 2026-11-06
+### Improved
+- **The dictation mic on computers shows the words in a faded bubble again.** While you speak, the sentence being recognized shows in a faded draft bubble at the foot of the chat, so you can see Aivon is listening. The box stays still until you press stop or send, then the whole text lands in it.
+- Phones get no such bubble: on Android the recognizer resends the whole sentence on every result, so the bubble kept repeating it. On a phone the text still lands in the box only when you stop.
+
+## [0.486.1] - 2026-11-06
+### Fixed
+- **Voice calls no longer stay stuck on ChatGPT Live when the ChatGPT plan runs out.** The call used to reopen the same empty account and show "You've hit your usage limit" again and again, even after the main model was switched to another plan. That account now rests until its reset time and the call moves at once to the second ChatGPT account, then to Live with an API key, then to the Basic path (answered by the main model).
+- **ChatGPT Live can run on a second ChatGPT account.** Voice calls used to run on account 1 only.
+- **The Basic path no longer picks an exhausted ChatGPT** as its quick-reply brain: until the reset, turns go to another brain.
+- **The out-of-quota error shows once**, with the reset time read from "try again at 8:42 AM" (chat reads that time too).
+
+## [0.486.0] - 2026-11-06
+### Added
+- **Ticking a task sounds satisfying.** A crisp click and a bright ding, with a sparkling run for the day's priority. Ticking a habit gives a whoosh of flame and orange embers; thawing one cracks the ice, rings glass chimes and throws blue shards before the fire comes back. A clean day gets a short fanfare. The sounds are made in the browser, no file to load, and stay silent on a hidden tab.
+- **A sound switch beside the light/dark one.** A speaker with waves means on, crossed out means off. Just on or off, no volume. Turning it on answers with a tick. On a phone it sits in the menu foot, just before light/dark.
+### Improved
+- **A cleaner top bar: the History and reset-conversation buttons are gone.** The conversation list stays on the Chat page (first in the menu). The phone's "+" new chat works as before.
+- **One priority star a day.** Pick the single task that matters most that day. Starring another task of the same day moves the star there (with Undo) instead of refusing.
+### Fixed
+- **A missed habit has Skip and Delete.** A missed time of a habit (say "Run 3 times a week") sat in the Overdue box with no buttons. It now offers Skip this time and Delete, like any overdue repeat.
+- **The + button no longer covers the last task.** The Tasks page leaves room at the bottom, so the last task's Move, Delete and star buttons stay reachable.
+
+## [0.485.1] - 2026-11-06
+### Fixed
+- **On a phone, the Tasks page's + button sits down in the corner and no longer covers a loop's "On" switch.** The page ends with room for it, so the last row always scrolls clear of the button.
+
+## [0.485.0] - 2026-11-06
+### Added
+- **Mine now reaches the bell (and Telegram, phone push).** A task with a time is announced at its time. A repeating task is announced on each of its days, except one already done or skipped.
+- **A morning summary at 07:30:** every task and appointment of the day in time order, with the number of overdue tasks.
+### Fixed
+- **An appointment with its reminder left empty is announced 15 minutes before**, as the page always showed. Appointments Aivon made from chat were never announced before. "No reminder" still means none.
+
+## [0.484.2] - 2026-11-06
+### Fixed
+- **GitHub cross review no longer says "did not run" on every job.** Aivon used to pick the ChatGPT plan to review code Claude wrote, but the review only runs engines without file tools, so the ChatGPT plan (like Grok Build and Antigravity) was always refused. Aivon now picks Claude or an API-key provider of another family, skips cards out of quota, and tries the next reviewer when one fails.
+- **A skipped review says why**, with the error, and when no engine can review the chat says how to enable it: add an API key of another family (OpenAI, Gemini, DeepSeek, OpenRouter...).
+
+## [0.484.1] - 2026-11-06
+### Fixed
+- **No empty bubble when coming back to a running chat.** If you left a chat while Aivon was working and came back, an empty answer bubble showed above the progress line. Now you see the steps so far and the progress line, and the bubble appears once Aivon starts writing.
+
+## [0.484.0] - 2026-11-05
+### Added
+- **A chat that falls back switches its model display too.** When the chosen model runs out of quota and Aivon moves to a fallback card, the chip switches to the fallback model's name with an amber dot, and the picker's tick, the Effort chip, the plan usage ring and `/model` follow the model running. Moving the Effort slider then sets the fallback model's own level. Hover (or press) the chip to see the chosen model, when its quota returns, and the model running.
+- **One short line in the chat when the route changes**, for example "Antigravity is out of quota → using Claude Code". It shows on the first turn that moves, not on every message. Once the chosen model has quota again, the chat says so in one line and the chip turns green again.
+- **The model picker tags providers "Out of quota" and "Running"**, so you see at once which one is resting and which one is filling in.
+### Improved
+- Your model choice never changes during a fallback: Aivon goes back to the chosen model when its quota returns, and picking a model by hand tries it right away. The chip updates in place, with no page reload or restart.
+
+## [0.483.0] - 2026-11-05
+### Added
+- **Cloudflare is built into Aivon, no Store install needed.** The Connections page, Available tab, has a Cloudflare card with two ways in: paste an API token, or press Connect, sign in to Cloudflare and tick the permissions on Cloudflare's own page. Read-only by default, and the `execute` tool stays in the dangerous group.
+- **Machines that installed the Cloudflare pack from the Store keep working.** Existing connections move to the built-in version with no duplicate error.
+
+## [0.482.1] - 2026-11-05
+### Fixed
+- **The Chat entry at the top of the sidebar no longer shows `page.chat.label`.** Right after an update, while the server was still starting, the dictionary arrived late and this entry kept the raw key. Every sidebar entry now redraws its text when the dictionary arrives.
+- **The language picker in the sidebar foot no longer sticks to the version row.** The picker and the version row now share one divider with even spacing, the picker matches the collapse button's height and its text is a little larger. With only one language the empty picker no longer shows.
+
+## [0.482.0] - 2026-11-05
+### Added
+- **OpenAI Compatible takes several keys.** This is the advanced API key route: each key has its own address (NVIDIA Build, Kimi, OpenRouter, LiteLLM...), Aivon reads each gateway's model list, and when the key in use runs out it moves to the next one. A gateway that lists no models opens a box for the model name.
+### Fixed
+- **The Claude Compatible card is back.** Version 0.477.0 renamed it "Advanced API key", so the Claude Compatible route disappeared. It is its own card again, still with several keys, and saved keys are kept.
+
+## [0.481.9] - 2026-11-05
+### Fixed
+- **Dictation on Android no longer repeats like "I I am I am learning".** Some Android phones resend the whole sentence each time they hear one more word, and Aivon used to append every draft. Only the latest sentence is kept now.
+### Improved
+- **The dictation mic now works like a voice recorder**, in the main chat, Teams and the Chatbot inbox. While you speak the box stays still. Press stop or send and the whole text appears at once.
+
+## [0.481.8] - 2026-11-05
+### Improved
+- **Opening an old chat shows faster and the device stutters less.** Bubbles rebuilt from history no longer all play the fade-in at once, which took most of the drawing time on phones. New messages still fade in.
+- **Opening a chat downloads less.** The chat view no longer fetches stored tool details it never shows, up to 70% less on some chats.
+- **The Teams page asks for messages the moment you click,** instead of after drawing the whole page.
+
+## [0.481.7] - 2026-11-05
+### Security
+- **/health/loop now needs the login.** It shows error details and server paths. /health itself stays open as a liveness check.
+- **A "chat" API token only reaches the chat routes**, and can no longer create, edit or delete chatbots.
+- **Two customer files with the same name on WhatsApp are both kept**, the second no longer overwrites the first.
+- **Web reading and page watching connect to the exact address that was checked**, so a domain that changes its DNS midway cannot lead into the private network.
+
+## [0.481.6] - 2026-11-05
+### Security
+- **A pack that says it replaces another no longer switches itself on.** Only the official store's release keeps the old pack's on state. The install screen names the pack it removes and hands plugin data to.
+- **A page on another localhost port can no longer send commands to Aivon.** A dev server or another app on the same machine cannot open the terminal or call the API. The CORS opening for every localhost port now needs `AIVON_DEV_CORS=1`.
+- **A shared note's link no longer serves images from the brain's inbox/, memory/ or hidden folders.**
+- **Custom MCP tools named forward, share, trash, transfer and the like count as writes**, so they do not run at Read only.
+- **Running the Docker workflow by hand only publishes an image from main.**
+
+## [0.481.5] - 2026-11-05
+### Fixed
+- **Pressing Enter while dictating sends right away.** No need to press stop first: Aivon stops recording, waits for the last words, then sends. Works in the main chat, the customer reply box on the Conversations page and Team chat.
+- On a phone Enter is still a new line as before; tap send to send.
+
+## [0.481.4] - 2026-11-05
+### Improved
+- **New conversation on the Partners page clears the chat at once.** It used to wait for two network round trips in a row and rebuild the right column; now it takes one, and server calls drop from 18 to 7.
+- **Switching chats in History is much lighter.** The list only moves its highlight instead of reloading the list, unread counts, background jobs and the inbox on every click (about 14 calls down to 5).
+
+## [0.481.3] - 2026-11-05
+### Security
+- **Chatbots and background work below Full access can no longer write where code runs.** plugins/, Aivon/ (loops, scripts), .git, .claude and engine config can only be written by the owner at Full access. A customer chatbot cannot write there at any level.
+- **Scheduled work no longer outranks whoever created it.** A reminder or Kanban job created by an "auto" or "suggest" run now runs at that level instead of Full access by default. A run below Full access can no longer edit an existing scheduled job.
+- **HTML, SVG and XML files opened from a brain run in a sandbox.** As with share links, their script can no longer use the owner's login. PDFs and images show as before.
+- **Adding an MCP connection needs Full access, and customer chatbots no longer see that tool.**
+- **The login-free path for tools on the machine (/reminders) refuses requests from web pages**, including a page that rebinds its domain to 127.0.0.1.
+- **The .grok/ folder (it holds the hub key) no longer goes into git or the GitHub backup.** A brain that committed it has it untracked at the next backup. If you used Grok Build with backup on, rotate the hub key: delete `.hub_token` in the Aivon data folder and restart.
+
+## [0.481.2] - 2026-11-05
+### Improved
+- **Every mascot menu item now has an ✕**, the six default ones included. The eye button is gone.
+- **The menu can be emptied completely.** With an empty menu the mascot still slides out but opens no box. Bring any item back with "Add feature".
+
+## [0.481.1] - 2026-11-05
+### Improved
+- **Items you added to the mascot menu now have an ✕ to remove them.** The six default items keep their eye to hide or show and cannot be removed, so the menu can always go back to how it was.
+- **"Assistants" in the mascot menu is now "Partners"**, the name of the page it opens.
+
+## [0.481.0] - 2026-11-05
+### Added
+- **New `security-audit` system skill.** Every brain now ships Cloudflare's security review workflow: a quick security question uses only the relevant part, while "security audit this repo" runs all six phases (architecture recon, hunting by area, independent verification of each finding, a report with fixes). MIT licensed, with attribution.
+
+## [0.480.1] - 2026-11-05
+### Fixed
+- **You can star tomorrow's tasks ahead of time.** A priority star now counts for its task's own day: each day has its own 3 slots, today's stars no longer block starring tomorrow, and starring a task for tomorrow keeps it on tomorrow (it used to be pulled to today). Only an undated or overdue task is brought to today when starred.
+
+## [0.480.0] - 2026-11-05
+### Improved
+- **Chat now stands alone on the first row of the sidebar**, always visible, no need to open the Brain group first.
+- **Graph is renamed Neural network**, with a new neural network icon drawn for Aivon (three layers of linked nodes). Asking Aivon to "open neural network" opens it too.
+- **Self-learning has its own icon** (a brain with a cog), no longer the same as the Brain group's.
+
+## [0.479.0] - 2026-11-05
+### Improved
+- **Hide items from the mascot menu.** Each row in Settings > Mascot > Mascot menu has an eye button: press to hide, press again to show. A hidden item keeps its place in the list and only leaves the menu. At least one item always stays shown.
+- **Drag up and down to reorder; the arrow buttons are gone.** On a computer, drag by the handle. On a phone, press and hold a row for about half a second, then drag; a quick swipe still scrolls the page.
+
+## [0.478.0] - 2026-11-05
+### Fixed
+- **Background work on an API key no longer stops at round 30.** Tasks, loops, workflows and teams on OpenRouter, OpenAI, Anthropic API, Gemini, Groq, DeepSeek or Ollama now get 500 tool rounds per turn like chats do, so filling a hundred Google Sheet rows or building a video runs to the end instead of reporting "all 30 rounds were used" and giving up.
+### Added
+- **Full-access background work on an API key gets a real terminal.** Tasks, reminders and workflows at Full access can now run commands in the brain (ffmpeg, python, video-building scripts...) and still search and read the web, the same as on Claude Code. Long commands run in the background and Aivon reports back to the chat that asked, or to Aivon Core, when they finish. Auto, Suggest and isolated loops still get no shell.
+### Improved
+- The ceiling for your own work is now 500 rounds (was 150 in chats, 30 in background work); set `AIVON_MAX_TOOL_ROUNDS_CODING=0` for no limit. Bots talking to customers stay at 30.
+- A smarter brake against stuck models: waiting on a running job (polling a video render) is no longer cut on the 5th call while the result keeps changing, and a model cycling A-B-A-B without progress is stopped early.
+- Long turns no longer overflow the model's context: older tool results are trimmed past a budget while the newest stay whole. Tune with `AIVON_TOOL_LOOP_BUDGET_CHARS`.
+
+## [0.477.0] - 2026-11-05
+### Added
+- **A new Models page in the Tasks page's style.** Each card shows the provider's real logo, a row of icon buttons (Use for background work, Check, Add an account or key, Disconnect) and a ⋯ button that opens a pull-up sheet with every action. The card that runs background work carries a BACKGROUND badge.
+- **Advanced API key.** Plug in keys from different sellers (Kimi, MiniMax, Claude resellers...), each with its own address. When the key in use runs out, Aivon moves to the next key.
+- **Antigravity gets Disconnect, and extra Google accounts** on Linux machines or a VPS, used in turn when one runs out.
+### Fixed
+- **A Google plan out of quota now hands the chat to another card.** Aivon did not mark Antigravity as out of quota, so it kept running it and said "no other brain is connected" while ChatGPT was signed in.
+- **Choosing ChatGPT runs ChatGPT.** An old out-of-quota mark no longer pulls the chat back to Google: the card you choose is tried, and a resting card shows until when, with Use again now.
+### Improved
+- **No more drop-down menus.** The model picker, effort (the same slider, with its Fast mode bolt), each key's menu, the add forms and the Disconnect question are pull-up sheets. Claude plans read Pro and Ultra.
+
+## [0.476.1] - 2026-11-05
+### Fixed
+- **PDFs no longer trap you on iPhone and iPad.** In the home screen app, tapping a PDF link in chat used to cover all of Aivon with the PDF, with no way back and no download button, so the app had to be closed. The PDF now opens in a viewer inside Aivon: a close button, the back gesture closes it, and Download opens the share sheet to save it to Files or send it on.
+- **Bold text inside a link shows correctly.** A link like `[**Download file**](...)` no longer shows the two asterisks.
+
+## [0.476.0] - 2026-11-05
+### Improved
+- **Light theme is now the Aivon default.** A device that never picked a theme opens light, day and night, instead of turning dark after 18:00.
+- Anyone who already picked Dark or Auto by time keeps that choice. Change it any time with the sun button in the top bar or in Settings.
+
+## [0.475.0] - 2026-11-05
+### Improved
+- **Switching between chats is instant.** A chat opened recently draws at once and refreshes behind; pointing at or touching a chat in the list starts loading it before the click. Building a chat (F5 included) is also several times faster, as it no longer scrolls after every message. On the Partners page, picking an assistant opens its latest chat right away instead of waiting on two server calls in a row.
+- **The Tasks and Teams pages show their last content at once** when you come back, with no blank "Loading" screen. Teams opened recently also show their messages at once when you switch.
+- **No more "sometimes instant, sometimes 1-2 seconds" while Aivon is busy.** Reading chat history no longer queues behind writes, the heavy Tasks page reads no longer stall the server, and opening a team no longer recomputes its usage every time.
+- Each page's code downloads in parallel, with Tasks and Teams first; pointing at a menu item starts loading that page.
+
+## [0.474.0] - 2026-11-05
+### Added
+- **Arrange the mascot menu yourself.** In Settings, Mascot tab, Mascot menu card: press "Add feature" to put other Aivon pages (Tasks, Files, Connections, Models...) on the menu, then drag or use the arrows to change the order.
+- Press **Save changes** and the menu uses it the next time it opens, no restart, and it stays after a reload. Leaving with unsaved changes asks first.
+- Never customised, the menu keeps its six items. An item that cannot run right now (say the browser blocks the mic) stays in place, greyed out, with the reason.
+
+## [0.473.0] - 2026-11-05
+### Added
+- **Aivon edits everything in My tasks from chat:** turn a repeat into an appointment (and back), change the date, time, end, repeat, place, reminder, tags, notes, habit on or off, star, delete, and skip one time.
+- **Appointments get action icons like tasks:** Move and Delete, plus Skip this time on a repeating one (Move and Skip touch only that time). Google Calendar events get an open-in-calendar icon.
+
+## [0.472.0] - 2026-11-05
+### Improved
+- **Aivon Core is now edited exactly like the other agents.** On the Partners page, Aivon Core opens the usual settings form: change its picture, name, role and instructions, attach documents, pick skills and a model. Its starting instructions are the original Aivon Core system prompt.
+- **Aivon Core's Auto is always on and cannot be turned off**, and it is still the system assistant that cannot be deleted. The separate rename card from the last release is gone; a new name is saved in the settings form or when you say it in chat.
+
+## [0.471.1] - 2026-11-05
+### Fixed
+- **Codex no longer double counts tokens.** Codex sometimes repeats its usage report for the same request, and Aivon added every repeat, inflating the turn's tokens. Only the real increase counts now. Idea and first version by kubintran (#999).
+- **Codex thread rotation sees the real thread size.** Aivon used the whole turn total, so a turn with many tool rounds looked like a huge thread. It now uses the input of the last request as Codex measured it, falling back to the old number when there is no measurement. Rotation stays on as before.
+### Improved
+- **Large JSON results from `aivon_run_tool` can be fetched in parts.** The model names the pointer, fields and page it needs, saving context. The tool still runs exactly once through the gateway; on any error or unknown shape the original result is returned.
+
+## [0.471.0] - 2026-11-05
+### Added
+- **The Chatbot reply box has a speak-to-type mic.** Press the mic and speak, the words land in the box. Press again to stop, fix the text if needed, then press Send, or press AI draft so the spoken words become the instruction for the A.I. Nothing is sent by itself. Pressing Send while it listens stops and sends in one go.
+
+## [0.470.1] - 2026-11-05
+### Fixed
+- **A voice call with a partner is that partner now.** A call started in a partner's chat used to speak as plain Aivon, with no name, role or instructions from the partner, and asked "who are you" it said it was ChatGPT. The call now carries the partner's name, role, instructions file and memory.
+- **Work asked for during the call is done by the partner itself.** A request that needs data or an action runs with the partner's prompt and model, and the result lands in the partner's chat.
+- **Typed chats with a partner know who they are too.** The partner knows it is a partner inside the owner's Aivon, never claims to be ChatGPT or Claude, and names its model only when asked.
+
+## [0.470.0] - 2026-11-05
+### Added
+- **Give Aivon Core its own name.** Tap the pencil next to its name on the Aivon Core card of the Partners page, or say it in chat ("from now on your name is Sky"). One name per brain; leave it empty to go back to Aivon Core.
+- **Aivon Core asks for a name on your first chat** and keeps the way of talking you like. It asks only once.
+### Fixed
+- **The model chip in a Aivon Core chat no longer shows a fake pin.** An unpinned Aivon Core chat showed a pin after one message, so it looked pinned while it still followed the main model, and changing the main chat's model changed Aivon Core too. The chip now tells the truth: no pin means it follows the main model, and picking a model there pins it.
+
+## [0.469.0] - 2026-11-05
+### Improved
+- **One bot can serve up to 100 Facebook Pages.** Messenger and Instagram arrive by webhook, so each Page costs almost nothing extra. A shop with many Pages now uses one bot, trained once. Other channels (Zalo, Telegram...) still allow 20 accounts per bot.
+### Fixed
+- **Going over the limit no longer drops Pages silently.** Before, ticking more than 20 accounts kept only 20 and quietly dropped the rest. Now Aivon refuses, names the channel that is over, and leaves the bot as it was.
+
+## [0.468.2] - 2026-11-05
+### Fixed
+- **Reinstalling a Store agent brings it back on the Partners page.** Renaming or editing a pack's agent, uninstalling and installing again used to skip it silently. Your copy is kept and the pack's copy is added under a new name (for example `aivon-vu-2`), named on screen.
+- **Deleting a pack's agents, workflows or skills in the app makes the Store stop saying "Installed".** The card offers Install again.
+- **Uninstalling a pack cleans up its skills fully,** including a turned-off skill and the copy Claude Code loads, so a removed skill no longer loads in the background.
+- **A brain still on the old `Aivon/agents` folder** no longer loses its agents when a Store agent is installed.
+
+## [0.468.1] - 2026-11-05
+### Fixed
+- **Scheduled jobs running on ChatGPT (Codex) can hand work to a Team.** A reminder or Kanban job whose background brain was Codex called `aivon_team` without the turn identity, so it was refused with "the turn has no identity" and the team never started. The background turn now carries the turn key to the hub, as a chat turn does, so the team picks up the job on time.
+
+## [0.468.0] - 2026-11-05
+### Added
+- **A long chat turn rings the bell and your phone when it ends.** A turn of 3 minutes or more, or one Aivon opens itself after background work, leaves its answer in the inbox and sends a push notification. A device showing Aivon right now shows no notification. Change the mark with `AIVON_LONG_TURN_NOTIFY_S` (0 turns it off).
+### Fixed
+- **Long background commands (renders, video edits) now report back when done, on every engine.** Aivon could not see Claude Code's, and could miss those of Codex, Grok and Antigravity, so nothing was reported and "carry on when it is done" was dropped. Now every background command of a chat is tracked: when one ends, the chat gets the news with the new files, and Aivon carries on with what was promised.
+- **Background work running past 30 minutes is no longer killed.** When the wait runs out the chat is freed, while the work keeps running and is watched until it ends.
+
+## [0.467.0] - 2026-11-05
+### Added
+- **A "Today's pulse" strip on every list of My tasks:** four tiles (Clean days, Priorities, Today, Habits) you can tap, with a line from the star that fits the list.
+- **Clean-day streak:** a day where every task was done, moved, skipped or deleted and at least one got done adds to the fire. Leaving tasks freezes it, two days in a row lose it.
+- **Star up to 3 priorities a day.** Repeats get Skip this time (jumps to the next time, no fire for it). Every task has Move and Delete icons, and "Move all to today" is gone.
+- **Rewards for finishing:** the tick pops, priorities burst gold stars, surprise praise, and celebrations for a clean day, a cleared overdue list and task milestones. An empty list suggests tasks to add.
+### Improved
+- **Tidier, aligned lists:** each task is a card, only priorities and overdue tasks are bold, and on the phone the time and due date sit with the tags.
+
+## [0.466.0] - 2026-11-05
+### Added
+- **ChatGPT and Grok plan names update on their own.** OpenAI's CLI sends only a plan code, and the code does not match the name on sale (the code "prolite" is the $100 plan). Aivon now looks the name up in a plan-name catalog kept in the aivon-store repo, fetched every 6 hours in the background without slowing any page. When a vendor renames a plan, only the catalog changes and every machine shows the new name without an update. Claude still prefers the name Anthropic itself sends; a code missing from the catalog is tidied as before.
+
+## [0.465.3] - 2026-11-04
+### Fixed
+- **Plan names now match what the vendor calls them.** Anthropic renamed Max 20x to Ultra on 2026-10-30, but Aivon still said "Max" because plan names came from a hand-kept table. The Claude Code card on the Models page, the usage ring next to the chat box and the out-of-quota note on the Tasks page now read the name Anthropic's server returns (Claude Code keeps it in its own config file, no token is touched). The next time a vendor renames a plan, Aivon shows the new name without an update. An older Claude Code that does not store the name falls back to the tidied plan code as before.
+
+## [0.465.2] - 2026-11-04
+### Improved
+- **Tapping a chat responds at once.** The Chatbot inbox no longer stalls when you switch between long chats. A chat you opened before shows again instantly and only fetches what is new; a chat opened for the first time shows a loading line the moment you tap.
+- Opening a chat now takes one request to the server instead of two, and the list on the left redraws only the rows that changed. On a slow device, the time from a tap to the chat responding drops from about half a second to under 0.05 seconds.
+- It still loads only the 40 latest messages, and scrolling up loads older ones as before.
+
+## [0.465.1] - 2026-11-04
+### Fixed
+- **Scheduled jobs made in a partner chat report back to that chat.** A reminder or recurring job set up in a chat with an assistant did not know where it came from, so its results and its errors all landed in Aivon Core. Aivon now attaches the chat that asked.
+- **At its time, the job runs as the assistant that took it.** An auto-post job set up with a Posting assistant now uses that assistant's role, procedure, memory and owner rules instead of running as plain Aivon. The Tasks page files it under that assistant too.
+- **Incidents report where the job was given.** When a background job breaks, Aivon Core still triages and retries it as before, but the "Incident needs you" message now shows in the chat that gave the job. A job tied to no chat still reports to Aivon Core.
+- Jobs made before this version keep running as before. Ask the assistant to create the job again to get the new behavior.
+
+## [0.465.0] - 2026-11-04
+### Improved
+- **Version numbers are now assigned automatically after merge.** Each fix writes its notes to its own file, so several fixes in parallel no longer grab each other's number or need renumbering.
+- Every merge still ships a new version with Vietnamese and English notes, and the update is published right after.
+
+## [0.463.0] - 2026-11-04
+### Added
+- **My tasks: Projects become Tags.** A task can carry several tags, shown as coloured chips under its title with a **+ Tags** button. Click a tag in the side column to see every task with it. Old projects turn into tags, nothing is lost.
+- **Subtasks on your own tasks.** Open a task to see its subtask list with a progress bar: tick the circle, rename in place, delete with the x. A finished subtask is struck through and sinks to the bottom. In the list, a task with subtasks shows `1/3`; click it to fold the subtasks open and tick them there. A repeating task starts each round with its subtasks open again. Aivon's tasks stay flat as before.
+- **Reorder tags.** Drag a tag in the side column on a computer, or use **Move up / Move down** in the tag's menu on a phone.
+- **Notes take links, notes and files.** Paste a web link or type `[[note name]]` and a button to open it appears below. **Link a note** finds a note or file in the brain to insert. **Upload a file** (or paste or drop one into the notes, like the chat box) stores it in the brain's `task-files` folder for good.
+
+## [0.461.0] - 2026-11-04
+### Improved
+- **The Aivon Core card on the Agents page now says which model it runs on.** With no pin it reads "Following the main model" plus that model's name, so Aivon Core no longer looks like it has no model.
+- **Pick the Aivon Core model right on that card.** Picking one pins it for every Aivon Core chat, the same pin the model bar of a Core chat already uses: change it in one place and the other shows it at once.
+- **Remove the pin in one tap** with "Follow the main chat's model". When the pin cannot run for now (key removed, plan out of quota) the card says which model runs instead.
+
+## [0.459.0] - 2026-11-04
+### Added
+- **Internal API channel for Chatbots (experimental).** One of your servers, an internal staff web app say, asks a Chatbot over HTTP and shows the reply inside that app. Add it on the Chatbot page, Channels tab, **Internal API**: Aivon generates the key and shows it once, with a Rotate button.
+- **Fenced in code.** A bot on this channel runs only at Read only or Read documents, sees only its own brain and sends nothing out. By default only the machine running Aivon may call; any other caller must be listed.
+- Private documents for this channel go under `rieng-theo-nhom/api-<name>/` or carry `chat_scope: api:<name>`, kept apart from those of Zalo and Telegram groups. Thanks @nuskmonkey-cmyk (#987).
+
+## [0.455.0] - 2026-11-04
+### Fixed
+- **The answer to a message you add mid-turn now shows below that message.** When you sent more while Aivon was working and Aivon read it, the answer stayed in the bubble above it, so the new request looked undone. Now the answer bubble and its step list move below your added message, the same order a page reload shows.
+
+## [0.454.0] - 2026-11-04
+### Added
+- **Drag to reorder projects, pinned chats and tags.** The same Reorder box as the brain picker: drag the handle or use the up and down arrows, then Done. The order is saved on the server, so phone and computer show the same order.
+- **Projects:** open the Project menu and pick **Reorder projects**. Your order comes first; projects never ordered still keep pinned ones on top.
+- **Pinned chats:** tap the arrows button at the top of the **Pinned** group. Chats that are not pinned stay newest first; pin a chat and drag it to give it a fixed place.
+- **Tags:** the tag filter menu of the Partners page and of the Teams page ends with **Reorder tags**, each page keeping its own order.
+
+## [0.453.0] - 2026-11-04
+### Fixed
+- **Claude Code waits for its background work to finish, then carries on.** A turn where Claude Code started a background command or a sub-agent used to end at its first answer, and the result never came back (reported from Windows Server in #898). Now the turn stays open until the work is done, and Claude Code reads the result and answers on in the same chat. It waits up to 30 minutes; change it with `AIVON_CLAUDE_BG_WAIT`.
+- **Antigravity no longer wrongly says it "could not read the context file".** Newer `agy` did read the whole file, but Aivon did not recognise how it reports that. Antigravity also sends the prompt over stdin again instead of the file detour. Thanks to @nxbgda1-ship-it (#983).
+
+## [0.452.0] - 2026-11-04
+### Added
+- **Teams run the whole loop from the chat.** Send a request for work and the member who answers opens the job right away, no Assign job or Create job press. The leader plans it, assigns people, members work and help each other, and the result comes back to the chat.
+- Every job is coordinated by the leader and members never hand work to each other directly, so someone always gathers and owns the final result. Questions and small talk only get an answer, no job.
+- By default a team opens at most 5 jobs a day on its own, one per message of yours. Change it in **Team limits**; 0 brings back the old way (the leader only proposes, you press to run).
+
+## [0.450.0] - 2026-11-04
+### Added
+- **"Install on phone" button in the phone menu.** Open the left menu and tap it to see how to add Aivon to the home screen on the device you are using (iPhone: Share, then Add to Home Screen; Android: one Install button). Once Aivon runs from the home screen, the button no longer shows.
+### Improved
+- If you tapped "Don't remind me again" on the daily reminder, you can still open the install guide any time from this button.
+
+## [0.449.0] - 2026-11-04
+### Added
+- **Teams can push code to GitHub.** In a team chat, tap the plus button, pick **GitHub repo** and tick a repo. When you assign a job, members edit code on the team's own branch; once the job is done, Aivon checks, commits, pushes, opens the PR and watches CI, like a private chat.
+- If CI fails, Aivon hands the team a fix job with the logs (up to 3 rounds). GitHub news shows right in the team chat; tap the repo chip to see the PR status.
+- **`/skill` commands work in Teams.** Type `/` to list the brain's skills. Every member who answers or works on that message reads the skill, even in a chat turn without tools.
+
+## [0.448.0] - 2026-11-04
+### Added
+- **Threads joins the Meta connection card.** Click **Connect Threads**, paste the Threads App ID and App secret, log in, done. Replies under your Threads posts reach the inbox as they happen, through a webhook (nothing polls), and the bot answers publicly right under them.
+- Each Threads account picks how replies are handled: off, shown in the inbox only, or answered by the bot. **Check** tells whether the token is valid and whether Threads has sent replies yet.
+- Aivon renews the Threads token (60 days) by itself while a bot is on duty, so you do not log in again.
+### Improved
+- Threads replies get their own black square in the inbox. The "..." menu has View profile (opens threads.net) and Delete (hides the reply under your post, since Threads lets only the author delete it).
+
+## [0.447.0] - 2026-11-03
+### Added
+- **Instagram joins the Meta connection.** When you log in with Facebook on the Meta connection card, tick **Also connect the Page's Instagram**: messages and comments of the Instagram account linked to the Page land in the same inbox, served by the Page's bot. Public replies under comments and private messages to commenters both work.
+- **Each chat's "..." menu gains View profile, Block and Delete chat.** Facebook Pages: name and picture, block the person. Instagram: profile with a link to open it. Zalo personal account: profile (with the phone number when the person shares it), block, and delete on Zalo too.
+- Deleting a comment thread deletes that comment on Facebook or Instagram. Messenger and Instagram messages can only be removed from Aivon, since Meta lets no app delete messages.
+### Improved
+- Instagram chats show the Instagram mark and Instagram comments a pink square, so they read apart from Facebook at a glance.
+
+## [0.446.0] - 2026-11-03
+### Added
+- **Message a commenter privately.** Open a Facebook comment in the inbox and pick **Message privately** above the reply box: the message goes straight to that person's Messenger from your Page, even if they never wrote to it. Once they answer, it is an ordinary Messenger chat in the inbox. Meta allows one private message per comment, within 7 days.
+- **Disconnect a Page.** Every connected Page has a **Disconnect** button: Aivon takes it off its bot, tells Meta to stop sending its messages, and keeps past conversations.
+### Improved
+- **The "Facebook Messenger" card is now "Meta connection"**, with Facebook, Messenger, Instagram and Threads icons (the last two coming soon). WhatsApp is still connected on its own, since it uses its own phone number and token.
+- **Comments get their own icon** (an orange square with lines), so they no longer look like Messenger messages (the round blue bubble).
+
+## [0.445.1] - 2026-11-03
+### Fixed
+- **Windows: `npx` connectors no longer break when a path has a space** (for example `C:\My Aivon\...` or a user name with a space). Aivon runs Node directly instead of going through `cmd.exe`, which dropped the quotes when Node lives in `Program Files`. Thanks @ethan1nguyen1 (#898).
+- **Windows: `/C:/Users/...` links in answers open**, instead of being reported as missing files.
+
+## [0.445.0] - 2026-11-03
+### Improved
+- **New Claude Code chats use far less of your plan.** Each new chat used to reload about 40,000 tokens of Aivon's instructions, because they held the time, usage and session id, which change all the time. That part is now identical across chats, so it is read back from the prompt cache. Thanks @sunstaysg-oss for measuring and reporting it (#975).
+- The current time, chat session id, today's usage and the latest workflow run now sit in a line at the head of each message sent to Claude Code, so Aivon knows as much as before, and follow-up turns always see the fresh time.
+
+## [0.444.4] - 2026-11-03
+### Fixed
+- **Aivon on a small VPS no longer freezes because slow work blocked the whole server.** Five places did heavy work on the main loop, so every other page and the health check waited (three missed checks and Traefik answers "404 page not found"). All five now run on a worker thread:
+  - the Tasks page showing which bot owns each job,
+  - the Tasks page stats (which checked the log for every single day since 1970),
+  - the GitHub card on Connections (a call to GitHub that could wait up to 20 seconds),
+  - the first page load after each restart (minifying the files takes seconds on a 1 vCPU VPS),
+  - the Tools page while the offline ear installs.
+- **The offline voice ear (Whisper) leaves one core to Aivon** and runs at a lower priority, so a long voice message no longer hangs the app on a 1-2 core machine.
+- When the server is slow, the browser's retries are spread out at random instead of all landing at once.
+
+## [0.444.3] - 2026-11-03
+### Fixed
+- **The "You've hit your 5-hour limit" notice is now recognised.** Chat used to show the raw UTC time with no auto re-run card. The card now shows the reset in your own time, with the date when it falls on the next day. Thanks @hwangrin (#961).
+- **The reset time follows the time zone in Settings**, not the VPS clock (usually UTC).
+### Improved
+- **Tables with 4 or more columns on the Chat page get more room** on a desktop (up to 1200px), so less sideways scrolling. Prose keeps its usual line length. Idea from @hwangrin (#958).
+
+## [0.444.1] - 2026-11-03
+### Fixed
+- **Aivon no longer freezes the computer while it answers.** Since 0.438.4 the answer arrives a few characters at a time, and the page redrew the whole answer for every piece: thousands of redraws for a long reply, enough to lock up a slower machine. The text still flows smoothly, but the page now redraws only a few times a second.
+- **No more "Reconnecting" loop on slower devices.** A page that fell behind the streaming text had every piece queued for it, and past 500 pieces the server dropped the connection, the page reconnected and fell behind again. Queued pieces of the same answer now travel as one, so a slow page gets fewer messages and is no longer cut off.
+
+## [0.443.0] - 2026-11-02
+### Added
+- **Pick your timezone in Settings** (the Language and timezone block) and in **step 4 of the first-run setup**, preselected from the device you open it on. Before, the timezone only showed through the Time plugin, with nowhere to change it.
+### Improved
+- Aivon reads **today, yesterday and tomorrow**, and sets the date range when it pulls report numbers, in the timezone you picked, not the server clock (a VPS usually runs on UTC).
+- Data sources (MCP) running on the Aivon machine get this timezone too, so "orders today" at 6am no longer returns yesterday's orders.
+### Fixed
+- Changing **Aivon replies in** now shows the "changed" note as intended, instead of failing silently.
+
+## [0.441.0] - 2026-11-02
+### Added
+- **Chat in ChatGPT or Claude, and Aivon still has the context.** Through Aivon Gate, that AI saves into Aivon what you asked and what you decided, with the reason. Each chat over there gets its own conversation in Aivon's History, such as "From ChatGPT: Tet plan" or "From Claude: Web build".
+- A note **costs Aivon's brain nothing** since Aivon does not answer it, yet it goes into memory and self-learning like any chat. Next time you ask Aivon, it remembers what you decided in ChatGPT.
+- Notes work at the Draft and Full levels. At Read only, the outside AI only reads and writes nothing into Aivon.
+
+## [0.440.0] - 2026-11-02
+### Added
+- **ChatGPT and Claude post straight into your Aivon chat.** Install **Aivon Gate** from the Aivon Store and connect it to ChatGPT or Claude. Ask it to "read the Viet Web chat on Aivon and tell me what to do next": it reads and advises. Agree right there and it posts into that very chat so Aivon carries on.
+- That message runs just as if you typed it: the answer streams on every open tab, has a Stop button, is saved to History, and **Aivon learns from it** for next time. The bubble says **via ChatGPT** or **via Claude**.
+- No more handing work to Kanban where it ran unseen. If the chat is still answering, the message waits its turn, as when you type while Aivon works.
+- Only at **Full access** can an outside AI post into a chat. Lower levels can only read chats. Customer chats and team chats can't be read or posted to.
+### Improved
+- **Store packs can switch to English ids** without installed copies losing anything. Update as usual: the on/off state, the pack's data and the skills it put into your brain stay, and the old pack removes itself.
+- **Aivon in ChatGPT** becomes **Aivon Gate**. Connectors already set up in ChatGPT keep working, no reconnecting needed.
+
+## [0.439.1] - 2026-11-02
+### Improved
+- **Install without the red "Windows protected your PC" screen.** Paste one line into PowerShell (Windows) or Terminal (Mac) and the installer downloads and opens on its own, without being blocked. The line is in the quick start guide. A browser download still asks once until the installer is code-signed.
+- **The installers carry the Aivon logo.** The Windows wizard shows the Aivon star on its first and last pages and in the corner of the pages between, sharp on scaled-up screens too. The disk that appears when you open the Mac `.dmg` has the Aivon icon as well.
+- Releases are ready to sign the Windows installer: once the project owner adds a certificate on GitHub, later builds are signed automatically.
+
+## [0.439.0] - 2026-11-02
+### Added
+- **Install Aivon like an app on your computer.** On Windows, download `AivonOS-Setup.exe`, double-click it and press Next to the end. On a Mac, download `AivonOS-macOS.dmg` and drag AIVON into Applications. The installer checks which of Git, Python, Node and the AI brains are missing and installs them, no commands to type. Download links are in the quick start guide.
+- **A AIVON icon on the Desktop, Start menu and Launchpad.** Clicking it opens Aivon in its own window, with no address bar. Clicking again while Aivon runs only reopens the window and never stops background work.
+- The in-app Update button works just like on a manual install. Uninstalling keeps your brain (notes, memory, settings) in the `AivonOS` folder.
+### Fixed
+- Installing on a brand-new Windows no longer dies at the Python environment step, and a PC without winget still downloads Python and Node by itself. A Mac without Homebrew now gets the Mac build of Node.
+- On Windows, an Antigravity or Grok installer that exits early no longer stops the whole install, so the later steps (libraries, settings, auto-start) still run.
+- On Windows, the Models page sees a freshly installed Antigravity and Grok right away, instead of saying "not installed" until the computer restarts.
+
+## [0.438.7] - 2026-11-02
+### Fixed
+- **Claude sign-in finishes on its own when the browser says it worked.** On a machine with a browser, Claude opens the sign-in page itself and the page only says "You're all set up", with no code to paste. The Models card used to keep waiting for a code until the page was reloaded. It now switches to Signed in within a few seconds, or as soon as you come back to the Aivon tab.
+- If Claude reports the sign-in failed, the card says why instead of waiting forever.
+
+## [0.438.6] - 2026-11-02
+### Improved
+- **Grok Build and Antigravity CLI type out their answer too.** The reply flows in piece by piece while the model writes, instead of appearing only when the whole turn is done. Every Aivon brain now shows text the same way.
+
+## [0.438.5] - 2026-11-01
+### Improved
+- **API key brains type out their answer too.** OpenRouter, OpenAI, Anthropic API, Gemini, Groq, DeepSeek, Ollama and OpenAI/Anthropic Compatible now show the reply piece by piece while the model writes, including turns that use tools. Before, a turn with tools waited for the whole answer and showed it at once.
+
+## [0.438.4] - 2026-11-01
+### Improved
+- **Claude Code types out its answer like ChatGPT.** The reply now flows in piece by piece while Claude is writing, instead of appearing all at once when a whole paragraph is done.
+
+## [0.438.3] - 2026-11-01
+### Improved
+- **Adding a Messenger channel in Chatbot is simpler.** Picking Messenger now shows one line and a button that opens the Messenger card on Connections. The token field, webhook address and Save button are gone here, since a Page connected on Connections is already in the channel list. Pasting a token still works inside the Messenger card.
+
+## [0.438.2] - 2026-11-01
+### Improved
+- **The official Meta logo.** The Facebook Messenger card on Connections now shows the real Meta mark in its blue gradient instead of the old hand-drawn one, on a transparent background that works in light and dark themes.
+
+## [0.438.1] - 2026-11-01
+### Improved
+- **The GitHub card on Connections matches the other cards.** A green dot shows it is connected, and the logo is the same size as the rest.
+- The **Pick repos for Aivon** button and the "No repo downloaded yet" line are gone: repos are picked from the chat box with the plus button. The repo button only shows when the GitHub app is not installed on any account yet.
+- **Add repos from the picker.** If a repo is missing, press **Add repos on GitHub** at the bottom of the picker, tick it on GitHub and come back: it shows up without reloading the page.
+
+## [0.438.0] - 2026-11-01
+### Added
+- **One Page connection now posts too.** A Page connected on the Facebook Messenger card can be used for Aivon's posting (when asked or on a schedule), so the store drops its Facebook Pages card (machines that installed it keep it). Pages connected earlier need one more Log in with Facebook to grant the posting permission.
+### Improved
+- The Facebook Messenger card on the Connections page now shows the Meta logo, since it covers messages, comments and posting.
+- **Messenger connects in one place.** The Facebook Messenger card on the Connections page now shows the webhook address and verify token with Copy buttons, to paste into the Meta app by hand when needed without leaving the page.
+- A Page connected on the Connections page is already a channel on the Chatbot page. Picking Messenger under Add channel shows a note with a button straight to the Messenger card, so nobody connects it twice.
+- **The Messenger guide is rewritten:** it follows the Log in with Facebook path (permissions, Facebook Login with Aivon's two addresses, pick Pages, attach a bot, go Live), and pasting a token is only the fallback. The error table adds "URL blocked" and "Invalid Scopes".
+
+## [0.437.0] - 2026-11-01
+### Improved
+- **Team steps wait only for the steps they need.** The team leader can now say which part needs the result of which. Unrelated parts run at the same time, and a part that needs results starts as soon as exactly those parts are done, not when the whole job is.
+- For "A researches competitors, B pulls the numbers, C writes the plan from both": A and B work together, C after. For "B writes the post, C makes the image, both from A's numbers": B and C start together right after A, instead of one after the other.
+- **No extra turns:** each part reads only the results of the parts it waited for. A job you ask to run "in order" still runs one step at a time.
+
+## [0.436.1] - 2026-11-01
+### Improved
+- **Step-by-step Messenger guide, linked right in the form.** Pick Messenger under Chatbot, Channels, Add channel and a "Step-by-step guide" link opens the guide on GitHub, every click on Meta's site for newcomers. The Messenger card on the Connections page links to it too.
+- **The Store now has two Meta cards:** Meta Ads for ad numbers, and the Facebook Pages card for posts and comments. The Meta Ads card built on Meta's beta is gone, since Meta does not accept self-serve connections yet; machines that installed it keep it. The descriptions say one Meta app serves every card.
+### Fixed
+- Connecting Messenger (and WhatsApp, Zalo OA) no longer shows "This bot cannot join Zalo groups". That line is for Zalo Bot only.
+
+## [0.436.0] - 2026-11-01
+### Improved
+- **Teams retry on their own after a temporary error.** An overloaded model, a network hiccup or a plan out of quota no longer leaves a team job stuck overnight waiting for you to press Retry. The team tries again after 1, 5 and 15 minutes (or at the plan's reset time), up to 3 times, before it stops and asks you.
+- **Safety first:** a step that already called a tool (sent a message, posted, wrote a file) never retries on its own, so nothing happens twice. Other teams keep running while a job waits.
+- **Members report a short, honest result.** Each step ends with whether it worked, a 3-sentence summary and the files written. A step that reports it could not be done stops the job for you, instead of spending a summary turn on a broken result.
+- **Fewer tokens when summarising:** a long result is read as its summary, and each result appears once in the prompt instead of twice.
+
+## [0.435.0] - 2026-11-01
+### Added
+- **Voice messages and the speech in videos are heard without Groq.** Aivon tries the keys you have on the Models page in turn: Groq, then OpenAI, then Gemini. When one fails or runs out, it moves on to the next.
+- **Offline ear:** the Tools page has a new "Offline ear (Whisper)" card. Install it once (about 1 GB) and Aivon hears on the machine itself with no key, used when no key is set or every key fails. A weak machine hears slower and less accurately than Groq.
+- **The personal Zalo chatbot hears customers' voice messages.** They used to be skipped. When one cannot be heard, the bot says so and asks the customer to type, never guesses.
+
+## [0.434.0] - 2026-11-01
+### Added
+- **Connect a Facebook Page with a Log in with Facebook button.** The Messenger card on the Connections page now asks only for the App ID and App secret. Log in, tick the Pages to connect, and Aivon does the rest. No more copying a token and a Page ID out of Graph API Explorer.
+- **Page comments in the inbox, the way Pancake shows them.** Every top-level comment under a post is its own conversation, and the replies under it join that conversation. What you reply in the inbox shows right under the comment on Facebook.
+- Each Page picks how comments are handled: shown in the inbox for you to answer (default), answered publicly by the bot, or off.
+- Aivon serves a privacy policy page on your own domain, ready to paste into the Meta app so it can switch to Live mode.
+
+## [0.433.0] - 2026-11-01
+### Added
+- **The personal Zalo chatbot can look at videos customers send.** A video used to be skipped, so the bot could only say it could not watch it. Aivon now cuts 4 frames spread over the clip and shows them to the bot, the same way as a photo.
+- **The bot also hears what is said in the video** when a Groq key is set on the Models page (the same key as voice messages). Without one the bot still sees the frames and knows it did not hear the sound.
+- A message right after a video ("can you take a look?") still shows the bot that video for 10 minutes. A video that cannot be fetched (expired link, over 60MB) makes the bot say so honestly and ask the customer to describe it.
+
+## [0.432.4] - 2026-11-01
+### Improved
+- **Picking repos in the chat box: tick to attach.** The "Attach repo to this conversation" button at the bottom of the list is gone, so no more scrolling to find it. Untick to remove a repo from the conversation.
+- **Connect more** stays pinned to the bottom of the picker, so a long list never hides it.
+
+## [0.432.3] - 2026-11-01
+### Improved
+- **Search workflows when creating a webhook.** A search box now sits above the Workflow picker: type a few letters of the name and the list narrows, with a line like "3 of 40 workflows match". Accents are optional when you type.
+- When nothing matches, the picker says so, and Save asks you to pick a workflow instead of saving an empty webhook.
+
+## [0.432.2] - 2026-11-01
+### Fixed
+- **The GitHub card no longer wrongly says "Token is missing permissions: repo, workflow"** after you connect with the Sign in with GitHub button. That sign-in does not use those permissions at all, so nothing is missing, and you still pick repos from the chat box as before. If you already saw the amber line, it goes away on its own, no need to sign in again.
+
+## [0.432.1] - 2026-11-01
+### Fixed
+- **Dragging a file onto the chat works again.** After a visit to the Teams page, dropping a file on the Chat page did nothing. Now the overlay shows and the file joins the attachments, like the paperclip. Thanks @thaihatr-source (#936).
+- **An .html or .md file opens inside its frame**, no longer filling the whole screen by itself. Press the maximize button for full screen; moving to another file keeps the size you chose.
+- **Sturdier MCP sign-in over OAuth.** Aivon sends the server identifier the server declares (as the official SDK does), and says plainly when the provider does not accept Aivon's return address instead of leaving you retrying the password. Thanks @dev23072005 (#939).
+- **Better memory recall.** Agent run logs no longer echo back as memories, facts sharing a "Why:" line are no longer reported as conflicting, a file with "profile" inside its name no longer takes a slot on every turn, and secondary indexes in memory/ are understood. Office files opened from the chat keep their name. Thanks @sohophotography (#934), @ethan1nguyen1 (#898).
+
+## [0.432.0] - 2026-11-01
+### Improved
+- **The Webhook page, redesigned to be easy to follow.** The top is one compact row of numbers: webhooks running, events and errors in the last 24 hours, and what needs you. When a run may not have finished, an amber banner appears, and **Open** takes you straight to it.
+- **Each webhook is one line** with a status dot and a strip of its last 20 runs: green is fine, amber needs you, red failed. One look tells you which webhook has a problem.
+- **Pressing a webhook opens its own window instead of dropping down.** Switching between Events, Configuration and Health, filtering or opening a run all change inside that window, which closes only when you press X. Runs are grouped by day, the cryptic `[SILENT]` is gone, and receiving and processing are plain on/off switches.
+- **No more repeated titles** on the Webhook, Cookies, Shared links and Mascot pages, to save space. The explanations still sit behind the (i) button.
+
+## [0.431.0] - 2026-11-01
+### Improved
+- **A new brain picker that looks the same on every device.** It used to be the browser's own menu, so each phone and computer drew it differently. Aivon now draws it: a dropdown under the button on a computer, a sheet from the bottom on a phone with large text, the note count and a tick on the brain in use. A long list gets a search box.
+- **Put your brains in your own order.** Open the picker, press **Reorder**, drag the handle or use the up and down arrows, then **Done**. The order is saved on the server, so every device shows the same list.
+- Until you set an order, brains sort by their shown name the way a person reads it: "2-..." comes before "10-...". Before, they sorted by folder name, so a renamed brain often sat in the wrong place.
+
+## [0.430.2] - 2026-11-01
+### Improved
+- **An .html file opens as the live page.** Open an .html link in the chat or a file in the brain and Aivon shows it in **Preview**, like a Claude artifact, with its pictures, colours and buttons as a browser would show them. Press **Source** to read and edit the code, then Save as before.
+- After editing the code, switch back to Preview to see the change at once, no save needed. The page runs in an isolated frame, so scripts in the file cannot read Aivon's data.
+
+## [0.430.1] - 2026-11-01
+### Improved
+- **Pasting long text into the chat no longer turns it into a file on its own.** Text up to 12,000 characters and 150 lines pastes straight into the chat box, so you can read and edit it before sending. Before, anything over 1,500 characters became a `.txt` chip and you could no longer see what you had pasted.
+- **Longer text asks first.** A dialog shows the whole pasted text: Paste into chat, Attach .txt or Cancel. Works in the main chat and the team chat. Thanks @hwangrin (#937).
+
+## [0.430.0] - 2026-11-01
+### Added
+- **Connect GitHub with a Sign in button, no token to make.** On the Connections page, press **Sign in with GitHub**: Aivon shows a short code, you press Open GitHub, paste the code and press Authorize. It works on a VPS with no browser too.
+- **You choose the repos Aivon sees.** Once signed in, press **Pick repos for Aivon** to install the AIVON app on just the repos you want Aivon to work on. Repos you leave out stay invisible to Aivon.
+- The token box is still right below for anyone used to the old way.
+
+## [0.429.1] - 2026-10-31
+### Fixed
+- **Bots on ChatGPT (Codex) no longer send their lead-in to customers.** A line like "Let me check the class list" before the bot looks something up no longer reaches the customer; only the final answer is sent.
+
+## [0.429.0] - 2026-10-31
+### Fixed
+- **Jobs a chatbot makes now sit under that chatbot.** Every reminder, loop and Kanban job a chatbot (your Zalo assistant, say) made while chatting used to show under Aivon Core. They now sit under the assistant the chatbot uses, in the lists and in Stats. When that assistant is not in this brain, the chatbot gets a row of its own.
+- **Older jobs are sorted out too.** Aivon reads each chatbot's reply log: a job made while exactly one chatbot was answering (in the same chat, when the job names one) belongs to that chatbot. Two chatbots answering at that moment leaves the job with Aivon Core, to be safe.
+### Improved
+- No search box on the Tasks page's Stats, since there is nothing to search there.
+
+## [0.428.2] - 2026-10-31
+### Fixed
+- **A Zalo Bot (official Zalo Bot) notices when it is tagged in a group.** Tagging it by its display name, such as "@Bot Nori", used to leave it silent, because Aivon only matched the account handle like `bot.xxxx`. It now also matches the name you gave the bot in Aivon. Thanks @VQTPiano (#885).
+## [0.428.1] - 2026-10-31
+### Fixed
+- **A team job stopped because its model cannot run with approvals now says how to fix it.** The message leads with the fix, names the assistant and suggests only connected models that can run the step on this machine, then Try again. Before, the Docker image cut off exactly that part, and the advice could point back to the model that was refused. Thanks @hwangrin (#904).
+
+## [0.428.0] - 2026-10-31
+### Added
+- **Stats on the Tasks page, for both tabs.** Stats closes the menu. Pick the period with the same dropdown as the Chatbot stats (Today, last 7 / 30 / 90 days, Last month... or your own days), always against the period before.
+- **Aivon's stats:** how much of the work Aivon carried next to you, **the time Aivon gave back** (each kind of job counts the minutes you set, no money), work done while you slept, which assistant did what, reliability, and jobs Aivon could take over.
+- **My stats:** done per day, a 12-week map, golden hours, on-time rate, habits over 30 days, projects, and tasks you keep moving with a Give to Aivon button.
+### Improved
+- **Aivon's tasks come first and open first.** "Mine" is now "My tasks".
+- Reminders and page watches now log every run so the stats count them all. Before this release a reminder kept only its last run.
+
+## [0.427.0] - 2026-10-31
+### Added
+- **Aivon Core writes the habit lines every day.** The star and the habit reminders are no longer fixed sentences: Core reads each streak, frozen days and your usual time, and writes a line for each habit. Without a background model the fixed lines stay.
+- **Core learns which nudge works for you.** Each reminder records its style (cheer, sulk, challenge, remind why) and whether you did the habit that day. Styles that get you moving are picked more often.
+- **Google Calendar on the Mine tab.** With Google Calendar connected on the Connections page, the next 14 days of events sit next to your appointments, overlaps flagged. View only here; open one to edit it in Google Calendar.
+
+## [0.426.0] - 2026-10-30
+### Fixed
+- **Loops can be edited by hand again.** Since 0.422.0 the Tasks page could only switch, run and delete a loop. Edit now changes its name, what it does each round, its permission level (Suggest, Drafts, Full) and how often it runs.
+- **Reminders get their old options back:** Call me, Read it aloud, Remember the last result and the permission level, when adding and when editing. They went missing when the Scheduled page was merged.
+- **Asking Aivon to show a job on screen works again.** Aivon opens the Tasks page, the Aivon tab, on that job's details.
+- **Allowing a job to act for real asks first,** since actions outside cannot be undone.
+- **Giving Aivon a job has the Review the result when done box again.** A reminder's or loop's details show the permission level it runs at.
+- **With no channel for results, the Aivon tab says so** with a button to Channels: reminders and loops still run but their results reach no one.
+- **Editing a script job no longer shows options that do not apply** (how it runs, level, call).
+### Improved
+- **Cancel and Save stay at the bottom of the form,** so a long form on a phone needs no scrolling to find them.
+- **A lighter page:** over 1,100 lines of code and 214 strings of the old Kanban and Scheduled pages are gone.
+
+## [0.425.0] - 2026-10-30
+### Added
+- **Appointments on the Mine tab.** When adding, pick Kind: Appointment to set a start time, duration and place. An appointment switches itself between Upcoming, Happening now and Past, and flags two appointments that overlap.
+- **A reminder before an appointment,** 5, 15, 30 or 60 minutes ahead (15 by default), once per appointment. You can also ask Aivon to prepare beforehand (draft a document, look something up) as a reminder Aivon finishes 30 minutes before the start.
+- **Say it in chat and it gets ticked.** Tell Aivon "done reading" and the habit is ticked, marked as ticked by Aivon so you can untick it. Several matching tasks make Aivon ask instead of guessing. "Add this to my list" works too, on every brain.
+
+## [0.424.0] - 2026-10-30
+### Added
+- **Habits with a streak.** Switch "Count as a habit" on a repeating task (or pick Kind of repeat: Habit when adding) for a Duolingo-style streak. One missed session freezes it, the next one done thaws it, two missed in a row lose it. **Only scheduled days count**, so a habit's rest days never freeze.
+- **Ticking lights a flame.** The ring pops into a flame; a frozen one melts first. A habit's details show the streak, Days done, Frozen, Longest and a month calendar.
+- **The Habits list** opens with four tiles (grey until reached) and Aivon's star saying a line with a matching face: sulking when you skip, delighted when all are done, sleepy on rest days.
+- **Habit reminders:** Aivon reminds (after your usual time, earlier while frozen), At a set time, or No reminder. At most once a day, only when not done yet.
+
+## [0.423.0] - 2026-10-30
+### Added
+- **A "Mine" tab on the Tasks page.** Keep your own tasks: Today, Upcoming, Overdue, No date, Recurring, Done, and by **project** (create, rename, recolour, pin, delete with undo).
+- **Easier dates and repeats.** Quick picks When free, Today, Tomorrow, Next Monday, a month calendar and a time every 30 minutes. Repeat "Every [n] days, weeks, months, years", with weekday circles.
+- **Overdue also shows the latest missed run of a repeating task,** tickable right there. One-off tasks move to today with one button.
+- **Hand work back and forth with Aivon.** "Give to Aivon" turns your task into Aivon work; "Do it myself" brings a Aivon job to your tab. Both can be undone.
+
+## [0.422.0] - 2026-10-30
+### Added
+- **The Tasks page replaces Kanban and Scheduled.** The Work group now holds Tasks and Webhooks. What Aivon does, reminders, loops and page watches sit in one place, split into lists: Today, Upcoming, Overdue, Recurring, Run errors, Done, Log, and one per assistant.
+- **Reminders can run now, stop, pause and skip their next run.** Press ▶ to run at once. While it runs the button turns into ■; pressed by mistake, press again to stop it, and the schedule stays.
+- **Delete, cancel and pause all have Undo** for a few seconds.
+### Improved
+- **The Morning brief button and template are gone.** For a brief, ask Aivon for a reminder like any other job.
+
+## [0.421.0] - 2026-10-30
+### Fixed
+- **The Usage page no longer slides off the screen on phones.** Before, the page shifted left, cutting off text on the left and leaving a gap on the right. The cause was the day labels under the chart sticking out past the edge. Long periods like **3 months** or **This year** made the chart several screens wide. The chart now always fits, and long periods label months instead of days.
+- **The brain graph shows on phones again.** Since 0.415.0 the brain area on a phone showed only the cluster names and no note dots. Narrow screens switched the graph off to save battery, and the switch-off ran before the first frame was drawn. Phones now run the graph like a computer does. A still graph stops drawing by itself, so it costs no battery, and the Graph switch in Settings still turns it off.
+### Improved
+- **Drag the graph freely; let go and it returns to the centre.** Drag it anywhere and zoom as far as you like. Three seconds after you let go, the whole graph glides back to the centre, framed as when it first opened. Tapping a dot to open a note does not move it. On a computer it returns 3 seconds after the mouse leaves the graph.
+- **Pick the period from one dropdown.** The eight buttons Today, Yesterday, This week... took three rows on a phone. Now there is a single dropdown, on the same row as **Refresh**.
+- **The Usage page opens faster.**
+  - The server no longer works out the same numbers three times each time the page opens.
+  - The log scan now runs after the page shows its numbers, instead of competing with it while it loads.
+  - Reopening the page, or switching back to a period you already viewed, shows the numbers at once and then updates them.
+
+## [0.420.2] - 2026-10-30
+### Fixed
+- **Disconnecting and signing in as another account on the ChatGPT, Grok Build or Claude Code card lets you chat right away.** Before, when the old account ran out of quota, its "out of quota" mark stayed on the card after you signed in a new account as account 1, even across a Aivon restart, so chat was sent to a backup card until the old account's reset time. Signing in now clears that mark.
+
+## [0.420.1] - 2026-10-30
+### Fixed
+- **Adding a ChatGPT account after the old one ran out of quota lets you chat right away.** Before, if account 1 ran out while the ChatGPT card had only that one account, Aivon treated the whole card as out of quota until the reset time, so the newly added account was skipped and chat fell to a backup card, on some machines showing "Not logged in". Now the next chat turn runs on any account that is signed in and switched on. Grok Build and Claude Code with several accounts get the same fix.
+
+## [0.420.0] - 2026-10-30
+### Improved
+- **Skills page on a phone: pick a group from one dropdown.** The row of group buttons (All, AI, Sales...) ran off the screen once there were a few groups. Now there is one **Group** box showing how many skills each group holds. The Team page (filter by tag) and Workflows work the same way. On a computer the group column on the left stays as it was.
+- **Tools page tidier on a phone.** Every tool installed from Aivon Store had a **Manage in Aivon Store** button taking half the width, squeezing the name and description into a narrow column. Cards now use the full width, and the **Manage in Aivon Store** link appears once on the **From Aivon Store** group heading. The **Reinstall** button of a removed tool moves to the action row under the description.
+
+## [0.419.0] - 2026-10-30
+### Fixed
+- **The dictation button works on iPhone again.** Pressing the mic shows the recording bar and listens at once with Safari's own speech recognition, the very first press included, instead of flashing and closing. Aivon used to ask the server first and missed the moment an iPhone allows the mic.
+- **An iPhone with Dictation off is told so**: Settings, General, Keyboard, Enable Dictation. A blocked microphone points at aA in Safari's address bar instead of a "padlock" that only fits a computer.
+- **No more Groq API key hints** in the dictation notes: ordinary users never need one.
+
+## [0.418.0] - 2026-10-30
+### Improved
+- **Aivon opens even while the server restarts.** Before, reloading the page while the server was not up yet showed the browser's blank error page. Now Aivon shows its full interface with a **Reconnecting to the server…** line and carries on once the server is up. If the server has just updated, the page reloads the new version by itself. This works when Aivon is opened over https (a domain link or the Remote access link); while the server runs normally, Aivon always loads the newest version as before.
+- **The pet is much lighter while it sits still.** When nobody touches it or moves the pointer, the pet lets the browser run its ring spin and eye glances instead of drawing every frame in JS. On a simulated phone, idle on the Team page: busy about 26% of the time before, about 14% now, close to having no pet at all. Anything that happens wakes it right away as before.
+
+## [0.417.0] - 2026-10-30
+### Improved
+- **Aivon opens faster, phase 2: first load on a phone over 4G from 5.1 to about 4.7 seconds.** The code of the large pages (Teams, Conversations, Chatbot, Aivon Store, Usage, Webhooks, Agent jobs) no longer loads when the app opens. The main screen and the chat show first, the rest loads quietly right after, so by the time you tap another page it is ready. Opening the app straight onto a page loads just what that page needs.
+
+### Fixed
+- **A flaky server no longer breaks the interface.** While the server restarts or the connection drops for a moment, Aivon retries for about 10 seconds and shows a small **Reconnecting to the server…** line at the top, which hides itself once connected. Before, each of these showed cryptic errors such as "The string did not match the expected pattern". Aivon only retries reading data, never re-sends a save or a message.
+
+## [0.416.0] - 2026-10-30
+### Improved
+- **Aivon opens faster: first visit from 6.3 to 5.1 seconds, later visits from 1.55 to 1.37 seconds.** Measured on a simulated phone over 4G. 35% less to download when the app opens (1.7 MB down to 1.1 MB):
+  - **The server minifies the interface before sending it.** Comments and extra whitespace are dropped: JS is 44% lighter, CSS 49%. The source stays as it is, line numbers included, so error reports still point at the right line. Set `AIVON_MINIFY=0` to turn it off.
+  - **Fonts ship with Aivon.** The page no longer calls Google Fonts when it opens, so text appears sooner, and still looks right when the machine running Aivon cannot reach Google.
+  - **Fewer duplicate requests when the app opens.** Settings were asked for 9 times in a row; now 3.
+- **The Health page has a new Recent interface errors section.** Errors that happen in the browser of anyone using Aivon (computer or phone) are sent here automatically, grouped, with the version and device type. If something odd happens, a screenshot of this section is enough for the developer to fix it. Only technical details, never chat content.
+
+## [0.415.0] - 2026-10-30
+### Fixed
+- **No more screen full of label codes after an update.** If the page reloaded while the server was still starting, every label showed as a code like `nav.group.bo_nao`, the version read v0.4.3, an error said "The string did not match the expected pattern", and the page stayed that way. Aivon now retries; once the server is up the page reloads once and shows everything correctly. If you are typing, it does not reload and the labels come back in place.
+- **The Update button waits until the server is fully ready** before reloading the page, instead of reloading as soon as it sees the new version number.
+
+### Improved
+- **Aivon is lighter on a phone while idle.** On a simulated phone, the Team page kept the device busy about 26% of the time while doing nothing; now about 21%. Less heat, less battery, smoother scrolling:
+  - The pet draws 30 frames a second at rest and 15 while dozing (it was always 60). It looks the same, and goes back to 60 when you move the pointer or Aivon is working.
+  - The starfield and the brain graph stop drawing while another page covers them. Before, opening the app straight onto the Team page kept the graph drawing behind it.
+- **Faster opening from the second visit.** Aivon no longer re-downloads and checks 100+ interface files on every page load. Each set of files is checked once per device, right after an update. About half as many requests when the page opens.
+
+## [0.414.0] - 2026-10-30
+### Improved
+- **Customers see "typing..." while a personal Zalo bot writes** a private reply, as when a person types. Aivon moves to aivon-zalo 1.9.0 (which adds the typing tool); the Zalo connection updates itself after Aivon restarts, no new QR scan needed.
+
+## [0.413.0] - 2026-10-30
+### Improved
+- **Personal Zalo bots send bold and coloured text.** When the bot writes in bold or colour (`{red:50% off}`), the customer sees real bold or coloured words, as a person would send, instead of `**` stars.
+- **"Typing..." shows while the bot writes** a private reply, so customers can hardly tell the bot from a person. Needs aivon-zalo 1.9.0; with an older one the bot still answers, only without the indicator.
+
+## [0.412.0] - 2026-10-30
+### Added
+- **A bot can answer your Zalo Official Account inbox.** Pick the **Zalo OA** channel under Chatbot, Add channel, paste the App ID, App secret key, OA secret key and Refresh token; the bot shares the Agent, hours and Inbox of every other channel. Aivon needs an HTTPS domain.
+- **Aivon refreshes the Zalo OA token by itself.** A Zalo token lives about 25 hours and each refresh token works once; Aivon swaps and stores the new pair at once, so you never fetch one again each day.
+- **Verify the Zalo domain right in the form.** Paste the `zalo_verifier...html` file name Zalo gives and press Save code; Aivon serves that exact file so you can press Verify on Zalo. Step by step in guide 35.
+
+## [0.411.0] - 2026-10-30
+### Improved
+- **Aivon only asks you when it really needs you.** "Needs you" became "Aivon is asking you" and holds only questions, permission requests and results to approve; jobs paused on technical hitches move to "Aivon is handling these", with a quiet notice saying there is nothing for you to do.
+- **Add a note to a job in any state.** A done, paused or waiting job has Add a note (e.g. "rewrite paragraph 2 shorter") and continues from its last result instead of starting over; queued jobs get Run now.
+- **See whether a finished job was checked.** Cards say Checked or Not checked with the run time, and an unchecked job has Check again.
+- **Smarter and lighter.** A job you asked for by hand 3 times in 60 days is suggested as a schedule, new jobs go to the assistant that fits and small jobs run light; the page reloads only when something changed and History shows the newest jobs first.
+
+## [0.410.0] - 2026-10-30
+### Fixed
+- **A job that ran out of usage is no longer marked Done.** When Claude reported the limit in wording Aivon did not know yet (like "You're out of extra usage"), or an API error mid-run, the job still went to Done with that message as its result. A turn that ends in an error is now an error: the job waits for the plan to reopen, or sits under Needs you with the reason.
+- **Background work moves to the next provider in your order when Claude runs out**, as it already did for Codex, if nothing was done yet. A job already part done stops and reports instead, so nothing is sent twice.
+- **You can answer a job's question right on its card.** The Work page refreshes every 3 seconds and wiped whatever you were typing in the reply box. The box now keeps your text until you send it, and buttons no longer stay grey after a server error.
+
+## [0.409.0] - 2026-10-30
+### Fixed
+- **Phone dictation: X and stop respond again.** The first recording worked, after that neither X nor the stop square did anything and the timer ran on. Main cause: stopping put the cursor in the text box, so the keyboard came up; on the next recording the iPhone dropped the keyboard but left the page shifted, and a tap on X landed on the text box (the "AutoFill" bubble) instead of the button. Now the box lets go of the cursor while recording, stopping does not bring up the keyboard (tap the box to edit), and the page settles back when the keyboard goes down.
+- **The recording bar no longer hangs.** If the browser never confirms the stop, Aivon ends the recording after 1.5 seconds and keeps the words heard; a second press of stop ends it at once. X while the words are being transcribed closes the bar right away instead of waiting for the server. A transcription taking over 45 seconds is given up and the bar closes.
+
+## [0.408.0] - 2026-10-29
+### Improved
+- **A tidier notification bell: read notices hide.** The list shows only unread notices. **Mark all read** empties it at once. To look back, tap **Show N read notices** at the bottom.
+- **An X on every notice** removes it from the queue without opening it.
+
+### Fixed
+- **"Not needed" takes that notice out of the list at once.** It used to stay in the bell even though Aivon had noted the feedback. What Aivon Core learned shows once above the list.
+- **Background jobs with nothing to report no longer land in the bell.** Aivon only saw the `[SILENT]` flag at the start of an answer, so a reply like "I will check the failed POSCake runs. [SILENT]" still became a notice. The flag now counts at the start or the end, for reminders and webhooks alike.
+
+## [0.407.0] - 2026-10-29
+### Improved
+- **The Store has a Sort box.** Pick Recommended (the default, recommended packs first), Recently updated, or Name A-Z. Aivon remembers your choice on this device.
+- **Long descriptions on Store cards fit in three lines and end with "…".** The text used to run a few more lines and get cut off mid-line. Tap the (i) next to the name to read it all.
+
+## [0.406.0] - 2026-10-29
+### Improved
+- **An easier first visit to the Models page.** With no provider signed in yet, **Connect another provider** sits at the top with the list of providers already open, ready to connect. It used to sit at the bottom of the page, closed.
+- **Aligned Models page.** **Change model** now has the same height as the Effort chip (Off) beside it and lines up with it. On a phone, each section title no longer squeezes into two columns: the (i) sits next to the name and the sub-label takes its own line.
+
+## [0.405.0] - 2026-10-29
+### Improved
+- **Diagrams and pictures zoom and pan on desktop and phone.** The diagram viewer, SVG pictures and pictures opened in the editor now zoom with the mouse wheel or a two-finger pinch and pan by dragging with the mouse or one finger. Buttons **+**, **-** and **Fit**, and a double tap zooms in fast. A wide diagram used to show tiny on a phone with no way to zoom.
+
+## [0.404.0] - 2026-10-29
+### Improved
+- **A tidier Channels tab.** The account card (status, bot on duty, chat counts, Record chats, Import old messages, View chats, Open Connections) no longer sits above the chat list. The new **Info** button next to "AI on duty" opens it as a popup, unchanged. The button shows a red dot when the account has an error.
+- The "Bot settings" button moved to the bottom of that popup.
+- Removed the hint lines above the "Groups and people" list. With no AI on duty yet, the "AI here" switch is dimmed and, when pressed, says to pick one in the box above.
+
+## [0.403.0] - 2026-10-29
+### Added
+- **Aivon Core runs the notifications.** Every notice has a group (Reminders, Questions for you, Chatbot and customers, Connections and sign-in, Incidents, Job results...) and a level: normal, important or urgent.
+- **By default only urgent notices ring:** reminders, questions for you, a customer asking for a person, a failing chatbot, Aivon not usable, a change on a page you watch. Other notices stay in the bell under **Filtered**, with no red dot, no phone push and no Telegram. A job given from a chat still reports back into that chat.
+- A **Filter** tab in the bell: each group picks Everything, Important and up, Urgent only or Off; see the kinds with their own rule; undo changes.
+- Every notice has two buttons, **Needed** and **Not needed**. To rate it with an emoji, press **Open in Aivon Core** and put the emoji on it in the chat like on any answer. Aivon Core adjusts itself from it, says so in its chat, and never hides an urgent notice by itself.
+- A kind that rings a 3rd time within 6 hours is filtered as "repeated" after that.
+- Say it in the Aivon Core chat, for example "turn off Zalo sign-in notices", and Aivon Core changes it with the new `aivon_notify` tool.
+
+## [0.402.0] - 2026-10-29
+### Fixed
+- **Aivon Core can pick a model.** By default Core follows the main model and changes with it. Picking another model in the model bar of a Core chat pins it for all of Core: every Core chat uses it until you choose "Follow the main chat's model". Core chats used to freeze on the model of the day they were made.
+- **Fewer false sign-in notices:**
+  - A normal answer that mentions "not logged in" no longer makes Aivon say it is not usable.
+  - A failure already reported is not reported again after a restart.
+  - A connection still downloading on its first start is no longer counted as broken.
+  - A recurring job that keeps failing makes one "needs you" incident, not a new notice on every failure.
+  - The Zalo eviction notice no longer repeats after every restart.
+
+## [0.401.0] - 2026-10-29
+### Fixed
+- **Chatbot Stats split per account.** The "answers the AI handled" share used to mix every account, so an account where a person types lowered the share of one only the AI answers.
+- An **account picker** sits next to the period button. Pick one account and the whole page counts only that one. Aivon remembers the choice.
+- The per-channel list became **AI and hand replies per account**: one two-colour bar per account, with that account's own AI share.
+- "You answered" is now **Hand replies**, since it also counts messages someone else types on that account's phone.
+
+## [0.400.0] - 2026-10-29
+### Fixed
+- **Canva and other OAuth connections no longer drop mid-session.** Near expiry, several calls at once each renewed the token with the same code, and Canva accepts that code only once, so it shut the sign-in. Now one call renews and the others share the new token.
+- A tool call mid-chat always uses the latest token. If the server still rejects it (error 401), Aivon renews and tries once more instead of asking you to reconnect.
+- A token change no longer cuts off work in progress, such as a Canva design being generated.
+
+## [0.399.0] - 2026-10-29
+### Improved
+- **Chatbot Stats shows what the AI does for you.** A band at the top: how many messages the AI answered for you, its share of all answers, the hours it freed for you (estimated), and how many answers it sent while you rest (9 pm to 7 am).
+- **New numbers:** customers served and new customers, the AI's first-answer speed against yours, and a chart of when customers write during the day.
+- **The Channels and Stats tabs are tidier**, with the same type and buttons as the Conversations tab.
+- **Every (i) explanation now opens in a popup** next to its button (a sheet from the bottom on phones) instead of unfolding and pushing the page down.
+
+## [0.398.0] - 2026-10-29
+### Fixed
+- **Replying to customers on a phone: Enter adds a line.** On the Chatbot page, Enter on a phone keyboard used to send right away, with no way to write a second line. Enter now adds a line like in the main chat; press the send button to send. Computers are unchanged: Enter sends, Shift+Enter adds a line.
+- While dictating in the chat, Enter on a phone also adds a line instead of sending the recording.
+
+## [0.397.0] - 2026-10-29
+### Improved
+- **Chatbot page on phones: twice the room to read messages.** An open chat fills the screen: one head row with the back button, the customer's name and a violet mode button. Tap it to pick AI replies, AI drafts or I reply, each with a line on what it does. The compose box is one row with two round buttons.
+- **On phones** the "Chatbot" title is gone and the four tabs show their icon only.
+- **Smaller, tidier type on computers.** Each customer takes 2 lines and still shows the chat's message count and unread number; a third line appears only for tags.
+- **The four filter buttons that wrapped** (Needs you, AI is handling...) are now **one dropdown** that always shows the Needs you count. Each choice has a line saying what it means.
+- **The three reply modes sit in the chat head.** The coloured bar under it only shows when something needs you. The customer's tags sit next to the name, with a "+ Tag" button.
+- **The Info panel starts closed**; the ⓘ button opens it and Aivon remembers your choice. Messages sit in a centred, easy-to-read column.
+- The compose box's "AI reply" button is now **"AI draft"**, which is what it does: the AI writes, you press Send. The draft shows right inside the compose box.
+
+## [0.396.0] - 2026-10-29
+### Improved
+- **Group chats now keep their latest 1,000 messages in the inbox, up from 100.** A busy group stays readable for days back. Private chats with customers still keep everything.
+- Messages already cut earlier do not come back; from now on a group fills up to 1,000 before the oldest start to go.
+
+
+## [0.394.0] - 2026-10-29
+### Fixed
+- **Switching to another app and back, a running turn no longer looks stopped.** Aivon kept working on the server while you were away, but on reconnecting the chat removed the "Aivon is thinking" line and did not show what had been written, so the command looked stopped until the finished answer popped up. The status line now comes back at once, with the text Aivon wrote while you were away.
+- **Back in the app, a dead connection is noticed after about 20 seconds instead of up to 50,** so the chat catches up sooner on phones.
+
+## [0.393.0] - 2026-10-29
+### Fixed
+- **The phone menu opens again.** On iPhone, the menu button only dimmed the screen with no menu on it: Safari drew the menu while it slid in, then dropped it. The menu now slides in a way Safari does not mangle, and is fully hidden when shut.
+### Improved
+- On phones the **light/dark button** moves to the version row at the bottom of the menu, next to the sidebar collapse button.
+
+## [0.391.0] - 2026-10-29
+### Fixed
+- **The capability index `Aivon/index.md` now updates itself in every brain**, not only Brain Default. A brain with no loop used to keep the file from the day it was created, so it still said "0 agents" after dozens were added, and an AI reading it to avoid duplicates was misled.
+- Adding, editing or deleting an agent, skill, workflow, loop or plugin updates the index within about 30 seconds, also when the AI writes the file itself. No more toggling a plugin to force a rebuild.
+- **Lighter than before:** Aivon rebuilds only the brains that actually changed, so many brains do not slow the machine down.
+
+## [0.390.0] - 2026-10-29
+### Improved
+- **The Aivon Store shows at most 3 columns of cards**, six full rows per 18-item page. Narrow screens still drop to 2 columns, phones to 1.
+- **Fewer tags on a card:** no kind tag (the open tab already says it) and no official or community tag. Only packs that run code get a small amber chip in the corner, beside the group chip, so the name fits on one line.
+- Refresh is no longer pushed past the edge on wide screens. The catalog time now shows when you hover the button.
+
+## [0.387.0] - 2026-10-29
+### Fixed
+- **Claude Code and Codex now really stay running between messages.** In 0.382.0 Aivon thought the setup had changed after every message (Claude Code and Codex rewrite their sign-in file themselves), so it started them again each time. Measured again on the dashboard: the next message shows text after about 2 seconds instead of 8 to 14.
+- **Getting ready as you type now actually works** for both Claude Code and Codex, and covers a chat left idle for up to 12 hours (was 1 hour). Signing in or out makes Aivon start them again on the new account.
+
+## [0.386.0] - 2026-10-28
+### Improved
+- **Aivon Store on phones:** the six kind tabs become a dropdown, next to the group dropdown in one row that stays put while you scroll. Each choice shows its item count and new versions, in larger, easier to tap text. Computers keep the tabs.
+
+## [0.385.0] - 2026-10-28
+### Fixed
+- **Signing in to Claude on the Models page no longer says done and then falls back to "Not signed in".** The Claude CLI reports success even when it could not save the sign-in (on a Mac, a locked Keychain), and Aivon took its word for it, so the card went back with no reason. Aivon now checks right away and, if nothing was saved, says why and what to do.
+- Pasting a wrong code and then the right one no longer returns the first code's error. A refused code shows Claude's own reason on the card.
+
+## [0.384.0] - 2026-10-28
+### Improved
+- **A tidier Aivon Store:** the repeated heading and intro lines are gone, and the tabs plus the Refresh and Install from .zip buttons share one row that **stays put while you scroll**. The group list moved to the right and stays put too.
+- **18 items per page**, with previous and next buttons. Moving to a page takes you to its first card.
+- **No more broken layout on phones:** the six tabs fit one row, groups are picked from a dropdown beside the search box, and Refresh and Install from .zip shrink to icons.
+
+## [0.382.0] - 2026-10-28
+### Improved
+- **Claude Code answers faster from the second message on.** Aivon keeps Claude Code running between the messages of a chat instead of starting it again every time. Measured on a real machine: the next message went from about 10 seconds to about 4.
+- **Codex shows its answer as it writes** instead of making you wait for the whole paragraph. Codex is also kept running between messages, and Aivon's rules go once per chat instead of with every message, so long chats no longer slow down.
+- Just start typing and Aivon gets the brain ready again for a chat that has been idle over 5 minutes. How many stay ready is capped by the machine's free RAM; background work and customer bots run as before.
+
+## [0.381.0] - 2026-10-28
+### Improved
+- **Models** moves from the Connections group to the **System** group in the sidebar: choosing the AI brain is Aivon's own setting, while Connections is for outside services.
+
+## [0.380.0] - 2026-10-28
+### Fixed
+- **Conversations list:** the number of messages in each chat is back (grey "12 msgs") next to the red unread count. The reply box drops its two notes, keeping only the warning that a personal account sends under your own name.
+- **A truer "Needs you":** opening a chat takes it off Needs you until the customer writes again. Friend-request notices ("accepted your friend request") do not count as a customer waiting. Chats of a nick that has an AI no longer offer "Create an AI for this channel".
+- **Channels tab:** a nick's groups and people come 20 a page (Previous / Next, "21-40 of 289") and the search covers every page. The channel list on the left stays in view while scrolling and has its own search.
+- A customer's emoji reaction is shown under the customer's name, no longer as "Bot reacted".
+
+## [0.379.0] - 2026-10-28
+### Fixed
+- **Allowing a Zalo Bot group now sticks.** Zalo Bot group ids look like `zgr-...` and were silently dropped: "Allow this group" said done, yet the group stayed "waiting for approval" and the bot never answered there. Thanks to @VQTPiano for the report and the fix (#875).
+
+## [0.378.0] - 2026-10-28
+### Fixed
+- **Customer bots with a long profile no longer go silent.** On a Linux server, a bot on the Claude plan whose prompt passed about 128 KB (a long assistant profile plus the customer context of each turn) could not start Claude, so the customer got no reply. The prompt now goes through a file, so any length works. Thanks to @QuanAMG for the report and diagnosis (#871).
+
+## [0.377.0] - 2026-10-28
+### Added
+- **Channels tab on the Chatbot page:** every Zalo nick, Page and Telegram bot grouped by channel with real logos. Pick the AI on duty for each with one dropdown; Cancel and Save appear only after a change. Also "No AI needed", "Put an AI on several Pages" at once, and an AI switch per group or person with Undo.
+- **Stats tab:** how many messages the AI and you answered, how long customers waited, against the period before, with bars by channel and by bot. Pick the period with a full date picker: today, last 7, 30 or 90 days, last month, week or month to date, or days on the calendar.
+- **Fuller Conversations filter:** Time (the same date picker), Last message by (customer, AI, you) and Pinned chats only. A list emptied by filters offers Clear right in the middle.
+
+### Fixed
+- Changing the bot on duty for a Page moves its existing chats to the new bot, so they no longer say "no bot". Switching the AI off in one chat that cannot be saved now says so instead of claiming it is done.
+## [0.376.0] - 2026-10-28
+### Improved
+- **Pin and speaker buttons under every answer.** The pin puts an answer into the conversation's contents (the marks rail on the right, the ≡ button on phones), marked with an orange pin, one click to jump back; pins are kept on the server so other devices see them. The speaker reads that answer aloud; press again to stop.
+- **No token count on the small line under an answer.** It now shows only the engine, the model and the context mode; the Usage page has the token numbers.
+- **The "Recommended repos" tab is now "Recommended".** A shorter name without the word "repos", one line on a phone. The card line now reads "Updated from the author".
+- **Clearer icons in the Aivon Store.** The solid letter tiles are gone. Skills show the puzzle icon of the Skills page, workflows and tools their own icons, each card in its own light colour. Agents show an agent portrait like the Partners page. Packs with a real logo keep it.
+
+### Added
+- **Recommended gains 15 of the most popular skill sets**, each taken as the author wrote it and updated with them: Superpowers, GitNexus, REA, Matt Pocock's skills, Anthropic Skills, Vercel, planning with files, UI/UX Pro Max, Marketing Skills (52 skills), Humanizer, Claude for Marketing, Sales and Small Business, HyperFrames, Video Use. Already in the Aivon Store, no app update needed.
+## [0.375.0] - 2026-10-28
+### Improved
+- **Aivon now sets up a browser right after install.** If the machine has no Chrome or Edge, Aivon downloads a compact Chromium (about 100 MB) in the background on first start, so nobody has to find the button on the Tools page. Aivon stays usable while it downloads.
+- Machines that already have Chrome or Edge use it as is and download nothing. If you pressed Remove on the browser, Aivon respects that and does not download it again.
+- To turn the automatic download off, set the environment variable `AIVON_SKIP_BROWSER=1`.
+
+## [0.372.0] - 2026-10-28
+### Added
+- **New Conversations tab on the Chatbot page.** On a computer: customers, chat and an Info panel side by side. Each row's coloured edge says who is on it: Needs you, AI is handling, You are handling.
+- **Pick channels with checkboxes:** several Zalo nicks or Pages at once, each with its "Needs you" count. One **Filter** button holds tags, chat type, bot and status.
+- **"Who replies" bar under the customer's name:** AI replies, AI drafts and you approve, or I reply. Every change can be undone.
+- **"AI reply" button:** type an instruction ("quote 20 cases wholesale") and the AI writes the reply as a draft you edit before sending. The Info panel keeps a note on the customer.
+
+## [0.371.0] - 2026-10-28
+### Added
+- **Groundwork for the new Chatbot page** (the screen itself comes in the next release). Every chat now has one shared state: AI is handling it, You are handling it, Needs you, or Only logged.
+- **New "AI drafts, I approve" mode:** the bot writes its reply but does not send it; it waits for you to Send, Rewrite or Drop.
+- **Switch the AI off in a single chat** without changing the whole bot, and **give the AI an instruction** (for example "quote 20 cases wholesale") to write the reply to the customer.
+
+## [0.370.0] - 2026-10-28
+### Added
+- **Recommended repos in the Aivon Store.** A new first tab in the Store with skill sets copied word for word from the author's own GitHub repo, nothing translated or changed. Each card links to the source repo with the day the latest version was taken. The store compares them with the source every day: when the author changes a skill the pack gets a new version, Aivon tells you in the bell and you press Update. Skills you edited yourself are kept.
+- **The first two:** Remotion (12 official skills for making videos in React: new projects, animation, captions, maps, rendering) and Lemo-Opuscar (short films made entirely in code, in 59 styles).
+
+### Improved
+- **Skills that ship their own files work on every engine.** A skill with `scripts/` or `references/` now tells the model its folder when it is loaded, as Claude Code does, so the model finds those files instead of guessing.
+
+## [0.369.0] - 2026-10-28
+### Fixed
+- **Download in the picture viewer on an iPhone now saves the picture.** It used to only open the picture in a new page. It now opens the iPhone share sheet, where "Save Image" puts it straight into Photos. After swiping to another picture, Download saves the one on screen.
+
+## [0.368.0] - 2026-10-28
+### Improved
+- **Tidier repo and branch picking.** Tapping the repo chip in the chat box (or plus, GitHub repo) opens a small menu with "Change repo" and "Change branch". The repo list has "Selected" and "Repos" sections, the owner small above the repo name, and a "Connect more" button.
+- **Work from a branch other than the default.** Pick a branch (dev, say) before or during a chat: Aivon cuts its working branch from it and opens the PR into it. The chosen branch shows on the chip. A chat with work in progress cannot switch, so nothing is lost.
+
+## [0.367.0] - 2026-10-28
+### Improved
+- **The GitHub and Messenger cards on the Connections page are compact.** Each card shows one row with the number of repos or Pages; "View details" opens the full list in a popup, like the bot cards on the Chatbot page. Many repos or Pages no longer stretch the whole page.
+
+### Fixed
+- **The Connections page counts GitHub.** The "Connected" heading used to say "0 accounts" while GitHub was connected. GitHub and Facebook Pages now add into the same number, and whichever card loads last no longer wipes out the other's count.
+
+## [0.366.0] - 2026-10-28
+### Added
+- **A second engine reviews before merging.** After green CI the diff goes to an engine from a different vendor than the one that wrote it (code written with Claude is read by ChatGPT, for example). Findings must name a concrete failure path, go back to the author to verify and fix, and hold the merge until handled. With only one vendor connected, Aivon notes on the PR that it was not cross-reviewed.
+- **Aivon learns per repo:** a CI failure it later fixed or a check command that failed becomes one lesson line (at most 30), recalled on the next turn.
+- **Numbers per engine and model** on the GitHub card: first push green, fix rounds, review findings, minutes to merge.
+- **A user guide for GitHub inside chat** (Vietnamese and English) in the docs.
+
+## [0.365.0] - 2026-10-28
+### Added
+- **Green CI means Aivon merges the PR by itself**, with an on/off switch per repo on the GitHub card. A flagged change, open review findings, a repo without CI or an unmet repo requirement never merges on its own. A person can still press Merge in the detail panel.
+- **Every conversation shows a GitHub status icon** next to its name in the chat list: working, ready, merged, needs a person. Tap it to see the branch, the PR, the check results and why it is stuck.
+- **Next jobs wait in line:** a new job starts only after the previous PR is merged and the checks after merging are green. A branch behind main is updated by GitHub first, and a conflict becomes a fix round.
+
+## [0.364.0] - 2026-10-28
+### Added
+- **Aivon pushes to GitHub and opens a draft PR by itself** after a chat turn that changed a repo and passed the checks. Commits carry the connected account's name, and nothing is ever force-pushed.
+- **Aivon follows the CI of every commit.** Green is reported in the chat and the PR is marked ready. Red starts a fix turn in that same chat with the error log (secrets hidden), up to 3 rounds, then it stops and asks a person.
+- **It knows when a failure is not its own:** a red main branch means stop, a broken CI runner gets exactly one re-run, and a repo without CI is reported as unverified.
+- A restart halfway through never pushes or opens a PR twice.
+
+## [0.363.0] - 2026-10-28
+### Added
+- **Aivon checks the code after every turn that changed a GitHub repo.** It runs the repo's own CI commands on this machine (read from the repo's workflows folder, leaving out steps that install into the machine, need secrets or deploy) and reports in the same conversation.
+- **Stopped before pushing:** a diff that looks like it holds a password or token is not committed; skipping tests, deleting tests or editing workflows to get green CI is flagged for a person before merging.
+- **Every engine reads the repo's rules** (AGENTS.md, CLAUDE.md, CONTRIBUTING.md), not only Claude Code. Each repo's check commands are editable on the GitHub card of the Connections page.
+
+## [0.362.0] - 2026-10-28
+### Added
+- **GitHub is built into the Connections page.** Paste a token once, or reuse the brain-backup token with one click. Nothing to install.
+- **Attach GitHub repos to a conversation:** press plus, pick GitHub repo, tick one or more repos. Aivon downloads them to this machine (outside the brain folder), and each conversation works on its own branch and folder, so two chats editing the same repo never overwrite each other.
+- **Removing a repo from the brain** deletes only the local copy; the repo on GitHub stays as it is. Aivon refuses while there are unsaved edits or commits not pushed yet.
+- This release does not push code to GitHub yet. Checking, pushing, opening a PR and watching CI come in the next releases.
+
+## [0.361.0] - 2026-10-27
+### Improved
+- **Internal:** the pet emotion test no longer fails at random on CI. The pet blinks at random moments, and about 1 run in 400 the test looked at the eyes during a blink frame. The test now lets the blink finish before it looks. The pet in the app is unchanged.
+
+## [0.360.0] - 2026-10-27
+### Improved
+- **The design for "GitHub inside chat" is settled.** Soon you pick GitHub repos from the chat's plus button, give a task in words, and Aivon edits on its own branch, checks its work, opens a PR, watches CI and merges when green (switchable per repo). This release only adds the design document, no new feature yet.
+- The GitHub connection will be built into the Connections page, with nothing extra to install.
+
+## [0.359.0] - 2026-10-27
+### Fixed
+- **The chat on an iPhone home-screen app no longer loses its top or leaves a gap under the composer.** With the keyboard closed the chat takes the exact height of the visible screen, and a page iOS left scrolled after the keyboard closes is pulled back. The status bar looks the same as before. Thanks to hwangrin for the report and the proposal in PR #850.
+
+## [0.358.0] - 2026-10-27
+### Fixed
+- **A message you just sent in a Team always shows.** It sometimes seemed to vanish after sending, for 3 reasons, all fixed:
+  - On a phone, the keyboard or a taller composer pushed the newest message under the composer. The chat now keeps the last message in view (the main chat too).
+  - A reload that failed or came back late could remove the bubble of the message just sent. The bubble now stays until the server's copy shows, and says "Sent" meanwhile.
+  - Sending while one job is filtered now goes back to the whole chat, where the message lands.
+
+### Improved
+- **Team members talk like a chat message**: usually 1 to 3 sentences, no greetings, no headings or tables. Long products go into a file, and the chat only says which file plus the main point. The final summary step is short too and does not retell each step.
+- **Swipe between pictures in a chat**: the picture viewer now holds every picture of the same chat, with a "2 of 4" counter like a phone's photo viewer. On a computer use the side arrows or the ← → keys. It works in every chat: the main chat, Team chat, the Team info panel and customer Conversations.
+- **A tidier Teams page on a phone**: the chat header buttons lose their boxes, an assistant's message loses its outline and gets more room for text, headings inside a message are the text size, tables are compact and scroll sideways. The Team settings panel uses one 16px text size with even section titles. Create team and Import team sit on one row.
+
+## [0.357.0] - 2026-10-27
+### Added
+- **Give a Team a job straight from chat.** Tell Aivon "have the Content team write 3 posts" and it gives that Team exactly one job, coordinated by the Team as if you had given it on the Teams page. When it is done, blocked or needs your decision, the result comes back to the chat you asked in (web, Telegram, Zalo) and to the inbox.
+- The message says whether the job is **DONE** or **PASSED acceptance**. A job that needs your approval still stops on your card; Aivon never approves for you. Repeating the same request never makes a second job. Only the owner can give jobs; a Team of another brain is refused before any job exists (issue #826).
+
+## [0.356.0] - 2026-10-27
+### Fixed
+- **Image generation on a ChatGPT plan no longer dies on "Tool choice image_generation not found".** When a ChatGPT model has no image tool, Aivon moves to another model of the account, as it does when a model is refused (issue #854).
+- **Google Workspace sign-in with Aivon in Docker on a computer.** Clicking Allow used to end on "cannot connect to localhost:8000". Aivon now handles the inside of the container; you open port 8000 once with docker-compose.google.yml (to that computer only), and the first Connect tells you the exact command. Updating with update.sh keeps the port (issue #855).
+
+## [0.355.0] - 2026-10-27
+### Improved
+- **"Default" model now says which model it is.** On the Models page, the model chip and the model list show for example "default (llama-3.3-70b-versatile)" instead of a bare "default", so you know what a card runs when you have not picked a model. A plan card (Claude Code, ChatGPT, Grok) with no model set says "CLI default (picked by your plan)". The chat composer's model chip names that model too.
+- **Clearer hint for naming a plan account.** The name box when adding an account now suggests names like "Pro plan 2" or "Max 200 plan".
+### Fixed
+- **Several accounts on one plan behave more reliably.** Two chats at once no longer rest the wrong account (the one that rests is the one that ran out). A background job asking for a model the plan lacks no longer rests that account for chat; only a real quota error does. An account you switched off is never used, even when every other account is resting.
+- **Sign in again no longer finishes at once.** Re-signing a second Grok or Claude account used to report success within seconds because the old login file was still there; now the new sign-in has to finish.
+- **No lost account when the Models page is open in two places.** Reordering or switching an account on an older page (opened before an account was added) no longer deletes the new account; only Remove deletes.
+- **An extra Claude account sees the MCP servers you connected in Claude Code**, like account 1. On Linux and Windows a Claude account counts as signed in only when its login file exists.
+
+## [0.354.0] - 2026-10-27
+### Improved
+- **Out of quota, chat reruns on the next route by itself.** When the running model reports it is out of quota before writing a word or calling a tool, Aivon asks the same question again right away on the next account or key of the same provider, then on the next provider in the usage order. The chat shows a line such as "Using ChatGPT because Claude Code is out of quota." and you do not have to send it again. Telegram does the same.
+- **Out of quota halfway, a Run again now button.** The answer stops where it got to; the button asks again on a model that still has quota. Aivon never reruns by itself after a tool call, so nothing gets sent or posted twice.
+
+## [0.353.0] - 2026-10-27
+### Added
+- **Several accounts on one subscription plan.** The ChatGPT, Grok Build and Claude Code cards on the Models page now list their accounts. Tap Add account and sign in with a link and a code right on the page (works on a VPS too). Account 1 is the one the machine already uses. When one runs out of quota the next takes over, and all accounts of a card are used before the next card. A resting account comes back on its own once its reset time passes. Drag or use the arrows to reorder, switch off or remove any account.
+- Using several accounts on the same plan carries a risk of the provider locking them, though Aivon has no reported case so far. If it happens, please tell the developer.
+
+## [0.352.0] - 2026-10-27
+### Improved
+- **Gentler wording for the account lock risk.** Running background work on a subscription plan (Claude Pro/Max, the xAI plan) still carries a risk of the provider locking the account, but Aivon has no reported case so far. If it happens to you, please tell the developer so everyone knows.
+- **Easier model picking on a phone.** On the Models page, the model chip, the Effort chip and the background model's "Change model" now open a sheet that slides up from the bottom, with a title, a close button and large rows. The keyboard only comes up when you tap the search box. The model list is tidier: "default" first, the model in use next, the rest A to Z. The MAIN or Fallback label moves to the chip row so the provider name no longer breaks across lines.
+- **The "What the bot answers from" choice is gone from the chatbot form.** Every bot answers from its Agent and documents, so there is nothing to pick. An older bot set to "Documents only" keeps it until you edit and save it; to keep a bot to its documents, write that rule into its Agent file.
+### Fixed
+- **The model picker is no longer hidden behind the next card.** On a computer, a model or Effort picker opening downward was covered by the next provider card and could not be clicked. It now always sits on top.
+
+## [0.351.0] - 2026-10-27
+### Improved
+- **New Models page: one Usage order list.** Only signed-in providers show, the top card is the main model (MAIN), the next ones are Fallback 1, 2... Drag a card (on a phone hold the 6-dot handle or press and hold the card) or press Swap to reorder. Each card has its own model chip and Effort chip, like the chat composer. A fallback card running chat in place of MAIN lights up IN USE.
+- **Several API keys per provider.** API cards show a numbered key list: add a key, name it, move it up or down, turn it off, change it, remove it. The key in use is highlighted, a key out of quota shows when it comes back.
+- **The background model sits right under the Usage order**, with its own Effort chip. On a phone its picker looks like the chat composer's and opens upward. The picker lists connected providers only. When the background model is out of quota, a line says what background work runs on for now.
+- **Tidier:** providers not connected wait behind Connect another provider; the Main Model, Telegram model and global Reasoning boxes are gone (Telegram follows MAIN, type /model in a chat to pin that chat).
+
+## [0.350.0] - 2026-10-27
+### Improved
+- **Background work follows a clear order.** It runs on the background model first; when that is out of quota it moves through the fallback providers (each on its own default setup) and uses the main model last. Aivon no longer slips in Claude or free OpenRouter when you have not connected them.
+- **Nothing is done twice.** An engine that already used a tool (sent a message, posted an article...) and then broke stops the job with a clear error instead of running it again on another engine. That is why jobs at Full access now get a fallback too.
+- **Chat steps around a provider that is out of quota.** When the main model is known to be out of quota, the chat turn starts on the next provider that still has quota, and the next turn tries the main model again. A provider with several API keys skips the keys that are out of quota. The model picker in the chat lists connected providers only.
+- **Telegram pins per chat.** Typing `/model` in a Telegram chat now pins that chat only and no longer changes the model on the web; other chats keep following the main model. An old shared Telegram pin turns into a pin for each chat.
+
+## [0.349.0] - 2026-10-27
+### Improved
+- **Rewind a chat to one of your questions.** Under each question you asked there is now a ↺ Rewind button, replacing Send again and Edit. Press it, confirm, and Aivon deletes that question and everything below it, then puts the question back in the message box to edit or resend. The chat goes on from there, and the chatting brain forgets the deleted part too. While Aivon is answering, press Stop first.
+
+## [0.348.0] - 2026-10-27
+### Fixed
+- **Picking an assistant's model: clicking a provider name opens its models.** On the Partners page, clicking a provider (Claude Code, ChatGPT...) in the Model list used to close the whole list, so only the provider already open could be picked from.
+
+## [0.347.0] - 2026-10-27
+### Improved
+- **A leaner sidebar: the Code group is gone and Terminal moves into Capabilities.** Every chat can now attach a folder and write code, so a separate Code area is no longer needed. The old Coding page still opens from old links or voice commands, it just is not on the sidebar. Saying "open the code group" now opens Capabilities, where Terminal lives.
+### Fixed
+- **A call no longer hangs up when you switch screens.** Opening the Partners page, switching to another conversation or a dropped ChatGPT Live line all used to end the call. The call now stays with the conversation it started in, and after a drop it waits for you to speak, then reconnects. To hang up, press Hang up or tap the mascot.
+- **Long calls no longer lose the mic.** After several minutes the browser's listener could freeze: Aivon stopped hearing, and calling again said "mic not closed yet" until a page reload. Aivon now notices a frozen listener and rebuilds it at once.
+
+## [0.346.0] - 2026-10-27
+### Added
+- **Aivon reads and edits pinned notes in Zalo groups.** Ask Aivon what a group has pinned and you get its notes, pinned messages and polls, with who created and last edited each one and when, including notes staff or customers edited by hand on their phones. Ask Aivon to update a note and it edits that same note instead of adding a new one on top. Needs the Store pack "Zalo extras" 1.5.0.
+### Fixed
+- **Editing a note no longer unpins it.** Editing a pinned note without saying "pin" used to make Zalo take it off the pin bar. The pin now stays as it was and comes off only when you ask.
+
+## [0.345.0] - 2026-10-27
+### Improved
+- **Greetings and thanks cost almost no tokens.** A message that is only a greeting or a thanks now gets its answer through the fast path on every brain, at every saving level. On Claude Code, "hi" dropped from about 60,800 tokens to about 2,100.
+- **Regular questions on Claude Code are about 23% lighter.** Claude Code no longer reads Aivon's rules twice (regular installs), and the rules got leaner: the guides for creating plugins, assistants and workflows load only when needed. Measured: from 60,800 down to 46,600 tokens. Every other brain also saves about 1,900 tokens per turn.
+- **Long chats on Claude Code no longer grow to nearly a million tokens per turn.** Claude Code now summarizes the thread at about 180 thousand tokens instead of 980 thousand, so late in a long chat each message costs up to 5 times less while Aivon keeps the thread.
+- **The token line under each answer now shows only new tokens.** Context sent earlier is read back from cache by the provider at a far lower price, so it is no longer added in: a second chat turn on Claude Code shows about 4.5k tokens instead of 53k. Hover the line to see the cache share, for example "45k cached tokens". Applies to Claude Code and ChatGPT (Codex).
+### Fixed
+- **Asking the time in the middle of a long chat on Claude Code now gives the right time.** Aivon could answer with the time of the first message in the chat.
+
+## [0.344.0] - 2026-10-27
+### Improved
+- **The automatic checks before each release are much faster.** Every code change used to wait about 68 minutes while nearly 1,000 tests ran one after another. Now the tests are split across 2 machines that each run 4 at a time, so fixes reach you sooner. The same tests still run, none were dropped.
+
+## [0.343.0] - 2026-10-27
+### Improved
+- **Learning from chat costs far less.** Reviewing chat turns, writing test questions, grading and writing the revision now run on the background model (set on the Models page). Only the test work itself still runs on your main brain, so the result shows whether the new version helps the model that actually answers you. For the lowest cost, pick a light model as the background model.
+- **Stops early once the result is clear.** When the new version clearly wins, or does not beat the old one, in the first round, Aivon skips the second comparison round.
+
+## [0.341.0] - 2026-10-26
+### Added
+- **Aivon learns from your chats on its own, nothing to approve.** While you chat, Aivon reviews the turns that used a skill, an assistant or a workflow and spots mistakes from your next message (say "wrong, you forgot the VAT"). After the same mistake three times it writes its own test questions, revises the instructions, compares with the current version and applies the change only when it is clearly better and breaks nothing the current version got right.
+- **Safe and bounded.** Learning is text only, with no tools, so it cannot send messages or place orders. At most 40 reviews and one change a day, on the brain you selected. An assistant only gains a learned procedure; the assistant file you wrote stays as it is. The old version is always kept: see and undo changes under "Aivon learns from your chats" in the skill improvement panel. Everything follows the Learning page: turning on Learning plus Skill, Role and Step chain is all it takes (Auto-write applies on its own, Suggest waits for you to press Apply, Dry run only records). Skills learn by default; Role and Step chain are switched on on the same page.
+
+## [0.340.0] - 2026-10-26
+### Improved
+- **Store update notices no longer scan in the background.** Aivon used to check the Store every 6 hours, even when nobody was using it. Now nothing runs on its own: Aivon looks for new versions only when you open it, at most once every 6 hours, and reads a saved copy, so it costs next to nothing. When a new version exists the bell still rings as before, once per version.
+
+## [0.339.0] - 2026-10-26
+### Fixed
+- **Dictation works on phones again.** On an iPhone, pressing the record button ran the timer but no words ever appeared. A phone lets only one thing use the microphone at a time, and this button opened two at once, so neither heard anything. On a phone it now uses one path only: with a Groq or OpenAI API key it records and the text appears when you press stop; without a key it uses the browser's own listener. When no words were heard, Aivon now says so instead of staying silent.
+- **A voice call picks up again after waiting.** After about 30 quiet seconds a voice call goes on hold; on an iPhone, speaking again left Aivon unable to hear you or make a sound. The call now keeps the audio it opened when you pressed call, so speaking again carries on the conversation. Hanging up releases it.
+
+## [0.338.0] - 2026-10-26
+### Added
+- **Per-group private documents for bots.** A bot that answers many customer groups now reads the whole file of the customer in the chat it is answering (contract, deposit, appointments) and never sees another customer's file, not even its name. Put the files under `rieng-theo-nhom/<group id>/` in the bot's brain, or add a `chat_scope: <group id>` line at the top of a file. It applies to the pre-turn search, the three lookup tools of the Read documents level and the reply judge, the same on every brain. Files are read in full, no longer cut to 900 characters. Thanks to Ho Hung Son (SOHO Wedding) for the proposal.
+
+## [0.336.0] - 2026-10-26
+### Fixed
+- **The personal Zalo bot reads PDF, Word and Excel files customers send.** It used to read only plain text files (.txt, .csv...); a PDF was downloaded but not read, so the bot said it could not read PDFs. The text of a PDF, Word or Excel file now goes straight into the turn, so every brain can read it. A scanned (image-only) or broken file is reported as unreadable, never guessed.
+- **In a group, sending a file and then calling the bot works.** A file nobody addressed to the bot is kept for 10 minutes; when its sender calls the bot next (tag or name), the bot reads it. Replying to a message that carries a file and calling the bot works too.
+
+## [0.335.0] - 2026-10-26
+### Added
+- **The bell tells you when a Aivon Store pack has a new version.** Aivon checks every 6 hours. When a pack you installed has a newer version in the Store, the bell gets one notice naming the pack, the version you run and the new one; pressing it opens the Aivon Store to update. Each new version is announced once, and Aivon never updates on its own: a new version still goes through the confirm screen, like an install.
+### Fixed
+- **An overloaded model (like Gemini's 503 "high demand") now says what is going on.** The chat used to paste Google's whole JSON block. It now shows only the provider's sentence, explains that the provider is overloaded rather than anything being wrong on your side, and says what to do: send again in a few minutes or switch models with the model chip. Aivon also waits longer between retries (a few seconds instead of one), so a short spike often passes on its own.
+
+## [0.334.0] - 2026-10-26
+### Added
+- **Customers' reactions on personal Zalo are read.** When a customer hearts, likes or laughs at a message, the inbox shows one small line: who, which emoji, and on which message (the bot's own replies included). Taking a reaction back is recorded too.
+- **The bot decides whether a reaction deserves an answer, and learns it.** A customer's reaction reaches the judge (groups on "Auto-judge") or the Agent (private chats) like a message. Aivon has no fixed rule: marking the judge's call right or wrong in its log steers the next one.
+- **The bot can react to customers' messages.** The judge or the Agent may put a heart, a like and so on on the customer's message, with an answer or on its own. The bot never reacts to a reaction. Aivon in chat can react too when you ask.
+
+## [0.333.0] - 2026-10-26
+### Added
+- **Aivon improves a skill on its own when you ask.** Press "Let Aivon improve it": Aivon proposes fixes from two angles, test-runs them against the current version, combines what works and picks the best on a sealed question set. The current version stays unless the new one is clearly better, and applying is still your call. The skill needs an examples file with answers (at least 13; you can ask Aivon to write it in chat). Nothing to install: it uses the brain you already selected (Claude Code, Codex or an API brain).
+
+## [0.332.0] - 2026-10-26
+### Fixed
+- **Viewing a PDF on a phone always has a close button.** On an iPhone the PDF frame stretched to the whole document, so scrolling through it carried the toolbar (with its close button) off the top. The PDF now scrolls in its own box, and on a phone a round X button floats in the bottom right corner, reachable however far you scroll.
+- **Chatting with Claude Code no longer ends in a "(nothing came back)" bubble.** Now and then Claude ended a turn without writing a word (it thought, then stopped), so a plain question got an empty bubble. Aivon now asks Claude once more in the same conversation thread and shows the answer; a turn that reported an error or a plan limit is not asked again.
+### Improved
+- **Facebook Messenger is back in its proper place on the Connections page.** It is no longer a stray section under the list: Messenger is now a card in the "Available connections" tab like Zalo, Connect opens its form in the same dialog as every other service, and connected Pages sit right in the "Connected" list.
+
+## [0.331.0] - 2026-10-26
+### Fixed
+- **Tagging someone in a Zalo group no longer shows as code on a phone.** When the bot answered someone (say "@Tuan Fernel") in a group that also has a member with a shorter name ("Tuan"), Aivon added a second tag on top of the first. Zalo on a computer still looked right, while a phone showed a chunk of `href="zm://..."` code. Each stretch of text now carries one tag, and a "Tuan" written separately elsewhere in the message is still tagged correctly.
+
+## [0.330.0] - 2026-10-26
+### Added
+- **One button to pause every improvement in a brain.** It removes every skill fix, assistant procedure, routing description and bundle in use; assistants go back to the original. Different from turning self-improvement off, which keeps what you applied.
+- **Improvement stays bounded and needs a real reason.** Each failure family gets at most two refinement steps in a row; the next needs new evidence or your say; three steps with no change stop it. Exports carry only the procedures you choose, secrets masked; imported packages always arrive untested.
+
+## [0.329.0] - 2026-10-26
+### Added
+- **The Usage page has a new "Last 24 hours" section**, right under the three top boxes:
+  - **The 5-hour window hour by hour:** whether it is rising or falling, a dashed mark at your declared cap (or the highest you ever reached), a colour change as it nears the mark, and one line saying there is room or heavy work should wait.
+  - **Tokens per hour:** which hours this morning burned the most, split by Claude, ChatGPT and API.
+  - **When AI works hardest over 7 days:** a less-to-more colour strip for the 24 hours of the day, with the quiet hours suggested for background work.
+- **A plan usage ring next to the Effort chip**, for Claude Code signed in to Pro/Max and for ChatGPT through Codex:
+  - Green with plenty left, amber from 50%, **red from 80% of either the 5-hour session or the week**, whichever is closer.
+  - Click it to see the "5-hour session" and "Weekly" bars with their reset times, like Claude's plan usage panel.
+  - The header names the plan in use, such as "Claude · Max" or "ChatGPT · Plus".
+  - The numbers come straight from Claude Code and Codex after each chat turn; Aivon never reads your sign-in token. Models on an API key show no ring.
+  - **Grok Build and Antigravity** report no percentage, so their ring stays grey and turns red only when they refuse a turn for plan quota, with the reset time when one is given.
+### Improved
+- **The lightning bolt (Fast mode) moved to the top-right corner of the Effort popover.** With it on, light particles run along the effort bar; off, the bar is a still gradient. The Effort chip shows a small bolt while Fast mode is on.
+- **The tokens-per-day chart** now spans the full width with larger, readable day numbers (it used to sit squeezed in a corner with tiny labels).
+- **The "Give a star" button at the bottom left is tidier:** it is now its own full-width button under the version number, always on one line (it used to wrap onto two). With the sidebar collapsed, it shows just the star.
+
+## [0.327.0] - 2026-10-26
+### Added
+- **Fair improvement trials for a whole team.** Aivon snapshots the roster, roles, models and acceptance criteria of each trial; two trials that differ beyond the one thing being tested are not compared. Results go into the record only and never mark real work as done or send anything.
+- **Experience moved to another assistant, team or engine is always marked "untested"** until it is tried again there.
+
+## [0.325.0] - 2026-10-26
+### Added
+- **Apply a skill fix and an assistant procedure as one bundle.** Both turn on and off together: if one part breaks or is removed, the whole bundle stops and the assistant goes back to the original, never half new.
+
+## [0.324.0] - 2026-10-26
+### Added
+- **An invitation to give Aivon a star on GitHub**, shown at happy moments: the first time you heart an answer, when Aivon just finished a job for you, at 50 or 100 chats, after a month with Aivon, or right after an update. Each moment has its own greeting, with Aivon's orange star as the mascot.
+- **A 3-step picture guide** for people who have never used GitHub: it points at the exact Star button on a computer or a phone, and GitHub sign-in takes one tap with Gmail. The real star count comes from GitHub with the next milestone, so it stays current by itself.
+- **No nagging:** closing it asks again in 3 days, "Later" in 7 days, at most 6 times; giving a star or "Don't ask again" ends it for good, on every device. To give a star any time, use the "Give a star" button under the version number or the "Support Aivon" card on the Updates page.
+
+## [0.323.0] - 2026-10-26
+### Added
+- **A procedure of your own for each assistant.** Write how it should work (check sources first, compare with last period, how to hand off) and choose where it applies: private chat, team, Kanban jobs or workflow steps. The assistant file, your rules, model and permissions stay as they are, and you can remove it any time.
+
+## [0.322.0] - 2026-10-25
+### Added
+- **Install a plugin from a .zip file.** The Plugins page has an "Install from .zip" button: pick the file and Aivon shows its name, version, tools with the permission level of each, and the files inside before anything is installed. A new plugin always arrives turned off, so you review it and switch it on yourself. A store pack zip (one with aivon-pack.yaml) opens the pack install flow instead.
+- **Ask Aivon to make a plugin and it installs it in place**, no more downloading a file and uploading it again. Aivon can also read and edit plugins you already have. A plugin Aivon creates, or whose code it changes, stays off until you turn it on in the Plugins page; an edit with a syntax error is refused and the old version stays.
+### Fixed
+- **Pressing "Add" for a link in an assistant's, project's or chat's documents now always answers.** Pasting a link that was already in the list, or pressing with an empty box, used to clear the URL box and say nothing, so the button looked broken. Aivon now says "This link is already in the list" and highlights that row, asks for a URL when the box is empty, and says "Added" when done. A link pasted without https:// (like docs.google.com/...) gets it added automatically.
+### Security
+- Plugin zips get the same checks as store packs: odd paths, symlinks, oversized files and compiled code (.pyc, .so) are refused. An existing plugin is only replaced when you choose to, and the app's built-in plugins cannot be overwritten.
+
+## [0.320.0] - 2026-10-25
+### Added
+- **Test a skill description before changing it.** You write a new description and sample questions (should pick this skill, should pick none, should pick another skill); Aivon shows how many more it routes correctly and whether any become wrong. A version that causes wrong picks is rejected.
+
+## [0.318.0] - 2026-10-25
+### Added
+- **Every chat in the bot inbox has a "..." button** that acts right away without opening the chat: mark unread to come back later, pin to the top, tag, choose whether the bot replies or "I handle it", and copy the phone number or email the customer left.
+- **Hide chats to keep the list tidy**, and see them again under "Hidden" in the Status filter. A new message from the customer brings the chat back, so no customer is missed. On a phone the "..." opens a large, easy-to-tap sheet at the bottom of the screen.
+### Fixed
+- **Photos you send show as photos in the bot inbox.** Only customers' photos used to show; a photo you (or the bot) sent read "image https://...jpg". Every photo now shows right in the bubble and opens large on click, so you can check what went out to the customer.
+### Improved
+- **Buttons are clearer, no longer faint.** Secondary buttons have a visible edge and bolder 16px text, easy to read in both light and dark themes. Red buttons (delete, turn off) and the "Reload" button on the new-version banner read better too.
+- **Buttons next to a field now match its height and line up**, such as "Preview" next to the voice picker, the domain save button and the "..." on bot cards. Buttons at the bottom of dialogs sit together on the right.
+
+## [0.316.0] - 2026-10-25
+### Added
+- **Trial by share (canary).** When applying an improved skill to an assistant you can pick 10%, 25% or 50% of its chats: each chat stays in one group, and the rest keeps the original as the control group.
+- **Your Pass / Fail verdicts are the measure.** The canary panel lists the times the assistant used the skill in both groups for you to judge; emoji do not count. Two chats on the new version marked Fail pause it at once.
+- **Promotion to all chats only after enough observation:** at least 7 days and 10 verdicts in the new version group, and you still click it. You can let one assistant open a 10% canary by itself when a candidate passes full qualification, and revoke that at any time.
+
+## [0.314.0] - 2026-10-25
+### Added
+- **Try an improved skill with one assistant.** In Studio, open Improve on a skill, review the exact edit, then pick an assistant: the new version is used only in that assistant's own chat. The skill file is never touched, and **Revert to original** switches new work back at once.
+- A trial version **pauses itself** when you edit the skill, turn it off or revoke the edit permission; it never merges edits or turns a disabled skill back on. A version a comparison judged worse cannot be applied.
+- The label states the real evidence: "Manual trial, not proven better" until a full qualification passes. For now the trial only affects brains that run through an API; Claude Code, Codex, Grok and Antigravity keep the original.
+
+## [0.313.0] - 2026-10-25
+### Added
+- **Coloured tags on each chat** in the bot inbox, like Pancake: create, rename, recolour and delete tags right in the chat. Tags show as coloured chips in the list (the first 2, the rest as "+N") and can be used as a filter.
+- **Filter customers who left a phone number or email.** Aivon picks up numbers and emails customers type in their messages (0912..., +84..., with or without spaces), older chats included. "Has phone/email" is a filter of its own, so it combines with others, such as "Needs reply" and has a phone number. The number or email shows at the top of the chat, ready to copy.
+- **On phones the filters fold into one "Filters" button** next to the search box (with the number of filters on), so the chat list gets almost the whole screen. On a computer the filters keep their full text and wrap to a second line instead of being cut.
+- **Customers waiting longest for a reply come first** with "Waiting longest" in the Status filter.
+- **The conversation list column can be dragged** wider or narrower on a computer. Drag it all the way in to leave only initials; double-click to reset.
+### Fixed
+- **Someone opening Aivon on another machine no longer shows "Connection lost" on every open page.** Each page load looked up the server's public IP and its domain right on the main loop; on a server with slow outbound network that froze it for 12 to 24 seconds and every other browser dropped. The lookups now run on their own, and a failed one is remembered for two minutes so the next visitor does not wait again.
+- **Bot inbox: clearing a search brings the list back.** After searching and switching tabs, the search box came back empty while the list stayed filtered, with nothing to clear. The box now keeps the text that filters the list, and clearing it shows every chat again.
+
+## [0.312.0] - 2026-10-25
+### Improved
+- **Connections are easier to find.** The Connected tab has a search box: type a service or account name to filter right away, built-in Claude Code sources included.
+- **Built-in Claude Code and Codex sources list only the working ones.** Sources not signed in yet sit in one "N sources not signed in are hidden" line with a Show button. Names are shorter ("Meta ADS" instead of "claude.ai Meta ADS").
+- The green "ChatGPT runs through Codex CLI" note at the top of the Connections page is gone. The yellow warning for an engine that cannot call tools stays.
+- **Picking an agent has a search box.** In the bot form and in each workflow step, the agent field opens a clean list: the full name with a short description under it, and searching without Vietnamese accents still finds a match. On a phone the list slides up from the bottom.
+
+## [0.311.0] - 2026-10-25
+### Added
+- **A Facebook Messenger card on the Connections page.** Paste the Page ID, App ID, App secret and any token from Graph API Explorer, and Aivon swaps it for a Page token that never expires, registers the webhook and subscribes the Page to the app. No more pasting a user token by mistake and hitting error 100 or 210. Thanks @adiagri09-code.
+- **A step-by-step checklist** after connecting: token, permissions, App secret, webhook, Page subscribed, bot on duty. Every red row shows how to fix it right below. Each Page has Check, Auto-fix and Change token buttons.
+- When a Messenger bot goes quiet, ask Aivon: any brain can check it with the `messenger_check` tool and fix it with `messenger_repair`.
+### Fixed
+- **A skill you turn off stays off.** A skill that was turned off came back in the list, and still loaded, when an old copy sat in `.claude/skills` or `.agents`. It is now off everywhere: in the skill list, when a brain loads it by name and when Aivon picks a skill on its own. Aivon also refuses a skill file that changes while being read, points outside the brain or is larger than 1 MB.
+- **Workflows no longer let a failed verification step through.** A verifier that answered "PASS" and then reported an error still counted as a pass and the next step ran. Any error now stops the run, the same as for a main step. Thanks @hwangrin.
+
+## [0.310.0] - 2026-10-25
+### Added
+- **Google Analytics (GA4) joins the connection store.** Connect with your Google account and Aivon can read your website numbers: visits, traffic sources, top pages, realtime reports. Read only, nothing in Analytics is changed. Thanks @congsang1294.
+### Fixed
+- **Team: saving the acceptance criteria again really rechecks.** When a task was marked "does not meet the criteria" and you saved the criteria in Acceptance to check it once more, it stayed on "Rechecking the product against the new criteria" forever and no check ran. The recheck now runs right away and records a new result.
+
+## [0.309.0] - 2026-10-25
+### Added
+- **What bots and assistants learn now lives in the brain.** The judge's lessons, eagerness, per-group thresholds and role profile, plus each assistant's lessons, learned presentation and own judge, are written to the brain's `Aivon/learned/` folder, one file per bot and per assistant. Copy the brain to another machine or restore it from GitHub and Aivon loads them back into the bot and assistant with the same name.
+- Cases learned from customer messages sit in a separate `.private.json` file: it travels with the brain folder but never goes to GitHub. "Forget everything" and deleting a bot remove these files too.
+### Fixed
+- **Bot cards are tidy again, nothing runs out of them.** Errors, warnings and groups waiting for approval now sit in one "Status" row with counts on the card. Press View to read everything in a popup (long text wraps) and Allow or Ignore right there.
+- **Zalo messages no longer show tag code on phones.** A bot sometimes sent `href="zm://Profile/...">@Name</a_mention>` along with its reply: Zalo on a computer hid it but Zalo on a phone showed it as is. Aivon now removes this markup, broken pieces included, on every way a Zalo message is sent, and two names that end up side by side keep a space between them.
+- **The Import old messages button is easy to find.** It used to hide inside the Zalo account chip on the bot card, where hardly anyone noticed it. The bot card's "..." menu now has an Import old messages item (about the last 2 weeks go into the Inbox).
+
+## [0.308.0] - 2026-10-24
+### Fixed
+- **The code box when signing in to Claude is no longer squashed.** The send button took the whole row, leaving the code box about 24px wide. Now the box takes the row with readable 16px text, and on a phone the button moves below. After opening the link the cursor lands in the box, Enter sends, and stray spaces from pasting are removed.
+### Improved
+- **The Anthropic Compatible card no longer asks you to type a model name.** Enter the Base URL and API key and press Connect; Aivon reads the gateway's model list so you pick one under Main model. Only a gateway that does not list its models opens a model box, with the usual Claude names ready to pick.
+
+## [0.306.0] - 2026-10-24
+### Improved
+- **Installing on Windows or macOS starts Aivon with the computer and opens the browser.** The dashboard opens right after install, and from then on every login starts Aivon and opens the dashboard with nothing to click. Before, you had to turn this on yourself, and then Aivon only ran hidden, so after starting the computer you could not see it.
+- To stop it: on Windows press Turn off on the Start with the computer card (Settings) or run `aivon-autostart.bat uninstall`; on macOS run `./bin/aivon-autostart.sh uninstall`.
+- A Windows machine that already had auto-start keeps running hidden as before; turn it off and on once to add the dashboard opening.
+
+## [0.304.0] - 2026-10-24
+### Fixed
+- **A Hostinger Ubuntu 26 VPS gets HTTPS with nothing to fill in, and this time it works.** 0.302.0 picked the wrong name: the HTTPS gateway got a certificate for one link while Aivon checked another, so Open stayed on the IP page with no HTTPS. The gateway now serves both `aivon.srvXXXX.hstgr.cloud` and `srvXXXX.hstgr.cloud`, and Aivon tries exactly those two.
+### Improved
+- **Settings, Domain says which step the VPS link is at:** working (with an open button), waiting for its certificate (with a reminder to open ports 80, 443 in hPanel's Firewall), or a VPS with Traefik that needs the `DOMAIN_NAME` line.
+
+## [0.302.0] - 2026-10-24
+### Fixed
+- **Hostinger's Open button no longer opens localhost.** Without `DOMAIN_NAME`, Open now goes to `http://<vps-ip>:7979` and reaches Aivon right away. The install file used to put `localhost` where the domain goes, so Open pointed at the clicker's own computer.
+### Added
+- **Open goes straight to the VPS link after install.** On a Hostinger VPS without Traefik (Ubuntu 26) there is nothing to fill in: Aivon reads the VPS name, issues HTTPS for `https://aivon.srvXXXX.hstgr.cloud`, and a page opened by IP moves there once it works. Like an app installed from Hostinger's Catalog.
+### Improved
+- **Aivon suggests the Hostinger VPS's free link.** In Settings, Domain, Aivon finds the VPS's `srvXXXX.hstgr.cloud` name and shows the line `DOMAIN_NAME=aivon.srvXXXX.hstgr.cloud` with a copy button. Paste it into Environment and Redeploy for HTTPS and the right Open link.
+
+## [0.300.0] - 2026-10-24
+### Fixed
+- **One Hostinger install link works on both Ubuntu 24 and Ubuntu 26.** A plain Ubuntu 26 image has no Traefik, so pasting the link used to give a running Aivon whose domain never got HTTPS. The link now carries an HTTPS gateway (Caddy) that turns itself on when there is no Traefik and issues the certificate for `DOMAIN_NAME`; on a VPS with Traefik it stays out of the way.
+### Improved
+- The install docs say it plainly: Traefik only provides HTTPS, updates are done by the bundled Watchtower, so the **Update now** button works the same on every Ubuntu release.
+
+## [0.298.0] - 2026-10-23
+### Fixed
+- **A voice picked on one device now applies everywhere.** The reading voice used to live only in the open browser, so picking a female voice on the laptop left the phone on its old voice however many times you saved. It is now saved in Aivon, so every device and the voice notes sent through Telegram and Zalo use it.
+### Improved
+- **The Voice card says which voice you will hear.** Every voice says Female or Male (ChatGPT Live voices like Juniper and Cove too). The top of the card says which voice the call uses and which reads answers.
+- **Two clearly separate voice fields:** Call voice and Answer reading voice. When they differ in gender, a warning offers a one-tap switch.
+- **Saved shows right under the field you changed**, not at the bottom of the card.
+- **A clearer agent Save button:** an orange button with an icon that says Save changes, pinned at the bottom of the form, saying "Unsaved changes" and "Saved". Ctrl+S saves too.
+
+## [0.296.0] - 2026-10-23
+### Improved
+- **Generate skill proposals from tuning evidence.** Owners can run the baseline on authorized data, seal its results, and ask the model for up to two patches to review.
+- **Assess meaning and dependencies separately.** Each patch has an independent assessment record; missing evidence stays unknown and owner approval remains separate.
+- **Stronger experiment stop and recovery.** Retain data and active work until cleanup is verified, including abrupt host termination on Windows. Changed-candidate execution and live activation remain disabled.
+
+## [0.295.0] - 2026-10-23
+### Security
+- **Node.js 2026-10-21 security fixes.** Node.js disclosed 10 vulnerabilities, the worst a Brotli flaw that allows remote code execution. The new Docker image runs the patched Node.js 22.23.4, so Docker installs only need to update Aivon.
+- **Aivon checks this machine's Node.js.** If it runs an unpatched or end-of-life release (Node 20 and older), the News bell shows a Security item with the installed version and the upgrade command for Windows, Mac or Linux. Patched machines are not nagged.
+- **Fresh installs get the patched release.** `install.sh` no longer accepts Node 20 or an old Node 22: it installs the latest Node.js 22, and warns about an unpatched Node 24 or 26 so you can upgrade it yourself.
+
+## [0.293.0] - 2026-10-23
+### Improved
+- **Manage controlled skill experiments.** Freeze experiments, chosen edit authority and paired schedules; reports retain exact published results and complete trial coverage. Owners can safely stop or recover experiments with active work. Changed-candidate execution, final qualification and live activation remain disabled.
+
+## [0.292.0] - 2026-10-23
+### Added
+- **Review skill body proposals.** Studio displays complete baseline text, diffs and stored trial artifacts. Owners can stage a proposal, authorize an exact region or diff, and revoke edit authority. Encrypted proposal storage and downloads preserve exact hashes and bytes. Changed-candidate execution and live activation remain disabled.
+
+## [0.291.0] - 2026-10-23
+### Added
+- **Prepare reproducible agent and skill trials.** Build isolated execution, fixed cases and acceptance evidence to test changes without touching live content or actions. Live brains are not enabled automatically.
+
+## [0.290.0] - 2026-10-22
+### Added
+- **A goal bar right above the chat box.** Once you set `/goal`, a bar tracks it: the goal text, a running timer, buttons to delete, pause or resume, and an arrow for details (which round, what is still missing). It shows in every chat view.
+- **Several goals at once.** One goal per conversation. With two or more, the bar starts with a number; press it to drop down the list and press a row to open that conversation.
+- **Typed commands are highlighted.** Type `/goal`, `/plan` or a skill name into the chat box and the command part turns orange, so you can see what Aivon will read as a command.
+### Improved
+- **Goals pause instead of vanishing.** Pressing Stop or typing a message mid-run only pauses the goal; moving to another conversation makes it wait and it carries on when you come back; it survives a page reload on the bar.
+- **A tidy, aligned / command menu.** One line per command, a shared command column so descriptions line up, smaller text, and group headings for Commands, Agents, Workflows and Skill.
+
+## [0.289.0] - 2026-10-22
+### Fixed
+- **Webhooks: the AI now reads the whole event.** It used to get only the first 8,000 characters, so even a one-item POSCake order lost its order id and total, and a prompt that decides by the order's status could guess wrong. The AI now gets up to 40,000 characters, written on one line; anything longer is cut and the AI is told so.
+- The event detail page shows up to 64,000 characters instead of 8,000.
+### Improved
+- The webhook guide uses POSCake's real field names and adds a one-webhook-for-every-source setup where the prompt decides what to do.
+
+## [0.287.0] - 2026-10-22
+### Added
+- **Lay the foundation for evidence-based improvements.** Track agent and skill revisions for isolated comparisons while preserving current content. Trials and activation on live brains remain disabled.
+
+## [0.286.0] - 2026-10-22
+### Fixed
+- **Choosing a model in an assistant's chat no longer changes the main chat's model.** For every assistant and Aivon Core: the model chosen there is pinned to that chat only. An assistant with no model of its own follows the main model, and a new "Follow the main chat's model" row removes the pin.
+- **When an assistant's pinned model runs out of plan quota, the chat runs on the main chat's model for now,** and goes back to the pinned model once the plan resets.
+- **Aivon Core follows the main chat's reasoning level** until you pick one for it. A level set in an assistant's chat is always saved for that assistant.
+
+## [0.285.0] - 2026-10-22
+### Improved
+- **Review the actual Team result.** Opt-in teams get default acceptance criteria; confirmation binds to the saved result and its version.
+- **See usage without sacrificing quality.** Request counts and known, estimated or subscription-equivalent costs are separated. A reference amount never stops work or changes its model.
+- **Prepare a fair business comparison.** The paired pilot supports isolated dry runs; real business results still require real inputs and owner grading.
+
+## [0.284.0] - 2026-10-22
+### Fixed
+- **Changing Aivon Core's reasoning level no longer changes the main chat's.** Aivon Core now has its own level like every other assistant, Medium by default. Its chats used to share the main chat's level, so changing one changed the other.
+### Improved
+- The reasoning level in an assistant's settings uses the same English names as the main chat: Off, Light, Medium, High, Extra, Ultra.
+
+## [0.282.0] - 2026-10-22
+### Fixed
+- **A Zalo bot no longer goes "deaf" while another session of the same account runs.** After today's update, a leftover old Zalo copy kept taking the connection, so the bot only heard messages for a few seconds after each reconnect and missed tags and private messages. Aivon now stops old Zalo copies on the machine, the bot card turns red, and the bell tells you when the other session is elsewhere (Zalo Web, another Aivon).
+- **A bot reply Zalo did not accept now shows as a send error,** instead of looking sent while the customer saw nothing. Zalo MCP 1.6.1 also sends through the new session after every reconnect.
+### Added
+- **The bot reads the Zalo tags of a chat** (Family, Friends, Work, Customer...), so it knows who it is talking to. Personal Zalo bots get **"Never answer chats with these Zalo tags"**: tick tags listed from Zalo or type one, and the bot stays silent in those chats.
+- **Personal Zalo bots decide to send several short messages** (up to 4) when an answer has two or more points, instead of one long hard-to-read block.
+
+## [0.281.0] - 2026-10-22
+### Improved
+- **Running the test suite no longer fills drive C.** Each run used to leave over 1,000 leftover folders in the Windows Temp folder, at one point piling up to 50,000 folders and about 30 GB. Each test file now gets its own temporary folder, deleted when it finishes.
+- **An interrupted run doesn't leave junk for long.** Folders from a run that was stopped halfway are cleared on the next test run.
+
+## [0.280.0] - 2026-10-22
+### Improved
+- **Private 1-1 chats: the bot can stay silent and alert you on a hard question.** In Auto-judge mode a private message now has a third outcome besides reply and silence: when the documents and the Agent cannot settle it, or you must decide yourself (a discount, a complaint, a refund, a booking), the bot no longer guesses. It stays silent and alerts you in the Aivon bell.
+- **The alert says what the customer wrote and the bot's note on why it did not answer.** The message stays in the Bot inbox for you to reply by hand. A customer firing several hard questions rings the bell once per 10 minutes; the bot log still records each one.
+- **Try bot shows "The bot would stay silent and alert you in the bell"** with the bot's note, so you can test before going live. Your Agent's instructions still win: if the Agent says how to handle a kind of message, the bot does exactly that.
+
 ## [0.278.0] - 2026-10-22
 ### Improved
 - **The Team chat now works like the main chat.** Copying a message, the code Copy button, Enter on a phone (a new line, not send), swipe to quote, quoting just the selected part and "Show more" on long messages all behave as in the main chat.

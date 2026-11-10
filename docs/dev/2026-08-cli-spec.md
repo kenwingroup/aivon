@@ -1,6 +1,6 @@
-# Spec: AIVON CLI
+# Spec: Aivon CLI
 
-> Bản spec dev, viết 2026-08-03 trên nền v0.16.1. Mục tiêu: đưa AIVON ra terminal mà KHÔNG
+> Bản spec dev, viết 2026-08-03 trên nền v0.16.1. Mục tiêu: đưa Aivon ra terminal mà KHÔNG
 > nhân bản runtime, bằng cách coi CLI là một KÊNH thứ ba bên cạnh dashboard và Telegram.
 >
 > **Trạng thái: ĐÃ TRIỂN KHAI ĐỦ 4 PHASE ở v0.17.0** (2026-08-04). Ba chỗ lệch so với bản
@@ -13,9 +13,9 @@
 
 ## 1. Quyết định cốt lõi và vì sao
 
-**AIVON CLI là CLIENT MỎNG, không phải agent độc lập.**
+**Aivon CLI là CLIENT MỎNG, không phải agent độc lập.**
 
-AIVON hôm nay là một máy chủ 43 nghìn dòng Python. Giá trị của nó nằm ở brain trên đĩa, trung
+Aivon hôm nay là một máy chủ 43 nghìn dòng Python. Giá trị của nó nằm ở brain trên đĩa, trung
 tâm MCP, loop, việc Kanban, nhắc hẹn và runtime tiết kiệm token. Gần như toàn bộ những thứ đó
 đòi một tiến trình SỐNG DÀI: loop chạy theo chu kỳ, nhắc hẹn chờ tới giờ, hub giữ kết nối MCP,
 kho capability giữ registry. Một CLI gõ xong là thoát không phải chỗ cho chúng.
@@ -24,7 +24,7 @@ Viết "CLI tự chạy, không cần server" nghĩa là chép lại từng đó
 đúng là cái bẫy vừa mắc ở 0.15.0 với cây thư mục (viết bản thứ hai của thứ đã có, rồi hai bản
 trôi lệch), nhưng ở quy mô gấp trăm lần. **Không làm.**
 
-Cái làm phương án client mỏng rẻ hơn nhiều so với cảm giác ban đầu: AIVON ĐÃ CÓ khái niệm
+Cái làm phương án client mỏng rẻ hơn nhiều so với cảm giác ban đầu: Aivon ĐÃ CÓ khái niệm
 kênh. `channel_context.build_channel_block(source, meta, ...)` dựng khối ngữ cảnh theo kênh,
 và `server/telegram_bot.py` được tách rời hẳn khỏi lõi - `main.py` chỉ cấp cho nó `answer_fn`
 và `command_fn`. Telegram là kênh thứ hai. **CLI là kênh thứ ba, đi qua đúng lõi đó.**
@@ -34,7 +34,7 @@ và `command_fn`. Telegram là kênh thứ hai. **CLI là kênh thứ ba, đi qu
 **Lợi trực tiếp.** Gõ thẳng trong terminal, đưa vào đường ống Unix, cắm cron, hỏi brain trên
 VPS từ laptop mà không mở trình duyệt.
 
-**Lợi chiến lược: câu chuyện cài đặt.** Cửa vào AIVON hôm nay là "dựng Docker trên VPS" - một
+**Lợi chiến lược: câu chuyện cài đặt.** Cửa vào Aivon hôm nay là "dựng Docker trên VPS" - một
 rào cản lớn với người mới. `pipx install aivon-cli` rồi gõ `aivon` là cửa nhẹ hơn hẳn. Với
 lượng người đã fork repo, đây là đòn bẩy đáng giá hơn bản thân sự tiện tay.
 
@@ -44,7 +44,7 @@ lượng người đã fork repo, đây là đòn bẩy đáng giá hơn bản t
 
 **3.1. Không có đường chat qua HTTP.** Chat chỉ đi qua `@app.websocket("/ws")` (main.py:6817)
 và đường long-polling của Telegram. Không có endpoint nào nhận một câu hỏi rồi trả một câu trả
-lời. Hôm nay `curl` một câu hỏi vào AIVON là không làm được.
+lời. Hôm nay `curl` một câu hỏi vào Aivon là không làm được.
 
 **3.2. Xác thực chỉ nhận cookie.** `_auth_guard` (main.py:163) kiểm
 `cfgmod.valid_session(request.cookies.get("aivon_session"))`, và `/ws` cũng đọc `ws.cookies`.
@@ -71,6 +71,7 @@ markdown, ảnh nhúng `![](...)`, link tương đối - vô nghĩa trong termin
 ### 4.1. Có làm
 
 - `POST /chat` một lượt (đồng bộ) và `POST /chat/stream` (SSE) cho phiên tương tác.
+- `POST /chat/jobs` + `GET /chat/jobs/{id}`: cùng lượt đó nhưng chạy nền, lấy kết quả sau (#1021).
 - Token cá nhân: tạo, liệt kê, thu hồi. Băm khi lưu.
 - Gói `aivon-cli` cài bằng `pipx`/`uvx`, lệnh `aivon`.
 - Kênh `cli` trong `channel_context` + hợp đồng đầu ra hợp terminal.
@@ -181,10 +182,31 @@ trong `main.py`: `status`, `stream`, `tool_call`, `tool_result`, `response`, `er
 CLI chỉ cần hiểu bốn loại đầu tiên; loại lạ thì bỏ qua im lặng chứ không vỡ - đây là luật bắt
 buộc để server thêm loại gói mới không làm chết CLI cũ.
 
+### 5.3b. `POST /chat/jobs` - chạy nền, lấy kết quả sau (#1021)
+
+Cho client chạy trên serverless (Vercel...) bị tính tiền theo từng giây giữ kết nối, và cho ai sợ
+rớt mạng mất câu trả lời. Code ở `server/chat_jobs.py`, test ở `tests/python/test_chat_jobs.py`.
+
+- `POST /chat/jobs`: cùng trường và cùng các lỗi 400 với `/chat`, kiểm TRƯỚC khi chạy. Trả ngay
+  `{"ok": true, "job_id": "cj_..."}`, lượt chạy nền qua `_cli_turn`.
+- `GET /chat/jobs/{id}`: `status` là `running`, `done` hoặc `error`, kèm `created_at`,
+  `finished_at`. Xong thì có thêm đúng payload của `/chat` (`text`, `session`, `files`,
+  `ctx_path`); lỗi thì có `error`.
+- Token scope `chat` đi được luôn (nằm dưới `/chat`), không thêm scope.
+- Job thuộc về người tạo: token nào tạo thì chỉ token đó đọc, chủ (cookie hoặc máy không bật
+  đăng nhập) là một chủ riêng. Người khác đọc nhận 404 như id không tồn tại. Middleware ghi
+  `request.state.api_token_id` để route biết token nào đang gọi.
+- Chặn dồn việc: mỗi người tạo tối đa `MAX_RUNNING_PER_OWNER` (4) job đang chạy, quá thì 429.
+  Mỗi phiên (session + agent) chỉ một job chạy cùng lúc, trùng thì 409.
+- Kết quả giữ 24 giờ, tối đa 500 job, trong `STATE_DIR/chat_jobs.json`. Khởi động lại thì job
+  đang chạy dở thành `error` để client biết hỏi lại.
+- **Cố ý chưa làm `callback_url`:** để Aivon tự gọi tới một địa chỉ người ngoài đưa vào là rủi
+  ro SSRF (gọi vào dịch vụ nội bộ trên VPS). Muốn làm thì PR riêng, chặn dải IP nội bộ và ký HMAC.
+
 ### 5.4. Kênh `cli`
 
 `channel_context.build_channel_block("cli", meta)` với `meta` gồm `host` (tên máy) và `tty`
-(có phải terminal thật không). Khối này nói cho AIVON biết nó đang trả lời qua terminal.
+(có phải terminal thật không). Khối này nói cho Aivon biết nó đang trả lời qua terminal.
 
 Hợp đồng đầu ra cho kênh `cli` (thêm nhánh vào `_channel_contract` và `_output_contract_text`):
 
@@ -216,7 +238,7 @@ tay trong `render.py`. Kéo `rich` về là bắt người dùng tải một th�
 mục cho terminal, trong khi kênh CLI có luật CẤM bảng. Đã bỏ.
 
 **Không** kéo `fastapi`, `uvicorn` hay bất cứ thứ gì của server vào - gói CLI phải cài được
-trên máy chưa từng có AIVON.
+trên máy chưa từng có Aivon.
 
 Cấu hình ở `~/.aivon/config.json`, `chmod 600`:
 
@@ -317,13 +339,13 @@ những đề xuất tốt nhất". Ba câu dưới đây chốt như sau, kèm 
 
 1. **Tên gói: `aivon-cli`, lệnh gõ là `aivon`.** Người dùng không bao giờ gõ tên gói - họ gõ
    `aivon`, và cái đó vẫn ngắn đúng như mong muốn. Đổi lại, tên gói nói rõ đây là CLIENT chứ
-   không phải cả AIVON, đúng thứ dễ hiểu nhầm nhất của tính năng này. Một người `pip install
+   không phải cả Aivon, đúng thứ dễ hiểu nhầm nhất của tính năng này. Một người `pip install
    aivon` rồi tưởng mình vừa cài cả hệ thống là hiểu nhầm do chính cái tên gây ra.
 
-2. **Có làm giai đoạn 4, nhưng theo nghĩa hẹp: `aivon up` KHỞI ĐỘNG bản AIVON đã cài trên
+2. **Có làm giai đoạn 4, nhưng theo nghĩa hẹp: `aivon up` KHỞI ĐỘNG bản Aivon đã cài trên
    máy, chứ gói CLI không chứa server.** Nhét server vào gói CLI là kéo `fastapi`, `uvicorn`
    và toàn bộ phụ thuộc nặng về cho một người chỉ muốn hỏi một câu từ terminal - và tệ hơn, là
-   có hai đường cài AIVON phải giữ đồng bộ mãi mãi. `aivon up` đi tìm `server/main.py` thật
+   có hai đường cài Aivon phải giữ đồng bộ mãi mãi. `aivon up` đi tìm `server/main.py` thật
    (qua `AIVON_HOME`, thư mục hiện tại, hoặc `~/aivon`), tìm không ra thì NÓI THẲNG là nó
    không chứa server và chỉ ba cách xử lý, chứ không báo lỗi mơ hồ.
 

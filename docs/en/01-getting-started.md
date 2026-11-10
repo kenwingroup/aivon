@@ -2,13 +2,13 @@
 
 *[Tiếng Việt](../01-bat-dau-thiet-lap.md) · **English***
 
-This page takes you from opening AIVON for the first time to AIVON being ready to talk: creating an admin account, choosing the AI provider that acts as the "brain", picking a model, and checking system status on the Settings page.
+This page takes you from opening Aivon for the first time to Aivon being ready to talk: creating an admin account, choosing the AI provider that acts as the "brain", picking a model, and checking system status on the Settings page.
 
 ## What this covers
 
-AIVON is an AI operating layer that runs on your own machine or VPS. The brain is whichever AI provider you wire in: Claude Code, ChatGPT (through Codex), Antigravity CLI, OpenRouter, OpenAI API, Anthropic API, Google Gemini, Groq or Ollama Cloud. The first-run wizard **preselects** Claude Code because that is the recommended choice, but AIVON is not locked to any provider.
+AIVON is an AI operating layer that runs on your own machine or VPS. The brain is whichever AI provider you wire in: Claude Code, ChatGPT (through Codex), Antigravity CLI, OpenRouter, OpenAI API, Anthropic API, Google Gemini, Groq or Ollama Cloud. The first-run wizard **preselects** Claude Code because that is the recommended choice, but Aivon is not locked to any provider.
 
-Before it is usable, AIVON needs three things:
+Before it is usable, Aivon needs three things:
 
 1. An admin account (to keep strangers out - required when running publicly on a VPS).
 2. An AI provider that is signed in or has an API key pasted in.
@@ -34,13 +34,13 @@ Once setup is done, the related items sit on the navigation rail on the left. Th
 
 ### Step 1: Open the app and meet the wizard
 
-Open `http://localhost:7979` (or your VPS address). If this is the first run and no account exists, AIVON shows a **Welcome to AIVON** window with three numbered sections.
+Open `http://localhost:7979` (or your VPS address). If this is the first run and no account exists, Aivon shows a **Welcome to Aivon** window with three numbered sections.
 
-On a personal machine (localhost), the password field is optional and can be left empty. When running publicly (VPS/Docker), AIVON requires a username and password before letting you through; the prompt "Set a username and password (at least 8 characters) to protect AIVON on a public server. Once inside, turning on 2FA is recommended." then appears under the button.
+On a personal machine (localhost), the password field is optional and can be left empty. When running publicly (VPS/Docker), Aivon requires a username and password before letting you through; the prompt "Set a username and password (at least 8 characters) to protect Aivon on a public server. Once inside, turning on 2FA is recommended." then appears under the button.
 
 ### Step 2: Name the workspace
 
-Under **1. Workspace**, type a display name in the **Display name** box (your shop name or your own name, for instance). Left empty, AIVON uses "AIVON". It is only a label and can be changed at any time.
+Under **1. Workspace**, type a display name in the **Display name** box (your shop name or your own name, for instance). Left empty, Aivon uses "AIVON". It is only a label and can be changed at any time.
 
 ### Step 3: Create the admin account
 
@@ -48,9 +48,9 @@ Under **2. Admin account**:
 
 1. Type a username in the **Username** box (it suggests `admin`).
 2. Type a password in the **Password** box. It must be at least 8 characters.
-3. If AIVON is running publicly, do this step **right after deploying**, then turn on two-factor authentication (2FA) on the **Account** page (see "Public server: create the admin early and turn on 2FA" below).
+3. If Aivon is running publicly, do this step **right after deploying**, then turn on two-factor authentication (2FA) on the **Account** page (see "Public server: create the admin early and turn on 2FA" below).
 
-On a personal machine, leaving the password empty means AIVON creates no account and anyone who can open the link on this machine can use it. Only do that when you are the only person on the machine.
+On a personal machine, leaving the password empty means Aivon creates no account and anyone who can open the link on this machine can use it. Only do that when you are the only person on the machine.
 
 ### Step 4: Choose the AI provider (the brain)
 
@@ -59,14 +59,16 @@ Under **3. AI provider (brain)**, pick one of three cards:
 | Choice | Text on the card | What it needs |
 |---|---|---|
 | **🧠 Claude Code** (preselected) | "Sign in with a Claude subscription → full MCP, skills, file read/write, self-improvement loops. The strongest, most complete option." | One sign-in with a Claude subscription (no API key) |
-| **💬 ChatGPT (subscription)** | "Sign in with ChatGPT Plus/Pro (through Codex) → still reaches every AIVON MCP." | Sign in to ChatGPT on the Models page |
-| **🌐 OpenRouter** | "Many cheap models in one place, still with full AIVON MCP + skills + brain file access. Only needs an API key - no sign-in." | Paste an OpenRouter API key (now or later on Models) |
+| **💬 ChatGPT (subscription)** | "Sign in with ChatGPT Plus/Pro (through Codex) → still reaches every Aivon MCP." | Sign in to ChatGPT on the Models page |
+| **🌐 OpenRouter** | "Many cheap models in one place, still with full Aivon MCP + skills + brain file access. Only needs an API key - no sign-in." | Paste an OpenRouter API key (now or later on Models) |
 
-Any of the three gives you a fully capable AIVON: all of them reach the connection store (MCP), read and write files in the brain, run skills, queue work and create loops. The only difference is **running shell commands**, which only the CLI engines (Claude Code, Codex, Antigravity CLI) can do. The wizard shows three cards for brevity; the **Models** page also has OpenAI API, Google Gemini, Anthropic API, Groq and Ollama, and you can change at any time.
+Any of the three gives you a fully capable Aivon: all of them reach the connection store (MCP), read and write files in the brain, run skills, queue work and create loops. The only difference is **running shell commands**, which only the CLI engines (Claude Code, Codex, Antigravity CLI) can do. The wizard shows three cards for brevity; the **Models** page also has OpenAI API, Google Gemini, Anthropic API, Groq and Ollama, and you can change at any time.
 
 Pick **OpenRouter** and an **OpenRouter API key** box appears - paste the key now or leave it empty and paste it later on the Models page. Below the list is a hint line that changes with your choice; picking ChatGPT, for example, suggests "Once inside: **Models** → sign in to ChatGPT".
 
-Press **Start using AIVON →** to save and enter the app. The wizard also sets a default model for the provider you chose: `sonnet` for Claude Code, `gpt-5.5` for ChatGPT, `openai/gpt-4o-mini` for OpenRouter. Change it on the Models page whenever you like.
+The last section is **4. Timezone**, preselected from the timezone of the device you opened it on (since 0.443.0). Aivon uses it for today, yesterday and tomorrow, to time reminders, and to set the date range when it pulls report numbers. On a VPS the server clock is usually UTC, so check that this box matches where you actually live. The line underneath shows the time there now so you can compare.
+
+Press **Start using Aivon →** to save and enter the app. The wizard also sets a default model for the provider you chose: `sonnet` for Claude Code, `gpt-5.5` for ChatGPT, `openai/gpt-4o-mini` for OpenRouter. Change it on the Models page whenever you like.
 
 ### Step 5: Sign in to Claude as the brain
 
@@ -75,15 +77,15 @@ This is the important step if you chose Claude Code. The wizard only saves the p
 1. Open **Models** on the left rail.
 2. Find the **Claude Code** card. It starts at "○ Not signed in".
 3. Press **Sign in to Claude**.
-4. AIVON shows a link. Open it (in a new tab) and sign in at claude.ai.
-5. If the page shows a code afterwards, paste it into the **paste code (if any)** box and press **Send code**. Some flows need no code; AIVON re-checks status every 3 seconds and updates the card.
+4. Aivon shows a link. Open it (in a new tab) and sign in at claude.ai.
+5. If the page shows a code afterwards, paste it into the **paste code (if any)** box and press **Send code**. Some flows need no code; Aivon re-checks status every 3 seconds and updates the card.
 6. When it is done, the card reads "● Connected" (with the email/plan when available).
 
 This is a device-code flow: no API key required. It works on a headless VPS. If you have terminal access to the server you can instead sign in once with `claude auth login --claudeai`.
 
-The **↻ Re-check** button on the card reloads the sign-in status at any time. **Disconnect** signs Claude out of AIVON.
+The **↻ Re-check** button on the card reloads the sign-in status at any time. **Disconnect** signs Claude out of Aivon.
 
-The AIVON Claude engine runs through the **Claude Agent SDK**, but the SDK still calls the `claude` CLI on the machine, so the machine running AIVON must have `claude` installed for sign-in and native MCP to work.
+The Aivon Claude engine runs through the **Claude Agent SDK**, but the SDK still calls the `claude` CLI on the machine, so the machine running Aivon must have `claude` installed for sign-in and native MCP to work.
 
 ### Step 6: Choose the main model and the background-work model
 
@@ -94,7 +96,7 @@ Once signed in, check and choose models on the **Models** page:
 - **◆ Background-work model** (subtitled "loops · Kanban work · reminders · self-learning · source ingestion") lets you pick a cheap model for background work to spare your quota. Until you change it, the status line reads "Claude Code default". Press **Change model ▾** to pick, **Reset to default** to undo. Choosing a provider that is not connected shows "⚠ this provider is not connected - background work will fall back to Claude".
 - **◆ Reasoning** sets how deeply it thinks before answering: **Off**, **Low**, **Medium**, **High**. The default is Off (fast answers).
 
-Background work runs on API providers too, not just Claude. The real difference is elsewhere: Claude Code and Codex read and write files directly in the brain and can run shell commands, while API models read and write through the AIVON vault tools and cannot run shell commands - which suits reading, summarising and note-writing.
+Background work runs on API providers too, not just Claude. The real difference is elsewhere: Claude Code and Codex read and write files directly in the brain and can run shell commands, while API models read and write through the Aivon vault tools and cannot run shell commands - which suits reading, summarising and note-writing.
 
 Full detail on each provider and model: [Models & engines](../10-models-va-engine.md).
 
@@ -122,26 +124,30 @@ Subtitle: "Graph performance and data structure". Three cards.
 **The Brain graph card** tells you whether the knowledge graph is on or off.
 
 - Press **Turn graph off** to cut load to a minimum; while off, the button becomes **Turn graph on**.
-- On a narrow screen (under 860px, i.e. a phone), AIVON enters light mode automatically: the graph stops even with the switch on. The app still opens on the AIVON screen as it does on a desktop - that screen already has the chat box, it simply does not draw the brain canvas.
+- On a narrow screen (under 860px, i.e. a phone), Aivon enters light mode automatically: the graph stops even with the switch on. The app still opens on the Aivon screen as it does on a desktop - that screen already has the chat box, it simply does not draw the brain canvas.
 
 Graph detail: [Knowledge graph](../03-do-thi-tri-thuc.md).
 
 **The Normalise brain card** collects the `agents`, `workflows`, `memory` and `skills` folders of the selected brain into one flat structure. Press **Normalise the selected brain** to run it.
 
-It is safe: it only moves when the destination does not exist, it never overwrites, and running it repeatedly is harmless (for example moving `AIVON/agents` to `agents`, `Memory` to `memory`). Afterwards AIVON reports what it moved, or "Nothing to move (already normalised)".
+It is safe: it only moves when the destination does not exist, it never overwrites, and running it repeatedly is harmless (for example moving `Aivon/agents` to `agents`, `Memory` to `memory`). Afterwards Aivon reports what it moved, or "Nothing to move (already normalised)".
 
-**The AI image provenance card** decides whether images AIVON generates carry a provenance mark (Content Credentials, the C2PA standard). The corner label reads "Keeping" or "Stripping".
+**The AI image provenance card** decides whether images Aivon generates carry a provenance mark (Content Credentials, the C2PA standard). The corner label reads "Keeping" or "Stripping".
 
 - The default is **Keep the mark**: images carry a record that they were AI-generated. Facebook reads it and labels posts "AI-generated content".
 - Press **Strip the mark** and new images no longer carry it, so platforms usually stop showing the label. Images generated earlier are unchanged.
-- Either way the `github.com/kenwingroup/aivon` author tag stays, and you remain responsible for disclosing AI content under the law and the terms of whatever platform you post to.
+- Either way the `aivon.vn` author tag stays, and you remain responsible for disclosing AI content under the law and the terms of whatever platform you post to.
+
+### General tab: Language and timezone
+
+The **Language and timezone** block has three boxes: interface language, **Aivon replies in**, and **Timezone** (since 0.443.0). A new timezone is saved at once, and Aivon uses it from the next chat turn for today, yesterday, tomorrow, reminders and reports. The timezone box opens with a **Suggested** group (the current one, your device's and a few common ones), followed by the full list sorted by UTC offset. A repeating reminder scheduled before the change may run once more at the old time before it follows the new one.
 
 ### Voice tab and branding in General
 
 The **Voice** tab is a single card for voice calls, and every field saves itself at once; there is no Save button. Interface language, avatar and domain settings live in **General**:
 
-- The **Using** line: the call path in use (ChatGPT Live, Live with an API key or Basic), plus the reason and what to do when AIVON had to fall back to a lower path.
-- **AIVON's voice**: the voice list for the call path; picking a voice also picks the provider (Edge, OpenAI or ElevenLabs), with a **▶ Preview** button. OpenAI voices need an OpenAI API key on the **Models** page.
+- The **Using** line: the call path in use (ChatGPT Live, Live with an API key or Basic), plus the reason and what to do when Aivon had to fall back to a lower path.
+- **Aivon's voice**: the voice list for the call path; picking a voice also picks the provider (Edge, OpenAI or ElevenLabs), with a **▶ Preview** button. OpenAI voices need an OpenAI API key on the **Models** page.
 - **Advanced**, with **Call path**, **Quick-reply brain** and its **Model** (Basic path only), **Speaking rate** (Basic path only), and the ElevenLabs API key and Voice ID (only when the ElevenLabs voice is picked). The listening language follows the interface language.
 - **AVATAR**: **Upload an image** or **Restore default**.
 - **DOMAIN & SSL**: enter a domain, press **Save & check**, watch the `DNS:` and `SSL:` labels, then **Enable SSL** or **Re-check**.
@@ -150,11 +156,11 @@ Detail: [Chat & voice](../02-tro-chuyen-va-giong-noi.md) and [Branding & domains
 
 ### General tab: Start with Windows
 
-This group **only appears on the Windows build**; the Docker/Linux build hides it entirely. The **Auto-start AIVON** card shows the state ("On" or "Off") and has a single button: **Enable auto-start** or **Disable auto-start**. When on, AIVON runs in the background as soon as you sign in to Windows, and `localhost:7979` is ready.
+This group **only appears on the Windows build**; the Docker/Linux build hides it entirely. The **Auto-start Aivon** card shows the state ("On" or "Off") and has a single button: **Enable auto-start** or **Disable auto-start**. When on, Aivon runs in the background as soon as you sign in to Windows, and `localhost:7979` is ready.
 
 #### When the card says "On but not running"
 
-If you boot the machine and `localhost:7979` reports **ERR_CONNECTION_REFUSED**, reopen this page. AIVON checks three causes and writes the cause straight under the card, because none of the three leaves an error anywhere:
+If you boot the machine and `localhost:7979` reports **ERR_CONNECTION_REFUSED**, reopen this page. Aivon checks three causes and writes the cause straight under the card, because none of the three leaves an error anywhere:
 
 - **Windows is blocking this startup entry.** In Task Manager's **Startup** tab, pressing Disable deletes nothing - it just sets a flag telling Windows to skip the entry. Plenty of "clean up your PC, speed up boot" tools set the same flag without asking. Pressing **Enable auto-start** again clears it.
 - **The install folder moved** and the startup command still points at the old path. Press enable again to update it.
@@ -174,7 +180,7 @@ This lives under **System → Settings → Updates**. The AIVON panel at the top
 
 ### When the "⬆ Update now" button appears
 
-**⬆ Update now** only appears when AIVON can update itself in place. AIVON does not guess from the provider name: it **actually probes** for a listening Watchtower container.
+**⬆ Update now** only appears when Aivon can update itself in place. Aivon does not guess from the provider name: it **actually probes** for a listening Watchtower container.
 
 | How you run it | One-tap update? |
 |---|---|
@@ -196,33 +202,33 @@ On Hostinger, open Docker Manager and hit **Redeploy** (the stack re-reads the c
 
 Reload the page and the button appears. If you would rather go without Watchtower, updating by hand still works: `docker compose up -d --pull always`.
 
-**Want AIVON to update itself with no button at all:** add `AIVON_AUTO_UPDATE=true` to `.env` (Hostinger: the Environment box) and bring the stack up again. It is off by default on purpose: auto-updating means the app restarts itself whenever a new version lands, cutting across background work. The default cadence is 24 hours, changed with `AIVON_AUTO_UPDATE_INTERVAL` (seconds).
+**Want Aivon to update itself with no button at all:** add `AIVON_AUTO_UPDATE=true` to `.env` (Hostinger: the Environment box) and bring the stack up again. It is off by default on purpose: auto-updating means the app restarts itself whenever a new version lands, cutting across background work. The default cadence is 24 hours, changed with `AIVON_AUTO_UPDATE_INTERVAL` (seconds).
 
 The Updates panel distinguishes these cases and prints the right procedure for your machine.
 
 ### The six-step progress bar
 
-Press **⬆ Update now** and AIVON asks to confirm ("Update AIVON to the latest version? The app will restart; on failure the system will try to roll back."). Once you agree, a progress bar lights up through six steps:
+Press **⬆ Update now** and Aivon asks to confirm ("Update Aivon to the latest version? The app will restart; on failure the system will try to roll back."). Once you agree, a progress bar lights up through six steps:
 
 **Prepare → Download code → Install dependencies → Restart → Health check → Done**
 
-The running step shows ⏳, finished steps show ✅. During the run the status line reads "⏳ Updating… do not close this page." If the local source has local modifications, AIVON reports "📦 Local changes stashed in git." (stashed, not deleted). When it finishes you get "✅ Update complete. Reloading…" and the app reloads after about 1.5 seconds.
+The running step shows ⏳, finished steps show ✅. During the run the status line reads "⏳ Updating… do not close this page." If the local source has local modifications, Aivon reports "📦 Local changes stashed in git." (stashed, not deleted). When it finishes you get "✅ Update complete. Reloading…" and the app reloads after about 1.5 seconds.
 
 ### When the new build is broken: rolling back
 
-AIVON keeps a way back and will not strand you on a broken build:
+Aivon keeps a way back and will not strand you on a broken build:
 
-- **Automatic rollback:** if the new build fails the health check, AIVON returns to the old one. The progress bar shows "↩ New build failed, rolling back…", then "↩ New build failed, **rolled back automatically**."
-- **Manual rollback on Docker:** if the version still has not changed after a while, AIVON reports "⚠ The new build has not come up - it may have failed." and shows a **How to roll back on Docker** block with `docker compose pull && docker compose up -d`, plus a hint to pin `ghcr.io/kenwingroup/aivon:<old-version>` and Redeploy.
+- **Automatic rollback:** if the new build fails the health check, Aivon returns to the old one. The progress bar shows "↩ New build failed, rolling back…", then "↩ New build failed, **rolled back automatically**."
+- **Manual rollback on Docker:** if the version still has not changed after a while, Aivon reports "⚠ The new build has not come up - it may have failed." and shows a **How to roll back on Docker** block with `docker compose pull && docker compose up -d`, plus a hint to pin `ghcr.io/kenwingroup/aivon:<old-version>` and Redeploy.
 - **Other errors:** the panel names the specific error and points at `update.log`. If the server does not come back within roughly 3 minutes, the panel says "The server has not come back after about 3 minutes - try reloading the page."
 
 Below the update panel is the version changelog: what each release added, paginated, with the installed version marked.
 
 ## Public server: create the admin early and turn on 2FA
 
-When AIVON runs publicly (listening on `0.0.0.0`, i.e. VPS/Docker/Hostinger) with no admin account yet, the first-run screen only asks for a username and password. That means **whoever opens the link before an admin exists can create it**, and the brain runs with full rights on the machine. So:
+When Aivon runs publicly (listening on `0.0.0.0`, i.e. VPS/Docker/Hostinger) with no admin account yet, the first-run screen only asks for a username and password. That means **whoever opens the link before an admin exists can create it**, and the brain runs with full rights on the machine. So:
 
-- **Recommended:** set the environment variables `AIVON_ADMIN_USER` and `AIVON_ADMIN_PASSWORD` at deploy time (`install.sh` already asks for both). AIVON creates the admin at startup and opening the app gives you a sign-in screen, with no gap at all. Details: [.env configuration](../16-cau-hinh-env.md).
+- **Recommended:** set the environment variables `AIVON_ADMIN_USER` and `AIVON_ADMIN_PASSWORD` at deploy time (`install.sh` already asks for both). Aivon creates the admin at startup and opening the app gives you a sign-in screen, with no gap at all. Details: [.env configuration](../16-cau-hinh-env.md).
 - **Without the env vars:** open the app and create the account right after deploying; do not leave a public server without an admin.
 - **After the first sign-in:** turn on two-factor authentication (2FA) on the **Account** page. See [Security & accounts](../14-bao-mat-tai-khoan.md).
 
@@ -230,18 +236,18 @@ When AIVON runs publicly (listening on `0.0.0.0`, i.e. VPS/Docker/Hostinger) wit
 
 | Button / label | Where | What it does |
 |---|---|---|
-| **Start using AIVON →** | Wizard | Saves the workspace, account and provider, then enters the app |
+| **Start using Aivon →** | Wizard | Saves the workspace, account and provider, then enters the app |
 | **Sign in to Claude** | Models, Claude Code card | Starts the device-code flow and shows the claude.ai link |
 | **Send code** | Models, after pressing Sign in to Claude | Submits the code taken from claude.ai |
 | **↻ Re-check** | Models, Claude Code card | Reloads the sign-in status |
-| **Disconnect** | Models | Signs the provider out of AIVON |
+| **Disconnect** | Models | Signs the provider out of Aivon |
 | **Change model ▾** | Models, Main Model and Background-work model | Opens the model picker |
 | **Reset to default** | Models, Background-work model | Returns background work to the Claude Code default |
 | "○ Not signed in" / "● Connected" | Models | Provider status |
 | **Turn graph on** / **Turn graph off** | Settings, Brain graph card | Enables or disables the knowledge graph |
 | **Normalise the selected brain** | Settings, Normalise brain card | Flattens the brain folder structure |
 | **Keep the mark** / **Strip the mark** | Settings, AI image provenance card | Toggles the C2PA mark on generated images |
-| **Enable auto-start** / **Disable auto-start** | Settings, Start with Windows | Runs AIVON in the background at Windows sign-in |
+| **Enable auto-start** / **Disable auto-start** | Settings, Start with Windows | Runs Aivon in the background at Windows sign-in |
 | **Re-check** | Updates | Compares the version against GitHub |
 | **⬆ Update now** | Updates (only when self-update is possible) | Runs the six-step update, then reloads |
 
@@ -259,7 +265,7 @@ When AIVON runs publicly (listening on `0.0.0.0`, i.e. VPS/Docker/Hostinger) wit
 - **"An account already exists - please sign in":** an admin was created earlier (through env vars, for instance). Use the sign-in screen with those credentials.
 - **Claude reports it is not signed in:** go to **Models**, press **Sign in to Claude**, open the link, paste the code if asked. Or run `claude auth login --claudeai` in the server terminal.
 - **Forgot the admin password:** press "Forgot password?" on the sign-in screen for instructions. The procedure is to open `server/settings.json`, delete the `"auth"` block (or empty it), and restart the server; reopening the app returns you to the wizard to create a new account. See [Security & accounts](../14-bao-mat-tai-khoan.md).
-- **Too many failed sign-ins, "Too many attempts":** AIVON locks temporarily to stop password guessing. Wait a few minutes and try again.
+- **Too many failed sign-ins, "Too many attempts":** Aivon locks temporarily to stop password guessing. Wait a few minutes and try again.
 - **Update says "Already updating, hold on.":** another update is in flight. Wait for it to finish and try again.
 - **Docker/VPS says the Docker image is still being packaged:** the new version was just released and its image is usually ready 2 to 5 minutes later. Try again in a few minutes. If Watchtower finishes without replacing the version, the page shows why and the button works again right away.
 - **No "⬆ Update now" button:** you are on Docker without Watchtower running, which since 0.55.56 means the stack was built from an older compose file. The Updates panel says exactly what your machine is missing. On a self-managed VPS, fetch the current `docker-compose.yml` and run `docker compose up -d --pull always`; on Hostinger, hit Redeploy in Docker Manager. Sticking with the old file? `docker compose --profile update up -d` starts Watchtower on its own.

@@ -7,9 +7,22 @@
 
 Faites tourner AIVON en quelques minutes. Guides complets : [docs/en/](../../../docs/en/README.md).
 
+## Ordinateur personnel (Windows, macOS) - télécharger l'installeur
+
+Installez Aivon comme n'importe quelle application : téléchargez un fichier, ouvrez-le, et vous avez une icône AIVON à cliquer chaque jour. L'installeur vérifie ce qui manque à l'ordinateur (Git, Python, Node, les cerveaux IA) et n'installe que cela.
+
+- **Windows 10/11 :** téléchargez [AivonOS-Setup.exe](https://github.com/kenwingroup/aivon/releases/download/desktop/AivonOS-Setup.exe), double-cliquez et appuyez sur Next jusqu'au bout. Une fenêtre noire affiche la progression (quelques minutes). À la fin, une icône AIVON apparaît sur le Bureau et dans le menu Démarrer.
+- **macOS 11 ou plus récent :** téléchargez [AivonOS-macOS.dmg](https://github.com/kenwingroup/aivon/releases/download/desktop/AivonOS-macOS.dmg), ouvrez-le, glissez **AIVON** dans **Applications**, puis ouvrez-le depuis le Launchpad. La première fois, le Terminal s'ouvre pour installer (il peut demander une fois de créer un compte administrateur Aivon et le mot de passe du Mac).
+
+Un clic sur l'icône ouvre Aivon dans sa propre fenêtre (sans barre d'adresse), Aivon démarre avec l'ordinateur et le bouton **Update** de l'application fonctionne comme d'habitude. Vos données sont dans le dossier `AivonOS` de votre dossier utilisateur ; désinstaller l'application conserve ce dossier.
+
+Les deux installeurs ne sont pas encore signés, l'ordinateur demande donc une fois :
+- Windows affiche "Windows protected your PC" : cliquez sur **More info**, puis sur **Run anyway**.
+- macOS indique qu'il ne peut pas ouvrir l'application : allez dans **System Settings → Privacy & Security**, faites défiler, cliquez sur **Open Anyway**, puis rouvrez AIVON.
+
 ## Option 1 - VPS Hostinger (Docker Manager, en un clic)
 
-> 🛒 **Pas encore de VPS ?** [Prenez un VPS Hostinger ici](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN). Docker Manager est intégré, donc AIVON s'installe en un clic. Une fois prêt, revenez aux étapes ci-dessous.
+> 🛒 **Pas encore de VPS ?** [Prenez un VPS Hostinger ici](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN). Docker Manager est intégré, donc Aivon s'installe en un clic. Une fois prêt, revenez aux étapes ci-dessous.
 
 1. hPanel → VPS → **Docker Manager** → **Compose** → **Compose from URL**.
 2. Collez cette URL :

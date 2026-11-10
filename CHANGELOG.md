@@ -6,6 +6,1851 @@ Lịch sử phiên bản AIVON. Bản mới nhất ở trên cùng. Xem ngay tro
 
 Định dạng: mỗi phiên bản là một khối `## [x.y.z] - ngày`, bên dưới nhóm thay đổi theo `### Thêm mới / Sửa lỗi / Cải thiện / Bảo mật`.
 
+## [0.526.1] - 2026-11-10
+### Cải thiện
+- **Số Node và Link nằm gọn trong đồ thị.** Dòng số cạnh nút chọn bộ não đã bỏ, giờ hiện ở góc trên bên trái của đồ thị, nút con mắt ẩn nó cùng các nhãn khác.
+- **Danh sách bộ não gọn hơn.** Mỗi bộ não ghi "1920 Node · 2480 Link" trên đúng một dòng, chữ nhỏ hơn một chút, không còn gãy làm hai.
+
+## [0.526.0] - 2026-11-09
+### Thêm mới
+- **Mỗi hội thoại trong cột lịch sử có một nút ⋯** thay cho bốn icon rời (ghim, chuyển project, đổi tên, xoá). Menu có: Ghim lên đầu, Chuyển vào project, Đổi tên (sửa ngay tại dòng), Chia sẻ link, Xuất ra file .md, Đánh dấu chưa đọc, Lưu trữ và Xoá. Bấm chuột phải hoặc nhấn giữ trên điện thoại cũng mở menu này; trên điện thoại menu trượt lên từ dưới, chữ to.
+- **Lưu trữ hội thoại:** hội thoại lưu trữ rời khỏi danh sách nhưng giữ nguyên nội dung, Aivon vẫn nhớ và ô tìm kiếm vẫn tìm thấy. Mục "Đã lưu trữ" ở đáy cột mở danh sách này; mở một hội thoại đã lưu trữ thì thanh tiêu đề có nút "Đưa trở lại danh sách". Nhắn tiếp vào hội thoại đã lưu trữ thì nó tự trở lại danh sách.
+### Cải thiện
+- **Xoá hỏi lại ngay trong menu**, kèm gợi ý chọn Lưu trữ nếu chỉ muốn cho gọn, thay cho hộp thoại của trình duyệt.
+- **Bỏ nút "Xem thêm":** cuộn tới cuối danh sách là tự tải thêm.
+- **Dòng hội thoại gọn hơn:** tin ghim có dấu ghim nhỏ trước tiêu đề, tên project có icon thư mục và chữ thường, tên bộ não AI chữ xám nhạt.
+
+## [0.525.3] - 2026-11-09
+### Sửa lỗi
+- **Giờ trong thông báo đã khớp múi giờ trong Cài đặt.** Trên VPS, cảnh báo bảo mật và thẻ "Thông báo hệ thống" trong Aivon Core từng in giờ máy chủ (UTC), lệch 7 tiếng với giờ Việt Nam. Nay chúng theo múi giờ anh chị đã chọn.
+- Cùng lỗi đó được sửa ở dòng "mở lại lúc" khi ChatGPT Live hết lượt, giờ đồng bộ sao lưu, lần cuối Threads gửi bình luận, và giờ sự kiện webhook Aivon đọc được.
+
+## [0.525.2] - 2026-11-09
+### Sửa lỗi
+- **Quy trình chạy bằng agent Claude dùng được mọi kết nối của Aivon.** Việc giao theo quy trình (kể cả mức Toàn quyền) và quy trình chạy từ chat không còn báo "thiếu công cụ" khi cần Gmail, Sheet, Zalo hay MCP khác.
+- **Chatbot, mục Hội thoại chỉ hiện hội thoại của brain đang mở.** Fanpage và bot đã chuyển sang brain khác không còn hiện ở brain cũ, kể cả số đếm. Bật "mọi brain" ở mục Kênh để xem tất cả.
+
+## [0.525.1] - 2026-11-09
+### Sửa lỗi
+- **Kiểm tra tự động xanh lại.** Hai bản cập nhật cùng thêm đường dẫn mới cho máy chủ nên bảng đối chiếu bị lệch số thứ tự. Người dùng không thấy gì khác.
+
+## [0.525.0] - 2026-11-09
+### Thêm mới
+- **Chọn bộ não nào làm mặc định.** Trong bảng chọn bộ não, bấm ngôi sao ở một bộ não để đặt nó làm mặc định. Việc chưa chọn bộ não riêng sẽ chạy ở đó, và mọi máy đồng bộ cũng đổi theo.
+- **Xoá được Brain Default cũ.** Đổi mặc định sang bộ não khác xong, Brain Default thành bộ não thường và xoá được như mọi bộ não khác (vẫn vào thùng rác 30 ngày). Nó không tự sống lại nữa.
+- **Biết trước khi xoá.** Ô xoá bộ não giờ nói rõ bao nhiêu vòng lặp, nhắc việc sẽ dừng theo, và bot nào đang trả lời từ bộ não đó để chuyển đi trước.
+
+## [0.524.0] - 2026-11-09
+### Thêm mới
+- **Bấm Kết nối GitHub, Aivon kiểm tra máy có git chưa, thiếu thì tự cài rồi mới mở bước đăng nhập.** Windows cài bằng winget hoặc bộ cài chính thức của Git (không cần quyền quản trị), Mac dùng Homebrew hoặc công cụ của Apple, Linux dùng trình quản lý gói khi Aivon có quyền.
+- **Thẻ GitHub đã kết nối mà máy thiếu git có thêm nút Cài git.** Cài không được thì Aivon hiện đúng lệnh để cài tay, nút Thử lại và nút Bỏ qua.
+### Sửa lỗi
+- **Git vừa cài xong được nhận ngay, không phải khởi động lại Aivon.** Trước đây máy chủ chạy từ trước khi có git vẫn báo "chưa cài git".
+
+## [0.523.1] - 2026-11-09
+### Cải thiện
+- **Mở lại màn mạng nơ-ron, mở thêm tab hay điện thoại vừa kết nối lại không còn làm cả app khựng.** Cả app dùng chung một bộ theo dõi file cho mỗi thư mục, dựng một lần rồi giữ thêm 15 phút sau khi đóng màn đồ thị. Trước đây mỗi lần mở là dựng lại từ đầu, có lần làm mọi thao tác khác chờ gần 3 giây.
+- **Danh sách công cụ của các kết nối MCP được nhớ 10 phút** thay vì hỏi lại mọi máy chủ mỗi phút, nên app bớt hẳn những lần khựng một hai giây khi đang chat. Nút Kiểm tra và vòng kiểm tra sức khoẻ vẫn hỏi thẳng máy chủ, và kết nối nào báo đổi công cụ thì được hỏi lại ngay.
+
+## [0.523.0] - 2026-11-09
+### Sửa lỗi
+- **Nút cài app ở chân menu trái không còn tràn ra ngoài** trên máy tính bảng và laptop cảm ứng: nút gọn bằng nút Tặng sao, ghi "Cài app", thu gọn menu thì chỉ còn biểu tượng.
+### Cải thiện
+- **Điện thoại: nút chọn model về khung nhập, đứng ngay cạnh nút mức suy nghĩ** y như bản máy tính. Bấm vào thì bảng chọn model mở ngay phía trên khung nhập, vừa khít bề ngang màn hình.
+- **Thanh trên cùng gọn hơn:** chỉ còn nút menu, chuông thông báo và nút + hội thoại mới.
+
+## [0.522.0] - 2026-11-09
+### Cải thiện
+- **Đổi mật khẩu giờ có thêm ô "Nhập lại mật khẩu mới".** Hai lần gõ phải khớp nhau thì Aivon mới lưu, nên lỡ gõ sai một ký tự không còn tự khoá mình ngoài cửa. Áp dụng ở cả trang Tài khoản lẫn khối Tài khoản đăng nhập trong Cài đặt.
+
+## [0.521.1] - 2026-11-09
+### Cải thiện
+- **Mở màn mạng nơ-ron không còn làm cả app đứng.** Bộ theo dõi file của đồ thị được dựng trên luồng riêng, nên bộ não nhiều thư mục không còn khiến mọi thao tác khác chờ tới 2 giây mỗi lần mở.
+- **Mọi kết nối ra ngoài dùng chung một bộ chứng chỉ bảo mật**, được nạp một lần trên luồng nền lúc khởi động. Trước đây mỗi lần gọi ra ngoài (tin cộng đồng, Telegram, Zalo, model...) đều nạp lại cả bộ, có lần làm app đứng gần 2 giây.
+- **Đọc lịch sử Zalo cá nhân chạy nền.** Sau mỗi lượt đọc tin, phần dò lại tin bị sót trong file lịch sử không còn chặn các thao tác khác.
+
+## [0.521.0] - 2026-11-09
+### Cải thiện
+- **Câu trả lời trải rộng hết khung chat, không chừa khoảng trống lớn bên phải:** ở trang Cộng sự, câu trả lời giờ rộng tới đúng mép tin bạn nhắn (trên iPad từ khoảng 780px lên hơn 1.000px), bớt cuộn hẳn. Màn máy tính rất rộng thì khung dừng ở khoảng 120 chữ mỗi dòng để mắt khỏi mỏi.
+- **Trang Trò chuyện và trang Team đổi theo cùng một kiểu:** câu trả lời rộng bằng cột chat, câu trả lời của trợ lý trong Team không còn bị chặn ở 680px.
+
+## [0.520.0] - 2026-11-09
+### Thêm mới
+- **Xuất và tải lên cả bộ não bằng một file .zip:** mỗi dòng trong hộp chọn bộ não có nút Xuất. File mang theo ghi chú, ảnh, agent, skill, workflow và bộ nhớ, không mang theo token, chat thô hay lịch sử git. Nút "Tải lên bộ não (.zip)" luôn tạo một bộ não mới, không đè bộ não đang có. Plugin, vòng lặp và nhắc việc đi kèm file đều được tắt sẵn, bật lại ở trang tương ứng nếu cần. Không có trần dung lượng cố định: máy chủ còn đủ chỗ trống là nhận, tới một triệu file. Nén và giải nén chạy nền có hiện tiến độ, file tải lên được gửi từng phần 32MB, nên bộ não lớn vẫn đi qua được Cloudflare Tunnel.
+- **Đổi tên và xoá ngay trên từng dòng của hộp chọn bộ não**, cuối hộp có ba nút Tạo bộ não, Tải lên bộ não và Mở thư mục ngoài. Bốn nút rời cạnh hộp chọn trên thanh trên cùng đã bỏ.
+### Cải thiện
+- **Màn hình khởi động:** mở Aivon là thấy logo cùng dòng "Đang khởi động Aivon…" cho tới khi trang đầu tiên đã có đủ dữ liệu. Aivon vừa cập nhật hay khởi động lại thì màn này báo thêm lần mở đầu có thể lâu hơn một chút.
+- **Mọi màn đang chờ tải dùng chung một hiệu ứng** như trang Cộng sự: vòng xoay nhỏ kèm chữ "Đang tải", trang lớn thì vòng xoay ở giữa. Trang đang nạp không còn hiện nhầm câu "đang phát triển".
+- **Số node và liên kết trên thanh trên cùng chỉ hiện ở màn mạng nơ-ron**, các trang khác gọn hơn.
+- **Hộp chọn bộ não ghi số node và số liên kết của từng bộ não**, đúng như đồ thị đếm. Số chỉ được đếm khi mở hộp, nên không làm chậm lúc tải trang.
+
+## [0.519.0] - 2026-11-09
+### Bảo mật
+- **Lỡ lộ link quản trị thì Google không đưa lên kết quả tìm kiếm.** Mọi trang của Aivon giờ mang lệnh `noindex`, kể cả màn hình đăng nhập và link chia sẻ.
+- **Bot AI không đọc được Aivon.** GPTBot, ClaudeBot, PerplexityBot, công cụ SEO và máy quét như Shodan, Censys nhận lỗi 403, không thấy chữ nào. Aivon cũng có `/robots.txt` cấm chúng.
+- Trình duyệt thật, khung xem trước link khi dán vào Zalo hay Telegram, webhook và Aivon Gate vẫn chạy như cũ. Cần tắt lớp chặn thì đặt `AIVON_BLOCK_BOTS=0`.
+
+## [0.518.1] - 2026-11-09
+### Bảo mật
+- **Các file bảo mật tài khoản không còn lọt vào git hay image Docker.** Dấu vân tay tài khoản, nhật ký bảo mật, danh sách mạng đã đăng nhập và thông tin phiên giờ nằm trong danh sách bỏ qua, nên `git add -A` hay `docker build` trên máy không mang chúng theo nữa.
+
+## [0.518.0] - 2026-11-09
+### Cải thiện
+- **Trang Cộng sự và Team hiện dòng "Đang tải…"** ở chỗ danh sách và cuộc trò chuyện chưa về, thay vì để trống như bị treo.
+- **Mở một team là thấy ngay tab Thông tin** ở khung bên phải trên màn rộng. Đóng khung đó thì lần sau Aivon nhớ và để đóng.
+- **Nút tìm kiếm, cài đặt và nút đóng của Team gọn đẹp hơn:** nút vuông, không viền, cùng kiểu với các tab bên cạnh.
+- **Danh sách team tải nhanh hơn khoảng 2,5 lần**, và tốc độ mở team không đổi dù team có hàng chục nghìn tin nhắn.
+
+## [0.517.1] - 2026-11-09
+### Sửa lỗi
+- **Mở hội thoại ở trang Cộng sự hết báo nhầm "mở quá lâu".** Lúc trang đang tự kết nối lại thì không báo lỗi nữa. Mở Aivon Core bị treo thì báo lỗi kèm nút Thử lại, và bấm Thử lại là tải lại thật thay vì chờ tiếp lượt đang treo.
+- **Việc nền chạy bằng ChatGPT (Codex) bị chặn ghi file giờ báo đúng là lỗi môi trường**, kèm cách sửa, thay vì nằm ở "chờ bạn trả lời".
+- **Ký ức do việc nền ghi không còn bị gắn nhầm nguồn** là cuộc chat đang mở cùng lúc.
+
+## [0.517.0] - 2026-11-09
+### Cải thiện
+- **Trang Tài khoản gọn hơn.** Bỏ thanh tiêu đề trang, hai tab Tài khoản và Bảo mật nằm ngay trên cùng.
+- **Token API cho CLI chuyển sang trang Tích hợp** (nhóm Việc, trước là Webhook), tab Token API. Cả hai đều là cửa để chương trình khác gọi vào Aivon nên giờ nằm chung một chỗ. Token đã tạo vẫn dùng như cũ.
+
+## [0.516.1] - 2026-11-09
+### Sửa lỗi
+- **ChatGPT (Codex) không còn mất công cụ khi chat nghỉ vài phút rồi nhắn tiếp.** Lịch, Zalo, Drive dùng được ngay ở lượt sau. Trên Windows, việc nền Codex mức "Được ghi" ghi được file trở lại.
+- **Ký ức không còn bị hỏng hay mất thông tin sau lượt chat.** Ký ức có dấu hai chấm trong mô tả giữ nguyên loại, mô tả và thẻ. Ký ức đã hỏng từ trước tự lành khi sửa trong app.
+- **Ollama Local chạy được việc nhóm và việc nền.** Hết báo "engine chưa sẵn sàng" khi Ollama ở máy nhà không đặt khoá.
+- **Kết nối ổn hơn:** chạy sau Caddy (VPS Hostinger) thì nút Đăng nhập Facebook không còn bị khoá, thẻ CapCut đăng nhập được, GitHub trong chat dùng đúng Lệnh kiểm tra đã lưu và hiểu repo đặt app trong thư mục con.
+
+## [0.516.0] - 2026-11-09
+### Bảo mật
+- **Chatbot chỉ đọc tài liệu ghim ở mục Tài liệu của Agent nó dùng**, cộng thư mục `rieng-theo-nhom/` và Google Docs gắn từ Agent. Trước đây bot coi mọi ghi chú trong brain là tài liệu, nên có thể trích ghi chú riêng của chủ cho khách.
+- **Cần làm sau khi cập nhật:** mở Agent của từng bot và ghim các file bảng giá, chính sách, hướng dẫn mà bot cần đọc. Bot chưa ghim file nào chỉ trả lời theo vai trò của Agent.
+### Sửa lỗi
+- **Chatbot tra tài liệu, lượt học tự động và nhắc việc không còn làm cả app đứng vài giây.** Các việc này giờ chạy ở luồng phụ và không còn quét cả brain.
+- **Trang Cộng sự không còn chờ khoá dữ liệu Cộng hưởng**, và danh mục kết nối không còn kiểm tra lại ổ đĩa ở mọi lần gọi.
+
+## [0.515.0] - 2026-11-09
+### Bảo mật
+- **Tab Bảo mật mới trong trang Tài khoản.** Xem 2FA, thiết bị đang đăng nhập (IP, trình duyệt, lần hoạt động cuối) và lịch sử đăng nhập đúng, sai, mọi lần đổi tài khoản. Đăng xuất từng thiết bị hoặc mọi thiết bị khác mà không cần đổi mật khẩu.
+- **Báo ngay khi tài khoản có biến.** Đổi tên, đổi mật khẩu, bật tắt 2FA, đăng nhập từ mạng lạ: chuông và Telegram của chủ báo liền. File cài đặt bị sửa từ ngoài Aivon thì mọi thiết bị bị đăng xuất và có cảnh báo đỏ.
+- **Trợ lý AI không còn đụng được file bí mật** (cài đặt, khoá mã hoá, phiên đăng nhập), ở mọi mức quyền. Gỡ 2FA khi bị khoá chỉ cần thêm `AIVON_RESET_2FA=1` rồi Redeploy.
+- **Hostinger: cổng 7979 tự đóng ra ngoài khi đã có tên miền HTTPS**, chỉ còn đường vào có mã hoá.
+
+## [0.514.0] - 2026-11-09
+### Thêm mới
+- **Trình sửa file tự lưu như Google Docs.** Ngừng gõ khoảng một giây là file được lưu, nút Lưu báo "Đang lưu…" rồi "Đã lưu". Đóng file, chuyển file, tải lại hay lỡ vuốt lùi trang cũng không mất chữ đã gõ.
+- **Mất mạng giữa chừng vẫn giữ chữ.** Phần chưa lưu được giữ trong trình duyệt và tự khôi phục ở lần mở file sau.
+- **Nút mic đọc chữ trong trình sửa file .md và .txt.** Bấm, nói, chữ hiện đúng chỗ con trỏ và được viết lại cho đúng ngữ cảnh, giống mic ở khung chat.
+### Sửa lỗi
+- **Khối chữ (như khối TEXT của email nháp) tự xuống dòng** thay vì kéo dài sang phải. Lúc đang sửa, vuốt ngang bàn di chuột không còn làm trình duyệt lùi trang.
+
+## [0.513.0] - 2026-11-09
+### Cải thiện
+- **Mở app nhanh hơn rõ rệt.** Khoảng 110 file giao diện lúc khởi động giờ đi chung một gói. Trên đường mạng có độ trễ 150ms, danh sách Cộng sự hiện sau khoảng 2 giây thay vì gần 5 giây.
+- **Khởi động lại hay cập nhật xong không còn bị khựng ở lần mở đầu.** Bản nén gọn được lưu lại trên đĩa nên máy chủ không phải làm lại từ đầu, chỉ file nào vừa đổi mới phải nén lại.
+- **Trang Cộng sự không còn đứng chờ cả loạt.** Các lệnh đọc danh sách, trạng thái Cộng hưởng và việc nền giờ chạy ở luồng phụ, không chặn các lệnh khác.
+
+## [0.512.0] - 2026-11-09
+### Thêm mới
+- **Bot Zalo cá nhân hiện "đang soạn tin..." trong nhóm.** Chỉ bật sau khi bot đã quyết định trả lời (được gọi tên, hoặc bộ phán xử chọn lên tiếng) và giữ tới lúc gửi xong, nên nhóm không còn im 20-30 giây rồi mới thấy bot nói. Tin bot đọc rồi im thì không hiện gì.
+- **Nút bật/tắt trên trang Chatbot** cho từng bot, mặc định bật.
+### Sửa lỗi
+- **"Đang soạn tin" ở chat riêng không còn tắt cả tiếng.** Trước đây chỉ một cuộc chat bị Zalo từ chối, hoặc MCP khởi động lại, là dấu này tắt ở mọi cuộc chat của nick suốt một giờ. Giờ chỉ tắt cho đúng lượt đó, và dấu được giữ tới khi tin đã gửi đi.
+
+## [0.511.0] - 2026-11-09
+### Thêm mới
+- **Mỗi hội thoại ở cột trái có nhãn thư mục nhỏ ghi tên project.** Liếc là biết cuộc đó thuộc nhóm nào, không cần mở ra. Đang lọc đúng một project thì nhãn tự ẩn cho đỡ lặp.
+- **Nhãn bộ não ghi tên dễ hiểu:** "Claude" thay cho "cli", "Codex", "Grok", "OpenRouter"... thay cho mã nội bộ.
+
+## [0.510.1] - 2026-11-08
+### Sửa lỗi
+- **Nút "Nhập tin cũ" của Zalo nhập được thật.** Trước đây cuộc chat nào đã có dù chỉ một tin trong Hộp thư đều bị bỏ qua, nên tài khoản đã bật Ghi hội thoại bấm nhập gần như không được gì. Giờ cuộc chat đã có tin nhận thêm các tin cũ hơn tin đầu tiên của nó, xếp lên trên đúng thứ tự thời gian.
+- Tin cũ vừa nhập không nhảy xuống cuối khung chat đang mở, không làm bot hiểu nhầm là tin mới, và nhóm vẫn chỉ giữ các tin gần nhất như cũ.
+
+## [0.510.0] - 2026-11-08
+### Thêm mới
+- **Bảy bộ não chạy bằng API key cũng có thẻ "Kế hoạch" trong khung chat.** OpenRouter, OpenAI, Anthropic API, Gemini, Groq, DeepSeek và Ollama giờ có công cụ `aivon_plan`: gặp việc từ 3 bước trở lên, model lập danh sách việc và đánh dấu từng mục khi xong, giống Claude Code, Codex và Grok Build. Câu hỏi thường không dùng tới nó.
+- Tốn thêm khoảng 200 token mỗi lượt cho phần mô tả công cụ (đa số hãng có cache), cộng một vòng công cụ ngắn mỗi lần cập nhật danh sách. Muốn tắt thì vào menu "+" ở ô nhập, mục "Kế hoạch việc dài (bộ não API)". Chỉ khung chat của chủ có công cụ này, bot trả lời khách và việc nền thì không.
+
+## [0.509.0] - 2026-11-08
+### Thêm mới
+- **Khung trò chuyện hiện kế hoạch của bộ não như một danh sách việc.** Khi Claude Code, ChatGPT (Codex) hay Grok Build tự lập kế hoạch cho một việc nhiều bước, thẻ "Kế hoạch 2/5" hiện ngay trên câu trả lời: việc xong có dấu tích và gạch ngang, việc đang làm in đậm, việc còn lại để trống. Dòng trạng thái dưới khung chat cũng ghi đang ở bước nào. Thẻ được giữ lại khi tải lại trang.
+- Không tốn thêm token: Aivon chỉ vẽ danh sách mà bộ não vốn đã lập, không gọi thêm model.
+- **Tab Công việc ở trang Cộng sự hiện việc cộng sự đang làm trong chat.** Trước đây tab chỉ có việc đã xếp hàng, nên lúc cộng sự đang trả lời nhiều bước ngay trong khung chat bên cạnh thì tab vẫn trống. Nay có thẻ "Đang làm trong chat" kèm số bước và kế hoạch, xong lượt là thẻ tự tắt.
+- **Tab Công việc hiện các lần chạy Quy trình mà cộng sự có tham gia.** Mỗi lần chạy là một thẻ: đang chạy thì ghi bước nào và của ai, chờ duyệt thì nằm ở Cần bạn, hỏng thì đánh dấu hỏng, bấm Mở là tới đúng quy trình. Bộ lọc nguồn có thêm "Quy trình". Lần chạy bị cắt giữa chừng (máy chủ tắt khi đang chạy) không còn nằm mãi ở Đang làm.
+### Sửa lỗi
+- **Chấm trạng thái trên thẻ cộng sự khớp với tab Công việc.** Việc anh đã bấm Xong (cất vào lưu trữ) hay đã xoá không còn làm chấm xanh "vừa xong" (hay chấm đỏ khi việc đó hỏng) sáng lên nữa.
+
+## [0.508.1] - 2026-11-08
+### Sửa lỗi
+- **Ô chat ở trang Cộng sự không còn bị khoá.** Từ bản 0.503, bấm vào một cộng sự (hay vừa trả lời xong) đôi khi làm ô chat không nhận con trỏ nữa, Ctrl+Shift+R cũng không đỡ. Nay mở hội thoại lại ngay như cũ.
+- **Mở hội thoại quá lâu thì có báo lỗi kèm nút Thử lại**, thay vì một ô chat khoá im lặng.
+- **Lên bản mới là trình duyệt tự làm mới bộ nhớ đệm của Aivon**, không phải bấm Ctrl+Shift+R.
+
+## [0.508.0] - 2026-11-08
+### Cải thiện
+- **Review chéo trên GitHub giờ do bạn quyết, mặc định tắt.** CI xanh là Aivon merge, không tự gọi thêm model nào để review. Muốn review thì bật cho từng repo (thẻ GitHub, dấu ba chấm, Review chéo), bấm **Review ngay** ở biểu tượng GitHub của cuộc trò chuyện, hoặc nhắn "review PR này".
+- **Mặc định review bằng chính model đang chat**, không bắt buộc phải là model khác hãng. Chọn model khác được, theo repo hay mỗi lần review.
+- **Phát hiện chờ bạn chọn.** Aivon không tự gửi đi sửa nữa: dừng merge, hiện danh sách lỗi kèm hai nút **Sửa các lỗi này** và **Bỏ qua, merge**.
+
+## [0.507.2] - 2026-11-08
+### Sửa lỗi
+- **Review chéo trên GitHub chạy bằng đúng model bạn đã chọn.** Trước đây nó gửi model rỗng, nên thẻ Groq rơi về `llama-3.3-70b-versatile`, model Groq đã tắt từ 16/08/2026, và lần review nào cũng báo 404 rồi bỏ qua. Giờ model việc nền review trước (nếu khác hãng với engine đã viết), các thẻ khác dùng model và mức suy nghĩ chọn trên thẻ. Khung chat ghi rõ tên model đã review.
+- **Model mặc định của Groq đổi sang `openai/gpt-oss-120b`**, model Groq khuyên dùng thay cho `llama-3.3-70b-versatile`.
+
+## [0.507.1] - 2026-11-08
+### Cải thiện
+- **Chọn "chấp nhận" hay "sửa lại" ngay trong chat.** Việc nền trượt lượt tự kiểm hai lần thì tin báo về Telegram, Zalo hay khung chat web giờ cho bạn nhắn thẳng "chấp nhận" hoặc "sửa lại", không cần mở trang Nhiệm vụ. Nhiều việc cùng chờ thì Aivon hỏi lại là việc nào.
+
+## [0.507.0] - 2026-11-08
+### Thêm mới
+- **Zalo OA cấp quyền theo OAuth v4.** Ở form Thêm kênh Zalo OA, dán App ID, App secret key, OA secret key rồi bấm Cấp quyền bằng Zalo: chọn OA, bấm Cho phép là Aivon tự lưu kênh. Không cần lấy refresh token tay ở API Explorer nữa. Form hiện sẵn Callback URL để dán vào app Zalo một lần.
+- **Cấp quyền lại một nút.** Refresh token chết thì mở Sửa kênh, bấm Cấp quyền lại bằng Zalo, Aivon dùng khoá đã lưu và bot đang trực tự chạy lại.
+
+## [0.506.3] - 2026-11-08
+### Sửa lỗi
+- **Chép lời không còn dừng khi chuyển tab.** Đang ghi âm thành chữ mà Alt Tab hay chuyển sang trang khác, máy tính vẫn nghe tiếp, quay lại là chữ vẫn đủ.
+- **Trên điện thoại, quay lại là ghi tiếp.** Điện thoại tắt mic khi trình duyệt chạy nền, nên đoạn nói lúc ở app khác không nghe được. Nhưng đoạn đã ghi không bị mất, và mic tự mở lại khi quay về Aivon, không cần bấm lại.
+
+## [0.506.2] - 2026-11-08
+### Sửa lỗi
+- **Cập nhật xong không còn "mất" nhóm.** Trang mở lại đúng lúc máy chủ đang khởi động thì Aivon lặng lẽ chuyển sang Brain Default, nên trang Nhóm hiện nhóm của brain khác và nhóm mới tạo cũng rơi vào đó. Nay Aivon luôn mở đúng brain anh chị đã chọn, và tự thử lại tới khi lấy được danh sách brain.
+- Dữ liệu nhóm chưa từng bị xoá: nhóm nào "biến mất" trước đây vẫn nằm ở brain còn lại, chọn brain đó ở ô chọn brain là thấy.
+
+## [0.506.1] - 2026-11-08
+### Sửa lỗi
+- **Việc nền trượt lượt tự kiểm không còn hiện ô "Gõ câu trả lời" trống.** Trước đây việc chạy xong mà máy tự kiểm thấy chưa đạt thì chuyển sang "cần bạn trả lời" dù chẳng có câu hỏi nào.
+- **Trượt lần đầu, việc tự quay lại cho người làm sửa** theo đúng lý do máy chấm, bạn không bị làm phiền.
+- **Trượt lần hai mới tới bạn**, thẻ ghi rõ "Máy tự kiểm chưa qua" kèm hai nút: **Sửa rồi chạy lại** hoặc **Chấp nhận như vậy**. Bấm kiểm lại một việc đã xong mà trượt thì cũng hiện hai nút này.
+
+## [0.506.0] - 2026-11-08
+### Thêm mới
+- **Gói ChatGPT nghe giọng luôn, không cần key.** Đã nối ChatGPT ở trang Models là mic đọc chữ, cuộc gọi đường Cơ bản và tin thoại Telegram, Zalo được chính gói ChatGPT nghe, câu Việt xen tiếng Anh giữ đúng cả hai thứ tiếng.
+- **Tai nghe tự theo model đang dùng.** Bộ não chính là ChatGPT thì gói ChatGPT nghe trước, là Groq hay OpenAI thì tai của hãng đó. Claude, Antigravity và Grok không mở cổng nghe cho gói của họ, nên Aivon dùng tai tốt nhất đang có.
+### Cải thiện
+- **Agent nghe bằng tai của chính nó.** Agent chọn model hãng nào thì tin thoại gửi bot chuyên trách và lời đọc trong khung chat của agent đó được hãng ấy nghe, không mượn tai của bộ não chính.
+- **Model nghe tự lên đời theo hãng, có chấm điểm trước.** Mỗi ngày Aivon hỏi Groq, OpenAI và Google danh sách model. Gặp bản mới, Aivon cho bản mới và bản đang dùng cùng nghe một bộ câu Việt xen Anh, bản mới không tệ hơn mới được dùng. Một tai hỏng thì tai kế tiếp nghe thay, câu nói không bị mất.
+
+## [0.505.2] - 2026-11-08
+### Sửa lỗi
+- **Tin Zalo không còn lọt khỏi Hộp thư sau mỗi lần rớt mạng ngắn.** Aivon dùng aivon-zalo 1.9.1. Trước đây khi kết nối Zalo rớt dưới 5 giây rồi tự nối lại, tin nhắn trong lúc đó chỉ vào kho lịch sử, không tới Hộp thư và bot. Giờ chúng tới ngay như tin thường. Một tin lỗi cũng không còn kéo mất các tin đi cùng lô với nó.
+
+## [0.505.1] - 2026-11-08
+### Sửa lỗi
+- **Bot không còn gửi câu "You've hit your monthly spend limit" cho khách.** Khi gói Claude hết cả hạn mức chi thêm theo tháng, Claude Code in ra một câu mới mà Aivon chưa nhận ra, nên bot Zalo dán nguyên câu tiếng Anh đó vào tin trả lời khách. Nay câu này được coi là lượt hỏng như mọi câu báo hết lượt khác: khách không nhận gì, chủ được báo ở chuông thông báo. Khung chat, việc Kanban và workflow cũng nhận ra nó là hết lượt gói, kèm giờ mở lại.
+- **Câu báo hết lượt có dấu nháy cong (You’ve) cũng được nhận ra** như dấu nháy thường.
+
+## [0.505.0] - 2026-11-08
+### Cải thiện
+- **Giọng đọc tự theo thứ tiếng của câu trả lời.** Câu trả lời tiếng Anh do giọng nói được tiếng Anh đọc chuẩn, không còn "Vinglish". Câu trả lời tiếng Việt do Hoài My hoặc Nam Minh đọc, từ tiếng Anh xen trong câu vẫn đọc kiểu người Việt nói.
+- Giọng anh chọn trong Cài đặt quyết định nam hay nữ: chọn Hoài My thì câu tiếng Anh do Emma đọc, chọn Andrew thì câu tiếng Việt do Nam Minh đọc. Tin nhắn thoại gửi qua Telegram cũng theo luật này.
+- **Giao diện giờ chỉ còn tiếng Anh và tiếng Việt.** Bản dịch tiếng Đức đã được gỡ khỏi ô chọn ngôn ngữ. Máy nào đang để tiếng Đức sẽ tự về tiếng Anh.
+
+## [0.504.0] - 2026-11-08
+### Thêm mới
+- **Bot Zalo ở Kênh Admin gọi được cộng sự như Telegram.** Gõ `@<tên> <câu hỏi>` để hỏi một câu, hoặc `/agent <tên>` để cộng sự đó trả lời cả chat.
+- **Thẻ trợ lý ở trang Cộng sự hiện tag ngay dưới tên**, cạnh avatar. Chữ "Hệ thống" của Aivon Core cũng xuống dòng này. Cột hẹp thì tag dư gộp thành "+n".
+### Sửa lỗi
+- **Chat từ Zalo và Telegram (Kênh Admin) nay hiện trong lịch sử của Aivon Core**, còn chat gọi một cộng sự thì hiện trong lịch sử của cộng sự đó, có nhãn TG hoặc zalo.
+- **Lệnh `/brain`, `/reset`, `/stop`, `/model` trên bot Zalo admin tác động đúng cuộc chat đang nói.** Trước đây chúng đổi nhầm một phiên khác nên chat có thể rơi sang brain mặc định.
+- **Bot chuyên trách không được dùng chung token với bot Zalo admin nữa.** Dùng chung khiến tin nhắn bị chia đôi và một nửa chui vào hộp thư khách, mất khỏi chat của bạn.
+
+## [0.503.2] - 2026-11-08
+### Cải thiện
+- **Lúc Aivon đang trả lời hay đang chạy việc Kanban, các cú bấm khác không còn phải xếp hàng chờ.** Việc đọc ghi lịch sử hội thoại trong mỗi lượt chat (kể cả đọc lại cả cuộc dài để gửi cho model) và mọi lần ghi của việc Kanban giờ chạy ở luồng phụ, không chiếm luồng phục vụ giao diện nữa.
+- **Các trang đọc nhiều (Tệp tin, bộ nhớ, sao lưu, tự học, nhắc hẹn, vòng lặp, nhóm hội thoại, tài sản trong chat...) không còn làm cả máy chủ khựng khi brain lớn.** Số chỗ làm việc nặng trên luồng chính giảm từ 347 xuống 218, Kanban về 0.
+- Một test mới chặn không cho con số đó tăng trở lại.
+
+## [0.503.1] - 2026-11-08
+### Sửa lỗi
+- **App Aivon trên màn hình chính iPhone (iOS 26/27) hết vệt mờ ở trên cùng.** Thanh trạng thái giờ là nền đặc, trang bắt đầu ngay bên dưới nên iOS không còn gì để làm mờ.
+- **Cần làm một lần:** xoá icon Aivon khỏi màn hình chính rồi mở Safari, bấm Chia sẻ, Thêm vào MH chính lại. iOS chỉ đọc kiểu thanh trạng thái lúc thêm icon.
+
+## [0.503.0] - 2026-11-08
+### Cải thiện
+- **Mở app, vào trang, đổi hội thoại giờ hỏi máy chủ một chuyến thay vì nhiều đợt nối tiếp.** Aivon học xem mỗi lúc như vậy cần đọc những gì, lần sau gửi gộp tất cả trong một lượt, máy chủ trả từng phần ngay khi xong. Đo qua mạng chậm: mở app từ 3,5 giây còn 2,6 giây, số lượt hỏi từ 47 còn 22; đổi hội thoại từ 5 lượt hỏi còn 1.
+- Phần nào máy chủ không gộp được thì trang tự hỏi riêng như cũ, nên không có gì bị thiếu.
+
+## [0.502.0] - 2026-11-08
+### Cải thiện
+- **Mở lại hội thoại hiện ngay, kể cả sau khi tải lại trang.** Aivon giữ phần cuối của 50 cuộc gần nhất ngay trong trình duyệt, vẽ ngay từ đó rồi mới hỏi máy chủ bản mới. Đo qua mạng chậm: từ khoảng 0,3 giây xuống còn 0,03-0,04 giây.
+- **Cuộc vừa dạy Aivon không còn phải tải lại từ đầu.** Rời một cuộc đang có tin mới thì Aivon lấy sẵn bản mới ở nền, Aivon trả lời xong ở cuộc khác cũng vậy. Các cuộc đầu danh sách được tải trước khi máy rảnh, kể cả trên điện thoại.
+- **Quay lại các trang Kỹ năng, Kết nối, Kênh, Cài đặt, Models, Tự học, Plugin, Webhook hiện ngay.** Trang vẽ ngay dữ liệu lần trước rồi tự cập nhật nếu có gì đổi, trừ khi đã có thao tác bấm hay gõ trên trang. Đo qua mạng chậm: từ 0,3-0,7 giây xuống 0,02-0,1 giây.
+- Đăng xuất là xoá các hội thoại đã giữ trong trình duyệt.
+
+## [0.501.4] - 2026-11-08
+### Cải thiện
+- **Bù tin Zalo cá nhân không còn chạy theo lịch.** Aivon chỉ để ý khi file lịch sử Zalo thật sự có tin mới, rồi chỉ xét đúng những tin đó. Ngày không có tin nào thì gần như không tốn gì (một lần xem kích thước file sau mỗi lượt đọc), không gọi Zalo, không quét các cuộc chat đã im.
+
+## [0.501.3] - 2026-11-08
+### Sửa lỗi
+- **Bot nghe được tin thoại Zalo.** Tin thoại Zalo là AAC thô, Groq và OpenAI từ chối nên bot báo "chưa nghe được". Giờ Aivon nhận dạng định dạng theo nội dung file và tự đổi sang mp3 trước khi gửi, áp dụng cho mọi kênh.
+
+## [0.501.2] - 2026-11-08
+### Sửa lỗi
+- **Mở trang và đổi hội thoại không còn khựng vài giây khi Aivon đang làm việc nền.** Bộ điều phối Kanban (chạy 5 giây một lần) ghi kho việc ngay trên luồng chính của máy chủ, nên mỗi khi kho đang bận là mọi cú bấm phải đứng chờ theo, có lúc hơn 1 giây. Giờ phần đó chạy ở luồng phụ.
+- **Lần tự cập nhật Claude Code không còn làm máy chủ đứng 3 giây.** Việc đọc danh sách model từ chương trình `claude` cũng chuyển sang luồng phụ.
+### Cải thiện
+- **Trang `/health/loop` ghi cả những lần khựng ngắn (từ 0,3 giây).** Mỗi lần được tính vào đúng chỗ code gây ra, xếp theo tổng thời gian mất, để lần sau thấy chậm là biết ngay vì đâu.
+
+## [0.501.1] - 2026-11-08
+### Sửa lỗi
+- **Tin Zalo cá nhân không còn bị hụt trong Hộp thư.** Có lúc một cuộc chat riêng dừng ở một tin, trong khi điện thoại vẫn nhắn tiếp cả hai chiều. Cứ khoảng 1,5 phút Aivon tự so Hộp thư với kho lịch sử Zalo, thiếu tin nào thì bù tin đó, kể cả tin anh chị tự gõ trên điện thoại. Tin bù hiện chưa đọc, không giao cho bot trả lời muộn, không trùng với câu bot đã gửi, và không đè dòng tin cuối của cuộc chat.
+
+## [0.501.0] - 2026-11-08
+### Cải thiện
+- **Bỏ hết trần thời gian của các model.** Grok không còn tự dừng ở phút 15, một lệnh của Claude Code hay ChatGPT không còn bị cắt ở 1 tiếng, việc nền và Nhóm cũng chạy tới khi xong. Nút Dừng vẫn cắt được bất cứ lúc nào.
+- Muốn có trần lại thì đặt biến môi trường tương ứng (giây), ví dụ `AIVON_GROK_TIMEOUT` hay `AIVON_BG_MAX_WALL_S`. Bản Grok cũ không tự duyệt được tool vẫn giữ lưới 15 phút để không treo mãi.
+
+## [0.500.5] - 2026-11-08
+### Sửa lỗi
+- **Antigravity CLI không còn tự dừng ở phút thứ 15.** Việc nặng, nhiều bước giờ chạy tới khi xong, giống Claude Code và Codex. Nút Dừng vẫn cắt được bất cứ lúc nào.
+- Muốn đặt lại trần thì dùng biến môi trường `AIVON_AGY_TIMEOUT` (giây). Mức chỉ đọc vẫn giữ lưới 15 phút vì nó không tự duyệt tool.
+
+## [0.500.4] - 2026-11-07
+### Sửa lỗi
+- **Tự chuyển sang tài khoản Claude thứ hai giờ chạy được thật.** Trước đây tài khoản 1 hết lượt thì Aivon có chọn tài khoản 2, nhưng vẫn cố mở lại mạch hội thoại cũ vốn nằm trong thư mục của tài khoản 1. Claude Code không tìm thấy mạch đó nên thoát ngay, và mọi tin nhắn sau đều báo "SDK engine: ProcessError: Command failed with exit code 1". Nay Aivon nhận ra mạch thuộc tài khoản khác, mở mạch mới trên tài khoản đang chạy và mồi lại ngữ cảnh từ lịch sử đã lưu, nên hội thoại chạy tiếp như bình thường.
+- **Mạch cũ bị mất cũng được khôi phục dù Claude Code báo bằng lỗi thoát.** Bản Claude Code mới báo "No conversation found" bằng cách thoát mã 1 thay vì trả kết quả lỗi, nên đường khôi phục ngữ cảnh trước đây không chạy. Nay cả hai cách báo đều được nhận ra.
+
+## [0.500.3] - 2026-11-07
+### Cải thiện
+- **Trang Nhóm gọn hơn.** Mô tả của nhóm nằm trong nút (i) cạnh tên nhóm thay vì một dòng bên dưới. Các dòng giải thích còn sót (mục Nâng cao, sổ lần trả lời, quyền của người điều phối, cách ghi nguồn cho mục tiêu, mục File và Link) cũng gập vào (i).
+- **Mục File và Link không còn bị cắt chữ.** Khi chưa có gì chỉ hiện một câu ngắn, phần giải thích nằm trong (i) cạnh tiêu đề.
+
+## [0.500.2] - 2026-11-07
+### Sửa lỗi
+- **PR đã merge không còn kẹt biểu tượng "đang chờ CI".** Khi PR được merge lúc Aivon mất kết nối GitHub, khung chat từng giữ mãi biểu tượng nhánh đang làm. Giờ nó đổi sang biểu tượng đã merge, và `aivon_github` không còn báo "chờ CI" cho PR đã merge.
+
+## [0.500.1] - 2026-11-07
+### Sửa lỗi
+- **CI không còn đỏ oan vì phép đo tốc độ khởi động.** Test cũ bấm giờ lúc nạp server và đỏ ngẫu nhiên khi máy chạy chậm. Nay nó liệt kê các thư viện được nạp lúc khởi động: không còn phụ thuộc tốc độ máy, và khi có thư viện nặng lọt vào thì nó gọi đúng tên.
+
+## [0.500.0] - 2026-11-07
+### Cải thiện
+- **Thẻ trợ lý gọn hơn.** Dòng mô tả xám bị cắt dưới tên trợ lý đã bỏ. Mô tả đầy đủ nằm trong nút (i) ở góc trên phải thẻ, ngay trên nút Auto, bấm là đọc được hết.
+
+## [0.499.0] - 2026-11-07
+### Thêm mới
+- **Gọi Aivon qua API không cần giữ kết nối chờ.** Gửi `POST /chat/jobs` là nhận ngay mã job, lượt chat chạy nền, lát sau hỏi `GET /chat/jobs/{mã}` để lấy câu trả lời. Hợp cho backend chạy trên serverless, và rớt mạng giữa chừng cũng không mất kết quả.
+- **Job nào của token nấy.** Token khác không đọc được, mỗi token chạy tối đa 4 job cùng lúc, mỗi phiên một job. Kết quả giữ 24 giờ.
+
+## [0.498.0] - 2026-11-07
+### Cải thiện
+- **Gọi thoại với cộng sự giữ được hướng dẫn dài hơn.** Phần hướng dẫn trong file cộng sự đưa vào cuộc gọi tăng từ 4.000 lên 12.000 ký tự, bộ nhớ từ 2.000 lên 6.000, chỉnh được qua `AIVON_VOICE_AGENT_BODY_CHARS` và `AIVON_VOICE_AGENT_MEMORY_CHARS`. Đặt luật quan trọng giữa `<!-- AIVON_VOICE_RULES_START -->` và `<!-- AIVON_VOICE_RULES_END -->` trong file cộng sự thì luật đó luôn được đưa lên đầu, không bị cắt.
+- **Cộng sự không bịa số liệu khi gọi thoại.** Mọi cuộc gọi với cộng sự luôn kèm một luật không bị cắt: thông tin hay thay đổi phải lấy từ công cụ, và chỉ báo việc đã xong khi công cụ trả kết quả thành công.
+
+## [0.497.0] - 2026-11-07
+### Thêm mới
+- **Linh vật có ảnh riêng.** Vào Cài đặt > Linh vật, bấm Tải ảnh lên: ảnh được cắt theo hình dáng đang chọn và hiện ở con pet, logo thanh bên lẫn ô chọn hình. Bấm Dùng lại hình Aivon là về khuôn mặt cũ.
+- **Ảnh đó làm luôn icon trên tab trình duyệt**, nên mở nhiều Aivon cùng lúc vẫn phân biệt được ngay. Có công tắc để tắt nếu muốn giữ logo trên tab.
+
+## [0.496.0] - 2026-11-07
+### Thêm mới
+- **Đặt tên tài khoản ngay lần đăng nhập đầu.** Thẻ ChatGPT, Claude Code, Grok, Antigravity và key API đầu tiên đều hỏi tên trước khi đăng nhập, tên hiện ngay trên dòng trạng thái của thẻ nên không còn lẫn tài khoản nào với tài khoản nào.
+- **Đổi tên tài khoản bất cứ lúc nào.** Nút ⋯ của thẻ có "Đặt tên tài khoản", mỗi tài khoản trong danh sách cũng có "Đổi tên". Thêm tài khoản mới thì bắt buộc đặt tên.
+### Cải thiện
+- **Kết nối thêm nhà cung cấp không còn popup.** Bấm một cái là xổ ra hết các thẻ kết nối ngay bên dưới, bấm lần nữa để gập lại.
+
+## [0.495.1] - 2026-11-07
+### Sửa lỗi
+- **Khung chat không còn kẹt ở "Mất kết nối tới máy chủ" hàng giờ.** Trước đây một tin máy chủ xử lý lỗi làm đứt kết nối, trang nối lại rồi gửi lại đúng tin đó, lại đứt, lặp mãi, khởi động lại máy chủ cũng không hết. Nay máy chủ báo lỗi ngay dưới tin đó và kết nối vẫn chạy.
+- **Một tin gửi 3 lần không được nhận thì trả về ô nhập**, không gửi lại vô hạn nữa.
+- **Phiên đăng nhập hết hạn thì hiện màn đăng nhập**, thay vì báo mất kết nối mãi và mọi danh sách về 0.
+- **Brain đặt trên Google Drive, OneDrive đỡ làm đứng máy chủ:** phần quét thư mục đầu và cuối mỗi lượt chat chạy riêng, không chặn kết nối nữa.
+
+## [0.495.0] - 2026-11-07
+### Thêm mới
+- **Gợi ý câu tiếp theo ngay trong ô chat.** Aivon trả lời xong, ô nhập trống hiện mờ câu anh nhiều khả năng sẽ gõ tiếp (ví dụ "ok làm theo đề xuất cho cả 2 PR đi"). Bấm **Tab** để điền vào, sửa thêm hoặc Enter gửi luôn; trên điện thoại bấm nút **Tab** cạnh ô nhập.
+- Có cả ở chat chính lẫn trang Nhóm. Gợi ý chạy bằng model việc nền, không tốn bộ não chính. Tắt hoặc bật lại ở menu **+** của khung chat, mục "Gợi ý câu tiếp theo".
+
+## [0.494.0] - 2026-11-07
+### Thêm mới
+- **Mỗi cộng sự có thể chọn giọng ChatGPT Live riêng.** Trong trình sửa trợ lý, chọn một trong các giọng mà Codex realtime v3 hỗ trợ. Để Mặc định thì dùng giọng chung ở trang Cài đặt. Giọng được lưu trong file cộng sự và đi cùng Brain Sync.
+- **Không ảnh hưởng cuộc gọi khác.** Giọng được chọn theo phiên cộng sự; cuộc gọi Aivon Core và Live API khác tiếp tục theo cài đặt hiện tại.
+
+## [0.493.2] - 2026-11-07
+### Sửa lỗi
+- **Gọi thoại với cộng sự không còn tự nhận là ChatGPT.** Danh tính của cộng sự giờ đứng đầu lời dặn của cuộc gọi, nên hỏi "bạn là ai" (cả bằng tiếng Anh) là cộng sự trả lời đúng tên mình.
+- **Cuộc gọi với cộng sự không còn kéo theo bộ nhớ chung của brain chính,** chỉ dùng hướng dẫn và trí nhớ riêng của cộng sự đó, nên không lạc sang chuyện không thuộc vai của nó.
+
+## [0.493.1] - 2026-11-07
+### Sửa lỗi
+- **Agent trong quy trình chưa chọn model riêng giờ chạy bằng model chính.** Trước đây bước đó luôn chạy bằng Claude, dù trang Models đang chọn não khác. Agent đã chọn model riêng vẫn giữ nguyên lựa chọn đó.
+
+## [0.493.0] - 2026-11-07
+### Thêm mới
+- **Cuộc trò chuyện chưa đọc có chấm đỏ.** Aivon trả lời xong mà chưa mở xem thì hàng đó trong lịch sử trò chuyện hiện chấm đỏ và tiêu đề in đậm hơn, ở cả trang Trò chuyện lẫn cột lịch sử của trang Cộng sự.
+- **Mở cuộc nào là hết chấm cuộc đó.** Đang xem đúng cuộc nào thì tin mới về cũng không hiện chấm, và đã đọc ở tab này thì tab khác cũng tự tắt chấm.
+- **Số tin chưa đọc ở danh sách Nhóm và Cộng sự đổi sang màu đỏ.** Nhóm hoặc cộng sự đã tắt thông báo vẫn giữ màu xám.
+- Cuộc trò chuyện cũ có từ trước bản này tính là đã đọc, nên lịch sử không sáng đỏ cùng lúc.
+
+## [0.492.1] - 2026-11-07
+### Cải thiện
+- **Trang Chatbot mở nhanh hơn hẳn khi hòm thư đã nhiều tin.** Các con số "tin hôm nay" ở Hội thoại và trên thẻ bot trước đây phải đọc lại toàn bộ tin nhắn mỗi 5 giây, nay chỉ đọc đúng khoảng thời gian cần.
+- **Tab Thống kê tính nhanh hơn và nhớ kết quả.** Kỳ trước để so sánh được giữ 10 phút, chuyển tab qua lại không phải tính lại từ đầu.
+- **Hội thoại tải danh sách cùng lúc với danh sách kênh**, không còn đợi xong cái này mới hỏi cái kia. Lúc trang đang tính, các trang khác của Aivon không bị đứng theo.
+
+## [0.492.0] - 2026-11-07
+### Thêm mới
+- **Tắt lịch tự động trên riêng một máy.** Dùng Aivon trên nhiều máy chung một brain thì trước đây mỗi lịch chạy một lần trên mỗi máy đang bật. Nay ở mục Lặp lại của trang Nhiệm vụ có nút tắt lịch cho máy đang dùng, các máy khác vẫn chạy bình thường.
+
+## [0.491.0] - 2026-11-06
+### Sửa lỗi
+- **Đẩy code lên GitHub hỏng một lần không còn kẹt luôn.** Trước đây sau một lần đẩy lỗi, các lượt chat sau coi như "không có gì đổi" nên không bao giờ đẩy lại, kể cả khi đã đăng nhập GitHub lại. Giờ Aivon tự đẩy lại ở lượt chat kế tiếp, định kỳ vài phút một lần, và ngay khi GitHub được kết nối lại, rồi mở PR, chờ CI và tự merge như thường.
+- **Lỗi đẩy nói bằng lời dễ hiểu.** Thay cho câu git `could not read Username`, Aivon nói rõ là thiếu đăng nhập hay thiếu quyền ghi vào repo, và cần làm gì ở trang Kết nối.
+### Thêm mới
+- **Nút Đẩy lại** trong bảng GitHub của cuộc chat, cho lần đẩy đang chờ thử lại.
+### Cải thiện
+- **Model biết trạng thái thật của repo** (đã lên GitHub chưa, PR, CI, lý do kẹt), nên không còn trả lời "em không được đẩy" hay đề nghị sửa code chỉ để kích hoạt việc đẩy.
+
+## [0.490.1] - 2026-11-06
+### Cải thiện
+- **Hộp "Repo đã tải về brain này" mang dáng trang Nhiệm vụ.** Mỗi repo là một thẻ gọn: tên repo, số cuộc trò chuyện và trạng thái tự merge, công tắc gạt để bật tắt tự merge.
+- **Lệnh kiểm tra, Số đo, Gỡ khỏi brain gom vào nút ⋯.** Bấm là mở menu như trang Nhiệm vụ, trên điện thoại trượt lên từ dưới, nút Gỡ tô đỏ cho khỏi bấm nhầm.
+
+## [0.490.0] - 2026-11-06
+### Thêm mới
+- **Mã QR cho từng link chia sẻ.** Bấm icon QR trên mỗi hàng ở trang Link chia sẻ để hiện mã, quét bằng điện thoại là mở đúng link. Có nút tải ảnh PNG để in hoặc gửi đi.
+
+## [0.489.1] - 2026-11-06
+### Sửa lỗi
+- **Bấm Merge rồi đóng bảng, PR vẫn được merge.** Trước đây đóng bảng chi tiết GitHub (hay đóng tab) ngay sau khi bấm Merge là lệnh merge bị huỷ giữa chừng. Giờ Aivon merge tiếp ở nền và báo kết quả vào khung chat.
+- Mở lại bảng khi đang merge sẽ thấy "Đang merge...", không hiện nút Merge lần nữa nên không merge trùng.
+
+## [0.489.0] - 2026-11-06
+### Cải thiện
+- **Ghi âm thành chữ lại hiện chữ ngay trong ô chat** khi đang nói trên máy tính, như bản cũ, không còn bong bóng mờ phía trên. Điện thoại vẫn hiện chữ khi ghi xong.
+- **Nói xong là câu được viết lại cho đúng ngữ cảnh.** Bấm dừng, Enter hay Gửi thì một mô hình đọc vài tin nhắn gần nhất rồi viết lại cả câu, sửa mọi chỗ máy nghe nhầm, không chỉ vài từ như "Travis OS" thành "AIVON". Gửi ngay thì câu đã viết lại mới là câu được gửi.
+- **Đi đường nhanh trước.** Mô hình chính là API key thì dùng chính nó. Mô hình chính là Claude Code hay Codex thì dùng khoá API có sẵn trên máy (Groq trước), chỉ khi không có khoá nào mới gọi CLI, nên thường chỉ chờ khoảng một giây.
+- Lỗi mạng hay mô hình chậm quá 25 giây thì giữ câu nghe được, không mất chữ. Tai Groq hay OpenAI giờ luôn giữ tên Aivon trong từ mồi dù có nhiều kết nối.
+
+## [0.488.0] - 2026-11-06
+### Thêm mới
+- **Đổi được đường dẫn của link chia sẻ.** Bấm bút chì để sửa cả tên lẫn phần sau `/s/`, ví dụ `/s/vibecode-aivon`. Link mã ngẫu nhiên đã gửi đi vẫn mở được.
+- **Đếm lượt xem từng link.** Mỗi hàng hiện số lượt xem, số người, 7 ngày gần nhất, lần xem cuối và biểu đồ 14 ngày. Bot xem trước link và chính chủ khi đang đăng nhập không bị tính.
+### Cải thiện
+- **Trang Link chia sẻ gọn và dễ dùng hơn.** Nút thành icon như trang Nhiệm vụ, có lọc (File, Hội thoại, Chưa ai xem) và sắp xếp (Mới tạo, Xem nhiều, Xem gần đây), thu hồi thì hỏi lại trước.
+### Sửa lỗi
+- **Nút ở trang 2 trở đi của danh sách link bấm lại được.** Trước đây chỉ trang đầu bấm ăn.
+
+## [0.487.3] - 2026-11-06
+### Sửa lỗi
+- **Gõ xong bấm Enter rồi vuốt sang app khác trên điện thoại, câu hỏi không còn biến mất.** Trước đây điện thoại có lúc để kết nối chết ngầm, câu hỏi không tới máy chủ nên quay lại thì cả đoạn mất sạch, Lịch sử cũng không có. Nay máy chủ xác nhận từng câu đã nhận, câu nào chưa được xác nhận thì Aivon tự gửi lại khi nối lại, và không bao giờ chạy trùng hai lần.
+
+## [0.487.2] - 2026-11-06
+### Sửa lỗi
+- **Biểu tượng GitHub trong danh sách chat không còn kẹt màu cam sau khi đã merge.** Khung chat có hai repo mà chỉ một repo có việc thì giờ hiện đúng màu "đã merge". Repo kia nếu chưa đụng tới thì không kéo trạng thái lệch đi nữa.
+- **Repo bị chặn ở bước kiểm tra trước khi đẩy giờ hiện màu đỏ "cần người xem"**, kèm lý do. Trước đây nó cứ nhấp nháy cam như đang làm, nhất là sau khi khởi động lại Aivon, trông như Aivon bỏ quên repo đó.
+
+## [0.487.1] - 2026-11-06
+### Sửa lỗi
+- **Aivon đẩy nhánh lên GitHub được ngay cả khi repo có bài kiểm tra dành cho máy Mac hay Windows.** Trước đây máy Linux cũng chạy thử bài cài đặt của Mac, bài đó treo rồi báo đỏ nên Aivon dừng đẩy, dù thay đổi chẳng liên quan. Giờ bài của hệ điều hành khác để CI trên GitHub chạy, rồi CI xanh là Aivon tự merge như thường.
+
+## [0.487.0] - 2026-11-06
+### Thêm mới
+- **Bong bóng chép lời sửa chữ ngay khi bạn đang nói (máy tính), ở chat chính, trang Nhóm và trang Chatbot.** Bong bóng mờ hiện chữ nghe được, rồi đổi sang bản đã sửa vài khoảnh khắc sau: Aivon dùng Groq nếu bạn đã gắn khoá, không thì dùng model nền. Dừng ghi là ô chat nhận đúng bản đã sửa. Server không trả lời thì chữ giữ nguyên như nghe được.
+### Sửa lỗi
+- **Aivon nghe đúng tên các sản phẩm AI hơn.** "Groq", "Grok", "Claude", "ChatGPT", "Gemini", "OpenRouter"... ra đúng chính tả, và nói "Groq" không còn bị đổi thành "Grok".
+- **"AIVON" giờ ra đúng "AIVON".**
+- **Chép lời trên Android không còn mất chữ.** Bản trước bỏ mất câu ngắn nói sau một câu dài (nói "tôi về rồi" rồi "tôi" thì mất chữ "tôi"). Giờ chữ được dựng lại từ toàn bộ những gì máy nghe, mà vẫn không lặp kiểu "tôi tôi bị".
+### Cải thiện
+- **Repo GitHub ở trang Nhóm có logo GitHub như ở phần Trò chuyện**, trên chip repo, trong menu "+" và trong bảng thông tin nhóm.
+
+## [0.486.5] - 2026-11-06
+### Sửa lỗi
+- **Menu trên iPhone không còn chồng chữ.** Ở cuối menu, nhóm "Hệ thống" từng đè lên ô chọn ngôn ngữ (thấy rõ trên Safari). Giờ mỗi thứ nằm một hàng riêng, menu dài thì cuộn xuống như thường.
+- **App thêm vào màn hình chính bớt cảnh "đơ".** Có lúc mở lên, iPhone đẩy lệch cả trang nên chạm đâu cũng trượt khỏi nút. Giờ Aivon tự kéo trang về đúng chỗ khi mở app, khi quay lại từ nền và ngay lúc bạn chạm.
+
+## [0.486.4] - 2026-11-06
+### Cải thiện
+- **Kiểm tra trước khi phát hành nhanh hơn thêm.** Bộ test lưu công thức được tách thành ba file, nên các máy kiểm tra cân bằng hơn.
+
+## [0.486.3] - 2026-11-06
+### Cải thiện
+- **Kiểm tra trước khi phát hành chạy nhanh hơn.** Test Python chia cho 4 máy thay vì 2, nên một lượt kiểm tra xong sớm hơn. Người dùng không thấy thay đổi nào khác.
+
+## [0.486.2] - 2026-11-06
+### Cải thiện
+- **Nút mic chép lời trên máy tính có lại bong bóng chữ mờ.** Lúc bạn nói, câu đang nhận ra hiện trong một bong bóng nháp mờ ở cuối khung chat, để biết Aivon đang nghe. Ô chat vẫn đứng yên, đến khi bấm dừng hoặc gửi thì cả đoạn chữ mới vào ô.
+- Điện thoại không có bong bóng này: trên Android, trình nhận giọng hay gửi lại cả câu mỗi lần nghe thêm chữ nên bong bóng bị lặp. Điện thoại vẫn chỉ nhận chữ khi bấm dừng.
+
+## [0.486.1] - 2026-11-06
+### Sửa lỗi
+- **Gọi giọng không còn kẹt ở ChatGPT Live khi gói ChatGPT hết lượt.** Trước đây cuộc gọi cứ mở lại đúng tài khoản đã cạn và báo lỗi "You've hit your usage limit" mãi, dù đã đổi model chính sang gói khác. Giờ tài khoản đó được cho nghỉ tới giờ mở lại, cuộc gọi tự chuyển ngay sang tài khoản ChatGPT thứ hai, hết nữa thì sang Live qua API key, rồi đường Cơ bản (trả lời bằng model chính).
+- **ChatGPT Live dùng được tài khoản ChatGPT thứ hai.** Trước đây gọi giọng chỉ chạy trên tài khoản 1.
+- **Đường Cơ bản không chọn lại ChatGPT đã hết lượt** làm bộ não trả lời nhanh: chờ tới giờ mở lại, lượt nói đi bộ não khác.
+- **Lỗi hết lượt chỉ hiện một lần**, kèm giờ mở lại đọc từ câu "try again at 8:42 AM" (đường chat cũng đọc được giờ này).
+
+## [0.486.0] - 2026-11-06
+### Thêm mới
+- **Tích việc có tiếng "tách, ting" nghe đã tai.** Việc ưu tiên có thêm chuỗi tiếng lấp lánh. Tích thói quen nghe tiếng lửa bùng lên, có tia lửa cam bay ra. Phá băng thì nghe tiếng băng nứt rồi chuông pha lê, mảnh băng xanh văng ra trước khi lửa cháy lại. Ngày sạch việc có đoạn nhạc mừng ngắn. Âm thanh tạo ngay trong trình duyệt, không tải file nào, tab ẩn thì im lặng.
+- **Nút bật/tắt âm thanh cạnh nút sáng/tối.** Loa có sóng là đang bật, loa gạch chéo là đang tắt. Chỉ bật hoặc tắt, không có chỉnh âm lượng. Bật lên nghe ngay một tiếng "ting". Trên điện thoại nút nằm ở chân menu, ngay trước nút sáng/tối.
+### Cải thiện
+- **Thanh trên cùng gọn hơn: bỏ nút Lịch sử và nút làm mới hội thoại.** Danh sách hội thoại vẫn ở trang Trò chuyện (mục đầu menu). Nút "+" hội thoại mới trên điện thoại vẫn chạy như cũ.
+- **Mỗi ngày chỉ 1 ngôi sao ưu tiên.** Chọn đúng một việc quan trọng nhất trong ngày. Bấm sao ở việc khác cùng ngày thì sao tự chuyển sang việc đó (có nút Hoàn tác), không còn bị chặn bằng câu "đã đủ".
+### Sửa lỗi
+- **Thói quen bị quá hạn có nút Bỏ qua và Xoá.** Trước đây một lần lỡ của thói quen (ví dụ "Chạy bộ 3 buổi / tuần") nằm trong ô Quá hạn mà không có nút nào. Giờ có Bỏ qua lần này và Xoá, như mọi việc lặp quá hạn khác.
+- **Nút + không còn che việc cuối danh sách.** Trang Nhiệm vụ chừa khoảng trống ở dưới cùng, nên các nút Dời, Xoá, sao của việc cuối luôn bấm được.
+
+## [0.485.1] - 2026-11-06
+### Sửa lỗi
+- **Nút + thêm việc trên điện thoại hạ xuống sát góc, không còn đè lên công tắc "Đang bật" của loop.** Cuối trang Nhiệm vụ có thêm khoảng trống, nên dòng cuối cùng luôn cuộn lên được phía trên nút.
+
+## [0.485.0] - 2026-11-06
+### Thêm mới
+- **Việc của tôi giờ được nhắc qua chuông thông báo (và Telegram, thông báo điện thoại).** Việc có giờ được nhắc đúng giờ. Việc lặp lại được nhắc vào mỗi ngày của nó, trừ ngày đã xong hoặc đã bỏ qua.
+- **Mỗi sáng 07:30 có một tin tóm tắt:** mọi việc và lịch hẹn hôm nay theo thứ tự giờ, kèm số việc còn quá hạn.
+### Sửa lỗi
+- **Lịch hẹn để trống ô nhắc giờ được nhắc trước 15 phút**, đúng như trang vẫn hiển thị. Trước đây lịch hẹn Aivon tạo từ chat không bao giờ được nhắc. Chọn "Không nhắc" thì vẫn không nhắc.
+
+## [0.484.2] - 2026-11-06
+### Sửa lỗi
+- **Review chéo khi Aivon làm việc trên GitHub không còn báo "không chạy được" mỗi lần.** Aivon từng chọn gói ChatGPT để review code do Claude viết, nhưng bước review chỉ cho chạy engine không có công cụ đọc ghi file, nên gói ChatGPT (cũng như Grok Build, Antigravity) luôn bị chặn. Giờ Aivon chỉ chọn Claude hoặc một nhà dùng API key khác họ, bỏ qua thẻ đang hết lượt, và một reviewer hỏng thì thử reviewer kế tiếp.
+- **Bỏ qua review thì nói rõ vì sao**, kèm lý do lỗi, và khi không có engine nào review được thì chat chỉ cách bật: thêm API key của một nhà khác họ (OpenAI, Gemini, DeepSeek, OpenRouter...).
+
+## [0.484.1] - 2026-11-06
+### Sửa lỗi
+- **Quay lại khung chat đang chạy không còn bong bóng rỗng.** Aivon đang làm mà bạn sang khung chat khác rồi quay lại, trước đây phía trên dòng tiến trình mọc ra một bong bóng trả lời trống. Giờ chỉ còn các bước đã chạy và dòng tiến trình, bong bóng hiện ra khi Aivon bắt đầu viết.
+
+## [0.484.0] - 2026-11-05
+### Thêm mới
+- **Khung chat bị chuyển model thì khung đó chuyển theo luôn.** Khi model đã chọn hết lượt và Aivon chuyển sang thẻ dự phòng, chip đổi sang tên model dự phòng với chấm cam, dấu tick trong bảng chọn, chip Effort, vòng hạn mức gói và lệnh `/model` cũng theo model đang chạy. Kéo thanh Effort lúc đó là chỉnh mức của chính model dự phòng. Rê chuột (hoặc giữ) vào chip để xem model đã chọn, hết lượt tới mấy giờ, và model đang chạy.
+- **Một dòng ngắn trong chat khi đổi đường**, ví dụ "Antigravity hết lượt → đang dùng Claude Code". Dòng chỉ hiện ở lượt đầu tiên đổi, không lặp lại mỗi câu. Khi model đã chọn có lượt lại, chat báo một dòng "đã quay về" và chip tự xanh lại.
+- **Bảng chọn model có nhãn "Hết lượt" và "Đang chạy"** cạnh tên từng nhà, để biết ngay nhà nào đang nghỉ và nhà nào đang làm thay.
+### Cải thiện
+- Lựa chọn model của bạn không bị đổi khi dự phòng: Aivon tự quay về model đã chọn khi nó hồi lượt, chọn tay một model thì Aivon thử model đó ngay. Chip cập nhật tại chỗ, không cần tải lại trang hay khởi động lại.
+
+## [0.483.0] - 2026-11-05
+### Thêm mới
+- **Cloudflare có sẵn trong Aivon, không phải cài từ Kho nữa.** Trang Kết nối, tab Sẵn có, có thẻ Cloudflare với hai cách: dán API token, hoặc bấm Kết nối rồi đăng nhập Cloudflare và tick quyền ngay trên trang của Cloudflare. Mặc định Chỉ đọc, công cụ `execute` vẫn ở nhóm nguy hiểm.
+- **Máy đã cài gói Cloudflare từ Kho vẫn chạy như cũ.** Kết nối đang có chuyển sang bản dựng sẵn, không báo lỗi trùng.
+
+## [0.482.1] - 2026-11-05
+### Sửa lỗi
+- **Mục Trò chuyện trên đầu thanh bên không còn hiện `page.chat.label`.** Ngay sau khi cập nhật, lúc máy chủ còn đang khởi động, từ điển về chậm và mục này giữ nguyên khoá thô. Giờ mọi mục trên thanh bên tự đổi chữ khi từ điển về.
+- **Ô chọn ngôn ngữ ở chân thanh bên trái hết dính vào hàng phiên bản.** Ô và hàng phiên bản giờ chung một đường kẻ, cách nhau đều, ô cao bằng nút thu/mở và chữ to hơn chút cho dễ đọc. Khi chỉ có một ngôn ngữ, ô trống không còn hiện ra.
+
+## [0.482.0] - 2026-11-05
+### Thêm mới
+- **OpenAI Compatible thêm được nhiều key.** Đây là đường API key nâng cao: mỗi key một địa chỉ (NVIDIA Build, Kimi, OpenRouter, LiteLLM...), Aivon tự lấy danh sách model của từng cổng, key đang dùng hết lượt thì tự sang key kế. Cổng nào không báo danh sách model thì mở thêm ô gõ tên model.
+### Sửa lỗi
+- **Thẻ Claude Compatible quay lại.** Bản 0.477.0 đổi tên nó thành "API key nâng cao" nên đường Claude Compatible biến mất. Giờ nó là thẻ riêng như cũ, vẫn thêm được nhiều key, key đã lưu giữ nguyên.
+
+## [0.481.9] - 2026-11-05
+### Sửa lỗi
+- **Đọc chữ trên Android không còn lặp kiểu "tôi tôi bị tôi bị học".** Một số máy Android gửi lại cả câu mỗi lần nghe thêm một chữ, Aivon từng ghép hết các bản nháp đó vào ô chat. Giờ chỉ giữ câu cuối cùng.
+### Cải thiện
+- **Nút mic chép lời giờ chạy như máy ghi âm**, ở chat chính, trang Nhóm và trang Hội thoại. Lúc nói, ô chat đứng yên. Bấm dừng hoặc gửi thì cả đoạn chữ hiện ra một lần.
+
+## [0.481.8] - 2026-11-05
+### Cải thiện
+- **Bấm vào một hội thoại cũ hiện ra nhanh hơn, máy đỡ khựng.** Các tin dựng lại từ lịch sử không còn chạy hiệu ứng trồi lên cùng một lúc, việc này từng chiếm phần lớn thời gian vẽ trên điện thoại. Tin mới tới vẫn có hiệu ứng như cũ.
+- **Mở hội thoại tải ít dữ liệu hơn.** Khung chat không còn tải phần chi tiết công cụ mà nó không hiển thị, có cuộc nhẹ đi tới 70%.
+- **Trang Team gửi yêu cầu tải tin ngay khi bấm,** không chờ vẽ xong cả trang rồi mới hỏi máy chủ.
+
+## [0.481.7] - 2026-11-05
+### Bảo mật
+- **Trang /health/loop giờ cần đăng nhập.** Trang này có thông tin lỗi và đường dẫn trên máy chủ. Riêng /health vẫn mở để kiểm tra máy còn sống.
+- **Token API loại "chat" chỉ vào được phần trò chuyện**, không còn tạo, sửa hay xoá chatbot được nữa.
+- **Khách gửi hai file trùng tên qua WhatsApp thì cả hai đều được giữ**, file sau không còn ghi đè file trước.
+- **Đọc web và theo dõi trang kết nối đúng vào địa chỉ đã kiểm**, nên một tên miền đổi DNS giữa chừng không dẫn được vào mạng nội bộ.
+
+## [0.481.6] - 2026-11-05
+### Bảo mật
+- **Gói khai "thay thế" gói khác không còn tự bật.** Chỉ bản phát hành của kho chính thức mới giữ trạng thái bật của gói cũ. Màn hình cài ghi rõ gói nào sẽ bị gỡ và nhận dữ liệu plugin.
+- **Trang chạy ở cổng localhost khác không gửi lệnh được vào Aivon.** Dev server hay app khác trên cùng máy không còn mở được terminal hay gọi API. Cửa đọc API cho mọi cổng localhost chỉ mở khi đặt `AIVON_DEV_CORS=1`.
+- **Link chia sẻ một ghi chú không còn mở ảnh trong inbox/, memory/ hay thư mục ẩn của brain.**
+- **Tool của kết nối MCP tự thêm có tên forward, share, trash, transfer... được tính là thao tác ghi**, nên không chạy ở mức Chỉ đọc.
+- **Chạy tay workflow Docker chỉ xuất bản image từ nhánh main.**
+
+## [0.481.5] - 2026-11-05
+### Sửa lỗi
+- **Đang bật mic ghi âm thành chữ, ấn Enter là gửi luôn.** Không cần ấn nút dừng trước: Aivon dừng ghi, chờ nốt chữ cuối rồi gửi. Áp dụng cho ô chat chính, ô trả lời khách ở trang Hội thoại và chat Nhóm.
+- Trên điện thoại Enter vẫn là xuống dòng như cũ, bấm nút gửi để gửi.
+
+## [0.481.4] - 2026-11-05
+### Cải thiện
+- **Bấm "Hội thoại mới" ở trang Cộng sự là khung chat trống ngay.** Trước đây phải chờ hai chuyến mạng nối nhau và cột phải dựng lại từ đầu; nay còn một chuyến, số lượt gọi máy chủ giảm từ 18 xuống 7.
+- **Chuyển giữa các hội thoại trong Lịch sử nhẹ hơn hẳn.** Danh sách chỉ đổi dòng đang chọn, không tải lại cả danh sách, tin chưa đọc, việc nền và hòm thư mỗi lần bấm (từ khoảng 14 lượt gọi xuống 5).
+
+## [0.481.3] - 2026-11-05
+### Bảo mật
+- **Chatbot và việc nền dưới mức Toàn quyền không còn ghi được chỗ chứa mã chạy.** Thư mục plugins/, Aivon/ (loop, script), .git, .claude và cấu hình engine chỉ chủ ở mức Toàn quyền mới ghi được. Chatbot trả lời khách thì không ghi được ở mọi mức.
+- **Việc hẹn giờ không vượt mức của người tạo.** Nhắc hẹn hay việc Kanban do một lượt chạy mức "auto" hoặc "suggest" tạo ra giờ chạy đúng mức đó, không còn mặc định Toàn quyền. Lượt dưới Toàn quyền cũng không sửa được việc đã lên lịch.
+- **File HTML, SVG, XML mở từ brain chạy trong hộp cách ly.** Giống link chia sẻ, script trong file đó không còn dùng được phiên đăng nhập của chủ. PDF và ảnh vẫn hiện như cũ.
+- **Thêm kết nối MCP cần Toàn quyền và chatbot khách không thấy tool này.**
+- **Đường miễn đăng nhập cho công cụ trên máy (/reminders) từ chối request từ trang web**, kể cả trang đổi tên miền về 127.0.0.1.
+- **Thư mục .grok/ (chứa mã hub) không còn vào git và bản sao lưu GitHub.** Brain đã lỡ commit thì được gỡ khỏi git ở lần sao lưu sau. Nếu bạn từng dùng Grok Build và có sao lưu, nên đổi mã hub: xoá file `.hub_token` trong thư mục dữ liệu Aivon rồi khởi động lại.
+
+## [0.481.2] - 2026-11-05
+### Cải thiện
+- **Mọi mục trong menu linh vật giờ đều có nút ✕**, kể cả sáu mục mặc định. Bỏ hẳn nút con mắt.
+- **Xóa hết sạch cũng được.** Menu trống thì bấm linh vật nó vẫn trượt ra nhưng không mở khung nào. Muốn lấy lại mục nào thì bấm "Thêm chức năng".
+
+## [0.481.1] - 2026-11-05
+### Cải thiện
+- **Mục tự thêm vào menu linh vật giờ có nút ✕ để xóa hẳn.** Sáu mục mặc định vẫn giữ nút con mắt để ẩn hiện, không xóa được, nên lúc nào cũng đưa menu về như cũ được.
+- **"Trợ lý" trong menu linh vật đổi thành "Cộng sự"**, đúng tên trang nó mở.
+
+## [0.481.0] - 2026-11-05
+### Thêm mới
+- **Skill hệ thống mới `security-audit`.** Aivon giờ có sẵn quy trình rà soát bảo mật của Cloudflare trong mọi brain: hỏi nhanh về bảo mật thì chỉ dùng phần liên quan, còn bảo "audit bảo mật repo này" thì chạy đủ 6 bước (dò kiến trúc, săn lỗi theo vùng, kiểm chứng độc lập từng lỗi, xuất báo cáo kèm cách sửa). Giấy phép MIT, ghi nguồn đầy đủ.
+
+## [0.480.1] - 2026-11-05
+### Sửa lỗi
+- **Gắn sao trước cho việc ngày mai được rồi.** Sao ưu tiên giờ tính theo ngày của chính việc đó: mỗi ngày tối đa 3 sao riêng, sao của hôm nay không còn chặn việc gắn sao cho ngày mai, và gắn sao việc ngày mai thì việc vẫn nằm ở ngày mai (trước đây bị kéo về hôm nay). Chỉ việc chưa có ngày hoặc đã quá hạn mới được đưa về hôm nay khi gắn sao.
+
+## [0.480.0] - 2026-11-05
+### Cải thiện
+- **Trò chuyện đứng riêng ở dòng đầu thanh bên**, luôn hiện sẵn, không phải mở nhóm Bộ não mới thấy.
+- **Đồ thị đổi tên thành Mạng nơ-ron**, kèm biểu tượng mạng nơ-ron mới vẽ riêng cho Aivon (ba lớp nút nối nhau). Nói "mở mạng nơ-ron" với Aivon cũng mở đúng trang này.
+- **Tự học có biểu tượng riêng** (bộ não có bánh răng), không còn trùng hình với nhóm Bộ não.
+
+## [0.479.0] - 2026-11-05
+### Cải thiện
+- **Ẩn bớt mục trên menu linh vật.** Mỗi hàng trong Cài đặt > Linh vật > Menu linh vật có nút con mắt: bấm để ẩn, bấm lại để hiện. Mục bị ẩn vẫn nằm đúng chỗ trong danh sách, chỉ không hiện trên menu. Luôn giữ ít nhất một mục hiện.
+- **Kéo lên kéo xuống để sắp xếp, bỏ hai nút mũi tên.** Máy tính nắm tay cầm để kéo. Điện thoại nhấn giữ vào hàng khoảng nửa giây rồi kéo, còn vuốt nhanh vẫn là cuộn trang.
+
+## [0.478.0] - 2026-11-05
+### Sửa lỗi
+- **Việc nền chạy bằng API key không còn dừng ở vòng 30.** Task, loop, workflow, team dùng OpenRouter, OpenAI, Anthropic API, Gemini, Groq, DeepSeek hay Ollama giờ có 500 vòng công cụ mỗi lượt như khung chat, nên điền cả trăm dòng Google Sheet hay dựng video chạy được tới hết thay vì báo "đã chạy hết 30 vòng" rồi bỏ dở.
+### Thêm mới
+- **Việc nền Toàn quyền chạy bằng API key có terminal thật.** Task, nhắc hẹn hay workflow ở mức Toàn quyền giờ chạy được lệnh máy trong brain (ffmpeg, python, script dựng video...) và vẫn tìm, đọc được web, đúng như khi chạy bằng Claude Code. Việc chạy lâu thì để chạy nền, xong Aivon báo về khung chat đã giao việc hoặc Aivon Core. Mức Tự động, Gợi ý và loop bị cô lập vẫn không có lệnh máy.
+### Cải thiện
+- Trần vòng việc của bạn lên 500 (trước là 150 ở khung chat, 30 ở việc nền), đặt `AIVON_MAX_TOOL_ROUNDS_CODING=0` là không giới hạn. Bot nói chuyện với khách vẫn giữ 30.
+- Phanh chống kẹt thông minh hơn: chờ một việc đang chạy (hỏi tiến độ dựng video) không còn bị cắt ở lần thứ 5 khi kết quả vẫn đổi, còn model xoay vòng A-B-A-B mà không tiến triển thì bị dừng sớm.
+- Lượt dài không còn tràn ngữ cảnh của model: kết quả công cụ cũ được rút gọn khi vượt ngân sách, kết quả mới nhất giữ nguyên. Chỉnh bằng `AIVON_TOOL_LOOP_BUDGET_CHARS`.
+
+## [0.477.0] - 2026-11-05
+### Thêm mới
+- **Trang Model làm mới theo kiểu trang Nhiệm vụ.** Mỗi thẻ có logo thật của nhà cung cấp, hàng nút có icon (Dùng cho việc nền, Kiểm tra, Thêm tài khoản hay key, Ngắt) và nút ⋯ mở bảng kéo từ dưới lên với đủ thao tác. Thẻ chạy việc nền mang nhãn VIỆC NỀN.
+- **API key nâng cao.** Cắm nhiều key của các nhà bán khác nhau (Kimi, MiniMax, bên bán lại Claude...), mỗi key một địa chỉ. Key đang dùng hết lượt thì Aivon tự sang key kế.
+- **Antigravity có nút Ngắt, và thêm được tài khoản Google** trên máy Linux hoặc VPS để xoay vòng khi một tài khoản hết lượt.
+### Sửa lỗi
+- **Gói Google hết lượt thì chat chuyển sang thẻ khác thật.** Trước đây Aivon không đánh dấu Antigravity hết lượt, nên cứ chạy lại nó và báo "chưa có bộ não nào khác" dù ChatGPT đang đăng nhập.
+- **Chọn ChatGPT là ChatGPT chạy.** Một dấu "hết lượt" cũ không còn kéo chat về Google: chọn thẻ nào thì thẻ đó được thử, và thẻ đang tạm nghỉ hiện rõ tới mấy giờ kèm nút Dùng lại ngay.
+### Cải thiện
+- **Không còn menu xổ xuống.** Chọn model, độ sâu suy nghĩ (giữ nguyên thanh trượt, có nút tia sét), menu từng key, form thêm và câu hỏi trước khi Ngắt đều là bảng kéo lên. Gói Claude ghi đúng tên Pro và Ultra.
+
+## [0.476.1] - 2026-11-05
+### Sửa lỗi
+- **Mở file PDF trên iPhone, iPad không còn bị kẹt.** Trước đây bấm link PDF trong chat ở app cài ra màn hình chính thì PDF đè lên cả Aivon, không có nút quay lại, không có nút tải về, phải tắt app mở lại. Giờ PDF mở trong khung xem ngay trong Aivon: có nút đóng, vuốt hay bấm quay lại cũng đóng được, và nút Tải về mở bảng chia sẻ để lưu vào Tệp hoặc gửi đi.
+- **Chữ in đậm trong link hiện đúng.** Link kiểu `[**Tải file**](...)` không còn lộ hai dấu sao.
+
+## [0.476.0] - 2026-11-05
+### Cải thiện
+- **Giao diện sáng giờ là mặc định của Aivon.** Máy chưa từng chọn tông sẽ mở ra nền sáng cả ngày lẫn đêm, không còn tự chuyển sang nền tối sau 18:00.
+- Ai đã tự chọn Tối hoặc Tự động theo giờ thì vẫn giữ nguyên lựa chọn đó. Đổi lại lúc nào cũng được bằng nút mặt trời trên thanh trên cùng hoặc trong Cài đặt.
+
+## [0.475.0] - 2026-11-05
+### Cải thiện
+- **Chuyển qua lại giữa các cuộc chat hiện ngay.** Cuộc đã mở gần đây vẽ lại tức thì rồi tự cập nhật ngầm; rê chuột hay chạm vào một cuộc trong danh sách là nó bắt đầu tải trước khi bấm. Dựng một cuộc chat (kể cả lúc F5) cũng nhanh hơn nhiều lần vì không còn cuộn theo từng tin. Ở trang Cộng sự, bấm một trợ lý mở luôn cuộc gần nhất thay vì chờ hai lượt hỏi máy chủ nối đuôi.
+- **Trang Nhiệm vụ và trang Nhóm quay lại là thấy ngay** nội dung lần trước, không còn màn "Đang tải" trống. Nhóm đã mở gần đây cũng hiện tin ngay khi chuyển qua lại.
+- **Hết cảnh lúc nhanh lúc chậm 1-2 giây khi Aivon đang bận.** Đọc lịch sử chat không còn xếp hàng sau các lượt ghi, các lượt đọc nặng của trang Nhiệm vụ không còn chặn máy chủ, và mở một nhóm không phải tính lại thống kê mỗi lần.
+- Code của từng trang tải song song và ưu tiên Nhiệm vụ, Nhóm; rê chuột vào mục menu là trang đó bắt đầu tải.
+
+## [0.474.0] - 2026-11-05
+### Thêm mới
+- **Menu linh vật tự sắp xếp được.** Vào Cài đặt, tab Linh vật, thẻ Menu linh vật: bấm "Thêm chức năng" để đưa các trang khác của Aivon (Nhiệm vụ, Tệp tin, Kết nối, Models...) vào menu, rồi kéo thả hoặc bấm mũi tên để đổi thứ tự.
+- Bấm **Lưu thay đổi** là menu dùng ngay ở lần mở sau, không cần khởi động lại, và giữ nguyên sau khi tải lại trang. Rời trang khi chưa lưu thì Aivon hỏi lại trước.
+- Chưa từng chỉnh thì menu vẫn là sáu mục như cũ. Mục nào tạm chưa dùng được (ví dụ trình duyệt chặn mic) vẫn nằm đúng chỗ, mờ đi và ghi rõ lý do.
+
+## [0.473.0] - 2026-11-05
+### Thêm mới
+- **Aivon sửa được mọi thứ trong Việc của tôi ngay từ chat:** đổi việc lặp thành lịch hẹn (và ngược lại), đổi ngày giờ, giờ kết thúc, lặp, địa điểm, nhắc trước, tag, ghi chú, bật tắt thói quen, gắn sao, xoá và bỏ qua một lần.
+- **Lịch hẹn có icon thao tác như việc:** Dời và Xoá, lịch hẹn lặp có thêm Bỏ qua lần này (Dời và Bỏ qua chỉ đụng lần đó). Sự kiện từ Google Calendar có icon mở trong lịch.
+
+## [0.472.0] - 2026-11-05
+### Cải thiện
+- **Aivon Core giờ chỉnh y hệt các agent khác.** Ở trang Cộng sự, bấm Aivon Core là mở đúng khung cài đặt quen thuộc: đổi ảnh, tên, vai trò, hướng dẫn, gắn tài liệu, chọn skill và model. Hướng dẫn ban đầu là system prompt gốc của Aivon Core.
+- **Auto của Aivon Core luôn bật, không tắt được**, và nó vẫn là trợ lý hệ thống không xoá được. Thẻ đổi tên riêng của bản trước được bỏ, tên mới lưu ngay trong khung cài đặt hoặc khi bạn nói trong chat.
+
+## [0.471.1] - 2026-11-05
+### Sửa lỗi
+- **Codex không còn đếm trùng token.** Codex có lúc báo số dùng lặp lại cho cùng một request, Aivon từng cộng cả lần lặp nên số token của lượt bị thổi lên. Nay chỉ tính phần tăng thật. Ý tưởng và bản đầu của kubintran (#999).
+- **Xoay mạch Codex nhìn đúng độ dài mạch.** Trước đây Aivon lấy tổng token của cả lượt, nên một lượt chạy nhiều vòng tool trông như mạch rất dài. Nay lấy input của request cuối mà Codex đo được; không đo được thì dùng số cũ như trước. Xoay mạch vẫn bật như cũ.
+### Cải thiện
+- **Kết quả JSON lớn từ `aivon_run_tool` lấy được từng phần.** Model chỉ định đường dẫn, trường và trang cần lấy, đỡ tốn ngữ cảnh. Tool vẫn chạy đúng một lần qua gateway; có lỗi hay dữ liệu lạ thì trả nguyên kết quả gốc.
+
+## [0.471.0] - 2026-11-05
+### Thêm mới
+- **Ô trả lời khách ở trang Chatbot có nút micro chép lời.** Bấm micro rồi nói, chữ hiện thẳng vào ô. Bấm lại để dừng, sửa chữ nếu cần rồi bấm Gửi, hoặc bấm A.I. soạn để chữ vừa nói thành lệnh cho A.I. Không có gì tự gửi đi. Bấm Gửi lúc đang nghe thì Aivon dừng nghe rồi gửi luôn.
+
+## [0.470.1] - 2026-11-05
+### Sửa lỗi
+- **Gọi thoại với cộng sự nay đúng là cộng sự đó.** Trước đây bấm gọi trong khung chat của một cộng sự thì giọng nói vẫn là Aivon chung, không biết tên, vai hay hướng dẫn của cộng sự, hỏi "em là ai" còn đáp "em là ChatGPT". Nay cuộc gọi mang tên, vai, file hướng dẫn và bộ nhớ của cộng sự.
+- **Việc giao trong cuộc gọi do chính cộng sự làm.** Câu cần tra dữ liệu hay hành động chạy bằng prompt và model của cộng sự, kết quả về đúng khung chat của cộng sự.
+- **Chat gõ chữ với cộng sự cũng biết mình là ai.** Cộng sự hiểu mình là cộng sự trong Aivon của chủ, không tự nhận là ChatGPT hay Claude, chỉ nói tên model khi được hỏi rõ.
+
+## [0.470.0] - 2026-11-05
+### Thêm mới
+- **Đặt tên riêng cho Aivon Core.** Bấm bút chì cạnh tên trên thẻ Aivon Core ở trang Cộng sự, hoặc nói trong chat ("từ giờ tên em là Mây"). Mỗi brain một tên, để trống là về lại Aivon Core.
+- **Aivon Core tự xin tên ở lần chat đầu** và nhớ phong cách nói chuyện bạn thích, chỉ hỏi một lần.
+### Sửa lỗi
+- **Chip model trong chat Aivon Core không còn báo ghim giả.** Chat Aivon Core chưa ghim mà gửi một tin là chip hiện dấu ghim, trông như đã ghim nhưng thật ra vẫn theo model chính, nên đổi model ở khung chat chính thì Aivon Core đổi theo. Giờ chip nói đúng: chưa ghim là theo model chính, chọn một model ở đây mới là ghim riêng.
+
+## [0.469.0] - 2026-11-05
+### Cải thiện
+- **Một bot trực được tới 100 Fanpage.** Messenger và Instagram nhận tin qua webhook nên mỗi Trang gần như không tốn gì thêm. Shop nhiều Fanpage giờ dùng một bot, dạy một lần. Các kênh khác (Zalo, Telegram...) vẫn tối đa 20 tài khoản mỗi bot.
+### Sửa lỗi
+- **Chọn quá giới hạn không còn mất Trang âm thầm.** Trước đây tích hơn 20 tài khoản thì bot chỉ giữ 20, số còn lại bị bỏ mà không báo. Giờ Aivon từ chối và nói rõ kênh nào đang quá, bot giữ nguyên như cũ.
+
+## [0.468.2] - 2026-11-05
+### Sửa lỗi
+- **Cài lại trợ lý từ Kho nay hiện lại ở trang Cộng sự.** Trước đây đổi tên hay sửa trợ lý của gói, gỡ rồi cài lại thì Aivon lặng lẽ bỏ qua. Nay bản của bạn giữ nguyên, bản của gói được cài thêm dưới tên mới (ví dụ `aivon-vu-2`) và màn hình nói rõ tên đó.
+- **Xoá trợ lý, quy trình, kỹ năng của gói trong app thì Kho thôi báo "Đã cài".** Thẻ hiện lại nút Cài để lấy lại.
+- **Gỡ gói dọn sạch kỹ năng:** kể cả kỹ năng đang tắt và bản sao cho Claude Code, nên kỹ năng đã gỡ không còn được nạp ngầm.
+- **Brain còn dùng thư mục cũ `Aivon/agents`** cài trợ lý từ Kho không còn làm mất các trợ lý đang có.
+
+## [0.468.1] - 2026-11-05
+### Sửa lỗi
+- **Lịch nền chạy bằng ChatGPT (Codex) giao được việc cho Nhóm.** Trước đây một nhắc hẹn hay việc Kanban có bộ não nền là Codex gọi `aivon_team` mà không mang danh tính lượt, nên bị chặn với câu "lượt không có danh tính" và nhóm không bao giờ dậy làm việc. Giờ lượt nền mang khoá lượt tới hub như lúc chat, nên nhóm nhận việc đúng giờ.
+
+## [0.468.0] - 2026-11-05
+### Thêm mới
+- **Lượt chat chạy lâu xong thì rung chuông và báo lên điện thoại.** Lượt từ 3 phút trở lên, hoặc lượt Aivon tự làm tiếp sau việc nền, để câu trả lời vào hòm thư và đẩy thông báo. Máy đang mở Aivon ngay trước mặt thì không hiện thông báo. Đổi mốc bằng `AIVON_LONG_TURN_NOTIFY_S` (0 là tắt).
+### Sửa lỗi
+- **Lệnh dài chạy ngầm (render, dựng video) giờ tự báo về khi xong, với mọi bộ não.** Trước đây Aivon không thấy lệnh ngầm của Claude Code, và có thể sót lệnh ngầm của Codex, Grok, Antigravity, nên không báo gì và lời dặn "xong thì làm tiếp" bị bỏ. Giờ mọi lệnh ngầm của khung chat đều được theo dõi: xong là báo vào đúng khung chat, kèm file mới, rồi tự làm tiếp phần đã hẹn.
+- **Việc nền chạy quá 30 phút không còn bị dừng giữa chừng.** Hết giờ chờ thì lượt chat nhả ra, còn việc vẫn chạy tiếp và được theo dõi tới khi xong.
+
+## [0.467.0] - 2026-11-05
+### Thêm mới
+- **Dải "Nhịp hôm nay" trên mọi danh sách Việc của tôi:** 4 ô Ngày sạch, Ưu tiên, Hôm nay, Thói quen (bấm được), kèm câu của ngôi sao theo từng mục.
+- **Chuỗi Ngày sạch:** ngày nào mọi việc đều được làm, dời, bỏ qua hoặc xoá và xong ít nhất 1 việc thì thêm lửa. Sót việc thì đóng băng, sót 2 ngày liền mới mất chuỗi.
+- **Gắn sao tối đa 3 việc ưu tiên mỗi ngày.** Việc lặp có Bỏ qua lần này (nhảy sang lần sau, không tính lửa). Mọi việc có sẵn icon Dời và Xoá, bỏ nút "Dời tất cả".
+- **Phần thưởng khi xong việc:** dấu tích nảy, sao vàng cho việc ưu tiên, lời khen bất ngờ, màn ăn mừng Sạch bảng, Sạch quá hạn và mốc số việc. Trang trống thì Aivon gợi ý việc để thêm.
+### Cải thiện
+- **Danh sách gọn và thẳng hàng hơn:** mỗi việc một thẻ, chỉ việc ưu tiên và quá hạn in đậm, trên điện thoại giờ và hạn nằm chung hàng tag.
+
+## [0.466.0] - 2026-11-05
+### Thêm mới
+- **Tên gói ChatGPT và Grok tự cập nhật.** CLI của OpenAI chỉ gửi mã gói, và mã không khớp tên đang bán (mã "prolite" là gói 100 đô). Nay Aivon tra tên trong danh bạ tên gói đặt ở kho aivon-store, tải về 6 giờ một lần, chạy ngầm, không làm chậm trang nào. Nhà cung cấp đổi tên thì chỉ cần sửa danh bạ, mọi máy thấy tên mới mà không cần bản cập nhật. Claude vẫn ưu tiên tên lấy thẳng từ Anthropic; mã chưa có trong danh bạ thì Aivon viết gọn mã như trước.
+
+## [0.465.3] - 2026-11-04
+### Sửa lỗi
+- **Tên gói hiện đúng như nhà cung cấp đặt.** Anthropic đổi gói Max 20x thành Ultra ngày 30/10/2026 nhưng Aivon vẫn ghi "Max", vì trước giờ tên gói lấy từ một bảng điền tay. Nay thẻ Claude Code ở trang Models, vòng tròn hạn mức cạnh ô chat và câu báo hết lượt trên trang Việc đọc đúng tên mà máy chủ Anthropic trả về (Claude Code tự lưu tên này trong file cấu hình của nó, không đụng tới token). Nhà cung cấp đổi tên lần sau thì Aivon tự hiện tên mới, không cần ra bản cập nhật. Claude Code bản cũ chưa lưu tên thì Aivon chỉ làm gọn mã gói như trước.
+
+## [0.465.2] - 2026-11-04
+### Cải thiện
+- **Bấm sang một hội thoại là thấy ngay.** Hộp thư Chatbot không còn khựng khi chuyển giữa các cuộc chat dài. Cuộc đã mở trước đó hiện lại tức thì rồi chỉ tải phần tin mới; cuộc mới mở hiện dòng Đang tải ngay lúc bấm.
+- Mở một cuộc chat giờ chỉ cần một lần hỏi máy chủ thay vì hai, và danh sách bên trái chỉ vẽ lại đúng những dòng có thay đổi. Trên máy yếu, thời gian từ lúc bấm tới lúc khung chat phản hồi giảm từ khoảng nửa giây xuống dưới 0,05 giây.
+- Vẫn chỉ tải 40 tin gần nhất, kéo lên mới tải thêm tin cũ như trước.
+
+## [0.465.1] - 2026-11-04
+### Sửa lỗi
+- **Việc hẹn giờ tạo trong chat Cộng sự báo về đúng chat đó.** Trước đây nhắc hẹn và việc định kỳ giao từ chat với một trợ lý không biết mình đến từ đâu, nên cả kết quả lẫn lỗi đều rơi về Aivon Core. Giờ Aivon tự gắn khung chat đang hỏi.
+- **Tới giờ, việc chạy bằng đúng vai trợ lý đã nhận nó.** Việc đăng bài hẹn từ chat với trợ lý Đăng bài giờ dùng vai trò, quy trình, bộ nhớ và luật chủ dặn của trợ lý đó, không chạy như Aivon chung nữa. Trang Nhiệm vụ cũng xếp việc đó dưới tên trợ lý.
+- **Sự cố báo về nơi đã giao việc.** Việc nền hỏng thì Aivon Core vẫn xét và thử lại như cũ, nhưng tin "Sự cố cần bạn" giờ hiện ở khung chat đã giao việc. Việc không gắn khung chat nào thì vẫn về Aivon Core.
+- Việc đã tạo trước bản này vẫn chạy như cũ. Muốn có cách mới thì nhờ trợ lý tạo lại việc đó.
+
+## [0.465.0] - 2026-11-04
+### Cải thiện
+- **Số phiên bản giờ do máy tự đánh sau khi merge.** Mỗi bản sửa chỉ ghi nhật ký vào một file riêng, nên làm nhiều bản sửa cùng lúc không còn giành số của nhau và không phải đánh số lại.
+- Mỗi lần merge vẫn ra một số phiên bản mới như cũ, kèm nhật ký tiếng Việt và tiếng Anh, rồi bản cập nhật được phát hành ngay sau đó.
+
+## [0.463.0] - 2026-11-04
+### Thêm mới
+- **Việc của tôi đổi Dự án thành Tags.** Một việc gắn được nhiều tag, hiện thành nhãn màu ngay dưới tên việc với nút **+ Tags**. Bấm vào một tag ở cột bên để xem mọi việc gắn tag đó. Dự án cũ tự thành tag, không mất gì.
+- **Việc con cho từng việc của anh.** Mở một việc là thấy danh sách việc con kèm thanh tiến độ: tích vòng tròn, sửa tên ngay tại chỗ, xoá bằng dấu x. Việc con xong thì gạch ngang và tự chìm xuống cuối. Ngoài danh sách, việc nào có việc con hiện số `1/3`, bấm vào là xổ ra tích luôn. Việc lặp lại thì mỗi lần mới bắt đầu với việc con chưa tích. Việc của Aivon vẫn giữ phẳng như cũ.
+- **Sắp xếp thứ tự Tags.** Kéo thả tag ở cột bên trên máy tính, hoặc chọn **Chuyển lên trên / xuống dưới** trong menu của tag trên điện thoại.
+- **Ghi chú gắn được link, note và file.** Dán link web hoặc gõ `[[tên note]]`, bên dưới hiện nút bấm mở thẳng. **Nối note** tìm note, file trong brain để chèn. **Tải file lên** (hoặc dán, kéo file vào ô ghi chú như khung chat) lưu file vào thư mục `task-files` của brain, giữ lâu dài.
+
+## [0.461.0] - 2026-11-04
+### Cải thiện
+- **Thẻ Aivon Core ở trang Cộng sự giờ nói rõ đang chạy model nào.** Chưa ghim thì ghi "Theo model chính" kèm tên model đó, nên không còn trông như Aivon Core không có model.
+- **Chọn model cho Aivon Core ngay trên thẻ đó.** Chọn một model là ghim cho mọi chat của Aivon Core, đúng cái ghim mà thanh model trong chat Core vẫn dùng: đổi ở đâu thì chỗ kia cũng thấy ngay.
+- **Gỡ ghim một chạm** bằng nút "Theo model của khung chat chính". Ghim tạm không chạy được (mất key, hết hạn mức) thì thẻ nói thẳng model nào đang chạy thay.
+
+## [0.459.0] - 2026-11-04
+### Thêm mới
+- **Kênh API nội bộ cho Chatbot (thử nghiệm).** Một máy chủ của bạn, ví dụ web nội bộ cho nhân viên, hỏi một Chatbot qua HTTP rồi hiện câu trả lời ngay trong web đó. Thêm ở trang Chatbot, tab Kênh, chọn **API nội bộ**: Aivon tự sinh khoá và chỉ hiện một lần, có nút xoay khoá.
+- **Rào sẵn trong mã.** Bot trên kênh này chỉ chạy ở Chỉ đọc hoặc Đọc tài liệu, chỉ thấy brain của nó, không gửi tin ra ngoài. Mặc định chỉ chính máy chạy Aivon gọi được; máy khác phải được thêm vào danh sách cho phép.
+- Tài liệu riêng cho kênh này đặt trong `rieng-theo-nhom/api-<tên>/` hoặc ghi `chat_scope: api:<tên>`, tách hẳn khỏi tài liệu riêng của nhóm Zalo, Telegram. Cảm ơn @nuskmonkey-cmyk (#987).
+
+## [0.455.0] - 2026-11-04
+### Sửa lỗi
+- **Câu trả lời cho tin nhồi thêm giờ hiện ngay dưới tin đó.** Trước đây, khi anh gửi thêm một tin lúc Aivon đang làm và Aivon đã đọc tin ấy, câu trả lời vẫn nằm ở bong bóng phía trên, nhìn như yêu cầu mới chưa được làm. Giờ bong bóng trả lời và khối các bước tự dời xuống dưới tin anh vừa gửi, đúng thứ tự như khi tải lại trang.
+
+## [0.454.0] - 2026-11-04
+### Thêm mới
+- **Kéo thả sắp xếp project, đoạn chat đã ghim và tag.** Cùng một hộp Sắp xếp như bảng chọn Brain: kéo tay cầm hoặc bấm mũi tên lên xuống, bấm Xong. Thứ tự lưu trên máy chủ nên điện thoại và máy tính thấy giống nhau.
+- **Project:** mở menu Project, chọn **Sắp xếp project**. Thứ tự anh kéo đứng trước; project chưa từng sắp vẫn để mục ghim lên đầu như cũ.
+- **Đoạn chat đã ghim:** bấm nút mũi tên ở đầu nhóm **Đã ghim**. Chat chưa ghim vẫn tự xếp theo thời gian; muốn giữ chỗ cố định cho một cuộc thì ghim rồi kéo.
+- **Tag:** cuối menu lọc tag ở trang Cộng sự và trang Nhóm có thêm **Sắp xếp tag**, mỗi trang giữ thứ tự riêng.
+
+## [0.453.0] - 2026-11-04
+### Sửa lỗi
+- **Claude Code chờ việc chạy nền xong rồi làm tiếp.** Trước đây, lượt nào Claude Code bật lệnh chạy nền hay tác tử phụ thì kết thúc ngay ở câu trả lời đầu, kết quả không bao giờ quay về (người dùng trên Windows Server báo ở #898). Giờ lượt mở tới khi việc nền xong, Claude Code đọc kết quả và trả lời tiếp ngay trong khung chat. Chờ tối đa 30 phút, đổi bằng `AIVON_CLAUDE_BG_WAIT`.
+- **Antigravity hết báo nhầm "không đọc được file ngữ cảnh".** `agy` bản mới thật ra đã đọc trọn file, nhưng Aivon không nhận ra kiểu báo cáo của nó. Antigravity cũng gửi prompt qua stdin trở lại thay vì đi đường vòng qua file. Cảm ơn @nxbgda1-ship-it (#983).
+
+## [0.452.0] - 2026-11-04
+### Thêm mới
+- **Nhóm tự vận hành trọn vòng từ khung chat.** Anh nhắn một yêu cầu làm việc là thành viên trả lời tự mở việc luôn, không phải bấm Giao việc hay Tạo việc. Trưởng nhóm lập kế hoạch, giao người, các thành viên làm và nhờ nhau, rồi kết quả quay về khung chat.
+- Việc nào cũng do trưởng nhóm điều phối, thành viên không giao thẳng cho nhau, nên kết quả cuối luôn có người gom và chịu trách nhiệm. Câu hỏi hay trò chuyện thì chỉ trả lời, không mở việc.
+- Mặc định mỗi nhóm tự mở tối đa 5 việc mỗi ngày, mỗi tin của anh chỉ mở một việc. Chỉnh ở **Giới hạn của team**, đặt 0 để quay lại cách cũ (chỉ đề xuất, anh bấm mới chạy).
+
+## [0.450.0] - 2026-11-04
+### Thêm mới
+- **Nút "Cài lên điện thoại" trong menu trên điện thoại.** Mở menu bên trái là thấy, bấm vào là hiện hướng dẫn cài Aivon ra màn hình chính đúng theo máy đang dùng (iPhone: Chia sẻ rồi Thêm vào MH chính; Android: một nút Cài). Đã cài, mở Aivon từ màn hình chính, thì nút không hiện nữa.
+### Cải thiện
+- Ai đã bấm "Đừng nhắc nữa" ở lời nhắc hằng ngày giờ vẫn mở lại được hướng dẫn bất cứ lúc nào qua nút này.
+
+## [0.449.0] - 2026-11-04
+### Thêm mới
+- **Nhóm đẩy được code lên GitHub.** Trong khung chat nhóm, bấm dấu cộng, chọn **Repo GitHub** và tích repo. Khi giao việc, thành viên sửa code trên nhánh riêng của nhóm; việc xong thì Aivon tự kiểm tra, commit, đẩy lên, mở PR và theo dõi CI, giống chat thường.
+- CI đỏ thì Aivon tự giao lại cho nhóm một việc sửa kèm log (tối đa 3 vòng). Tin báo GitHub hiện ngay trong khung chat nhóm, bấm chip repo để xem trạng thái PR.
+- **Lệnh `/skill` dùng được trong Nhóm.** Gõ `/` là hiện danh sách skill của brain. Thành viên nào trả lời hay làm việc đó đều đọc được nội dung skill, kể cả lượt trò chuyện không có công cụ.
+
+## [0.448.0] - 2026-11-04
+### Thêm mới
+- **Threads vào thẻ Kết nối Meta.** Bấm **Kết nối Threads**, dán Threads App ID và App secret, đăng nhập là xong. Bình luận dưới bài Threads của bạn vào Hộp thư ngay khi có, qua webhook (không phải hỏi định kỳ), và bot trả lời công khai ngay dưới bình luận.
+- Mỗi tài khoản Threads chọn được cách xử lý bình luận: tắt, chỉ hiện ở Hộp thư, hoặc bot tự trả lời. Nút **Kiểm tra** cho biết token còn hạn không và Threads đã gửi bình luận về chưa.
+- Aivon tự gia hạn token Threads (60 ngày) khi có bot đang trực, không phải đăng nhập lại.
+### Cải thiện
+- Bình luận Threads có ô vuông màu đen riêng trong Hộp thư. Menu "..." có Xem trang cá nhân (mở threads.net) và Xoá (ẩn bình luận dưới bài, vì Threads chỉ cho người viết xoá).
+
+## [0.447.0] - 2026-11-03
+### Thêm mới
+- **Instagram vào chung kết nối Meta.** Khi đăng nhập Facebook ở thẻ Kết nối Meta, tick **Nối cả Instagram của Trang**: tin nhắn và bình luận của tài khoản Instagram gắn với Fanpage vào chung Hộp thư, cùng bot với Trang. Trả lời công khai dưới bình luận và nhắn riêng cho người bình luận đều dùng được.
+- **Menu "..." của mỗi hội thoại có thêm Xem trang cá nhân, Chặn và Xoá hội thoại.** Fanpage: xem tên và ảnh, chặn người nhắn. Instagram: xem trang cá nhân có link mở thẳng. Zalo cá nhân: xem thông tin (cả số điện thoại nếu người đó công khai), chặn, xoá luôn trên Zalo.
+- Xoá một hội thoại bình luận sẽ xoá bình luận đó trên Facebook hoặc Instagram. Tin nhắn Messenger và Instagram chỉ xoá được trong Aivon, vì Meta không cho ứng dụng xoá tin nhắn.
+### Cải thiện
+- Hội thoại Instagram có icon Instagram, bình luận Instagram có ô vuông màu hồng, nhìn là phân biệt được với Facebook.
+
+## [0.446.0] - 2026-11-03
+### Thêm mới
+- **Nhắn riêng cho người bình luận.** Mở một bình luận Facebook trong Hộp thư, chọn **Nhắn riêng** phía trên ô trả lời: tin đi thẳng vào Messenger của người đó từ Fanpage, dù họ chưa từng nhắn cho Trang. Khách trả lời là thành cuộc chat Messenger bình thường trong Hộp thư. Meta cho nhắn riêng một lần mỗi bình luận, trong vòng 7 ngày.
+- **Gỡ kết nối Fanpage.** Mỗi Trang trong danh sách đã kết nối có nút **Gỡ kết nối**: Aivon gỡ Trang khỏi bot, báo Meta ngừng gửi tin của Trang này, hội thoại cũ vẫn giữ.
+### Cải thiện
+- **Thẻ "Facebook Messenger" đổi thành "Kết nối Meta"**, kèm icon Facebook, Messenger, Instagram, Threads (hai cái cuối sắp có). WhatsApp vẫn nối riêng như cũ vì nó dùng số điện thoại và token riêng.
+- **Bình luận có icon riêng** (ô vuông màu cam có dòng chữ), không còn trông giống tin nhắn Messenger (bong bóng tròn xanh).
+
+## [0.445.1] - 2026-11-03
+### Sửa lỗi
+- **Windows: kết nối chạy bằng `npx` không còn hỏng khi đường dẫn có dấu cách** (ví dụ `C:\My Aivon\...` hay tên người dùng có dấu cách). Aivon chạy thẳng Node thay vì đi qua `cmd.exe`, vốn làm mất dấu ngoặc kép khi Node cài ở `Program Files`. Cảm ơn @ethan1nguyen1 (#898).
+- **Windows: link dạng `/C:/Users/...` trong câu trả lời bấm mở được**, không còn bị báo "không tìm thấy file".
+
+## [0.445.0] - 2026-11-03
+### Cải thiện
+- **Mở chat mới bằng Claude Code đỡ tốn hạn mức gói hơn nhiều.** Trước đây mỗi phiên chat mới phải nạp lại khoảng 40.000 token phần hướng dẫn của Aivon, vì trong đó có giờ, mức dùng và mã phiên đổi liên tục. Giờ phần này giữ y hệt nhau giữa các phiên nên được đọc lại từ bộ nhớ đệm. Cảm ơn @sunstaysg-oss đã đo và báo (#975).
+- Giờ hiện tại, mã phiên chat, mức dùng hôm nay và lần chạy quy trình gần nhất chuyển sang dòng đầu mỗi tin nhắn gửi cho Claude Code, nên Aivon vẫn biết đủ như cũ, và lượt nối tiếp luôn thấy giờ mới.
+
+## [0.444.4] - 2026-11-03
+### Sửa lỗi
+- **Aivon trên VPS nhỏ không còn đứng hình vì vài việc chậm chạy chặn cả máy chủ.** Năm chỗ trước đây làm việc nặng ngay trên luồng chính, nên trong lúc đó mọi trang khác và cả bước kiểm tra sức khoẻ đều phải chờ (ba lần lỡ kiểm tra là Traefik báo "404 page not found"). Giờ cả năm chỗ chạy ở luồng phụ:
+  - trang Việc khi xem việc của từng bot,
+  - số liệu thống kê của trang Việc (trước đây dò file nhật ký từng ngày một từ năm 1970),
+  - thẻ GitHub ở trang Kết nối (gọi sang GitHub, có lúc chờ tới 20 giây),
+  - lần đầu tải giao diện sau mỗi lần khởi động lại (thu gọn file mất vài giây trên VPS 1 nhân),
+  - trang Công cụ khi đang cài bộ nghe offline.
+- **Bộ nghe tin thoại offline (Whisper) chừa lại một nhân cho Aivon** và chạy ở mức ưu tiên thấp hơn, nên nghe một tin thoại dài không làm treo app trên máy 1-2 nhân.
+- Khi máy chủ chậm, các lần trình duyệt thử lại được rải ngẫu nhiên, không dồn vào cùng một lúc.
+
+## [0.444.3] - 2026-11-03
+### Sửa lỗi
+- **Câu báo "You've hit your 5-hour limit" giờ được nhận ra.** Trước đây chat hiện nguyên giờ UTC và không có thẻ tự chạy lại. Giờ thẻ báo giờ mở lại theo giờ của bạn, kèm ngày nếu sang hôm sau. Cảm ơn @hwangrin (#961).
+- **Giờ mở lại hạn mức tính theo múi giờ trong Cài đặt**, không còn theo đồng hồ của VPS (thường là UTC).
+### Cải thiện
+- **Bảng từ 4 cột trở lên trong trang Trò chuyện được rộng ra** trên máy tính (tới 1200px), đỡ phải kéo ngang. Chữ thường vẫn giữ độ dài dòng cũ cho dễ đọc. Ý tưởng từ @hwangrin (#958).
+
+## [0.444.1] - 2026-11-03
+### Sửa lỗi
+- **Aivon không còn làm đơ máy lúc đang trả lời.** Từ 0.438.4 chữ trả lời về từng mẩu vài ký tự, và mỗi mẩu trang lại vẽ lại toàn bộ câu trả lời: một bài dài là vài nghìn lần vẽ, máy yếu đứng hình, có lúc trình duyệt treo luôn. Giờ chữ vẫn chảy đều nhưng trang chỉ vẽ vài lần mỗi giây.
+- **Hết cảnh "Đang kết nối lại" lặp đi lặp lại trên máy chậm.** Máy nào theo không kịp chữ đang chảy về thì server xếp hàng từng mẩu, quá 500 mẩu là cắt kết nối, trang nối lại rồi lại tụt. Giờ các mẩu đang chờ của cùng một câu trả lời được gộp thành một, máy chậm nhận ít gói hơn và không bị cắt nữa.
+
+## [0.443.0] - 2026-11-02
+### Thêm mới
+- **Chọn múi giờ ngay trong Cài đặt** (khối Ngôn ngữ và múi giờ) và ở **bước 4 của bộ cài đặt lần đầu**, tự chọn sẵn theo máy bạn đang mở. Trước đây múi giờ chỉ lộ ra qua plugin Thời gian, không có chỗ nào để đổi.
+### Cải thiện
+- Aivon hiểu **hôm nay, hôm qua, ngày mai** và chốt khoảng ngày khi kéo số liệu báo cáo theo đúng múi giờ bạn chọn, không theo giờ máy chủ (VPS thường chạy UTC).
+- Các nguồn số liệu (MCP) chạy trên máy Aivon cũng nhận múi giờ này, nên "đơn hôm nay" lúc 6 giờ sáng không còn trả về đơn của hôm qua.
+### Sửa lỗi
+- Đổi ô **Aivon trả lời bằng** giờ hiện lời báo "Đã đổi" như mong đợi, thay vì lỗi ngầm không báo gì.
+
+## [0.441.0] - 2026-11-02
+### Thêm mới
+- **Chat bên ChatGPT hay Claude, Aivon vẫn nắm ngữ cảnh.** Qua Aivon Gate, AI đó tự ghi lại vào Aivon những gì bạn hỏi và đã chốt, kèm lý do. Mỗi cuộc chat bên đó có một hội thoại riêng trong Lịch sử của Aivon, ví dụ "Từ ChatGPT: Kế hoạch Tết" hay "Từ Claude: Viết Web".
+- Ghi chép **không tốn hạn mức** bộ não của Aivon vì Aivon không phải trả lời, nhưng vẫn vào trí nhớ và vòng tự học như một cuộc chat bình thường. Lần sau hỏi Aivon, nó nhớ bạn đã quyết gì bên ChatGPT.
+- Ghi chép dùng được ở mức Ghi nháp và Toàn quyền. Mức Chỉ đọc thì AI bên ngoài chỉ đọc, không ghi gì vào Aivon.
+
+## [0.440.0] - 2026-11-02
+### Thêm mới
+- **ChatGPT và Claude nhắn thẳng vào khung chat của Aivon.** Cài gói **Aivon Gate** ở Aivon Store, nối với ChatGPT hoặc Claude. Bảo nó "đọc hội thoại Viết Web trên Aivon rồi tư vấn mình nên làm gì tiếp", nó đọc và tư vấn. Bạn đồng ý ngay bên đó là nó nhắn vào đúng hội thoại để Aivon làm tiếp.
+- Tin đó chạy y như bạn tự gõ: chữ trả lời chạy dần trên mọi tab đang mở, có nút Dừng, lưu vào Lịch sử, và **Aivon học được** cho lần sau. Bong bóng tin ghi rõ **từ ChatGPT** hay **từ Claude**.
+- Không còn giao việc qua Kanban rồi chạy ngầm không ai biết. Hội thoại đang trả lời thì tin xếp sau, như khi bạn gõ thêm lúc Aivon đang làm.
+- Chỉ ở mức **Toàn quyền** AI bên ngoài mới được nhắn vào khung chat. Mức thấp hơn chỉ đọc được hội thoại. Hội thoại của khách và nhóm chat thì không đọc, không nhắn được.
+### Cải thiện
+- **Gói trong Store đổi mã sang tiếng Anh** mà máy đã cài không mất gì. Bấm cập nhật như mọi bản mới: trạng thái bật, dữ liệu của gói và các kỹ năng đã cài vào brain được giữ nguyên, gói cũ tự gỡ.
+- Gói **Aivon trong ChatGPT** thành **Aivon Gate**. Connector đã dán vào ChatGPT vẫn chạy, không phải kết nối lại.
+
+## [0.439.1] - 2026-11-02
+### Cải thiện
+- **Cài không còn màn hình đỏ "Windows protected your PC".** Dán một dòng lệnh vào PowerShell (Windows) hoặc Terminal (Mac) là bộ cài tự tải và mở ra, máy không chặn. Dòng lệnh có trong hướng dẫn cài nhanh. Tải file bằng trình duyệt thì vẫn bị hỏi một lần cho tới khi bộ cài được ký số.
+- **Bộ cài mang logo Aivon.** Trình cài Windows có ngôi sao Aivon ở trang đầu, trang cuối và góc trên các trang giữa, sắc nét cả trên màn hình phóng to. Ổ đĩa hiện ra khi mở file `.dmg` trên Mac cũng mang biểu tượng Aivon.
+- Bản phát hành đã sẵn chỗ ký số bộ cài Windows: chủ dự án chỉ cần thêm chứng chỉ vào GitHub là các bản sau tự được ký.
+
+## [0.439.0] - 2026-11-02
+### Thêm mới
+- **Cài Aivon như một ứng dụng trên máy tính.** Windows tải `AivonOS-Setup.exe`, bấm đúp rồi Next tới hết. Mac tải `AivonOS-macOS.dmg`, kéo AIVON vào Applications. Bộ cài tự kiểm tra máy còn thiếu Git, Python, Node hay bộ não AI nào và tự cài phần thiếu, không cần gõ lệnh. Link tải ở hướng dẫn cài nhanh.
+- **Có biểu tượng AIVON trên Desktop, Start menu và Launchpad.** Bấm vào là Aivon mở thành cửa sổ riêng, không thanh địa chỉ. Bấm lần nữa khi Aivon đang chạy chỉ mở lại cửa sổ, không làm dừng việc đang chạy nền.
+- Nút Cập nhật trong app dùng được như bản cài tay. Gỡ app vẫn giữ nguyên bộ não (ghi chú, trí nhớ, cài đặt) trong thư mục `AivonOS`.
+### Sửa lỗi
+- Cài trên Windows mới tinh không còn chết ở bước tạo môi trường Python, và máy không có winget vẫn tự tải được Python và Node. Mac không có Homebrew cũng cài được Node đúng bản cho Mac.
+- Trên Windows, trình cài của Antigravity hoặc Grok tự thoát giữa chừng không còn kéo theo cả bộ cài dừng lại, nên các bước sau (thư viện, cấu hình, tự khởi động) vẫn chạy đủ.
+- Trên Windows, trang Models thấy ngay Antigravity và Grok vừa cài, không còn báo "chưa cài" cho tới khi khởi động lại máy.
+
+## [0.438.7] - 2026-11-02
+### Sửa lỗi
+- **Đăng nhập Claude tự xong khi trình duyệt báo thành công.** Trên máy có trình duyệt, Claude tự mở trang đăng nhập và trang chỉ báo "You're all set up", không hiện mã nào để dán. Trước đây thẻ ở trang Models vẫn đứng chờ mã, phải tải lại trang mới thấy đã đăng nhập. Giờ thẻ tự chuyển sang Đã đăng nhập sau vài giây, hoặc ngay lúc quay lại tab Aivon.
+- Nếu Claude báo đăng nhập hỏng, thẻ nói luôn lý do thay vì chờ mãi.
+
+## [0.438.6] - 2026-11-02
+### Cải thiện
+- **Grok Build và Antigravity CLI cũng hiện chữ lần lượt.** Câu trả lời chảy ra từng mẩu ngay khi model đang viết, không còn chờ xong cả lượt mới hiện một lần. Giờ mọi bộ não của Aivon đều hiện chữ như nhau.
+
+## [0.438.5] - 2026-11-01
+### Cải thiện
+- **Các bộ não API key cũng hiện chữ lần lượt.** OpenRouter, OpenAI, Anthropic API, Gemini, Groq, DeepSeek, Ollama và OpenAI/Anthropic Compatible giờ hiện câu trả lời từng mẩu ngay khi model đang viết, kể cả lượt có dùng công cụ. Trước đây lượt có công cụ phải chờ xong cả câu trả lời mới hiện một lần.
+
+## [0.438.4] - 2026-11-01
+### Cải thiện
+- **Claude Code hiện chữ lần lượt như ChatGPT.** Câu trả lời chảy ra từng mẩu ngay khi Claude đang viết, không còn phải chờ xong cả đoạn mới hiện một lần.
+
+## [0.438.3] - 2026-11-01
+### Cải thiện
+- **Thêm kênh Messenger ở Chatbot gọn lại.** Chọn Messenger giờ chỉ còn một dòng nhắc và nút mở thẳng thẻ Messenger ở trang Kết nối. Bỏ ô dán token, địa chỉ webhook và nút Lưu ở đây, vì Fanpage nối bên Kết nối đã tự có trong danh sách kênh. Ai cần dán token vẫn dán được ngay trong thẻ Messenger.
+
+## [0.438.2] - 2026-11-01
+### Cải thiện
+- **Logo Meta chính thức.** Thẻ Facebook Messenger ở trang Kết nối dùng đúng logo Meta màu xanh chuyển sắc, thay cho nét vẽ tay cũ. Nền trong suốt nên giao diện sáng hay tối đều hiện đẹp.
+
+## [0.438.1] - 2026-11-01
+### Cải thiện
+- **Thẻ GitHub ở trang Kết nối gọn như các thẻ khác.** Có chấm xanh báo đang kết nối, logo to bằng các thẻ còn lại.
+- Bỏ nút **Chọn repo cho Aivon** và dòng "Chưa tải repo nào": repo chọn ngay trong khung chat bằng dấu cộng. Nút chọn repo chỉ hiện khi app GitHub chưa được cài vào tài khoản nào.
+- **Thêm repo ngay trong bảng chọn.** Không thấy repo cần dùng thì bấm **Thêm repo trên GitHub** ở đáy bảng, tick thêm repo bên GitHub rồi quay lại Aivon là repo hiện ra, khỏi tải lại trang.
+
+## [0.438.0] - 2026-11-01
+### Thêm mới
+- **Một lần nối Fanpage dùng cho cả đăng bài.** Fanpage nối ở thẻ Facebook Messenger giờ dùng được luôn cho việc Aivon đăng bài (ngay khi nhờ hoặc tự động theo lịch), nên Kho cài đặt gỡ thẻ Facebook Trang (máy đã cài vẫn dùng như cũ). Trang đã nối từ trước thì Đăng nhập Facebook lại một lần để cấp quyền đăng bài.
+### Cải thiện
+- Thẻ Facebook Messenger ở trang Kết nối đổi sang logo Meta, vì giờ nó lo cả tin nhắn, bình luận lẫn đăng bài.
+- **Messenger nối một chỗ.** Thẻ Facebook Messenger ở trang Kết nối giờ hiện cả Địa chỉ webhook và Mã xác minh kèm nút Chép, dán tay vào app Meta khi cần mà không phải sang trang khác.
+- Fanpage đã nối ở trang Kết nối tự có trong danh sách kênh của Chatbot. Chọn Messenger ở Thêm kênh sẽ thấy lời nhắc kèm nút mở thẳng thẻ Messenger, khỏi nối lại lần hai.
+- **Hướng dẫn nối Messenger viết lại cho đúng:** đi đường nút Đăng nhập Facebook (thêm quyền, khai Facebook Login và hai địa chỉ của Aivon, chọn Trang, gắn bot, chuyển Live), dán token chỉ còn là đường dự phòng. Bảng lỗi có thêm "URL bị chặn" và "Invalid Scopes".
+
+## [0.437.0] - 2026-11-01
+### Cải thiện
+- **Bước của nhóm chờ đúng bước nó cần.** Trưởng nhóm giờ ghi được phần nào cần kết quả của phần nào. Các phần không liên quan nhau chạy cùng lúc, phần cần kết quả thì bắt đầu ngay khi đúng các phần nó cần đã xong, không phải chờ cả việc.
+- Ví dụ "A nghiên cứu đối thủ, B lấy số liệu, C viết kế hoạch từ cả hai": A và B làm cùng lúc, C làm sau. Còn "B viết bài, C làm ảnh, cả hai dựa trên số liệu của A" thì B và C làm cùng lúc ngay sau A, thay vì lần lượt như trước.
+- **Không tốn thêm lượt nào:** mỗi phần chỉ đọc kết quả của đúng các phần nó chờ. Việc yêu cầu "làm lần lượt" vẫn chạy như cũ.
+
+## [0.436.1] - 2026-11-01
+### Cải thiện
+- **Hướng dẫn nối Messenger từng bước, có link ngay trong form.** Chọn Messenger ở Chatbot, Kênh, Thêm kênh là thấy link "Hướng dẫn từng bước" mở trang hướng dẫn trên GitHub, đi từng cú bấm trên trang Meta cho người mới. Thẻ Messenger ở trang Kết nối cũng có link.
+- **Kho cài đặt gọn lại còn hai thẻ Meta:** "Meta Ads (Facebook & Instagram)" xem số liệu quảng cáo và "Facebook Trang (đăng bài, bình luận)". Thẻ Meta Ads bản beta của Meta bị bỏ vì Meta chưa cho tự kết nối; máy đã cài vẫn dùng như cũ. Mô tả ghi rõ một app Meta dùng chung được cho mọi thẻ.
+### Sửa lỗi
+- Nối Messenger (cũng như WhatsApp, Zalo OA) không còn hiện dòng "Bot này không vào được nhóm Zalo". Dòng đó chỉ dành cho Zalo Bot.
+
+## [0.436.0] - 2026-11-01
+### Cải thiện
+- **Nhóm tự chạy lại khi gặp lỗi tạm thời.** Model quá tải, mạng chập hay gói hết lượt không còn làm việc của nhóm đứng tới sáng chờ bạn bấm Chạy lại. Nhóm tự thử lại sau 1, 5 rồi 15 phút (hết lượt gói thì chờ đúng giờ gói mở lại), tối đa 3 lần, rồi mới dừng hỏi bạn.
+- **An toàn trước đã:** bước nào đã gọi công cụ (gửi tin, đăng bài, ghi file) thì không bao giờ tự chạy lại, để không có gì bị làm hai lần. Trong lúc chờ, nhóm khác vẫn chạy bình thường.
+- **Thành viên báo kết quả gọn và thật.** Cuối mỗi bước, thành viên báo làm được hay chưa, tóm tắt 3 câu và file đã ghi. Bước báo chưa làm được thì việc dừng hỏi bạn, không tốn thêm lượt tổng hợp một kết quả hỏng.
+- **Tốn ít token hơn khi tổng hợp:** kết quả dài được đọc bằng bản tóm tắt, và mỗi kết quả chỉ nằm một lần trong lời nhắc thay vì hai lần như trước.
+
+## [0.435.0] - 2026-11-01
+### Thêm mới
+- **Nghe tin thoại và lời nói trong video không cần Groq.** Aivon thử lần lượt các key bạn có ở trang Models: Groq, rồi OpenAI, rồi Gemini. Key này lỗi hay hết lượt thì tự chuyển sang key kế tiếp.
+- **Bộ nghe offline:** trang Công cụ có thêm thẻ "Bộ nghe offline (Whisper)". Bấm cài một lần (tải khoảng 1 GB) là Aivon nghe ngay trên máy, không cần key nào, dùng khi mọi key đều không có hoặc đều lỗi. Máy yếu nghe chậm hơn và kém hơn Groq.
+- **Chatbot Zalo cá nhân nghe được tin thoại của khách.** Trước đây tin thoại bị bỏ qua hẳn. Không nghe được thì bot nói thật và nhờ khách gõ chữ, không đoán.
+
+## [0.434.0] - 2026-11-01
+### Thêm mới
+- **Nối Fanpage bằng nút Đăng nhập Facebook.** Thẻ Messenger ở trang Kết nối chỉ còn hỏi App ID và App secret. Bấm đăng nhập, tick các Fanpage muốn nối, Aivon tự làm phần còn lại. Hết cảnh mở Graph API Explorer chép token và Page ID.
+- **Bình luận Fanpage vào Hộp thư, giống Pancake.** Mỗi bình luận gốc dưới bài viết là một hội thoại riêng, các trả lời bên dưới gom chung vào đó. Bạn trả lời trong Hộp thư thì câu đó hiện ngay dưới bình luận trên Facebook.
+- Mỗi Fanpage chọn được cách xử lý bình luận: hiện ở Hộp thư để bạn trả lời (mặc định), để bot tự trả lời công khai, hoặc tắt.
+- Aivon tự phục vụ sẵn trang chính sách quyền riêng tư trên tên miền của bạn, dán vào app Meta là chuyển được app sang chế độ Live.
+
+## [0.433.0] - 2026-11-01
+### Thêm mới
+- **Chatbot Zalo cá nhân xem được video khách gửi.** Trước đây video bị bỏ qua nên bot chỉ biết nói "em chưa xem được video". Giờ Aivon cắt 4 khung hình rải đều trong video đưa cho bot xem, như khi khách gửi ảnh.
+- **Bot nghe được cả lời nói trong video** nếu bạn đã dán key Groq ở trang Models (cùng key nghe tin thoại). Chưa có key thì bot vẫn xem hình, và biết là mình không nghe tiếng.
+- Khách gửi video rồi nhắn tiếp "anh xem giúp em với" thì bot vẫn thấy video đó trong 10 phút, không cần gửi lại. Video không tải được (link hết hạn, quá 60MB) thì bot nói thật là chưa xem được và nhờ khách tả lại.
+
+## [0.432.4] - 2026-11-01
+### Cải thiện
+- **Chọn repo trong khung chat: tick là gắn luôn.** Bỏ nút "Gắn repo vào cuộc trò chuyện" ở cuối danh sách, khỏi phải kéo xuống tìm. Bỏ tick là gỡ repo khỏi cuộc trò chuyện.
+- Dòng **Kết nối thêm** đứng cố định ở đáy bảng chọn, danh sách dài cũng không đẩy nó khuất.
+
+## [0.432.3] - 2026-11-01
+### Cải thiện
+- **Tìm quy trình ngay khi tạo webhook.** Phía trên ô chọn Quy trình có thêm ô tìm: gõ vài chữ trong tên là danh sách thu gọn lại, kèm dòng "3/40 quy trình khớp". Gõ không dấu cũng được, "cham soc" vẫn ra "Chăm sóc khách".
+- Không quy trình nào khớp thì ô chọn nói rõ, và nút Lưu nhắc bạn chọn một quy trình thay vì lưu webhook trống.
+
+## [0.432.2] - 2026-11-01
+### Sửa lỗi
+- **Thẻ GitHub thôi báo nhầm "Token còn thiếu quyền: repo, workflow"** khi bạn kết nối bằng nút Đăng nhập bằng GitHub. Cách đăng nhập này không dùng loại quyền đó nên không bao giờ thiếu, repo thì vẫn chọn trong khung chat như cũ. Ai đã thấy dòng vàng này thì nó tự biến mất, không cần đăng nhập lại.
+
+## [0.432.1] - 2026-11-01
+### Sửa lỗi
+- **Kéo thả file vào khung chat chạy lại.** Sau khi ghé trang Nhóm, thả file vào trang Trò chuyện không có gì xảy ra. Giờ thả là lớp phủ hiện ra và file vào hàng đính kèm như nút kẹp giấy. Cảm ơn @thaihatr-source (#936).
+- **Mở file .html hay .md nằm gọn trong khung**, không tự phóng to kín màn hình nữa. Muốn xem toàn màn hình thì bấm nút phóng to, chuyển sang file khác vẫn giữ cỡ đã chọn.
+- **Kết nối MCP qua OAuth chuẩn hơn.** Aivon gửi đúng định danh máy chủ khai báo (như SDK chính thức), và báo thẳng khi nhà cung cấp không nhận địa chỉ quay về của Aivon thay vì để bạn thử mật khẩu mãi. Cảm ơn @dev23072005 (#939).
+- **Trí nhớ gợi lại đúng hơn.** Nhật ký chạy agent không còn dội lại thành ký ức, hết báo mâu thuẫn giả giữa các ký ức chung dòng "Vì sao:", file có chữ "profile" trong tên không còn chiếm chỗ mọi lượt, và mục lục phụ trong memory/ được hiểu. File Office mở từ chat giữ đúng tên. Cảm ơn @sohophotography (#934), @ethan1nguyen1 (#898).
+
+## [0.432.0] - 2026-11-01
+### Cải thiện
+- **Trang Webhook làm lại cho dễ theo dõi.** Đầu trang là một hàng số gọn: bao nhiêu webhook đang chạy, sự kiện và lỗi trong 24 giờ, việc cần bạn xem. Có sự kiện chưa rõ đã xong chưa thì một dải màu cam hiện lên, bấm **Xem ngay** là tới đúng chỗ.
+- **Mỗi webhook gọn thành một dòng** có chấm trạng thái và thanh 20 lần chạy gần nhất: xanh là ổn, cam là cần xem, đỏ là lỗi. Nhìn một cái là biết webhook nào có vấn đề.
+- **Bấm vào webhook là mở cửa sổ riêng, không xổ xuống nữa.** Đổi tab Sự kiện, Cấu hình, Tình trạng, lọc hay mở một lần chạy đều đổi ngay trong cửa sổ đó, chỉ đóng khi bạn bấm X. Lần chạy chia theo ngày, bỏ chữ `[SILENT]` khó hiểu, bật tắt nhận và xử lý bằng công tắc gạt.
+- **Bỏ tiêu đề lặp lại** ở trang Webhook, Cookies, Link đang chia sẻ và Linh vật cho đỡ tốn chỗ. Lời giải thích vẫn nằm trong nút (i).
+
+## [0.431.0] - 2026-11-01
+### Cải thiện
+- **Ô chọn bộ não mới, giống nhau trên mọi máy.** Trước đây mỗi điện thoại, máy tính hiện danh sách một kiểu vì đó là ô chọn của trình duyệt. Giờ Aivon tự vẽ: máy tính thả xuống ngay dưới nút, điện thoại trượt lên từ đáy màn hình với chữ to, có số ghi chú và dấu tích ở bộ não đang dùng. Nhiều bộ não thì có ô tìm.
+- **Tự sắp thứ tự bộ não.** Mở ô chọn, bấm **Sắp xếp**, kéo tay nắm hoặc bấm mũi tên lên xuống rồi bấm **Xong**. Thứ tự lưu trên máy chủ nên mọi máy đều thấy giống nhau.
+- Chưa sắp thì danh sách xếp theo tên hiển thị như người đọc: "2-..." đứng trước "10-...". Trước đây xếp theo tên thư mục nên bộ não đã đổi tên hay bị lộn chỗ.
+
+## [0.430.2] - 2026-11-01
+### Cải thiện
+- **Mở file .html là thấy ngay trang chạy thật.** Bấm link file .html trong chat hoặc mở trong Brain, Aivon hiện trang ở chế độ **Xem trước** giống artifact của Claude, ảnh, màu và nút bấm đúng như khi mở bằng trình duyệt. Bấm **Mã nguồn** để xem và sửa code, Lưu như cũ.
+- Sửa code xong bấm lại Xem trước là thấy thay đổi ngay, chưa cần lưu. Trang chạy trong khung cách ly nên script trong file không đọc được dữ liệu của Aivon.
+
+## [0.430.1] - 2026-11-01
+### Cải thiện
+- **Dán văn bản dài vào chat không còn tự biến thành file.** Đoạn đến 12.000 ký tự và 150 dòng dán thẳng vào ô chat như thường, xem và sửa được trước khi gửi. Trước đây chỉ quá 1.500 ký tự là thành thẻ `.txt`, không còn thấy mình đã dán gì.
+- **Đoạn dài hơn thì Aivon hỏi trước.** Một hộp hiện toàn bộ đoạn dán, chọn Dán vào chat, Đính kèm .txt hoặc Hủy. Áp dụng cho cả chat chính lẫn chat Nhóm. Cảm ơn @hwangrin (#937).
+
+## [0.430.0] - 2026-11-01
+### Thêm mới
+- **Kết nối GitHub bằng nút Đăng nhập, không phải tạo token.** Trên trang Kết nối, bấm **Đăng nhập bằng GitHub**: Aivon hiện một mã ngắn, bạn bấm Mở GitHub, dán mã, bấm Authorize là xong. Chạy được cả trên VPS không có trình duyệt.
+- **Bạn tự chọn repo cho Aivon.** Đăng nhập xong, bấm **Chọn repo cho Aivon** để cài app AIVON vào đúng những repo muốn cho Aivon làm việc. Repo nào không chọn thì Aivon không thấy.
+- Ô dán token vẫn còn ngay bên dưới cho ai quen cách cũ.
+
+## [0.429.1] - 2026-10-31
+### Sửa lỗi
+- **Bot chạy ChatGPT (Codex) không còn gửi lời dẫn cho khách.** Câu kiểu "Em tra danh sách lớp hiện có để xác nhận ạ" trước khi bot tra cứu không còn lọt vào tin gửi khách, chỉ câu trả lời cuối được gửi.
+
+## [0.429.0] - 2026-10-31
+### Sửa lỗi
+- **Việc do chatbot tạo giờ nằm đúng dưới chatbot đó.** Trước đây mọi lời nhắc, loop và việc Kanban mà chatbot (ví dụ trợ lý Zalo của bạn) tạo trong lúc trò chuyện đều hiện dưới Aivon Core. Giờ chúng nằm dưới trợ lý mà chatbot đang dùng, cả ở danh sách lẫn ở Thống kê. Trợ lý đó không thuộc brain này thì chatbot có hẳn một dòng riêng.
+- **Việc cũ cũng được xếp lại.** Aivon dò nhật ký trả lời của từng chatbot: việc tạo ra đúng lúc một chatbot đang trả lời (cùng khung chat nếu việc có ghi) thì thuộc chatbot đó. Hai chatbot cùng trả lời lúc ấy thì việc vẫn để ở Aivon Core cho chắc.
+### Cải thiện
+- Bỏ ô tìm kiếm ở mục Thống kê của trang Nhiệm vụ, vì ở đó không có gì để tìm.
+
+## [0.428.2] - 2026-10-31
+### Sửa lỗi
+- **Bot Zalo (Zalo Bot chính thức) nhận ra khi được tag trong nhóm.** Trước đây tag bằng tên hiển thị như "@Bot Nori" thì bot không biết mình được gọi và im, vì Aivon chỉ so với mã tài khoản kiểu `bot.xxxx`. Giờ bot nhận cả tên bạn đặt cho nó trong Aivon. Cảm ơn @VQTPiano (#885).
+## [0.428.1] - 2026-10-31
+### Sửa lỗi
+- **Việc nhóm bị chặn vì model không hỗ trợ quyền 'cần duyệt' giờ chỉ đúng cách gỡ.** Câu báo nói cách sửa trước, gọi tên trợ lý và chỉ gợi ý model đã kết nối chạy được trên máy này, rồi bấm Thử lại. Trước đây trên bản Docker câu bị cắt mất đúng đoạn hướng dẫn, và có lúc khuyên đổi sang chính model đang bị chặn. Cảm ơn @hwangrin (#904).
+
+## [0.428.0] - 2026-10-31
+### Thêm mới
+- **Thống kê trên trang Nhiệm vụ, cho cả hai tab.** Mục Thống kê nằm cuối menu. Chọn khoảng thời gian bằng ô thả xuống giống màn Thống kê chatbot (Hôm nay, 7 / 30 / 90 ngày qua, Tháng trước... hoặc tự chọn ngày), luôn so với kỳ liền trước.
+- **Thống kê Việc của Aivon:** Aivon gánh bao nhiêu phần trăm việc so với bạn, **thời gian Aivon trả lại cho bạn** (mỗi loại việc tính theo số phút bạn tự chỉnh, không quy ra tiền), việc làm lúc bạn ngủ, trợ lý nào làm gì, độ tin cậy, và gợi ý việc Aivon làm thay được.
+- **Thống kê Việc của tôi:** việc xong từng ngày, bản đồ 12 tuần, giờ vàng, tỉ lệ đúng hạn, thói quen 30 ngày, dự án, việc hay bị dời kèm nút Giao cho Aivon.
+### Cải thiện
+- **Tab Việc của Aivon đứng đầu và mở ra trước.** Tab "Của tôi" đổi tên thành "Việc của tôi".
+- Lời nhắc và theo dõi trang giờ ghi lại từng lần chạy để thống kê đếm đủ. Trước bản này mỗi lời nhắc chỉ còn lần chạy gần nhất.
+
+## [0.427.0] - 2026-10-31
+### Thêm mới
+- **Aivon Core tự viết lời nhắn thói quen mỗi ngày.** Ngôi sao và lời nhắc giữ lửa không còn là câu mẫu: Core đọc chuỗi, ngày đóng băng, giờ bạn hay làm rồi viết câu riêng cho từng thói quen. Không có model nền thì vẫn dùng câu mẫu như cũ.
+- **Core tự học kiểu nhắc nào hợp với bạn.** Mỗi lời nhắc ghi lại kiểu đã dùng (động viên, dỗi, thách, nhắc lý do) và bạn có làm trong ngày hay không. Kiểu nào hay khiến bạn làm thì lần sau Core chọn nhiều hơn.
+- **Lịch Google hiện trên tab Của tôi.** Đã kết nối Google Calendar ở trang Kết nối thì sự kiện 14 ngày tới hiện cạnh lịch hẹn của bạn, có báo trùng giờ. Chỉ xem ở đây, bấm mở để sửa trong Google Calendar.
+
+## [0.426.0] - 2026-10-30
+### Sửa lỗi
+- **Sửa loop bằng tay được trở lại.** Từ 0.422.0 trang Nhiệm vụ chỉ bật, tắt, chạy, xoá được loop. Giờ bấm Sửa để đổi tên, việc mỗi vòng, mức quyền (Đề xuất, Ghi nháp, Toàn quyền) và chu kỳ chạy.
+- **Lời nhắc có lại các tuỳ chọn cũ:** Gọi điện cho tôi, Đọc thành tiếng, Nhớ kết quả lần trước và mức quyền, khi thêm lẫn khi sửa. Các ô này mất từ lúc gộp trang Việc định kỳ.
+- **Nhờ Aivon mở một việc trên màn hình chạy lại.** Aivon mở trang Nhiệm vụ, tab Aivon làm, đúng chi tiết việc đó.
+- **Cho phép chạy thật hỏi lại trước khi cấp quyền,** vì thao tác ra ngoài không hoàn tác được.
+- **Giao việc cho Aivon có lại ô Duyệt kết quả sau khi làm xong.** Chi tiết lời nhắc và loop hiện mức quyền đang chạy.
+- **Chưa nối kênh báo kết quả thì tab Aivon làm báo ngay,** kèm nút sang trang Kênh: lời nhắc và loop vẫn chạy nhưng kết quả không tới tay ai.
+- **Sửa job script không còn hiện các ô không áp dụng** (kiểu làm, mức quyền, gọi điện).
+### Cải thiện
+- **Nút Huỷ và Lưu luôn nằm ở đáy form,** form dài trên điện thoại không phải cuộn tìm nút.
+- **Trang nhẹ hơn:** bỏ hơn 1.100 dòng mã và 214 chuỗi chữ của trang Kanban và Việc định kỳ cũ.
+
+## [0.425.0] - 2026-10-30
+### Thêm mới
+- **Lịch hẹn trên tab Của tôi.** Khi thêm việc, chọn Kiểu: Lịch hẹn để ghi giờ bắt đầu, thời lượng, địa điểm. Hẹn tự đổi trạng thái Sắp tới, Đang diễn ra, Đã diễn ra, và báo khi hai hẹn trùng giờ.
+- **Nhắc trước giờ hẹn** 5, 15, 30 hoặc 60 phút (mặc định 15), mỗi hẹn nhắc một lần. Có thể nhờ Aivon chuẩn bị trước (soạn tài liệu, tra thông tin) thành một lời nhắc Aivon làm xong trước giờ hẹn 30 phút.
+- **Báo xong qua chat là tự tích.** Nói với Aivon "đọc sách xong rồi" là thói quen được tích, ghi rõ là Aivon tích để bạn bỏ tích được. Nhiều việc trùng tên thì Aivon hỏi lại, không đoán. Nhờ "ghi vào việc của tôi" cũng được, trên mọi bộ não.
+
+## [0.424.0] - 2026-10-30
+### Thêm mới
+- **Thói quen có chuỗi giữ lửa.** Việc lặp của bạn bật "Tính là thói quen" (hoặc chọn Kiểu lặp: Thói quen khi thêm) là có chuỗi ngày như Duolingo. Bỏ 1 buổi thì đóng băng, làm buổi sau là gỡ băng, bỏ 2 buổi liền là mất chuỗi. **Chỉ ngày có lịch mới tính**, ngày nghỉ của thói quen không bị đóng băng.
+- **Tích là thắp lửa.** Vòng tròn bật thành ngọn lửa; đang đóng băng thì hạt băng tan rồi mới bật lửa. Chi tiết thói quen có số ngày, ô Ngày xong, Đóng băng, Dài nhất và lịch tháng nối dải.
+- **Đầu mục Thói quen** có 4 ô số (chưa đạt thì xám) và ngôi sao Aivon nói lời nhắn kèm biểu cảm: dỗi khi bạn bỏ buổi, vui khi xong hết, lim dim ngày nghỉ.
+- **Aivon nhắc thói quen:** chọn Aivon tự nhắc (sau giờ bạn hay làm, sớm hơn khi đang đóng băng), Nhắc đúng giờ, hoặc Không nhắc. Mỗi ngày nhắc tối đa một lần, chỉ khi chưa xong.
+
+## [0.423.0] - 2026-10-30
+### Thêm mới
+- **Tab Của tôi trên trang Nhiệm vụ.** Ghi việc của chính bạn: Hôm nay, Sắp tới, Quá hạn, Chưa có lịch, Lặp lại, Đã xong, và chia theo **dự án** (tạo, đổi tên, đổi màu, ghim, xoá có hoàn tác).
+- **Chọn ngày giờ và lặp lại cho dễ.** Nút nhanh Khi rảnh, Hôm nay, Ngày mai, Thứ Hai tới, lịch tháng và giờ mỗi 30 phút. Lặp "Mỗi [n] ngày, tuần, tháng, năm", chọn thứ trong tuần bằng vòng tròn.
+- **Quá hạn hiện cả lần lặp bị lỡ gần nhất,** tích được ngay tại chỗ. Việc làm một lần thì dời tất cả sang hôm nay bằng một nút.
+- **Giao qua lại giữa bạn và Aivon.** Việc của bạn bấm "Giao cho Aivon" là thành việc Aivon làm; việc của Aivon chọn "Chuyển cho tôi làm" là về tab Của tôi. Đều có hoàn tác.
+
+## [0.422.0] - 2026-10-30
+### Thêm mới
+- **Trang Nhiệm vụ thay cho Kanban và Việc định kỳ.** Nhóm Việc giờ chỉ còn Nhiệm vụ và Webhook. Việc Aivon làm, lời nhắc, loop và theo dõi trang nằm chung một chỗ, chia theo danh sách: Hôm nay, Sắp tới, Quá hạn, Lặp lại, Chạy lỗi, Đã xong, Nhật ký, và theo từng trợ lý.
+- **Lời nhắc chạy ngay, dừng, tạm dừng, bỏ qua lần tới được.** Bấm ▶ là chạy luôn không đợi tới giờ. Đang chạy thì nút thành ■, bấm nhầm là bấm lại để ngắt ngay, lịch lặp giữ nguyên.
+- **Xoá, huỷ, tạm dừng đều có Hoàn tác** trong vài giây.
+### Cải thiện
+- **Bỏ nút và mẫu Bản tin buổi sáng.** Muốn có bản tin thì nhờ Aivon tạo một lời nhắc như mọi việc khác.
+
+## [0.421.0] - 2026-10-30
+### Sửa lỗi
+- **Trang Mức dùng không còn lệch khung trên điện thoại.** Trước đây trang trượt sang trái, mép trái mất chữ, mép phải hở một khoảng. Nguyên nhân là nhãn ngày dưới biểu đồ thò ra ngoài mép. Kỳ dài như **3 tháng** hay **Năm nay** thì biểu đồ còn rộng gấp mấy màn hình. Giờ biểu đồ luôn nằm gọn, kỳ dài ghi tên tháng thay cho số ngày.
+- **Đồ thị bộ não hiện lại trên điện thoại.** Từ 0.415.0 khoang não trên điện thoại chỉ còn tên các cụm, không thấy chấm note nào. Lý do: màn hình hẹp tự tắt đồ thị để đỡ tốn pin, và lệnh tắt chạy trước cả khung vẽ đầu tiên. Giờ điện thoại chạy đồ thị như máy tính. Đồ thị đứng yên thì tự thôi vẽ nên không tốn pin, và vẫn tắt được bằng công tắc Đồ thị trong Cài đặt.
+### Cải thiện
+- **Kéo đồ thị tự do, buông tay là tự về giữa.** Kéo đi đâu, phóng to bao nhiêu cũng được. Buông tay 3 giây là cả đồ thị trôi về giữa, vừa khung như lúc mới mở. Chạm một chấm để mở note thì không bị kéo theo. Trên máy tính, chuột rời khỏi đồ thị 3 giây mới về.
+- **Chọn kỳ bằng một ô thả xuống.** Tám nút Hôm nay, Hôm qua, Tuần này... từng chiếm ba hàng trên điện thoại. Giờ chỉ còn một ô, nằm chung hàng với nút **Làm mới**.
+- **Trang Mức dùng mở nhanh hơn.**
+  - Máy chủ không còn tính cùng một bảng số liệu ba lần mỗi lần mở trang.
+  - Lượt quét nhật ký mới chạy sau khi trang đã hiện số, không chen vào lúc trang đang dựng.
+  - Mở lại trang, hay đổi qua lại giữa các kỳ đã xem, là thấy số ngay rồi tự cập nhật.
+
+## [0.420.2] - 2026-10-30
+### Sửa lỗi
+- **Ngắt rồi đăng nhập tài khoản khác ở thẻ ChatGPT, Grok Build hay Claude Code là chat được ngay.** Trước đây tài khoản cũ hết lượt thì dấu "hết lượt" vẫn bám vào thẻ sau khi bạn đăng nhập một tài khoản mới ở ô tài khoản 1, kể cả khi khởi động lại Aivon, nên chat bị đẩy sang thẻ dự phòng tới giờ mở lại của tài khoản cũ. Giờ đăng nhập xong là dấu đó được gỡ.
+
+## [0.420.1] - 2026-10-30
+### Sửa lỗi
+- **Thêm tài khoản ChatGPT sau khi tài khoản cũ hết lượt là chat được ngay.** Trước đây nếu tài khoản 1 hết lượt lúc thẻ ChatGPT mới có một tài khoản, Aivon coi cả thẻ là hết lượt tới giờ mở lại, nên tài khoản vừa thêm vẫn bị bỏ qua và chat rơi sang thẻ dự phòng, có máy báo "Not logged in". Giờ có tài khoản nào đăng nhập và đang bật là lượt chat kế chạy bằng nó luôn. Grok Build và Claude Code nhiều tài khoản cũng được sửa như vậy.
+
+## [0.420.0] - 2026-10-30
+### Cải thiện
+- **Trang Kỹ năng trên điện thoại: chọn nhóm bằng một ô thả xuống.** Hàng nút nhóm (Tất cả, AI, Bán hàng...) cũ chạy tràn khỏi màn hình khi có nhiều nhóm. Giờ chỉ còn một ô **Nhóm** ghi rõ số kỹ năng trong từng nhóm, bấm vào là chọn. Trang Cộng sự (lọc theo tag) và Quy trình cũng đổi giống vậy. Trên máy tính vẫn là cột nhóm bên trái như cũ.
+- **Trang Công cụ gọn hơn trên điện thoại.** Mỗi thẻ công cụ cài từ Aivon Store từng có nút **Quản lý ở Aivon Store** chiếm nửa bề ngang, ép tên và mô tả vào một cột hẹp. Giờ thẻ dùng hết bề ngang, còn đường dẫn **Quản lý ở Aivon Store** nằm một lần trên tiêu đề nhóm **Từ Aivon Store**. Nút **Cài lại** của công cụ đã gỡ cũng chuyển xuống dòng thao tác dưới mô tả.
+
+## [0.419.0] - 2026-10-30
+### Sửa lỗi
+- **Nút chép lời trên iPhone chạy lại.** Bấm mic là thanh ghi âm hiện ra và nghe ngay bằng nhận giọng có sẵn của Safari, kể cả lần bấm đầu tiên, không còn loé lên rồi tự tắt. Trước đây Aivon hỏi máy chủ một lượt rồi mới bật mic nên lỡ mất khoảnh khắc iPhone cho phép.
+- **iPhone tắt Đọc chính tả thì Aivon nói rõ**: mở Cài đặt, Cài đặt chung, Bàn phím, bật Đọc chính tả. Micro bị chặn thì chỉ đúng nút aA trên thanh địa chỉ Safari thay vì "bấm ổ khoá" vốn chỉ đúng trên máy tính.
+- **Bỏ các lời nhắc cài API key Groq** trong thông báo ghi âm thành chữ: người dùng phổ thông không cần tới.
+
+## [0.418.0] - 2026-10-30
+### Cải thiện
+- **Mở Aivon được cả khi máy chủ đang khởi động lại.** Trước đây tải lại trang đúng lúc máy chủ chưa lên là ra trang lỗi trắng của trình duyệt. Giờ Aivon vẫn hiện đủ giao diện kèm dòng **Đang kết nối lại máy chủ…**, máy chủ lên là tự chạy tiếp. Nếu máy chủ vừa cập nhật lên bản mới, trang tự tải lại bản mới. Chỉ áp dụng khi mở Aivon qua https (link tên miền hoặc link Truy cập từ xa); lúc máy chủ chạy bình thường, Aivon luôn lấy bản mới nhất như cũ.
+- **Con pet nhẹ hơn hẳn khi ngồi yên.** Lúc không ai chạm hay rê chuột, pet giao việc vành quay và liếc mắt cho trình duyệt tự diễn thay vì vẽ từng khung bằng JS. Đo trên điện thoại giả lập ở trang Cộng sự lúc để yên: máy bận khoảng 26% thời gian, giờ khoảng 14%, gần bằng lúc không có pet. Có động tĩnh gì là pet phản ứng ngay như cũ.
+
+## [0.417.0] - 2026-10-30
+### Cải thiện
+- **Aivon mở nhanh hơn, giai đoạn 2: lần mở đầu trên điện thoại 4G từ 5,1 xuống khoảng 4,7 giây.** Code của các trang lớn (Nhóm, Hội thoại, Chatbot, Aivon Store, Thống kê, Webhook, Công việc của trợ lý) không còn tải lúc mở app nữa. Màn chính và khung chat hiện ra trước, phần còn lại tự tải ngầm ngay sau đó, nên lúc bạn bấm sang trang khác thì nó đã sẵn sàng. Mở thẳng vào trang nào thì trang đó tải đúng phần nó cần.
+
+### Sửa lỗi
+- **Máy chủ chập chờn không còn làm vỡ giao diện.** Khi máy chủ đang khởi động lại hoặc đường truyền đứt một nhịp, Aivon tự thử lại trong khoảng 10 giây và hiện dòng nhỏ **Đang kết nối lại máy chủ…** ở đầu trang, nối được là dòng đó tự ẩn. Trước đây mỗi lần như vậy là các ô báo lỗi khó hiểu kiểu "The string did not match the expected pattern". Aivon chỉ thử lại việc đọc dữ liệu, không bao giờ tự gửi lại một lệnh lưu hay gửi tin.
+
+## [0.416.0] - 2026-10-30
+### Cải thiện
+- **Aivon mở nhanh hơn: lần đầu từ 6,3 xuống 5,1 giây, các lần sau từ 1,55 xuống 1,37 giây.** Đo trên điện thoại giả lập mạng 4G. Lượng tải lúc mở app giảm 35% (1,7 MB xuống 1,1 MB):
+  - **Máy chủ tự nén gọn giao diện trước khi gửi.** Bỏ chú thích và khoảng trắng thừa, JS nhẹ đi 44%, CSS nhẹ đi 49%. Mã nguồn vẫn giữ nguyên, số dòng cũng giữ nguyên nên báo lỗi vẫn chỉ đúng chỗ. Muốn tắt thì đặt `AIVON_MINIFY=0`.
+  - **Font chữ nằm sẵn trong Aivon.** Không còn gọi sang Google Fonts lúc mở trang, nên chữ hiện ra sớm hơn, và vẫn đẹp khi máy chạy Aivon không vào được Google.
+  - **Bớt hỏi máy chủ trùng lặp lúc mở app.** Trước đây phần cài đặt bị hỏi 9 lần liền, giờ còn 3.
+- **Trang Sức khoẻ có thêm mục Lỗi giao diện gần đây.** Lỗi xảy ra trên trình duyệt của bất kỳ ai dùng Aivon (máy tính hay điện thoại) tự gửi về đây, gom theo nhóm, kèm phiên bản và loại máy. Gặp lỗi lạ, chụp mục này gửi nhà phát triển là đủ để sửa, không cần đoán từ ảnh màn hình. Chỉ có thông tin kỹ thuật, không có nội dung chat.
+
+## [0.415.0] - 2026-10-30
+### Sửa lỗi
+- **Cập nhật xong không còn kẹt ở màn hình đầy chữ mã.** Bấm cập nhật mà trang tải lại đúng lúc máy chủ còn đang khởi động thì mọi chữ hiện thành mã kiểu `nav.group.bo_nao`, phiên bản hiện sai thành v0.4.3, kèm dòng lỗi "The string did not match the expected pattern", và trang đứng như vậy mãi. Giờ Aivon tự thử lại; máy chủ lên là trang tự tải lại một lần và hiện đúng. Đang gõ dở thì không tải lại, chữ trên màn hình tự về đúng.
+- **Nút Cập nhật chờ máy chủ sẵn sàng hẳn rồi mới tải lại trang**, thay vì tải lại ngay khi thấy số phiên bản mới.
+
+### Cải thiện
+- **Aivon nhẹ hơn trên điện thoại lúc để yên.** Đo trên điện thoại giả lập, ở trang Cộng sự lúc không làm gì, máy bận khoảng 26% thời gian, giờ còn khoảng 21%. Đỡ nóng máy, đỡ hao pin, cuộn mượt hơn:
+  - Con pet lúc nghỉ vẽ 30 khung mỗi giây, lúc ngủ gật 15 (trước luôn là 60). Nhìn không khác, có chuột hay đang làm việc thì vẫn đủ 60.
+  - Nền sao và đồ thị bộ não thôi vẽ khi đang bị trang khác che. Trước đây mở app thẳng vào trang Cộng sự thì đồ thị vẫn vẽ sau lưng suốt.
+- **Mở app nhanh hơn từ lần thứ hai.** Aivon không còn tải lại và kiểm tra hơn 100 file giao diện mỗi lần mở trang. Mỗi bộ file chỉ kiểm một lần trên mỗi máy, ngay sau bản cập nhật. Số yêu cầu lúc mở trang giảm khoảng một nửa.
+
+## [0.414.0] - 2026-10-30
+### Cải thiện
+- **Khách thấy "đang soạn tin" khi bot Zalo cá nhân đang viết** câu trả lời ở chat riêng, như người thật đang gõ. Aivon chuyển sang bản aivon-zalo 1.9.0 (có thêm công cụ báo đang soạn tin); kết nối Zalo tự cập nhật sau khi Aivon khởi động lại, không phải quét QR lại.
+
+## [0.413.0] - 2026-10-30
+### Cải thiện
+- **Bot Zalo cá nhân nhắn có chữ đậm, chữ màu.** Bot viết in đậm hay tô màu (`{red:Giảm 50%}`) thì khách thấy đúng chữ đậm, chữ màu như người thật nhắn, không còn thấy dấu sao `**`.
+- **Hiện "đang soạn tin" trong lúc bot viết** câu trả lời ở chat riêng, khách khó phân biệt bot với người. Cần bản aivon-zalo 1.9.0; bản cũ thì bot vẫn trả lời bình thường, chỉ chưa hiện dòng này.
+
+## [0.412.0] - 2026-10-30
+### Thêm mới
+- **Bot trả lời được hộp thư Zalo Official Account.** Chọn kênh **Zalo OA** ở Chatbot, Thêm kênh, dán App ID, App secret key, OA secret key và Refresh token; bot dùng chung Agent, giờ trực và Hộp thư như các kênh khác. Cần Aivon có tên miền HTTPS.
+- **Aivon tự làm mới token Zalo OA.** Token của Zalo chỉ sống khoảng 25 giờ và mỗi refresh token dùng được một lần, Aivon tự đổi và cất cặp mới ngay, bạn không phải lấy lại mỗi ngày.
+- **Xác thực tên miền Zalo ngay trong form.** Dán tên file `zalo_verifier...html` Zalo đưa, bấm Lưu mã, Aivon phục vụ đúng file đó để bạn bấm Xác thực bên Zalo. Hướng dẫn từng bước ở tài liệu 35.
+
+## [0.411.0] - 2026-10-30
+### Cải thiện
+- **Aivon chỉ hỏi bạn khi thật sự cần.** Khu "Cần bạn xử lý" thành "Aivon đang hỏi bạn", chỉ còn câu hỏi, xin phép và kết quả chờ duyệt; việc tạm dừng vì lỗi kỹ thuật chuyển sang khu "Aivon đang tự lo", báo nhẹ không rung chuông và nói rõ bạn không cần làm gì.
+- **Nhắn thêm cho việc ở mọi trạng thái.** Việc đã xong, tạm dừng hay đang chờ đều có nút Nhắn thêm (ví dụ "viết lại đoạn 2 ngắn hơn"), việc chạy tiếp trên kết quả cũ chứ không làm lại từ đầu; việc trong hàng có thêm nút Chạy ngay.
+- **Biết việc xong đã được kiểm hay chưa.** Thẻ việc ghi Đã kiểm hoặc Chưa kiểm kèm thời gian chạy, việc chưa kiểm có nút Kiểm lại.
+- **Thông minh và nhẹ hơn.** Việc bạn giao tay 3 lần trong 60 ngày được gợi ý thành lịch tự chạy, việc mới tự đến đúng trợ lý và việc nhỏ chạy nhẹ; trang chỉ tải lại khi có thay đổi và Lịch sử hiện việc mới nhất trước.
+
+## [0.410.0] - 2026-10-30
+### Sửa lỗi
+- **Việc hết lượt dùng không còn bị chấm Xong.** Trước đây Claude báo hết lượt bằng một câu Aivon chưa quen mặt chữ (như "You're out of extra usage") hay báo lỗi API giữa chừng thì việc vẫn vào cột Xong, "kết quả" chính là câu báo lỗi. Giờ lượt kết thúc lỗi là lỗi: việc tự hẹn chạy lại lúc gói mở, hoặc nằm ở Cần bạn xử lý kèm lý do.
+- **Việc nền hết lượt Claude thì chuyển sang nhà dự phòng** trong Thứ tự dùng, như Codex vẫn làm, nếu chưa kịp làm gì. Đã làm dở thì dừng và báo, không chạy lại kẻo gửi hai lần.
+- **Trả lời câu hỏi ngay trên thẻ việc được rồi.** Trang Việc tự làm mới mỗi 3 giây và xoá sạch chữ bạn đang gõ trong ô trả lời. Giờ ô giữ nguyên chữ cho tới khi bạn gửi, và nút bấm không còn kẹt xám khi máy chủ trả lỗi.
+
+## [0.409.0] - 2026-10-30
+### Sửa lỗi
+- **Nút ghi âm thành chữ trên điện thoại: bấm X và nút dừng ăn trở lại.** Trước đây lần ghi đầu chạy được, từ lần sau bấm X hay ô vuông đều không có tác dụng, đồng hồ cứ chạy mãi. Nguyên nhân chính: dừng ghi xong Aivon tự đặt con trỏ vào ô nhập nên bàn phím bật lên, lần ghi kế tiếp iPhone hạ bàn phím nhưng để cả trang lệch đi, cái chạm vào X rơi trúng ô nhập (hiện bóng "AutoFill") chứ không trúng nút. Giờ lúc ghi âm ô nhập không giữ con trỏ, dừng ghi không bật bàn phím (chạm vào ô khi muốn sửa), và trang tự về đúng chỗ khi bàn phím hạ.
+- **Thanh ghi âm không còn treo.** Trình duyệt không báo đã dừng thì sau 1,5 giây Aivon tự kết thúc và giữ chữ đã nghe; bấm dừng lần hai là kết thúc ngay. Bấm X lúc đang chuyển thành chữ thì thanh đóng liền, không phải chờ máy chủ. Máy chủ chuyển chữ quá 45 giây thì Aivon thôi chờ và đóng thanh.
+
+## [0.408.0] - 2026-10-29
+### Cải thiện
+- **Chuông thông báo gọn hơn: đọc rồi là ẩn đi.** Danh sách chỉ còn thông báo chưa đọc. Bấm **Đọc tất cả** là danh sách trống ngay. Muốn xem lại thì bấm dòng **Xem N thông báo đã đọc** ở cuối.
+- **Nút X trên từng thông báo** để xoá hẳn nó khỏi hàng đợi, không cần mở ra đọc.
+
+### Sửa lỗi
+- **Bấm "Không cần báo" là thông báo đó rời danh sách ngay.** Trước đây nó vẫn nằm nguyên trong chuông dù Aivon đã ghi nhận. Dòng Aivon Core học được gì hiện một lần ở đầu danh sách.
+- **Việc nền trả lời "không có gì để báo" không còn rơi vào chuông.** Aivon chỉ nhận ra dấu `[SILENT]` khi nó đứng đầu câu trả lời, nên câu kiểu "Tôi sẽ kiểm tra các lượt POSCake bị lỗi. [SILENT]" vẫn thành một thông báo. Giờ dấu đứng đầu hay đứng cuối đều được, cho cả nhắc hẹn lẫn webhook.
+
+## [0.407.0] - 2026-10-29
+### Cải thiện
+- **Store có ô Sắp xếp.** Chọn Đề xuất (mặc định, gói Khuyên dùng lên đầu), Mới cập nhật, hoặc Tên A-Z. Aivon nhớ lựa chọn của bạn trên máy này.
+- **Mô tả dài trên thẻ Store gọn trong ba dòng, kết thúc bằng dấu "…".** Trước đây chữ tràn thêm vài dòng rồi bị cắt ngang giữa chừng. Bấm nút (i) cạnh tên để đọc đủ.
+
+## [0.406.0] - 2026-10-29
+### Cải thiện
+- **Trang Models lần đầu vào dễ bắt đầu hơn.** Chưa có nhà cung cấp nào đăng nhập thì mục **Kết nối thêm nhà cung cấp** nằm trên cùng và mở sẵn danh sách các nhà, bấm là kết nối được ngay. Trước đây mục này nằm cuối trang và phải bấm mới xổ ra.
+- **Căn thẳng hàng trang Models.** Nút **Đổi model** giờ cao bằng và thẳng hàng với nút mức suy nghĩ (Off) bên cạnh. Trên điện thoại, tiêu đề mỗi khối không còn bị bóp thành hai cột: nút (i) nằm ngay cạnh tên, dòng mô tả xuống dòng riêng.
+
+## [0.405.0] - 2026-10-29
+### Cải thiện
+- **Sơ đồ và hình phóng to, kéo được trên cả máy tính và điện thoại.** Khung xem Sơ đồ, hình SVG và ảnh mở trong trình sửa giờ lăn chuột hoặc chụm hai ngón để phóng to, thu nhỏ, giữ chuột hoặc một ngón để kéo. Có nút **+**, **−**, **Vừa khung** và chạm đúp để phóng to nhanh. Trước đây sơ đồ rộng chỉ hiện bé xíu trên điện thoại mà không phóng to được.
+
+## [0.404.0] - 2026-10-29
+### Cải thiện
+- **Tab Kênh gọn hơn.** Thẻ thông tin của nick (trạng thái, bot trực, số hội thoại, Ghi hội thoại, Nhập tin cũ, Xem hội thoại, Mở Kết nối) không còn chiếm chỗ trên đầu danh sách. Bấm nút **Thông tin** cạnh ô "A.I. trực" là thẻ hiện lên dạng popup, y như cũ. Nick đang lỗi thì nút có chấm đỏ.
+- Nút "Cài đặt bot" chuyển vào cuối popup đó.
+- Bỏ các câu hướng dẫn trên danh sách "Nhóm và người". Nơi chưa có A.I. trực thì công tắc "A.I. ở đây" mờ đi, bấm vào sẽ nhắc chọn A.I. trực ở ô phía trên.
+
+## [0.403.0] - 2026-10-29
+### Thêm mới
+- **Aivon Core chỉ huy thông báo.** Mỗi thông báo có nhóm (Nhắc lịch, Câu hỏi chờ bạn, Chatbot và khách, Kết nối và đăng nhập, Sự cố, Kết quả việc...) và mức: bình thường, đáng chú ý hoặc khẩn.
+- **Mặc định chỉ tin khẩn mới báo:** nhắc lịch, câu hỏi chờ bạn, khách cần người thật, chatbot lỗi, Aivon không dùng được, trang bạn theo dõi thay đổi. Tin khác vẫn nằm trong chuông ở ngăn **Đã lọc**, không chấm đỏ, không đẩy lên điện thoại, không gửi Telegram. Việc giao từ một khung chat vẫn báo về đúng khung chat đó.
+- Tab **Bộ lọc** trong chuông: mỗi nhóm chọn Tất cả, Đáng chú ý trở lên, Chỉ tin khẩn hoặc Tắt; xem loại tin có luật riêng; hoàn tác thay đổi.
+- Mỗi thông báo có hai nút **Nên báo** và **Không cần báo**. Muốn chấm bằng emoji thì bấm **Mở trong Aivon Core** rồi thả emoji lên tin đó trong chat như mọi câu trả lời. Aivon Core tự chỉnh theo đó, nói một câu trong chat của nó, và không bao giờ tự giấu tin khẩn.
+- Tin cùng loại báo tới lần thứ 3 trong 6 tiếng thì các lần sau bị lọc là "lặp lại".
+- Nói trong chat Aivon Core, ví dụ "tắt thông báo đăng nhập Zalo", là Aivon Core đổi ngay bằng công cụ mới `aivon_notify`.
+
+## [0.402.0] - 2026-10-29
+### Sửa lỗi
+- **Aivon Core chọn được model.** Mặc định Core theo model chính, đổi model chính là Core đổi theo ngay. Chọn model khác trên thanh model của một chat Core là ghim cho cả Core: mọi chat Core dùng model đó cho tới khi bạn chọn "Theo model của khung chat chính". Trước đây chat Core tự đóng băng ở model của ngày nó được tạo.
+- **Bớt thông báo đăng nhập báo sai:**
+  - Câu trả lời bình thường có nhắc chữ "not logged in" không còn làm Aivon báo "Aivon chưa dùng được".
+  - Báo hỏng rồi thì khởi động lại không báo lại.
+  - Kết nối đang tải lần đầu sau khi khởi động không bị tính là hỏng.
+  - Một việc định kỳ hỏng nhiều lần chỉ thành một sự cố "cần bạn", không báo lại ở mỗi lần hỏng.
+  - Báo Zalo bị giành phiên không lặp lại sau mỗi lần khởi động.
+
+## [0.401.0] - 2026-10-29
+### Sửa lỗi
+- **Thống kê Chatbot tách số theo từng tài khoản.** Trước đây phần trăm "câu trả lời do A.I. lo" gộp mọi nick, nên nick có người gõ tay kéo tụt phần trăm của nick chỉ có A.I. trả lời.
+- Cạnh nút kỳ có ô **chọn tài khoản**. Chọn một nick thì cả trang chỉ tính nick đó. Aivon nhớ lựa chọn này.
+- Bảng theo kênh đổi thành **A.I. và trả lời tay theo tài khoản**: mỗi nick một thanh hai màu, kèm phần trăm A.I. lo của riêng nick đó.
+- "Bạn đã trả lời" đổi thành **Trả lời tay**, vì số này gồm cả tin người khác gõ trên điện thoại của nick.
+
+## [0.400.0] - 2026-10-29
+### Sửa lỗi
+- **Canva và các kết nối đăng nhập OAuth không còn rớt giữa phiên.** Khi token sắp hết hạn, nhiều lệnh cùng lúc từng tự gia hạn bằng cùng một mã, mà Canva chỉ nhận mã đó một lần nên chặn luôn phiên đăng nhập. Giờ chỉ một lệnh đi gia hạn, các lệnh khác dùng chung token mới.
+- Gọi tool giữa cuộc chat luôn dùng token mới nhất. Lỡ máy chủ từ chối token (lỗi 401) thì Aivon tự gia hạn và thử lại một lần, không bắt bạn kết nối lại.
+- Token đổi không còn cắt ngang việc đang chạy dở, ví dụ một thiết kế Canva đang tạo.
+
+## [0.399.0] - 2026-10-29
+### Cải thiện
+- **Thống kê Chatbot cho thấy A.I. giúp bạn được gì.** Đầu trang là khối lợi ích: A.I. đã trả lời thay bạn bao nhiêu tin, lo bao nhiêu phần trăm câu trả lời, ước tính bạn được rảnh bao nhiêu giờ, và trả lời bao nhiêu tin lúc bạn nghỉ (21h đến 7h).
+- **Thêm chỉ số mới:** số khách được phục vụ và khách mới, tốc độ trả lời đầu tiên của A.I. so với bạn, biểu đồ giờ khách nhắn nhiều nhất trong ngày.
+- **Tab Kênh và Thống kê gọn hơn**, cùng cỡ chữ và kiểu nút với tab Hội thoại.
+- **Nút (i) giải thích giờ mở thành popup** ngay cạnh nút (trên điện thoại là bảng trượt từ dưới lên), không còn xổ chữ ra làm xô lệch trang. Áp dụng cho mọi nút (i) trong Aivon.
+
+## [0.398.0] - 2026-10-29
+### Sửa lỗi
+- **Trả lời khách trên điện thoại: Enter là xuống dòng.** Ở trang Chatbot, bấm Enter trên bàn phím điện thoại trước đây gửi tin luôn, không cách nào viết được dòng thứ hai. Giờ Enter xuống dòng như khung chat chính, muốn gửi thì bấm nút gửi. Trên máy tính giữ nguyên: Enter gửi, Shift+Enter xuống dòng.
+- Lúc đang đọc chính tả trong khung chat, Enter trên điện thoại cũng là xuống dòng, không gửi bản ghi nữa.
+
+## [0.397.0] - 2026-10-29
+### Cải thiện
+- **Trang Chatbot trên điện thoại: chỗ đọc tin rộng gấp đôi.** Mở một cuộc chat là nó chiếm cả màn hình: một hàng đầu gồm nút quay lại, tên khách và nút chế độ màu tím. Bấm nút đó để chọn A.I. trả lời, A.I. soạn hay Tôi trả lời, mỗi cái kèm một dòng giải thích. Ô nhập gọn còn một hàng với hai nút tròn.
+- **Trên điện thoại** bỏ chữ "Chatbot" ở đầu trang, bốn tab chỉ còn icon.
+- **Trên máy tính chữ nhỏ và gọn hơn.** Mỗi khách 2 dòng, vẫn có số tin của cả cuộc chat và số chưa đọc; dòng thứ ba chỉ hiện khi có tag.
+- **Bốn nút lọc hay gãy chữ** (Cần bạn, A.I. đang xử lý...) gộp thành **một nút thả xuống**, luôn hiện số "Cần bạn". Mỗi lựa chọn có một dòng nói rõ nghĩa.
+- **Ba chế độ trả lời nằm ngay đầu cuộc chat.** Thanh màu bên dưới chỉ hiện khi cần bạn làm gì đó. Tag của khách hiện cạnh tên, có nút "+ Tag".
+- **Bảng Thông tin đóng sẵn**, bấm nút ⓘ mới mở, Aivon nhớ lựa chọn của bạn. Tin nhắn nằm trong một cột giữa dễ đọc.
+- Nút "A.I. trả lời" ở ô nhập đổi tên thành **"A.I. soạn"** cho đúng việc nó làm: A.I. viết sẵn, bạn bấm Gửi mới đi. Bản nháp hiện ngay trong khung ô nhập.
+
+## [0.396.0] - 2026-10-29
+### Cải thiện
+- **Nhóm chat giờ giữ 1.000 tin gần nhất trong Hòm thư, thay vì 100.** Nhóm đông người nói nhiều cũng xem lại được mấy ngày chat. Chat riêng với khách vẫn lưu hết như cũ.
+- Tin đã bị cắt trước đây không tự quay lại; từ giờ nhóm tích dần tới 1.000 tin rồi mới bắt đầu xoá tin cũ nhất.
+
+
+## [0.394.0] - 2026-10-29
+### Sửa lỗi
+- **Chuyển sang app khác rồi quay lại, lượt đang chạy không còn trông như đã dừng.** Aivon vẫn làm tiếp trên máy chủ khi bạn rời app, nhưng lúc nối lại khung chat xoá mất dòng "Aivon đang suy nghĩ" và không hiện phần đã viết, nên trông như lệnh bị dừng cho tới khi câu trả lời xong mới bật ra. Giờ dòng trạng thái quay lại ngay, kèm phần chữ Aivon đã viết trong lúc bạn đi vắng.
+- **Quay lại app, kết nối đã chết được phát hiện sau khoảng 20 giây thay vì có khi tới 50 giây,** nên khung chat bắt kịp nhanh hơn trên điện thoại.
+
+## [0.393.0] - 2026-10-29
+### Sửa lỗi
+- **Menu trên điện thoại mở được trở lại.** Trên iPhone, bấm nút ba gạch chỉ làm màn hình tối đi mà không thấy menu: Safari vẽ menu lúc đang trượt rồi làm mất nó. Menu giờ trượt theo cách Safari không vẽ hỏng, đóng là ẩn hẳn.
+### Cải thiện
+- Trên điện thoại, **nút giao diện sáng tối** chuyển xuống dòng phiên bản ở đáy menu, nằm cạnh nút thu mở thanh bên cho gọn.
+
+## [0.391.0] - 2026-10-29
+### Sửa lỗi
+- **Chỉ mục năng lực `Aivon/index.md` giờ tự cập nhật ở mọi brain**, không chỉ Brain Default. Trước đây brain nào chưa có loop thì file này đứng yên từ ngày tạo, nên vẫn ghi "0 agent" dù brain đã có hàng chục agent, và AI đọc nó để kiểm tra trùng thì bị sai.
+- Thêm, sửa, xoá agent, skill, workflow, loop hay plugin thì chỉ mục cập nhật trong khoảng 30 giây, kể cả khi AI tự ghi file. Không cần tắt bật plugin để ép dựng lại nữa.
+- **Nhẹ hơn trước:** Aivon chỉ dựng lại brain nào thực sự có thay đổi, nên có nhiều brain cũng không làm máy chậm đi.
+
+## [0.390.0] - 2026-10-29
+### Cải thiện
+- **Aivon Store tối đa 3 cột thẻ**, vừa đúng 6 hàng cho mỗi trang 18 mục. Màn hẹp vẫn tự xuống 2 cột, điện thoại 1 cột.
+- **Thẻ bớt nhãn:** bỏ nhãn loại (tab đang mở đã nói rồi) và nhãn chính chủ, cộng đồng. Chỉ gói có chạy mã mới có một chip màu hổ phách nhỏ ở góc, cạnh chip nhóm, nên tên gói nằm gọn một dòng.
+- Nút Làm mới không còn bị đẩy ra ngoài mép trên màn rộng. Giờ lấy danh mục hiện khi rê chuột vào nút.
+
+## [0.387.0] - 2026-10-29
+### Sửa lỗi
+- **Claude Code và Codex giờ thật sự được giữ sẵn giữa các tin nhắn.** Ở 0.382.0, Aivon tưởng cấu hình đổi sau mỗi tin (vì Claude Code và Codex tự ghi lại file đăng nhập) nên lần nào cũng mở lại từ đầu. Đo lại trên dashboard: tin nhắn tiếp theo hiện chữ sau khoảng 2 giây, thay vì 8 tới 14 giây.
+- **Gõ là mở sẵn, giờ chạy thật** với cả Claude Code và Codex, và nhớ được cuộc chat đã nghỉ tới 12 tiếng (trước là 1 tiếng). Đăng nhập hay đăng xuất thì Aivon tự mở lại bằng tài khoản mới.
+
+## [0.386.0] - 2026-10-28
+### Cải thiện
+- **Aivon Store trên điện thoại:** sáu nút tab loại đổi thành ô thả xuống, đặt cạnh ô chọn nhóm trên cùng một hàng đứng yên khi cuộn. Mỗi lựa chọn ghi sẵn số mục và số bản mới, chữ to dễ bấm hơn. Máy tính giữ nguyên tab như cũ.
+
+## [0.385.0] - 2026-10-28
+### Sửa lỗi
+- **Đăng nhập Claude trên trang Models không còn báo xong rồi lại về "Chưa đăng nhập".** Claude CLI vẫn báo thành công cả khi không lưu được phiên (trên Mac là Keychain bị khoá), Aivon tin theo nên thẻ quay về như cũ mà không nói gì. Giờ Aivon kiểm lại ngay, và nếu chưa lưu được thì nói rõ lý do kèm cách xử lý.
+- Dán nhầm mã rồi dán lại mã đúng không còn bị trả lỗi của lần trước. Mã bị từ chối thì thẻ hiện đúng câu Claude trả về.
+
+## [0.384.0] - 2026-10-28
+### Cải thiện
+- **Aivon Store gọn lại:** bỏ tiêu đề và các dòng giới thiệu lặp lại, thanh tab cùng hai nút Làm mới, Cài từ tệp .zip gộp thành một hàng **đứng yên khi cuộn**. Cột nhóm chuyển sang bên phải và cũng đứng yên.
+- **Phân trang 18 mục một trang**, có nút trang trước, trang sau. Sang trang mới là về ngay thẻ đầu tiên.
+- **Trên điện thoại hết vỡ khung:** sáu tab vừa một hàng, nhóm chọn bằng một ô thả xuống cạnh ô tìm, hai nút Làm mới và Cài từ tệp thu thành biểu tượng.
+
+## [0.382.0] - 2026-10-28
+### Cải thiện
+- **Claude Code trả lời nhanh hơn từ tin nhắn thứ hai.** Aivon giữ sẵn Claude Code giữa các tin nhắn của một cuộc chat thay vì mở lại mỗi lần. Đo trên máy thật: tin nhắn tiếp theo từ khoảng 10 giây còn khoảng 4 giây.
+- **Codex hiện chữ ngay khi đang viết**, không còn bắt chờ hết cả đoạn. Codex cũng được giữ sẵn giữa các tin nhắn, và luật của Aivon chỉ gửi một lần mỗi cuộc chat thay vì gửi kèm mọi tin, nên cuộc chat dài không chậm dần.
+- Chỉ cần bắt đầu gõ là Aivon mở sẵn bộ não cho cuộc chat vừa nghỉ quá 5 phút. Số bộ não giữ sẵn tự giới hạn theo RAM trống của máy, việc chạy nền và bot khách vẫn chạy như cũ.
+
+## [0.381.0] - 2026-10-28
+### Cải thiện
+- Mục **Models** chuyển từ nhóm Kết nối sang nhóm **Hệ thống** trên thanh bên: chọn não A.I. là cài đặt của chính Aivon, còn Kết nối dành cho dịch vụ bên ngoài.
+
+## [0.380.0] - 2026-10-28
+### Sửa lỗi
+- **Danh sách Hội thoại:** hiện lại số tin của cả cuộc chat (ô xám "12 tin") cạnh số đỏ chưa đọc. Ô trả lời bỏ hai dòng chú thích, chỉ giữ cảnh báo tin đi dưới tên bạn ở tài khoản cá nhân.
+- **"Cần bạn" đúng hơn:** mở đọc cuộc chat là ra khỏi Cần bạn, khách nhắn mới mới quay lại. Tin báo kết bạn ("đã đồng ý kết bạn") không tính là khách chờ. Cuộc chat của nick đã có A.I. không còn hiện "Tạo A.I. cho kênh này".
+- **Tab Kênh:** nhóm và người của một nick chia trang 20 cuộc (Trước/Sau, "21-40 / 289"), tìm được trên mọi trang. Cột kênh bên trái đứng yên khi cuộn và có ô tìm nick, Page (gõ không dấu cũng được).
+- Khách thả cảm xúc thì ghi đúng tên khách, không còn ghi "Bot thả cảm xúc".
+
+## [0.379.0] - 2026-10-28
+### Sửa lỗi
+- **Cho phép nhóm của Zalo Bot giờ lưu được.** Mã nhóm của Zalo Bot có dạng `zgr-...` nên trước đây bị bỏ ngầm: bấm "Cho phép nhóm này" báo xong mà nhóm vẫn đứng ở "chờ duyệt" và bot không trả lời trong nhóm. Cảm ơn @VQTPiano đã báo lỗi kèm cách sửa (#875).
+
+## [0.378.0] - 2026-10-28
+### Sửa lỗi
+- **Bot chat khách có hồ sơ dài không còn im lặng.** Trên VPS, bot chạy bằng gói Claude có prompt vượt khoảng 128 KB (hồ sơ trợ lý dài cộng ngữ cảnh khách mỗi lượt) thì Claude không khởi động được và khách không nhận được trả lời. Giờ prompt đi qua tệp, dài bao nhiêu cũng chạy. Cảm ơn @QuanAMG đã báo lỗi kèm chẩn đoán (#871).
+
+## [0.377.0] - 2026-10-28
+### Thêm mới
+- **Tab Kênh trên trang Chatbot:** mọi nick Zalo, Page, bot Telegram xếp theo kênh với logo thật. Chọn A.I. trực từng nơi bằng một hộp chọn, đổi xong mới hiện Huỷ và Lưu. Có "Không cần A.I.", "Gắn A.I. cho nhiều Page" một lần, và công tắc A.I. từng nhóm, từng người có Hoàn tác.
+- **Tab Thống kê:** A.I. đã trả lời bao nhiêu tin, bạn đã trả lời bao nhiêu, khách chờ trung bình bao lâu, so với kỳ trước, kèm biểu đồ theo kênh và theo bot. Chọn kỳ bằng bộ chọn ngày đầy đủ: hôm nay, 7, 30, 90 ngày, tháng trước, đầu tuần, đầu tháng, hoặc chọn ngày trên lịch.
+- **Bộ lọc Hội thoại đầy đủ hơn:** thêm Thời gian (cùng bộ chọn ngày), Tin cuối của ai (khách, A.I., bạn) và Chỉ chat đã ghim. Danh sách trống vì lọc thì có nút Bỏ lọc ngay giữa.
+
+### Sửa lỗi
+- Đổi bot trực một Page thì các cuộc chat cũ của Page đó cũng theo bot mới, không còn báo "chưa có bot". Tắt A.I. ở một chat mà không lưu được thì báo lỗi rõ thay vì báo đã xong.
+## [0.376.0] - 2026-10-28
+### Cải thiện
+- **Dưới mỗi câu trả lời có thêm nút ghim và nút loa.** Nút ghim đưa câu trả lời vào mục lục của cuộc trò chuyện (dải vạch bên phải, nút ≡ trên điện thoại), có dấu ghim màu cam, bấm là nhảy tới; ghim lưu trên máy chủ nên máy khác vẫn thấy. Nút loa đọc thành tiếng đúng câu đó, bấm lần nữa là dừng.
+- **Bỏ số token ở dòng nhỏ dưới câu trả lời.** Dòng đó chỉ còn engine, model và chế độ ngữ cảnh; số token xem ở trang Mức dùng.
+- **Tab "Repo khuyên dùng" đổi tên thành "Khuyên dùng".** Tên ngắn hơn, bỏ từ kỹ thuật "repo", vừa một hàng trên điện thoại. Dòng trên thẻ đổi thành "Cập nhật từ tác giả".
+- **Icon trong Aivon Store đẹp và rõ hơn.** Bỏ ô chữ cái đậm màu. Kỹ năng hiện icon mảnh ghép như trang Kỹ năng, quy trình và công cụ có icon riêng, mỗi thẻ một màu nhạt. Trợ lý hiện chân dung trợ lý giống trang Cộng sự. Gói có logo thật thì vẫn hiện logo.
+
+### Thêm mới
+- **Khuyên dùng có thêm 15 bộ kỹ năng nổi nhất**, đều lấy nguyên bản và tự cập nhật theo tác giả: Superpowers, GitNexus, REA, bộ skill của Matt Pocock, Anthropic Skills, Vercel, lập kế hoạch bằng tệp, UI/UX Pro Max, Marketing Skills (52 skill), Humanizer, Claude cho Marketing, Bán hàng và Doanh nghiệp nhỏ, HyperFrames, Video Use. Có ngay trong Aivon Store, không cần cập nhật app.
+## [0.375.0] - 2026-10-28
+### Cải thiện
+- **Aivon tự chuẩn bị trình duyệt ngay sau khi cài.** Máy chưa có Chrome hay Edge thì Aivon tự tải một bản Chromium gọn (khoảng 100 MB) ở nền lần khởi động đầu, không phải vào trang Công cụ bấm nút nữa. Aivon vẫn mở dùng được ngay trong lúc tải.
+- Máy đã có Chrome hoặc Edge thì Aivon dùng luôn, không tải thêm gì. Ai đã bấm Gỡ trình duyệt thì Aivon tôn trọng, không tự tải lại.
+- Không muốn tự tải: đặt biến môi trường `AIVON_SKIP_BROWSER=1`.
+
+## [0.372.0] - 2026-10-28
+### Thêm mới
+- **Tab Hội thoại mới của trang Chatbot.** Máy tính chia ba cột: khách, khung chat, bảng Thông tin. Mỗi dòng khách có viền màu cho biết ai đang lo: Cần bạn, A.I. đang xử lý, Bạn đang xử lý.
+- **Chọn kênh bằng ô tick:** gộp nhiều nick Zalo, nhiều Page cùng lúc, mỗi nơi có số chat Cần bạn. Nút **Lọc** gom thẻ, loại chat, bot, tình trạng vào một menu.
+- **Thanh "Ai trả lời" ngay dưới tên khách:** A.I. tự trả lời, A.I. soạn rồi bạn duyệt, hoặc Tôi trả lời. Đổi xong có Hoàn tác.
+- **Nút "A.I. trả lời":** gõ lệnh (ví dụ "báo giá sỉ 20 thùng"), A.I. viết thành câu trả lời trong khung nháp, bạn sửa rồi mới gửi. Bảng Thông tin có ghi chú về khách.
+
+## [0.371.0] - 2026-10-28
+### Thêm mới
+- **Phần nền cho trang Chatbot mới** (giao diện ra ở bản kế tiếp). Mỗi cuộc chat giờ có một trạng thái chung: A.I. đang xử lý, Bạn đang xử lý, Cần bạn, hoặc Chỉ ghi lại.
+- **Chế độ mới "A.I. soạn, tôi duyệt":** bot viết sẵn câu trả lời nhưng không gửi, chờ bạn bấm Gửi, Viết lại hoặc Bỏ.
+- **Tắt A.I. ở riêng một cuộc chat** mà không phải đổi cài đặt cả bot, và **ra lệnh cho A.I.** (ví dụ "báo giá sỉ 20 thùng") để nó viết câu trả lời cho khách.
+
+## [0.370.0] - 2026-10-28
+### Thêm mới
+- **Repo khuyên dùng trong Aivon Store.** Tab mới đứng đầu Store, gồm các bộ skill chép nguyên văn từ repo GitHub của chính tác giả, không dịch, không sửa. Mỗi thẻ có link về repo gốc và ngày lấy bản mới nhất. Kho so lại với repo gốc mỗi ngày: tác giả sửa skill là gói lên bản mới, Aivon báo trong chuông, bạn bấm Cập nhật. Skill bạn đã tự sửa thì giữ nguyên.
+- **Hai bộ đầu tiên:** Remotion (12 skill chính chủ để làm video bằng React: tạo dự án, hoạt hình, phụ đề, bản đồ, xuất video) và Lemo-Opuscar (dựng phim ngắn hoàn toàn bằng code theo 59 phong cách).
+
+### Cải thiện
+- **Skill kèm tệp riêng chạy được trên mọi engine.** Skill có `scripts/` hay `references/` giờ nói cho model biết thư mục của nó khi được nạp, như Claude Code vẫn làm, nên model tìm đúng tệp thay vì đoán.
+
+## [0.369.0] - 2026-10-28
+### Sửa lỗi
+- **Bấm Tải về khi xem ảnh trên iPhone giờ lưu được ảnh.** Trước đây nút này chỉ mở ảnh ra một trang mới. Giờ nó mở bảng chia sẻ của iPhone, bạn chọn "Lưu hình ảnh" là ảnh vào thẳng ứng dụng Ảnh. Vuốt sang ảnh khác rồi bấm Tải về thì lưu đúng ảnh đang xem.
+
+## [0.368.0] - 2026-10-28
+### Cải thiện
+- **Chọn repo và nhánh gọn hơn.** Bấm chip repo trong khung chat (hoặc dấu cộng, mục Repo GitHub) là hiện menu nhỏ "Đổi repo" và "Đổi nhánh". Danh sách repo tách hai mục "Đã chọn" và "Repo", tên chủ repo nhỏ phía trên, tên repo to bên dưới, có nút "Kết nối thêm".
+- **Làm việc từ nhánh khác nhánh mặc định.** Chọn nhánh (ví dụ dev) trước hoặc giữa cuộc trò chuyện: Aivon tách nhánh làm việc từ đó và mở PR vào đúng nhánh đó. Nhánh đang chọn hiện ngay trên chip. Cuộc trò chuyện đang có việc dở thì Aivon không cho đổi, để không mất việc.
+
+## [0.367.0] - 2026-10-28
+### Cải thiện
+- **Thẻ GitHub và thẻ Messenger trên trang Kết nối gọn lại.** Thẻ chỉ còn một hàng đếm số repo hoặc số Fanpage, bấm "Xem chi tiết" mới mở cửa sổ đầy đủ, giống thẻ bot ở trang Chatbot. Nối nhiều repo hay nhiều Fanpage không còn kéo dài cả trang.
+
+### Sửa lỗi
+- **Trang Kết nối đếm cả GitHub.** Dòng "Đã kết nối" trước đây ghi "0 tài khoản" dù GitHub đã nối. Giờ GitHub và các Page Facebook đều được cộng vào cùng một con số, thẻ nào hiện sau cũng không làm mất số của thẻ kia.
+
+## [0.366.0] - 2026-10-28
+### Thêm mới
+- **Một engine khác kiểm tra chéo trước khi merge.** CI xanh rồi, diff được gửi cho một engine khác hãng với engine đã viết code (ví dụ code bằng Claude thì ChatGPT xem). Góp ý phải chỉ ra đường lỗi cụ thể, quay về cho engine viết code tự kiểm và sửa, chưa xử lý xong thì chưa merge. Chỉ có một hãng thì Aivon ghi rõ trên PR là chưa được kiểm tra chéo.
+- **Aivon rút kinh nghiệm theo từng repo:** lỗi CI đã sửa được, lệnh kiểm tra từng hỏng, mỗi thứ thành một dòng bài học (tối đa 30) và được nhắc lại ở lượt sau.
+- **Bảng số liệu theo engine và model** trên thẻ GitHub: tỉ lệ xanh ngay lần đẩy đầu, số vòng sửa, số góp ý, thời gian tới lúc merge.
+- **Có hướng dẫn sử dụng GitHub trong chat** (tiếng Việt và tiếng Anh) trong mục tài liệu.
+
+## [0.365.0] - 2026-10-28
+### Thêm mới
+- **CI xanh là Aivon tự merge PR**, có công tắc bật tắt cho từng repo trên thẻ GitHub. Thay đổi bị đánh dấu, còn góp ý chưa xử lý, repo không có CI hay repo còn điều kiện chưa đạt thì không tự merge. Người vẫn bấm Merge được trong bảng chi tiết.
+- **Mỗi cuộc trò chuyện có biểu tượng trạng thái GitHub** ngay cạnh tên trong danh sách chat: đang làm, sẵn sàng, đã merge, cần người xem. Bấm vào để xem nhánh, PR, kết quả kiểm tra và lý do bị kẹt.
+- **Xếp hàng việc tiếp theo:** việc mới chỉ bắt đầu khi PR trước đã merge và kiểm tra sau merge đã xanh. Nhánh tụt sau main thì GitHub cập nhật trước, xung đột thì Aivon mở một vòng sửa.
+
+## [0.364.0] - 2026-10-28
+### Thêm mới
+- **Aivon tự đẩy code lên GitHub và mở PR nháp** sau lượt chat có sửa repo và qua được bước kiểm tra. Commit đứng tên tài khoản đã kết nối, không bao giờ đẩy đè.
+- **Aivon theo dõi CI của từng commit.** Xanh thì báo trong chat và chuyển PR sang sẵn sàng. Đỏ thì tự mở lượt sửa ngay trong chat đó, kèm log lỗi đã che bí mật, tối đa 3 vòng rồi dừng và nhờ người xem.
+- **Biết lúc nào không phải lỗi của mình:** nhánh chính cũng đỏ thì dừng, máy chạy CI hỏng thì chạy lại đúng một lần, repo không có CI thì nói rõ là chưa được kiểm chứng.
+- Khởi động lại máy giữa chừng cũng không đẩy hay mở PR hai lần.
+
+## [0.363.0] - 2026-10-28
+### Thêm mới
+- **Aivon tự kiểm tra code sau mỗi lượt có sửa repo GitHub.** Nó chạy đúng các lệnh CI của repo ngay trên máy (đọc từ thư mục workflows của repo, bỏ các bước cài vào máy, cần secret hay deploy), rồi báo kết quả vào chính cuộc trò chuyện.
+- **Chặn trước khi đẩy:** diff có thứ giống mật khẩu, token thì không cho commit; bỏ qua test, xoá test, sửa workflow để cho CI xanh thì bị đánh dấu để người xem trước khi merge.
+- **Mọi engine đều đọc luật của repo** (AGENTS.md, CLAUDE.md, CONTRIBUTING.md), không riêng Claude Code. Danh sách lệnh kiểm tra của từng repo sửa được ở thẻ GitHub trên trang Kết nối.
+
+## [0.362.0] - 2026-10-28
+### Thêm mới
+- **Kết nối GitHub có sẵn trên trang Kết nối.** Dán token một lần, hoặc bấm dùng chung token sao lưu brain. Không phải cài thêm gói nào.
+- **Gắn repo GitHub vào cuộc trò chuyện:** bấm dấu cộng, chọn Repo GitHub, tích một hay nhiều repo. Aivon tải repo về máy (ngoài thư mục brain), mỗi cuộc trò chuyện làm trên nhánh và thư mục riêng, nên hai cuộc cùng sửa một repo không đè việc của nhau.
+- **Gỡ repo khỏi brain** chỉ xoá bản trên máy, repo trên GitHub giữ nguyên. Aivon từ chối gỡ khi còn sửa đổi chưa lưu hay commit chưa đẩy lên.
+- Bản này chưa tự đẩy code lên GitHub. Phần kiểm tra, đẩy lên, mở PR và theo dõi CI đến ở các bản kế tiếp.
+
+## [0.361.0] - 2026-10-27
+### Cải thiện
+- **Nội bộ:** test cảm xúc của linh vật không còn đỏ ngẫu nhiên trên CI. Linh vật chớp mắt vào lúc ngẫu nhiên, và khoảng 1/400 lần chạy test soi mắt đúng khung hình đang nhắm. Giờ test chờ qua cái chớp mắt rồi mới soi. Linh vật trong app không đổi gì.
+
+## [0.360.0] - 2026-10-27
+### Cải thiện
+- **Đã chốt bản thiết kế "GitHub ngay trong khung chat".** Sắp tới bạn chọn repo GitHub từ nút cộng của khung chat, giao việc bằng lời, Aivon sửa trên nhánh riêng, tự kiểm tra, mở PR, theo dõi CI, xanh thì tự merge (tắt được theo từng repo). Bản này chỉ có tài liệu thiết kế, chưa có tính năng mới.
+- Kết nối GitHub sẽ có sẵn trên trang Kết nối, không phải cài thêm gói nào.
+
+## [0.359.0] - 2026-10-27
+### Sửa lỗi
+- **Khung chat trên iPhone khi cài như app (Thêm vào MH chính) không còn hụt đầu hay thừa khoảng trống dưới ô nhập.** Lúc không gõ, khung chat lấy đúng chiều cao phần màn hình nhìn thấy; bàn phím hạ xuống mà trang bị trượt lên thì tự kéo về. Thanh trạng thái giữ nguyên như cũ. Cảm ơn hwangrin đã báo và đề xuất ở PR #850.
+
+## [0.358.0] - 2026-10-27
+### Sửa lỗi
+- **Tin anh chị vừa gửi trong Nhóm luôn hiện.** Trước đây thỉnh thoảng gửi xong không thấy câu của mình vì 3 lý do, giờ đã sửa cả 3:
+  - Trên điện thoại, bàn phím hay khung soạn cao lên làm tin mới nhất bị che dưới khung soạn. Giờ khung chat tự giữ tin cuối trong tầm nhìn (chat chính cũng được sửa theo).
+  - Lần tải lại tin bị lỗi mạng hay về muộn từng xoá mất bong bóng tin vừa gửi. Giờ bong bóng chỉ biến mất khi bản trên máy chủ đã hiện, và ghi "Đã gửi" trong lúc chờ.
+  - Gửi tin khi đang lọc xem một việc giờ tự quay về cả cuộc trò chuyện để thấy tin đó.
+
+### Cải thiện
+- **Thành viên Nhóm nói ngắn gọn như nhắn tin**: thường 1 đến 3 câu, không chào hỏi, không tiêu đề hay bảng. Sản phẩm dài thì ghi vào file và chỉ báo file nào kèm ý chính. Bước tổng hợp cuối cũng ngắn, không kể lại từng bước.
+- **Xem ảnh trong chat vuốt trái, phải sang các ảnh khác** của cùng khung chat, có bộ đếm "2 / 4" như trình xem ảnh của điện thoại. Trên máy tính dùng nút mũi tên hai bên hay phím ← →. Áp cho mọi khung chat: chat chính, chat Nhóm, ngăn Thông tin của Nhóm, Hội thoại khách hàng.
+- **Trang Nhóm trên điện thoại gọn hơn**: đầu khung chat bỏ viền hộp quanh các nút, tin của trợ lý bỏ khung viền và rộng chỗ cho chữ hơn, tiêu đề trong tin cùng cỡ chữ, bảng gọn và cuộn ngang. Ngăn cài đặt Team dùng một cỡ chữ 16px và tiêu đề mục đều nhau. Nút Tạo team và Nhập team đứng cùng hàng.
+
+## [0.357.0] - 2026-10-27
+### Thêm mới
+- **Giao việc cho Team ngay từ chat.** Nói với Aivon "giao cho Phòng nội dung viết 3 bài", Aivon giao đúng một việc vào Team đó, Team tự điều phối như khi bạn giao ở trang Nhóm. Xong, bị chặn hay cần bạn quyết thì kết quả tự báo về đúng khung chat đã giao (web, Telegram, Zalo) và hòm thư.
+- Tin báo nói rõ việc **XONG** hay đã **ĐẠT nghiệm thu**. Việc cần bạn duyệt vẫn dừng ở thẻ của bạn, Aivon không duyệt thay. Lỡ gọi lại cùng yêu cầu cũng không ra việc thứ hai. Chỉ chủ mới giao được; Team của brain khác bị từ chối trước khi tạo việc (issue #826).
+
+## [0.356.0] - 2026-10-27
+### Sửa lỗi
+- **Tạo ảnh bằng gói ChatGPT không còn chết ở lỗi "Tool choice image_generation not found".** Model ChatGPT nào không có công cụ tạo ảnh thì Aivon tự chuyển sang model khác của tài khoản, như khi model bị từ chối (issue #854).
+- **Đăng nhập Google Workspace khi chạy Aivon bằng Docker trên máy tính.** Trước đây bấm đồng ý xong trình duyệt báo không kết nối được localhost:8000. Giờ Aivon tự lo phần trong container; bạn chỉ cần mở cổng 8000 một lần bằng file docker-compose.google.yml (cổng chỉ mở cho chính máy đó), và bấm Kết nối lần đầu sẽ có lời nhắc đúng lệnh cần chạy. Cập nhật bằng update.sh giữ nguyên cổng này (issue #855).
+
+## [0.355.0] - 2026-10-27
+### Cải thiện
+- **Model "mặc định" giờ ghi rõ là model nào.** Ở trang Models, chip model và bảng chọn model hiện ví dụ "mặc định (llama-3.3-70b-versatile)" thay cho chữ "mặc định" trơn, để bạn biết thẻ đó đang chạy model gì khi chưa chọn riêng. Thẻ gói (Claude Code, ChatGPT, Grok) chưa đặt model thì ghi "mặc định của CLI (tự chọn theo gói)". Chip model ở khung chat cũng gọi đúng tên model đó.
+- **Gợi ý đặt tên tài khoản gói rõ ràng hơn.** Ô tên khi thêm tài khoản giờ gợi ý kiểu "Gói Pro 2" hay "Gói Max 200".
+### Sửa lỗi
+- **Nhiều tài khoản một gói chạy đúng hơn.** Hai cuộc trò chuyện cùng lúc không còn cho nghỉ nhầm tài khoản (tài khoản nghỉ là đúng tài khoản vừa hết lượt). Việc nền gọi một model mà gói không có không còn khiến tài khoản đó nghỉ luôn cho chat; chỉ hết lượt thật mới nghỉ. Tài khoản bạn đã tắt không bao giờ bị dùng, kể cả khi các tài khoản khác đều đang nghỉ.
+- **Đăng nhập lại không còn báo xong ngay.** Trước đây bấm Đăng nhập lại cho tài khoản Grok hay Claude thứ hai thì trang báo xong trong vài giây vì thấy file đăng nhập cũ; giờ phải đăng nhập xong thật mới tính.
+- **Không còn mất tài khoản khi mở trang Models ở hai nơi.** Đổi thứ tự hay bật tắt ở một trang cũ (mở trước khi thêm tài khoản) không còn xoá tài khoản mới thêm; chỉ bấm Gỡ mới xoá.
+- **Tài khoản Claude thêm dùng được các MCP bạn đã nối trong Claude Code**, giống tài khoản 1. Trên Linux và Windows, tài khoản Claude chỉ tính là đã đăng nhập khi có file đăng nhập thật.
+
+## [0.354.0] - 2026-10-27
+### Cải thiện
+- **Hết lượt thì chat tự chạy lại bằng đường kế tiếp.** Mô hình đang chạy báo hết lượt trước khi kịp viết chữ nào hay gọi công cụ nào thì Aivon hỏi lại ngay đúng câu đó bằng tài khoản hoặc key kế của cùng nhà, rồi tới nhà kế trong Thứ tự dùng. Khung chat hiện một dòng như "Đang dùng ChatGPT vì Claude Code hết lượt." và bạn không phải gửi lại. Telegram cũng vậy.
+- **Hết lượt giữa chừng thì có nút Chạy lại ngay.** Câu trả lời dừng ở đoạn đã viết, bấm nút là hỏi lại bằng mô hình còn lượt. Aivon không tự chạy lại khi đã gọi công cụ, để không gửi tin hay đăng bài hai lần.
+
+## [0.353.0] - 2026-10-27
+### Thêm mới
+- **Nhiều tài khoản cho một gói đăng ký.** Thẻ ChatGPT, Grok Build và Claude Code ở trang Models giờ có danh sách tài khoản. Bấm Thêm tài khoản, đăng nhập bằng link và mã ngay trên trang (chạy được cả trên VPS). Tài khoản 1 là tài khoản máy đang dùng. Hết lượt thì tài khoản kế tiếp tự chạy tiếp, dùng hết các tài khoản của một thẻ rồi mới sang thẻ sau. Tài khoản hết lượt tự quay lại khi tới giờ mở. Kéo hoặc bấm mũi tên để đổi thứ tự, tắt hay gỡ từng tài khoản.
+- Dùng nhiều tài khoản cùng gói có nguy cơ bị nhà cung cấp khoá, dù Aivon chưa ghi nhận trường hợp nào. Nếu gặp, hãy báo cho nhà phát triển.
+
+## [0.352.0] - 2026-10-27
+### Cải thiện
+- **Lời nhắc về rủi ro khoá tài khoản viết lại nhẹ nhàng hơn.** Dùng gói đăng ký (Claude Pro/Max, gói xAI) cho việc nền vẫn có nguy cơ bị nhà cung cấp khoá tài khoản, nhưng Aivon chưa ghi nhận trường hợp nào. Nếu bạn gặp, hãy báo cho nhà phát triển để mọi người cùng biết.
+- **Chọn model trên điện thoại dễ hơn.** Ở trang Models, bấm chip model, chip Effort hay "Đổi model" của việc nền giờ mở một bảng trượt lên từ đáy màn hình, có tiêu đề và nút đóng, hàng to dễ bấm. Bàn phím chỉ bật khi bạn chạm vào ô tìm. Danh sách model xếp gọn: "mặc định" trên cùng, model đang dùng ngay sau, còn lại theo thứ tự chữ cái. Nhãn MAIN hay Dự phòng chuyển xuống hàng chip để tên nhà cung cấp không bị bẻ dòng.
+- **Bỏ mục "Bot dựa vào đâu để trả lời" ở form tạo chatbot.** Bot nào cũng trả lời theo Agent và tài liệu, nên không cần chọn nữa. Bot cũ đang để "Chỉ tài liệu" giữ nguyên tới khi bạn sửa và lưu lại; muốn bot chỉ nói theo tài liệu thì ghi luật đó vào file Agent.
+### Sửa lỗi
+- **Bảng chọn model không còn bị thẻ bên dưới che.** Trên máy tính, bảng chọn model hay Effort mở xuống dưới từng bị thẻ nhà cung cấp kế tiếp đè lên, không bấm được. Giờ bảng luôn nằm trên cùng.
+
+## [0.351.0] - 2026-10-27
+### Cải thiện
+- **Trang Models mới: một danh sách Thứ tự dùng.** Chỉ hiện các nhà đã đăng nhập, thẻ trên cùng là mô hình chính (MAIN), các thẻ sau là Dự phòng 1, 2... Kéo thẻ (trên điện thoại giữ nút 6 chấm hoặc nhấn giữ thẻ) hoặc bấm Đảo để đổi thứ tự. Mỗi thẻ có chip chọn mô hình và chip Effort riêng, giống khung chat. Thẻ dự phòng đang thay MAIN chạy chat thì sáng chữ ĐANG DÙNG.
+- **Nhiều API key cho một nhà cung cấp.** Thẻ API hiện danh sách key đánh số: thêm key, đổi tên, chuyển lên xuống, tắt, đổi key, gỡ. Key đang chạy được tô màu, key hết lượt ghi giờ mở lại.
+- **Mô hình việc nền nằm ngay dưới Thứ tự dùng**, có chip Effort riêng. Trên điện thoại bảng chọn giống khung chat, mở lên trên. Bảng chọn chỉ liệt kê nhà đã kết nối. Khi mô hình nền hết lượt, một dòng cho biết việc nền đang chạy tạm bằng gì.
+- **Gọn hơn:** nhà chưa kết nối gom vào nút Kết nối thêm nhà cung cấp; bỏ ô Main Model, ô Model Telegram và ô Suy nghĩ chung (Telegram theo MAIN, gõ /model trong một cuộc trò chuyện để ghim riêng).
+
+## [0.350.0] - 2026-10-27
+### Cải thiện
+- **Việc nền đi theo thứ tự rõ ràng.** Chạy bằng mô hình nền trước, hết lượt thì lần lượt sang các nhà cung cấp dự phòng (mỗi nhà chạy cấu hình mặc định của nó), mô hình chính dùng sau cùng. Aivon không còn tự chen Claude hay OpenRouter miễn phí vào khi bạn chưa kết nối chúng.
+- **Không bao giờ làm một việc hai lần.** Engine nào đã gọi công cụ (gửi tin, đăng bài...) rồi mới hỏng thì Aivon dừng và báo, không chạy lại bằng engine khác. Nhờ vậy việc ở mức Toàn quyền giờ cũng có dự phòng.
+- **Chat tự né nhà đang hết lượt.** Mô hình chính đang hết lượt (đã biết trước) thì lượt chat bắt đầu luôn ở nhà kế tiếp còn lượt, lượt sau tự quay lại. Một nhà có nhiều API key thì key đang hết lượt được bỏ qua. Bảng chọn mô hình ở khung chat chỉ còn các nhà đã kết nối.
+- **Telegram ghim theo từng cuộc trò chuyện.** Gõ `/model` trong một cuộc trò chuyện Telegram giờ chỉ ghim cho đúng cuộc trò chuyện đó, không đổi mô hình trên web nữa; các cuộc khác vẫn theo mô hình chính. Ghim chung cũ (nếu có) tự chuyển thành ghim của từng cuộc trò chuyện.
+
+## [0.349.0] - 2026-10-27
+### Cải thiện
+- **Tua lại hội thoại từ một câu hỏi.** Dưới mỗi câu bạn hỏi giờ có nút ↺ Tua lại, thay cho hai nút Gửi lại và Sửa lại. Bấm vào, Aivon hỏi xác nhận rồi xoá câu đó cùng mọi thứ bên dưới, đưa câu hỏi về ô nhập để bạn sửa hoặc gửi lại. Hội thoại đi tiếp từ đó, bộ não đang chat cũng quên phần đã xoá. Đang trả lời thì bấm Dừng trước rồi mới tua lại được.
+
+## [0.348.0] - 2026-10-27
+### Sửa lỗi
+- **Chọn model cho trợ lý: bấm tên nhà cung cấp là sổ ra danh sách model.** Trước đây ở trang Cộng sự, bấm vào tên nhà cung cấp (Claude Code, ChatGPT...) trong ô Model thì cả bảng đóng mất, không chọn được model nào ngoài nhà đang sổ sẵn.
+
+## [0.347.0] - 2026-10-27
+### Cải thiện
+- **Thanh bên gọn hơn: bỏ nhóm Code, Terminal chuyển vào nhóm Năng lực.** Giờ khung chat nào cũng gắn được thư mục và viết code được, nên không cần khu Code riêng nữa. Trang Coding cũ vẫn mở được từ link cũ hay lệnh nói, chỉ không nằm trên thanh bên. Nói "mở nhóm code" giờ mở nhóm Năng lực, nơi có Terminal.
+### Sửa lỗi
+- **Cuộc gọi không còn tự cúp khi chuyển màn hình.** Vào trang Cộng sự, bấm sang hội thoại khác hay đường gọi ChatGPT Live chợt rớt mạng đều từng cúp máy. Giờ cuộc gọi ở lại với đúng hội thoại lúc bắt đầu gọi, rớt kết nối thì chờ bạn nói tiếp rồi tự nối lại. Muốn cúp thì bấm Cúp máy hoặc bấm vào linh vật.
+- **Gọi lâu không còn bị điếc mic.** Sau nhiều phút gọi, bộ nghe của trình duyệt có lúc treo, Aivon không nghe nữa và gọi lại cũng báo "mic chưa đóng xong" cho tới khi tải lại trang. Giờ Aivon tự nhận ra bộ nghe bị treo và dựng lại ngay.
+
+## [0.346.0] - 2026-10-27
+### Thêm mới
+- **Aivon đọc và sửa được ghi chú ghim trong nhóm Zalo.** Hỏi Aivon "nhóm này đang ghim gì" là ra danh sách ghi chú, tin ghim, bình chọn, kèm ai tạo, ai sửa cuối và lúc nào, kể cả ghi chú nhân viên hay khách sửa tay trên điện thoại. Nhờ Aivon sửa một ghi chú thì nó sửa đúng ghi chú cũ, không tạo cái mới chồng lên. Cần gói Store "Zalo mở rộng" 1.5.0.
+### Sửa lỗi
+- **Sửa ghi chú không còn làm mất ghim.** Trước đây sửa một ghi chú đang ghim mà không ghi rõ "ghim" thì Zalo gỡ nó khỏi mục ghim. Giờ ghim giữ nguyên, chỉ gỡ khi bạn nói rõ.
+
+## [0.345.0] - 2026-10-27
+### Cải thiện
+- **Chào hỏi, cảm ơn gần như không tốn token.** Tin nhắn chỉ có lời chào hay lời cảm ơn giờ được trả lời theo đường nhanh trên mọi bộ não, ở mọi mức tiết kiệm. Trên Claude Code, "chào em" từ khoảng 60.800 token còn khoảng 2.100.
+- **Câu hỏi thường trên Claude Code nhẹ hơn khoảng 23%.** Claude Code không còn đọc bộ luật Aivon hai lần (bản cài thường), và bộ luật gọn lại: phần hướng dẫn tạo plugin, trợ lý, quy trình chỉ nạp khi cần. Đo thật: từ 60.800 xuống 46.600 token. Mọi bộ não khác cũng bớt khoảng 1.900 token mỗi lượt.
+- **Cuộc chat dài trên Claude Code không còn phình tới gần 1 triệu token mỗi lượt.** Claude Code tự tóm tắt mạch khi chạm khoảng 180 nghìn token thay vì 980 nghìn, nên cuối một cuộc chat dài mỗi câu rẻ hơn tới 5 lần mà Aivon vẫn nhớ mạch.
+- **Dòng số token dưới câu trả lời giờ chỉ hiện token mới.** Phần ngữ cảnh đã gửi trước đó được nhà cung cấp đọc lại từ cache, rẻ hơn nhiều, nên không cộng vào nữa: lượt chat thứ hai trên Claude Code hiện khoảng 4,5k token thay vì 53k. Rê chuột vào dòng đó để thấy số token cache, ví dụ "45k token cache". Áp dụng cho Claude Code và ChatGPT (Codex).
+### Sửa lỗi
+- **Hỏi giờ giữa một cuộc chat dài trên Claude Code giờ trả lời đúng giờ.** Trước đây Aivon có thể trả lời theo giờ của tin nhắn đầu tiên trong cuộc chat.
+
+## [0.344.0] - 2026-10-27
+### Cải thiện
+- **Kiểm tra tự động trước khi phát hành nhanh hơn nhiều.** Trước đây mỗi lần sửa code phải chờ khoảng 68 phút để chạy hết gần 1.000 bài kiểm tra, lần lượt từng bài. Giờ bài kiểm tra chia cho 2 máy, mỗi máy chạy 4 bài cùng lúc, nên bản sửa lỗi tới tay bạn sớm hơn. Số bài kiểm tra giữ nguyên, không bỏ bài nào.
+
+## [0.343.0] - 2026-10-27
+### Cải thiện
+- **Tự học từ trò chuyện rẻ hơn nhiều.** Chấm lượt chat, soạn bộ câu thử, chấm điểm và viết bản sửa giờ chạy bằng mô hình nền (đặt ở trang Mô hình). Chỉ phần làm bài thử còn chạy bằng bộ não chính, để biết bản mới có giúp đúng model đang trả lời bạn hay không. Muốn rẻ, hãy chọn một model nhẹ làm mô hình nền.
+- **Dừng sớm khi kết quả đã rõ.** Bản mới thắng hẳn hoặc không hơn ngay vòng đầu thì Aivon khỏi chạy vòng so sánh thứ hai.
+
+## [0.341.0] - 2026-10-26
+### Thêm mới
+- **Aivon tự học từ những lần trò chuyện, không cần bạn duyệt.** Khi bạn chat, Aivon tự chấm lại những lượt có dùng skill, trợ lý hay quy trình, nhận ra chỗ làm sai qua câu bạn nhắn tiếp (ví dụ "sai rồi, quên VAT"). Cùng một lỗi lặp lại ba lần thì Aivon tự soạn bộ câu thử, sửa phần hướng dẫn, chạy so với bản cũ và chỉ áp dụng khi bản mới tốt hơn rõ ràng mà không làm hỏng câu nào bản cũ vốn đúng.
+- **An toàn và có giới hạn.** Aivon học hoàn toàn bằng chữ, không gọi công cụ nào nên không thể gửi tin hay đặt hàng. Mỗi ngày tối đa 40 lượt chấm và một lần sửa, chạy bằng bộ não bạn đang chọn. Trợ lý chỉ được thêm quy trình đã học, file trợ lý bạn viết giữ nguyên. Bản cũ luôn được giữ: xem và hoàn tác ở mục "Aivon tự học từ trò chuyện" trong bảng cải tiến skill. Mọi thứ theo trang Tự học: bật Tự học cùng các mục Kỹ năng, Vai, Chuỗi bước là đủ, không cần làm gì thêm (Tự ghi thì tự áp dụng, Đề xuất thì chờ bạn bấm Áp dụng, Chạy thử thì chỉ ghi nhận). Mặc định học Kỹ năng; Vai và Chuỗi bước bật ở cùng trang.
+
+## [0.340.0] - 2026-10-26
+### Cải thiện
+- **Báo bản mới của gói Store không còn tự quét nền.** Trước đây Aivon tự kiểm Store mỗi 6 giờ, kể cả lúc không ai dùng. Giờ không có vòng nào chạy ngầm: Aivon chỉ xem có bản mới khi bạn mở Aivon, tối đa một lần mỗi 6 giờ, và đọc từ bản lưu sẵn nên gần như không tốn gì. Có bản mới thì chuông vẫn báo như cũ, mỗi bản một lần.
+
+## [0.339.0] - 2026-10-26
+### Sửa lỗi
+- **Nút ghi âm thành chữ chạy lại trên điện thoại.** Trên iPhone, bấm ghi âm thì đồng hồ vẫn chạy nhưng không ra chữ nào. Lý do: điện thoại chỉ cho một thứ dùng micro mỗi lúc, mà nút này mở hai thứ cùng lúc nên cả hai đều không nghe được. Giờ trên điện thoại nó chỉ dùng một đường: máy có API key Groq hoặc OpenAI thì ghi âm, bấm dừng là chữ hiện ra; không có key thì dùng bộ nghe của trình duyệt. Không nghe ra chữ nào thì Aivon báo rõ thay vì im lặng.
+- **Cuộc gọi nói chuyện nối lại được sau khi chờ.** Gọi Aivon bằng giọng, im khoảng 30 giây thì cuộc gọi chuyển sang chờ; trên iPhone, lúc anh nói lại thì Aivon không nghe và không phát tiếng. Giờ cuộc gọi giữ nguyên phần âm thanh đã mở lúc bấm gọi, nên nói lại là đàm thoại tiếp được. Cúp máy thì mới tắt hẳn.
+
+## [0.338.0] - 2026-10-26
+### Thêm mới
+- **Tài liệu riêng theo nhóm cho bot.** Một bot trả lời nhiều nhóm khách giờ đọc được trọn hồ sơ của đúng khách trong nhóm đang chat (hợp đồng, tiền cọc, lịch hẹn), mà không bao giờ thấy hồ sơ của khách khác, kể cả tên file. Cách dùng: đặt hồ sơ vào `rieng-theo-nhom/<id nhóm>/` trong brain của bot, hoặc thêm dòng `chat_scope: <id nhóm>` ở đầu file. Áp dụng cho phần tra sẵn, ba công cụ tự tìm của mức Đọc tài liệu và bộ phán xử, giống nhau ở mọi bộ não. Hồ sơ đọc nguyên văn, không còn bị cắt 900 ký tự. Cảm ơn anh Hồ Hùng Sơn (SOHO Wedding) đã đề xuất.
+
+## [0.336.0] - 2026-10-26
+### Sửa lỗi
+- **Bot Zalo cá nhân đọc được file PDF, Word, Excel khách gửi.** Trước đây bot chỉ đọc file chữ trơn (.txt, .csv...), còn PDF thì tải về nhưng không đọc nên bot trả lời "chưa đọc được PDF". Giờ chữ trong PDF, Word, Excel được đưa thẳng vào lượt trả lời, bot nào cũng đọc được. File scan dạng ảnh hoặc file hỏng thì bot nói rõ là không đọc được, không đoán.
+- **Trong nhóm, gửi file rồi mới gọi bot vẫn được.** File gửi riêng mà chưa gọi bot thì được giữ 10 phút; người đó gọi bot ngay sau (tag hoặc gọi tên) là bot đọc file đó. Trả lời trích dẫn vào một tin có file rồi gọi bot cũng được.
+
+## [0.335.0] - 2026-10-26
+### Thêm mới
+- **Gói trong Aivon Store có bản mới thì chuông báo.** Aivon tự kiểm mỗi 6 giờ. Gói bạn đã cài có bản mới trong Store thì chuông có một thông báo ghi rõ gói nào, bản đang dùng và bản mới; bấm vào là mở Aivon Store để cập nhật. Mỗi bản mới chỉ báo một lần, và Aivon không tự cập nhật: bản mới vẫn qua màn hình xác nhận như lúc cài.
+### Sửa lỗi
+- **Model quá tải (như Gemini báo 503 "high demand") giờ nói rõ chuyện gì đang xảy ra.** Trước đây khung chat dán nguyên một cục mã JSON của Google. Giờ chỉ hiện câu báo của nhà cung cấp, kèm lời giải thích đây là quá tải phía nhà cung cấp chứ không phải lỗi của bạn, và cách xử lý: gửi lại sau ít phút hoặc đổi model ở chip model. Aivon cũng chờ lâu hơn giữa các lần thử lại (vài giây thay vì một giây), nên một đợt quá tải ngắn thường tự qua.
+
+## [0.334.0] - 2026-10-26
+### Thêm mới
+- **Đọc được cảm xúc khách thả trên Zalo cá nhân.** Khách thả tim, like hay haha lên một tin thì Hộp thư hiện một dòng nhỏ: ai thả, biểu tượng gì, vào tin nào (kể cả tin bot vừa trả lời). Khách gỡ cảm xúc cũng được ghi lại.
+- **Bot tự quyết có trả lời một cảm xúc hay không, và tự học.** Cảm xúc của khách tới bộ phán xử (nhóm ở chế độ Tự đánh giá) hoặc Agent (chat riêng) như một tin. Aivon không có luật cứng nào: bấm đúng hoặc sai ở nhật ký bộ phán xử là lần sau bot làm theo.
+- **Bot thả được cảm xúc vào tin khách.** Bộ phán xử hoặc Agent chọn thả tim, like... lên tin khách, có thể kèm câu trả lời hoặc chỉ thả mà không nhắn gì. Bot không bao giờ thả lên một cảm xúc. Aivon trong chat cũng thả được khi bạn nhờ.
+
+## [0.333.0] - 2026-10-26
+### Thêm mới
+- **Aivon tự cải tiến một skill khi bạn yêu cầu.** Bấm "Để Aivon tự cải tiến", Aivon tự đề xuất bản sửa theo hai hướng, chạy thử có đối chứng với bản cũ, ghép phần tốt, rồi chọn bản tốt nhất trên bộ câu hỏi giữ kín. Bản cũ luôn được giữ nếu bản mới không hơn rõ ràng; áp dụng hay không vẫn do bạn quyết. Skill cần một file ví dụ có đáp án (ít nhất 13 câu, bạn có thể nhờ Aivon viết trong chat). Không cần cài thêm gì: dùng đúng bộ não bạn đang chọn (Claude Code, Codex hoặc bộ não API).
+
+## [0.332.0] - 2026-10-26
+### Sửa lỗi
+- **Xem file PDF trên điện thoại luôn có nút đóng.** Trên iPhone, khung PDF tự kéo dài theo cả tài liệu nên khi cuộn đọc, thanh nút (có nút đóng) trôi mất lên trên. Giờ PDF cuộn trong khung riêng, và trên điện thoại có thêm một nút X tròn nổi ở góc dưới bên phải, cuộn tới đâu cũng bấm được.
+- **Chat với Claude Code không còn ra bong bóng "(không có nội dung trả về)".** Thỉnh thoảng Claude kết thúc lượt mà không viết chữ nào (chỉ nghĩ rồi dừng), nên một câu hỏi bình thường nhận về bong bóng trống. Giờ Aivon tự hỏi lại Claude một lần trong cùng mạch hội thoại và hiện câu trả lời; lượt báo lỗi hay hết hạn mức thì không hỏi lại.
+### Cải thiện
+- **Facebook Messenger về đúng chỗ trên trang Kết nối.** Không còn là một khung riêng lạc dưới danh sách: Messenger giờ là một thẻ trong tab "Kết nối sẵn có" như Zalo, bấm Kết nối thì form mở trong hộp thoại giống các dịch vụ khác, và Fanpage đã nối nằm ngay trong danh sách "Đã kết nối".
+
+## [0.331.0] - 2026-10-26
+### Sửa lỗi
+- **Tag người trong nhóm Zalo không còn hiện thành mã trên điện thoại.** Khi bot trả lời một người (ví dụ "@Tuan Fernel") mà trong nhóm có người khác tên ngắn hơn ("Tuan"), Aivon từng gắn thêm một tag thứ hai đè lên tag đầu. Máy tính vẫn hiện đúng, còn điện thoại hiện ra một đoạn mã `href="zm://..."`. Giờ mỗi chữ chỉ mang một tag, và người tên "Tuan" viết riêng ở chỗ khác trong câu vẫn được tag đúng.
+
+## [0.330.0] - 2026-10-26
+### Thêm mới
+- **Nút tạm ngừng mọi bản cải tiến của một bộ não.** Một lần bấm gỡ mọi bản sửa skill, quy trình trợ lý, mô tả định tuyến và gói đang dùng; trợ lý quay về bản gốc. Khác với tắt tự cải tiến, vốn giữ các bản bạn đã áp.
+- **Cải tiến có giới hạn và chỉ khi có lý do thật.** Mỗi loại lỗi chỉ được tinh chỉnh hai bước liền, bước sau cần bằng chứng mới hoặc bạn giao; ba lần không đổi gì thì dừng. Xuất gói chỉ mang quy trình bạn chọn và đã che khoá bí mật; gói nhập về luôn là bản chưa kiểm.
+
+## [0.329.0] - 2026-10-26
+### Thêm mới
+- **Trang Mức dùng có thêm phần "24 giờ qua"**, ngay dưới ba ô đầu trang:
+  - **Cửa sổ 5 giờ theo từng giờ:** đường đi lên hay xuống, vạch mốc là trần bạn khai (hoặc mức cao nhất bạn từng chạm), đổi màu khi tới gần mốc, kèm một câu cho biết còn dư hay nên dời việc nặng.
+  - **Token từng giờ:** giờ nào sáng nay đốt nhiều token, tách theo Claude, ChatGPT và API.
+  - **Giờ AI dồn nhiều trong 7 ngày:** ô màu từ ít tới nhiều cho 24 giờ trong ngày, kèm gợi ý giờ vắng để đặt việc nền.
+- **Vòng tròn hạn mức gói ngay cạnh chip Effort**, cho Claude Code đăng nhập gói Pro/Max và ChatGPT qua Codex:
+  - Xanh khi còn nhiều, vàng từ 50%, **đỏ từ 80% của phiên 5 giờ hoặc của tuần**, cái nào sát hơn thì tính cái đó.
+  - Bấm vào là thấy hai thanh "Phiên 5 giờ" và "Tuần", kèm giờ làm mới, giống bảng hạn mức của Claude.
+  - Tiêu đề bảng ghi luôn tên gói đang dùng, ví dụ "Claude · Max" hay "ChatGPT · Plus".
+  - Số lấy thẳng từ Claude Code và Codex sau mỗi lượt chat, Aivon không đọc mã đăng nhập của bạn. Model chạy bằng API key thì không hiện vòng này.
+  - **Grok Build và Antigravity** không báo số %, nên vòng của hai bộ não này màu xám và chỉ chuyển đỏ khi chúng từ chối một lượt vì hết hạn mức, kèm giờ làm mới nếu có.
+### Cải thiện
+- **Nút tia sét (Fast mode) chuyển vào góc trên bên phải khung Effort.** Bật sét thì thanh mức suy nghĩ có hạt sáng chạy, tắt thì chỉ là dải màu đứng yên. Chip Effort hiện một tia sét nhỏ khi Fast mode đang bật.
+- **Biểu đồ token theo ngày** giãn hết bề ngang, số ngày to và dễ đọc hơn (trước đây dồn vào một góc, chữ rất nhỏ).
+- **Nút "Tặng sao" ở góc trái gọn gàng hơn:** giờ là một nút riêng trải hết bề ngang, nằm dưới số phiên bản, chữ luôn trên một dòng (trước đây "Give a star" bị gãy làm hai dòng). Khi thu gọn thanh bên, nút chỉ còn hình ngôi sao.
+
+## [0.327.0] - 2026-10-26
+### Thêm mới
+- **Thử cải tiến cho cả nhóm trợ lý một cách công bằng.** Aivon chụp lại đội hình, vai trò, model và tiêu chí nghiệm thu của mỗi lần thử; hai lần thử khác nhau ngoài đúng chỗ đang thử thì không được đem ra so. Kết quả chỉ ghi vào hồ sơ, không tự đánh dấu việc thật là xong hay gửi đi đâu.
+- **Kinh nghiệm đem sang trợ lý, nhóm hay bộ não khác luôn được ghi là "chưa kiểm"** cho tới khi thử lại ở chỗ mới.
+
+## [0.325.0] - 2026-10-26
+### Thêm mới
+- **Áp dụng bản sửa skill và quy trình của một trợ lý thành một gói.** Hai phần bật và gỡ cùng lúc: phần nào hỏng hay bị gỡ thì cả gói dừng, trợ lý quay về bản gốc, không bao giờ nửa mới nửa cũ.
+
+## [0.324.0] - 2026-10-26
+### Thêm mới
+- **Lời mời tặng Aivon 1 ngôi sao trên GitHub**, hiện đúng lúc bạn vui: lần đầu thả tim cho một câu trả lời, khi Aivon vừa làm xong việc cho bạn, khi tròn 50 hay 100 lượt trò chuyện, tròn 1 tháng dùng Aivon, hay vừa có bản mới. Mỗi lần một lời chào riêng, linh vật là ngôi sao cam của Aivon.
+- **Hướng dẫn 3 bước có hình** cho người chưa dùng GitHub bao giờ: hình chỉ đúng chỗ nút Star trên máy tính lẫn điện thoại, đăng nhập GitHub bằng Gmail chỉ một chạm. Số sao hiện thật từ GitHub kèm mốc kế tiếp, tự cập nhật.
+- **Không làm phiền:** đóng thì hỏi lại sau 3 ngày, "Để sau" là 7 ngày, tối đa 6 lần; đã tặng hay chọn "Đừng hỏi nữa" thì thôi hẳn, trên mọi thiết bị. Muốn tặng lúc nào cũng có nút "Tặng sao" dưới số phiên bản và thẻ "Ủng hộ Aivon" ở trang Cập nhật.
+
+## [0.323.0] - 2026-10-26
+### Thêm mới
+- **Quy trình riêng cho từng trợ lý.** Bạn viết một đoạn cách làm (kiểm nguồn trước, đối chiếu kỳ trước, bàn giao ra sao) và chọn nơi trợ lý dùng nó: chat riêng, nhóm, việc Kanban hay bước quy trình. File trợ lý, luật bạn dặn, model và quyền giữ nguyên; bạn gỡ lúc nào cũng được.
+
+## [0.322.0] - 2026-10-25
+### Thêm mới
+- **Cài plugin từ tệp .zip.** Trang Plugin có nút "Cài từ tệp .zip": chọn tệp, Aivon mở ra xem trước tên, phiên bản, các công cụ và mức quyền của từng công cụ, danh sách tệp bên trong, rồi mới cài khi bạn đồng ý. Plugin cài xong luôn ở trạng thái tắt, bạn xem lại rồi tự bật. Thả nhầm một gói cửa hàng (.zip có aivon-pack.yaml) thì Aivon tự chuyển sang luồng cài gói.
+- **Nhờ Aivon tạo plugin là Aivon cài luôn tại chỗ**, không còn phải tải tệp về rồi tải lên lại. Aivon cũng đọc và sửa được plugin đã có. Plugin Aivon tạo hoặc sửa phần mã luôn bị tắt cho tới khi bạn bật ở trang Plugin; sửa mà lỗi cú pháp thì Aivon từ chối, bản cũ giữ nguyên.
+### Sửa lỗi
+- **Bấm "Thêm" link trong tài liệu của trợ lý, project hay cuộc trò chuyện giờ luôn có phản hồi.** Trước đây dán một link đã có sẵn trong danh sách, hoặc bấm khi ô còn trống, thì ô URL bị xoá trắng mà không báo gì, trông như nút hỏng. Nay Aivon nói rõ "Link này đã có trong danh sách" và làm sáng hàng đó lên, nhắc dán URL khi ô trống, và báo "Đã thêm" khi xong. Dán thiếu https:// (kiểu docs.google.com/...) thì Aivon tự thêm.
+### Bảo mật
+- Tệp .zip plugin bị kiểm tra như gói cửa hàng: chặn đường dẫn lạ, liên kết tắt, tệp quá lớn, mã đã biên dịch (.pyc, .so). Không ghi đè plugin đang có nếu bạn chưa chọn thay thế, không đụng tới plugin có sẵn của app.
+
+## [0.320.0] - 2026-10-25
+### Thêm mới
+- **Kiểm mô tả skill trước khi đổi.** Bạn soạn mô tả mới và một bộ câu hỏi mẫu (nên chọn skill này, không nên chọn skill nào, nên chọn skill khác); Aivon cho xem bản mới giúp chọn đúng thêm bao nhiêu câu và có làm chọn sai câu nào không. Bản làm chọn sai bị loại.
+
+## [0.318.0] - 2026-10-25
+### Thêm mới
+- **Mỗi cuộc chat trong Hòm thư bot có nút "..."**, bấm là làm được ngay mà không cần mở chat: đánh dấu chưa đọc để nhớ quay lại, ghim lên đầu, gắn tag, chọn bot tự trả lời hay "Tôi lo", chép nhanh số điện thoại hoặc email khách để lại.
+- **Ẩn bớt cuộc chat cho gọn**, xem lại ở mục "Đã ẩn" trong ô Tình trạng. Khách nhắn tin mới thì cuộc chat tự hiện lại, không lỡ khách. Trên điện thoại nút "..." mở một bảng lớn dễ bấm ở cuối màn hình.
+### Sửa lỗi
+- **Ảnh bạn gửi trong Hòm thư bot hiện thành ảnh.** Trước đây chỉ ảnh của khách mới hiện, còn ảnh bạn (hoặc bot) gửi đi chỉ là dòng chữ "image https://...jpg". Giờ ảnh nào cũng hiện ngay trong bong bóng, bấm vào là xem to, để bạn kiểm soát được mình đã gửi gì cho khách.
+### Cải thiện
+- **Nút bấm rõ ràng hơn, không còn mờ.** Các nút phụ có viền rõ, chữ đậm và cỡ 16px, đọc dễ ở cả giao diện sáng lẫn tối. Nút đỏ (xoá, tắt) và nút "Tải lại" ở dải báo bản mới cũng dễ đọc hơn.
+- **Nút đứng cạnh ô nhập cao bằng và thẳng hàng**, như "Nghe thử" cạnh ô chọn giọng, nút lưu tên miền, nút "..." trên thẻ bot. Nút ở chân các cửa sổ xếp gọn về bên phải.
+
+## [0.316.0] - 2026-10-25
+### Thêm mới
+- **Áp dụng thử theo tỉ lệ (canary).** Khi áp dụng bản skill đã sửa cho một trợ lý, bạn chọn được 10%, 25% hay 50% số cuộc chat: mỗi cuộc chat cố định một nhóm, nhóm còn lại dùng bản gốc làm đối chứng.
+- **Phiếu Đạt / Chưa đạt của bạn là thước đo.** Bảng canary liệt kê các lần trợ lý dùng skill ở cả hai nhóm để bạn chấm; emoji không tính. Hai cuộc chat dùng bản mới bị chấm Chưa đạt là bản mới tự tạm ngừng ngay.
+- **Chỉ nâng lên toàn bộ khi đủ quan sát:** tối thiểu 7 ngày và 10 phiếu của nhóm bản mới, và vẫn do bạn bấm. Có thể cho phép một trợ lý tự mở canary 10% khi ứng viên qua kiểm định đầy đủ, thu hồi lúc nào cũng được.
+
+## [0.314.0] - 2026-10-25
+### Thêm mới
+- **Áp dụng thử bản skill đã sửa cho một trợ lý.** Trong Studio, mở Cải tiến của một skill, duyệt đúng phần sửa rồi chọn trợ lý: bản mới chỉ dùng trong khung chat riêng với trợ lý đó. File skill gốc không bị đụng tới, bấm **Quay lại bản gốc** là việc mới dùng bản cũ ngay.
+- Bản thử tự **tạm ngừng** khi anh sửa skill gốc, tắt skill hoặc thu hồi quyền sửa; không bao giờ tự gộp hay bật lại skill đã tắt. Bản nào bị phép so sánh chấm là kém hơn thì không áp dụng được.
+- Nhãn nói thật mức bằng chứng: "Áp dụng thử thủ công, chưa chứng minh tốt hơn" cho tới khi qua kiểm định đầy đủ. Hiện bản thử chỉ có tác dụng với bộ não chạy qua API; Claude Code, Codex, Grok và Antigravity vẫn dùng bản gốc.
+
+## [0.313.0] - 2026-10-25
+### Thêm mới
+- **Gắn tag màu cho từng cuộc chat** trong Hòm thư bot, giống Pancake: tạo, đổi tên, đổi màu, xoá tag ngay trong cuộc chat. Tag hiện thành chip màu trên danh sách (2 chip đầu, còn lại gom "+N") và lọc được theo tag.
+- **Lọc khách đã để lại số điện thoại hoặc email.** Aivon tự nhận số và email khách gõ trong tin nhắn (0912..., +84..., có hay không khoảng trắng), kể cả các cuộc chat cũ. Nút "Có SĐT/email" là bộ lọc riêng nên kết hợp được, ví dụ "Cần trả lời" và có SĐT. Số hoặc email hiện ngay đầu cuộc chat, bấm chọn là copy được.
+- **Trên điện thoại, bộ lọc gọn vào một nút "Lọc"** cạnh ô tìm (có số bộ lọc đang bật), danh sách chat được gần trọn màn hình. Trên máy tính các ô lọc giữ đủ chữ, thiếu chỗ thì xuống hàng thay vì bị cắt.
+- **Xếp khách chờ trả lời lâu nhất lên đầu** bằng mục "Chờ lâu nhất" trong ô Tình trạng.
+- **Kéo được cột danh sách hội thoại** cho rộng hẹp tuỳ ý trên máy tính. Kéo hẳn vào trong thì chỉ còn chữ cái đầu, nhấp đúp để về như cũ.
+### Sửa lỗi
+- **Một người mở Aivon ở máy khác không còn làm mọi trang đang mở báo "Mất kết nối".** Mỗi lần mở trang, Aivon tra địa chỉ IP của máy chủ và tên miền ngay trên luồng chính; máy chủ có mạng ra ngoài chậm thì đứng hình 12 đến 24 giây và mọi trình duyệt khác rớt kết nối. Giờ việc tra chạy riêng, tra hỏng thì nhớ lại hai phút để người vào sau không phải chờ lại.
+- **Hòm thư bot: tìm rồi xoá không còn mất danh sách.** Tìm khách xong chuyển tab rồi quay lại, ô tìm trống mà danh sách vẫn kẹt ở kết quả cũ, không có gì để xoá. Giờ ô tìm giữ đúng chữ đang lọc, xoá đi là danh sách hiện đủ.
+
+## [0.312.0] - 2026-10-25
+### Cải thiện
+- **Trang Kết nối dễ tìm hơn.** Tab Đã kết nối có ô tìm kiếm: gõ tên dịch vụ hay tên tài khoản là lọc ngay, tìm cả trong các nguồn sẵn của Claude Code.
+- **Nguồn sẵn của Claude Code và Codex chỉ hiện cái đang chạy.** Nguồn chưa đăng nhập gom vào một dòng "Đã ẩn N nguồn chưa đăng nhập", bấm Xem nếu cần. Tên gọn hơn ("Meta ADS" thay cho "claude.ai Meta ADS").
+- Bỏ thông báo xanh "ChatGPT chạy qua Codex CLI" ở đầu trang Kết nối. Thông báo vàng khi bộ não chưa gọi được công cụ vẫn giữ.
+- **Chọn agent có ô tìm kiếm.** Ở form tạo bot và ở từng bước của quy trình, ô chọn agent giờ mở ra danh sách gọn: tên đầy đủ, mô tả ngắn bên dưới, gõ không dấu vẫn tìm ra ("dao dien" ra "Đạo diễn"). Trên điện thoại danh sách trượt lên từ dưới.
+
+## [0.311.0] - 2026-10-25
+### Thêm mới
+- **Thẻ Facebook Messenger ở trang Kết nối.** Dán Page ID, App ID, App secret và một token bất kỳ từ Graph API Explorer, Aivon tự đổi sang token Trang không hết hạn, tự khai webhook và gắn Trang vào app. Hết cảnh dán nhầm token người dùng rồi gặp lỗi 100, lỗi 210. Cảm ơn @adiagri09-code.
+- **Bảng kiểm tra từng bước** sau khi nối: token, quyền, App secret, webhook, Trang gắn app, bot đang trực. Dòng nào đỏ có cách sửa ngay bên dưới. Mỗi Trang có nút Kiểm tra, Sửa tự động và Đổi token.
+- Bot Messenger im lặng thì hỏi Aivon: bộ não nào cũng kiểm tra được qua tool `messenger_check` và sửa được qua `messenger_repair`.
+### Sửa lỗi
+- **Skill đã tắt là tắt hẳn.** Trước đây tắt một skill mà còn bản cũ nằm trong `.claude/skills` hay `.agents` thì skill vẫn hiện lại trong danh sách và vẫn được nạp. Giờ tắt là tắt ở mọi chỗ: danh sách skill, lúc bộ não gọi skill theo tên, lúc Aivon tự chọn skill. Aivon cũng không nạp file skill đang bị sửa dở, trỏ ra ngoài brain hoặc nặng quá 1 MB.
+- **Quy trình không còn cho qua bước kiểm chứng bị lỗi.** Trước đây máy kiểm chứng trả "ĐẠT" rồi mới báo lỗi thì vẫn tính là đạt và bước sau vẫn chạy. Giờ cứ lỗi là dừng, giống bước chính. Cảm ơn @hwangrin.
+
+## [0.310.0] - 2026-10-25
+### Thêm mới
+- **Kho kết nối có thêm Google Analytics (GA4).** Kết nối bằng tài khoản Google là Aivon đọc được số liệu website: lượt truy cập, nguồn khách, trang được xem nhiều, báo cáo theo thời gian thực. Chỉ đọc, không sửa gì trong Analytics. Cảm ơn @congsang1294.
+### Sửa lỗi
+- **Team: lưu lại tiêu chí nghiệm thu là kiểm lại thật.** Việc đã bị chấm "chưa đạt tiêu chí", mở Nghiệm thu lưu lại tiêu chí để kiểm lần nữa thì trước đây kẹt mãi ở "Đang kiểm lại sản phẩm theo tiêu chí mới" và không có lượt kiểm nào chạy. Giờ lượt kiểm lại chạy ngay và ghi kết quả mới.
+
+## [0.309.0] - 2026-10-25
+### Thêm mới
+- **Kiến thức bot và trợ lý học được giờ nằm trong brain.** Bài học, độ nhiệt tình, ngưỡng theo nhóm, hồ sơ vai trò của bộ phán xử, cùng bài học, cách trình bày và bộ phán xử riêng của từng trợ lý được ghi vào thư mục `Aivon/learned/` của brain, mỗi bot và mỗi trợ lý một file. Chép brain sang máy khác hay khôi phục từ GitHub là Aivon tự nạp lại vào đúng bot và trợ lý cùng tên.
+- Các ca học từ tin nhắn của khách nằm trong file riêng `.private.json`: vẫn đi theo thư mục brain nhưng không bao giờ lên GitHub. Nút "quên hết" và xoá bot xoá luôn các file này.
+### Sửa lỗi
+- **Thẻ bot gọn lại, không còn tràn chữ.** Lỗi, cảnh báo và nhóm đang chờ cho phép giờ gom thành một hàng "Tình trạng" có đếm số trên thẻ. Bấm Xem để mở cửa sổ đọc đầy đủ (chữ dài tự xuống dòng) và bấm Cho phép hay Bỏ qua ngay trong đó.
+- **Tin Zalo không còn lộ mã thẻ tên trên điện thoại.** Có lúc bot gửi kèm đoạn mã `href="zm://Profile/...">@Tên</a_mention>`: Zalo trên máy tính ẩn được nhưng trên điện thoại hiện nguyên văn. Giờ Aivon gỡ sạch mã này, kể cả khi mã bị vỡ, trên mọi đường gửi tin Zalo, và hai tên đứng liền nhau được tách bằng một khoảng trắng.
+- **Nút Nhập tin cũ dễ thấy hơn.** Trước đây nút này nằm lẫn trong chip tên tài khoản Zalo trên thẻ bot, gần như không ai nhận ra. Giờ menu "..." của thẻ bot có hẳn mục Nhập tin cũ (lấy khoảng 2 tuần tin gần nhất vào Hộp thư).
+
+## [0.308.0] - 2026-10-24
+### Sửa lỗi
+- **Ô dán mã khi đăng nhập Claude không còn bị co bé tí.** Nút Gửi chiếm hết hàng nên ô mã chỉ còn chừng 24px. Giờ ô rộng hết hàng, chữ 16px dễ đọc, trên điện thoại nút xuống dòng dưới. Mở link xong con trỏ tự vào ô mã, bấm Enter là gửi, khoảng trắng thừa khi dán tự bị bỏ.
+### Cải thiện
+- **Thẻ Anthropic Compatible không bắt gõ tên model nữa.** Chỉ cần Base URL và API key rồi bấm Kết nối, Aivon tự lấy danh sách model của cổng để bạn chọn ở mục Model chính. Cổng nào không tự báo danh sách thì Aivon mới mở thêm ô tên model, kèm sẵn các tên Claude thường dùng để chọn.
+
+## [0.306.0] - 2026-10-24
+### Cải thiện
+- **Cài trên Windows hoặc macOS là Aivon tự chạy cùng máy và tự mở trình duyệt.** Cài xong dashboard mở luôn, và từ đó mỗi lần đăng nhập máy Aivon tự chạy rồi tự mở dashboard, không phải bấm gì. Trước đây phải tự bật tính năng này, và khi bật thì Aivon chỉ chạy ngầm, mở máy lên không thấy đâu.
+- Không muốn tự mở: trên Windows bấm Tắt ở thẻ Khởi động cùng máy (trang Cài đặt) hoặc chạy `aivon-autostart.bat uninstall`; trên macOS chạy `./bin/aivon-autostart.sh uninstall`.
+- Máy Windows đã bật tự khởi động từ trước vẫn chạy ngầm như cũ; bấm Tắt rồi Bật lại một lần là có thêm phần tự mở dashboard.
+
+## [0.304.0] - 2026-10-24
+### Sửa lỗi
+- **VPS Ubuntu 26 trên Hostinger có HTTPS mà không cần điền gì, lần này chạy thật.** Bản 0.302.0 lấy nhầm tên: cổng HTTPS xin chứng chỉ cho một link, còn Aivon lại kiểm tra link khác, nên bấm Open vẫn ở lại trang IP và không có HTTPS. Giờ cổng HTTPS phục vụ cả `aivon.srvXXXX.hstgr.cloud` lẫn `srvXXXX.hstgr.cloud`, và Aivon thử đúng hai link đó.
+### Cải thiện
+- **Cài đặt, mục Tên miền nói rõ link VPS đang ở bước nào:** đã chạy (kèm nút mở), đang chờ chứng chỉ (kèm lời nhắc mở cổng 80, 443 ở Tường lửa của hPanel), hay máy có Traefik nên cần dán dòng `DOMAIN_NAME`.
+
+## [0.302.0] - 2026-10-24
+### Sửa lỗi
+- **Nút Open của Hostinger không còn mở localhost.** Cài xong mà chưa đặt `DOMAIN_NAME` thì bấm Open giờ ra `http://<ip-vps>:7979`, vào được Aivon ngay. Trước đây file cài ghi `localhost` vào chỗ tên miền nên Open mở nhầm về chính máy người bấm.
+### Thêm mới
+- **Cài xong bấm Open là vào thẳng link VPS.** Trên VPS Hostinger không có Traefik (Ubuntu 26), không cần điền gì: Aivon tự lấy tên VPS, tự cấp HTTPS cho `https://aivon.srvXXXX.hstgr.cloud`, và trang mở bằng IP tự chuyển sang link đó khi nó đã chạy. Giống ứng dụng cài từ Catalog của Hostinger.
+### Cải thiện
+- **Aivon tự gợi ý link miễn phí của VPS Hostinger.** Mở Cài đặt, mục Tên miền: Aivon dò ra tên `srvXXXX.hstgr.cloud` của VPS và hiện sẵn dòng `DOMAIN_NAME=aivon.srvXXXX.hstgr.cloud` kèm nút sao chép. Dán vào Environment rồi Redeploy là có HTTPS và nút Open ra đúng link.
+
+## [0.300.0] - 2026-10-24
+### Sửa lỗi
+- **Một link cài Hostinger dùng được cho cả Ubuntu 24 lẫn Ubuntu 26.** Mẫu Ubuntu 26 trắng không có Traefik, nên trước đây dán link là Aivon chạy nhưng tên miền không bao giờ có HTTPS. Giờ link đi kèm một cổng HTTPS (Caddy) tự bật khi máy không có Traefik và tự cấp SSL cho `DOMAIN_NAME`; máy có Traefik thì nó nhường, không đụng gì.
+### Cải thiện
+- Tài liệu cài đặt nói rõ: Traefik chỉ lo HTTPS, còn cập nhật là việc của Watchtower đi kèm, nên nút **Cập nhật ngay** chạy như nhau trên mọi bản Ubuntu.
+
+## [0.298.0] - 2026-10-23
+### Sửa lỗi
+- **Giọng chọn trên máy này dùng được cả trên máy khác.** Trước đây giọng đọc chỉ lưu trong trình duyệt đang mở, nên chọn giọng nữ trên máy tính thì điện thoại vẫn giữ giọng cũ, lưu bao nhiêu lần cũng vậy. Giờ giọng lưu trên Aivon, mọi máy và ghi chú giọng nói gửi qua Telegram, Zalo đều dùng đúng giọng đó.
+### Cải thiện
+- **Thẻ Giọng nói nói rõ bạn sẽ nghe giọng nào.** Mỗi giọng ghi Nữ hay Nam (cả giọng ChatGPT Live như Juniper, Cove). Đầu thẻ ghi cuộc gọi dùng giọng gì và câu trả lời đọc bằng giọng gì.
+- **Hai ô giọng tách rõ:** Giọng khi gọi và Giọng đọc câu trả lời. Hai giọng khác giới thì có cảnh báo và nút đổi một chạm.
+- **Đã lưu hiện ngay dưới ô vừa đổi**, không còn nằm tít cuối thẻ.
+- **Nút Lưu của agent rõ hơn:** nút cam có biểu tượng ghi Lưu thay đổi, luôn nằm ở cuối form, báo "Có thay đổi chưa lưu" và "Đã lưu". Bấm Ctrl+S cũng lưu được.
+
+## [0.296.0] - 2026-10-23
+### Cải thiện
+- **Đề xuất sửa skill từ bằng chứng tuning.** Chủ sở hữu có thể chạy bản gốc trên dữ liệu đã cấp quyền, chốt kết quả rồi yêu cầu model tạo tối đa hai bản sửa để duyệt.
+- **Đánh giá riêng ý nghĩa và phụ thuộc.** Mỗi bản sửa có hồ sơ đánh giá độc lập; kết quả thiếu bằng chứng vẫn giữ trạng thái chưa rõ, quyền duyệt của chủ được giữ nguyên.
+- **Dừng và phục hồi thử nghiệm chặt chẽ hơn.** Giữ dữ liệu và lượt đang chạy đến khi dọn dẹp được xác minh, kể cả khi tiến trình chủ tắt đột ngột trên Windows. Thử candidate thay đổi và áp dụng trên brain thật vẫn chưa được mở.
+
+## [0.295.0] - 2026-10-23
+### Bảo mật
+- **Vá lỗ hổng Node.js ngày 21/10/2026.** Node.js công bố 10 lỗ hổng, nặng nhất là lỗi Brotli cho phép chạy mã từ xa. Ảnh Docker mới chạy Node.js 22.23.4 đã vá, nên bản Docker chỉ cần cập nhật Aivon là xong.
+- **Aivon tự kiểm tra Node.js trên máy.** Máy còn chạy bản chưa vá hoặc đã hết hỗ trợ (Node 20 trở xuống) thì chuông Thông báo hiện tin Bảo mật, ghi rõ bản đang dùng và lệnh nâng cấp cho Windows, Mac, Linux. Máy đã vá thì không bị nhắc.
+- **Cài mới luôn lấy bản đã vá.** `install.sh` không còn nhận Node 20 hay Node 22 cũ: nó tự cài Node.js 22 bản mới nhất, còn Node 24 hay 26 chưa vá thì cảnh báo để bạn tự nâng.
+
+## [0.293.0] - 2026-10-23
+### Cải thiện
+- **Quản lý và so sánh thử nghiệm skill.** Lưu cố định thí nghiệm, quyền sửa và lịch đối chứng; báo cáo giữ đúng kết quả đã chốt và kiểm đủ các lượt. Chủ sở hữu có thể dừng/khôi phục thử nghiệm an toàn với tác vụ đang chạy. Candidate thay đổi, qualification cuối và áp dụng trên brain thật vẫn chưa được bật.
+
+## [0.292.0] - 2026-10-23
+### Thêm mới
+- **Duyệt đề xuất sửa thân skill.** Studio có màn hình xem nguyên văn bản gốc, diff và kết quả thử đã lưu; chủ sở hữu có thể tạo đề xuất, cấp quyền sửa đúng vùng hoặc diff và thu hồi quyền. Nội dung được lưu mã hóa riêng, giữ nguyên hash và byte khi tải xuống. Chưa bật thử candidate thay đổi hoặc áp dụng trên bộ não thật.
+
+## [0.291.0] - 2026-10-23
+### Thêm mới
+- **Chuẩn bị thử agent và skill trên dữ liệu cố định.** Xây phép thử riêng, bộ case và hồ sơ nghiệm thu để kiểm thay đổi mà không chạm nội dung hay hành động đang dùng. Chưa tự bật trên bộ não thật.
+
+## [0.290.0] - 2026-10-22
+### Thêm mới
+- **Thanh mục tiêu ngay trên khung chat.** Đặt `/goal` xong là có một thanh để bám theo: chữ mục tiêu, đồng hồ đếm thời gian, nút xoá, tạm dừng hay chạy tiếp, và mũi tên xem chi tiết (vòng mấy, còn thiếu gì). Thanh hiện ở mọi khung chat.
+- **Nhiều mục tiêu cùng lúc.** Mỗi hội thoại một mục tiêu. Có từ hai mục tiêu trở lên thì đầu thanh hiện số, bấm vào xổ ra danh sách, bấm một dòng để mở đúng hội thoại đó.
+- **Lệnh đã gõ được tô màu.** Gõ `/goal`, `/plan` hay tên một skill vào khung chat là phần lệnh đổi sang màu cam, nhìn là biết Aivon sẽ hiểu chỗ nào là lệnh.
+### Cải thiện
+- **Mục tiêu tạm dừng chứ không mất.** Bấm Dừng hay nhắn chen giữa chừng thì mục tiêu chỉ tạm dừng; sang hội thoại khác thì nó chờ, quay lại là chạy tiếp; tải lại trang vẫn còn trên thanh.
+- **Menu lệnh / gọn và thẳng hàng.** Mỗi lệnh một dòng, cột lệnh rộng bằng nhau nên mô tả không còn lệch, chữ nhỏ lại, có tiêu đề nhóm Lệnh, Cộng sự, Quy trình, Skill.
+
+## [0.289.0] - 2026-10-22
+### Sửa lỗi
+- **Webhook: AI giờ đọc trọn sự kiện.** Trước đây AI chỉ nhận 8.000 ký tự đầu, nên ngay một đơn POSCake một món cũng bị cắt mất mã đơn và tổng tiền, và lời dặn "xem trạng thái rồi làm" có thể đoán sai. Giờ AI nhận tới 40.000 ký tự, viết gọn trên một dòng; dài hơn thì bị cắt và AI được báo rõ là đã cắt.
+- Trang chi tiết sự kiện hiện tới 64.000 ký tự thay vì 8.000.
+### Cải thiện
+- Hướng dẫn webhook dùng đúng tên trường thật của POSCake, và có thêm cách dùng một webhook cho mọi nguồn, để lời dặn tự quyết định làm gì.
+
+## [0.287.0] - 2026-10-22
+### Thêm mới
+- **Đặt nền cho cải tiến có kiểm chứng.** Chuẩn bị quản lý bản agent và skill để thử thay đổi riêng, giữ nguyên nội dung đang dùng. Chưa tự chạy phép thử hoặc áp dụng trên bộ não thật.
+
+## [0.286.0] - 2026-10-22
+### Sửa lỗi
+- **Chọn model trong chat với trợ lý không còn đổi model của khung chat chính.** Áp dụng cho mọi trợ lý lẫn Aivon Core: model chọn ở đó chỉ ghim cho đúng cuộc chat ấy. Trợ lý chưa chọn model thì chạy theo model chính, và có thêm dòng "Theo model của khung chat chính" để bỏ ghim.
+- **Model ghim của trợ lý hết hạn mức gói thì tự chạy tạm model của khung chat chính,** tới khi gói mở lại thì quay về model đã ghim.
+- **Aivon Core chạy theo mức suy luận của khung chat chính** cho tới khi bạn chọn mức riêng cho nó. Mức suy luận trong chat trợ lý luôn được lưu cho đúng trợ lý đó.
+
+## [0.285.0] - 2026-10-22
+### Cải thiện
+- **Nghiệm thu đúng sản phẩm Team đã làm.** Nhóm bật tính năng được gắn tiêu chí mặc định; xác nhận đi cùng kết quả đã lưu và phiên bản đang xem.
+- **Theo dõi mức dùng, giữ chất lượng.** Phân biệt số yêu cầu và chi phí biết rõ, ước tính hoặc quy đổi từ thuê bao. Mức tham khảo không dừng việc hay đổi model.
+- **Chuẩn bị so sánh nghiệp vụ công bằng.** Bộ pilot chạy thử khô với hai nhánh tách biệt; kết quả nghiệp vụ thật vẫn cần dữ liệu thật và chủ chấm.
+
+## [0.284.0] - 2026-10-22
+### Sửa lỗi
+- **Đổi mức suy luận của Aivon Core không còn kéo theo khung chat chính.** Aivon Core giờ có mức suy luận riêng như mọi trợ lý khác, mặc định Medium. Trước đây chat với Aivon Core dùng chung mức của khung chat chính, nên đổi ở đây là bên kia đổi theo.
+### Cải thiện
+- Mức suy luận trong phần cài đặt trợ lý dùng cùng tên tiếng Anh với khung chat chính: Off, Light, Medium, High, Extra, Ultra.
+
+## [0.282.0] - 2026-10-22
+### Sửa lỗi
+- **Bot Zalo không còn bị "điếc" khi có một phiên khác của cùng nick đang chạy.** Sau lần cập nhật hôm nay, một bản Zalo cũ sót lại cứ giành kết nối, bot chỉ nghe được tin vài giây sau mỗi lần nối lại nên bỏ lỡ tin tag và tin nhắn riêng. Aivon giờ tự tắt bản Zalo cũ trên máy, thẻ bot báo đỏ, và chuông báo bạn nếu phiên giành kết nối nằm ở nơi khác (Zalo Web, một Aivon khác).
+- **Câu bot trả lời mà Zalo không nhận thì báo lỗi gửi,** không còn hiện như đã gửi trong khi khách không thấy gì. Zalo MCP 1.6.1 cũng gửi tin đúng qua phiên mới sau mỗi lần nối lại.
+### Thêm mới
+- **Bot đọc được tag Zalo của cuộc chat** (Gia đình, Bạn bè, Công ty, Khách...) nên biết mình đang nói với ai. Form bot Zalo cá nhân có thêm mục **"Không trả lời các cuộc chat có tag Zalo"**: tick tag lấy thẳng từ Zalo hoặc gõ tên, chat mang tag đó thì bot im hẳn.
+- **Bot Zalo cá nhân tự quyết nhắn nhiều tin ngắn** (tối đa 4 tin) khi câu trả lời có từ hai ý trở lên, thay vì một tin dài khó đọc.
+
+## [0.281.0] - 2026-10-22
+### Cải thiện
+- **Chạy bộ test không còn làm đầy ổ C.** Trước đây mỗi lượt chạy để lại hơn 1000 thư mục rác trong thư mục Temp của Windows, dồn lại có lúc tới 50.000 thư mục, khoảng 30 GB. Giờ mỗi file test dùng một thư mục tạm riêng và tự xoá khi chạy xong.
+- **Lần chạy bị dừng ngang cũng không để lại rác lâu.** Thư mục của lượt bị tắt giữa chừng được dọn ở lần chạy test kế tiếp.
+
+## [0.280.0] - 2026-10-22
+### Cải thiện
+- **Tin nhắn riêng 1-1: bot được im và báo bạn khi gặp câu khó.** Ở chế độ Tự đánh giá, tin nhắn riêng giờ có thêm lựa chọn thứ ba ngoài trả lời và im: câu mà tài liệu và Agent không đủ căn cứ, hoặc việc bạn phải tự quyết (giảm giá, khiếu nại, hoàn tiền, hẹn lịch), bot không đoán nữa mà im và báo bạn ở chuông Aivon.
+- **Thư báo ghi rõ khách nhắn gì và bot ghi chú vì sao không tự trả lời.** Tin khách vẫn nằm trong Hòm thư bot để bạn trả lời tay. Một khách hỏi dồn nhiều câu khó thì chuông chỉ kêu một lần mỗi 10 phút, nhật ký bot vẫn ghi đủ từng câu.
+- **Nút Thử bot hiện "Bot sẽ im và báo bạn ở chuông"** kèm ghi chú của bot, để bạn thử trước khi bật thật. Hướng dẫn trong Agent của bạn vẫn luôn thắng: Agent đã dặn cách xử lý loại tin nào thì bot làm đúng như vậy.
+
 ## [0.278.0] - 2026-10-22
 ### Cải thiện
 - **Khung chat Nhóm dùng được như khung Trò chuyện.** Sao chép tin, nút Copy của khối mã, Enter trên điện thoại (xuống dòng thay vì gửi), vuốt để trích dẫn, trích đúng đoạn đang bôi và "Xem thêm" cho tin dài đều chạy giống khung chat chính.
@@ -1527,7 +3372,7 @@ Cảm ơn người dùng đã gửi báo lỗi kèm bản vá chạy thử trên
 
 ## [0.65.6] - 2026-09-30
 ### Thêm mới
-- **Aivon tag đúng người trong nhóm Zalo.** Chỉ cần nói tên (kiểu "@kenwingroup"), Aivon tự tìm ID Zalo thật. Trùng tên hoặc không thấy thì hỏi lại chứ không đoán, vì tag nhầm không rút lại được.
+- **Aivon tag đúng người trong nhóm Zalo.** Chỉ cần nói tên (kiểu "@minhvu"), Aivon tự tìm ID Zalo thật. Trùng tên hoặc không thấy thì hỏi lại chứ không đoán, vì tag nhầm không rút lại được.
 - **Tạo ghi chú nhóm, nhắc hẹn và poll trên Zalo** ngay từ chat, cho mọi bộ não. Nhắc hẹn hiện trong Zalo nên cả nhóm cùng thấy.
 ### Sửa lỗi
 - Gửi ảnh Zalo không còn báo "đã gửi" khi Zalo từ chối.
@@ -5239,7 +7084,7 @@ Lỗi của dịch vụ trả về giữa lúc gọi tool nay được Aivon ch�
 ## [0.9.275] - 2026-07-30
 Đổi tài khoản Google mà Aivon vẫn chạy bằng tài khoản cũ: đổi ô đăng nhập giờ vứt luôn token cũ.
 ### Sửa lỗi
-- **Đăng nhập lại bằng email khác mà mọi tool vẫn trả về tài khoản cũ (báo từ người dùng thật).** Người dùng xoá kết nối rồi đăng nhập lại bằng `hi@kenwingroup.vn`, nhưng tool Google vẫn báo tài khoản `kenwingroup@gmail.com`. Nguyên nhân nối tiếp đúng vụ 0.9.274: `workspace-mcp` cache token theo email, còn ô "Email Google của bạn" chỉ CHỌN dùng credential nào chứ không ép đăng nhập lại. Token cũ nằm nguyên trên đĩa nên nó cứ chọn đúng cái cũ. Nay đổi bất kỳ ô đăng nhập nào (email, Client ID, Client Secret) trên nguồn tự giữ token là Aivon vứt luôn kho token của tài khoản cũ, lần gọi tool sau bắt buộc đăng nhập lại. Nhập lại y hệt giá trị cũ, hoặc chỉ đổi tên gợi nhớ, thì KHÔNG đụng gì - không bắt ai đăng nhập lại vô cớ.
+- **Đăng nhập lại bằng email khác mà mọi tool vẫn trả về tài khoản cũ (báo từ người dùng thật).** Người dùng xoá kết nối rồi đăng nhập lại bằng `hi@minhvu.vn`, nhưng tool Google vẫn báo tài khoản `kenwingroup@gmail.com`. Nguyên nhân nối tiếp đúng vụ 0.9.274: `workspace-mcp` cache token theo email, còn ô "Email Google của bạn" chỉ CHỌN dùng credential nào chứ không ép đăng nhập lại. Token cũ nằm nguyên trên đĩa nên nó cứ chọn đúng cái cũ. Nay đổi bất kỳ ô đăng nhập nào (email, Client ID, Client Secret) trên nguồn tự giữ token là Aivon vứt luôn kho token của tài khoản cũ, lần gọi tool sau bắt buộc đăng nhập lại. Nhập lại y hệt giá trị cũ, hoặc chỉ đổi tên gợi nhớ, thì KHÔNG đụng gì - không bắt ai đăng nhập lại vô cớ.
 ### Cải thiện
 - `test_cred_dir_rieng.py` thêm 7 phép thử, trong đó 4 phép chạy THẬT `update_connection` trên kho giả rồi soi thư mục token trên đĩa: nhập lại y hệt thì giữ, đổi tên thì giữ, đổi email thì vứt, đổi Client ID thì vứt. Đây là loại lỗi soi mã nguồn không thấy, phải chạy mới lộ.
 
@@ -5812,15 +7657,15 @@ Thêm công tắc tự chọn: giữ hay gỡ dấu nguồn gốc AI trên ảnh
 ### Thêm mới
 - **Công tắc "Dấu nguồn gốc ảnh AI"** ở Cài đặt, nhóm Giao diện & Brain. Ảnh sinh ra mang sẵn Content Credentials (C2PA) ghi rằng ảnh do AI tạo, và Facebook đọc dấu đó để gắn nhãn "Nội dung do AI tạo" lên bài. Công tắc cho chọn **Giữ dấu** (mặc định) hoặc **Gỡ dấu**.
 - **Mặc định là GIỮ**, và có test khoá mặc định đó lại: bản fork nào cũng khởi đầu ở trạng thái an toàn, muốn gỡ thì chủ workspace phải tự bật. Lúc bật có hộp xác nhận nói rõ nghĩa vụ công bố nội dung AI vẫn thuộc về người đăng.
-- **Nhãn tác giả github.com/kenwingroup/aivon luôn được giữ** ở cả hai chế độ. Gỡ dấu chỉ là gỡ, không đánh tráo nguồn gốc thành của người khác.
+- **Nhãn tác giả aivon.vn luôn được giữ** ở cả hai chế độ. Gỡ dấu chỉ là gỡ, không đánh tráo nguồn gốc thành của người khác.
 - Chỉ ảnh tạo từ lúc bật trở đi mới bị ảnh hưởng; ảnh đã tạo trước đó không đổi.
 ### Kiểm thử
 - `test_image_gen.py` thêm 8 case: gỡ đúng chunk caBX và không đụng phần còn lại, ảnh không có dấu thì trả nguyên xi, mặc định phải là False, và hai nhánh bật/tắt cho ra file khác nhau đúng như mong đợi.
 
 ## [0.9.214] - 2026-07-28
-Ảnh Aivon tạo ra tự mang nhãn tác giả github.com/kenwingroup/aivon.
+Ảnh Aivon tạo ra tự mang nhãn tác giả aivon.vn.
 ### Thêm mới
-- **Gắn nhãn tác giả vào ảnh**: mọi ảnh sinh bằng `aivon_generate_image` nay được ghi sẵn metadata `Software = AIVON`, `Source = https://github.com/kenwingroup/aivon` và thời điểm tạo, dưới dạng chunk tEXt chuẩn PNG. Ai mở file bằng công cụ xem metadata sẽ thấy ảnh do Aivon tạo.
+- **Gắn nhãn tác giả vào ảnh**: mọi ảnh sinh bằng `aivon_generate_image` nay được ghi sẵn metadata `Software = AIVON`, `Source = https://aivon.vn` và thời điểm tạo, dưới dạng chunk tEXt chuẩn PNG. Ai mở file bằng công cụ xem metadata sẽ thấy ảnh do Aivon tạo.
 - Việc gắn nhãn **chỉ THÊM chunk, không gỡ gì**: phần Content Credentials (C2PA) mà nhà cung cấp ảnh nhúng sẵn vẫn nằm nguyên trong file, pixel không bị đụng vào. File không phải PNG hợp lệ thì trả nguyên xi, không làm hỏng ảnh.
 ### Kiểm thử
 - `test_image_gen.py` thêm 8 case, trong đó có case khoá hành vi "KHÔNG gỡ chunk C2PA có sẵn" để sau này không ai lặng lẽ đổi thành gỡ nguồn gốc rồi ghi đè tên mình.
@@ -6251,7 +8096,7 @@ Gỡ hẳn bảng thẻ SỐ LIỆU KINH DOANH. Muốn xem số thì hỏi thẳ
 Chặn khoản hao token âm thầm: mở dashboard không còn spawn agent mới mỗi vài phút.
 ### Sửa lỗi
 - **Thẻ số liệu dashboard đốt hạn mức mà không ai dùng**: đo trên log phiên thật của bản VPS, dự án "app" tốn 22M token thì 402/502 phiên là đúng một job lặp - "tạo các thẻ SỐ LIỆU KINH DOANH cho dashboard" (~16k token mỗi lần, cộng dồn ~6.5M). Gốc rễ ở `/metrics`: cache chỉ 180 giây, chỉ nằm trong RAM, không nhớ lần lỗi và không gộp request trùng, nên gần như mỗi lần MỞ dashboard là một phiên Claude đầy đủ kèm MCP. Nay cache mặc định 15 phút (`METRICS_TTL`), **ghi ra đĩa** nên restart hay tự cập nhật không làm mất, **nhớ cả kết quả lỗi** 2 phút (`METRICS_ERR_TTL`) để MCP hỏng không thành spawn lại mỗi lần F5, và **gộp request trùng** bằng một khoá chung - mở dashboard trên điện thoại lẫn máy tính cùng lúc chỉ tính một lần (`server/main.py`).
-- **Trang Token gọi sai tên dự án**: mọi engine Claude đều chạy với `cwd` = gốc project chứ không phải thư mục brain, mà log thô của Claude Code chỉ ghi `cwd`, nên chat Telegram, việc nền và job dashboard bị gộp hết vào một dự án ("Aivon-OS" khi chạy ở máy, "app" khi chạy trong Docker) - nhìn vào tưởng đang code Aivon mà thật ra là hội thoại của chủ trên brain khác. Nay engine ghi riêng phiên nào thuộc brain nào (`server/session_brain.py`) và bộ index token lấy tên brain làm nhãn, nên số liệu về đúng "My Bullet Journal", "Brain Default"... Không đụng vào `cwd` vì đổi nó sẽ phá dò `.claude/skills` và `vault_root` của plugin. Chỉ có tác dụng với phiên chạy từ bản này trở đi; phiên cũ giữ nhãn như trước.
+- **Trang Token gọi sai tên dự án**: mọi engine Claude đều chạy với `cwd` = gốc project chứ không phải thư mục brain, mà log thô của Claude Code chỉ ghi `cwd`, nên chat Telegram, việc nền và job dashboard bị gộp hết vào một dự án ("AIVON" khi chạy ở máy, "app" khi chạy trong Docker) - nhìn vào tưởng đang code Aivon mà thật ra là hội thoại của chủ trên brain khác. Nay engine ghi riêng phiên nào thuộc brain nào (`server/session_brain.py`) và bộ index token lấy tên brain làm nhãn, nên số liệu về đúng "My Bullet Journal", "Brain Default"... Không đụng vào `cwd` vì đổi nó sẽ phá dò `.claude/skills` và `vault_root` của plugin. Chỉ có tác dụng với phiên chạy từ bản này trở đi; phiên cũ giữ nhãn như trước.
 ### Kiểm thử
 - Thêm `server/test_metrics_cache.py`: phủ TTL dài/ngắn theo chất lượng kết quả, cache sống qua khởi động lại, hết hạn thì tính lại, và nhãn dự án theo brain (kèm trường hợp không tra được brain thì vẫn giữ nhãn cũ).
 
@@ -6980,7 +8825,7 @@ Tinh chỉnh nút thu/mở rail (bản 0.9.72) theo góp ý: đổi icon, dời 
 ### Cải thiện
 - **Icon nút thu/mở đổi sang kiểu "panel sidebar"**: thay mũi tên kép `«` bằng khung vuông chia hai với cột trái có các dòng nội dung (giống icon toggle sidebar quen thuộc). Icon tĩnh, bỏ hiệu ứng xoay 180° khi thu (kiểu panel không cần chỉ hướng, trạng thái đã có tooltip).
 - **Dời nút thu/mở nằm CẠNH dòng version thay vì phía trên**: `.rail-foot` đổi từ xếp dọc sang hàng ngang, nút ở trái kề số phiên bản + "by Minh Vũ". Khi thu gọn vẫn ẩn version/tác giả, chỉ còn mỗi nút căn giữa.
-- **Link "by Minh Vũ" trỏ về github.com/kenwingroup/aivon** thay cho kenwingroup.vn.
+- **Link "by Minh Vũ" trỏ về aivon.vn** thay cho minhvu.vn.
 
 ## [0.9.72] - 2026-07-18
 Làm gọn thanh điều hướng bên trái (rail) theo góp ý trực tiếp: chữ khó đọc vì dùng font monospace, header nhóm trơ không icon, và rail chiếm quá nhiều bề ngang màn hình.

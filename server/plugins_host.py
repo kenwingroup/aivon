@@ -413,21 +413,35 @@ class PluginContext:
     def register_tool(self, name: str, description: str, handler: Callable,
                       schema: Optional[dict] = None, parameters: Optional[dict] = None,
                       min_mode: str = "readonly", check_fn: Optional[Callable] = None,
-                      emoji: str = "", visible_fn: Optional[Callable] = None) -> None:
+                      emoji: str = "", visible_fn: Optional[Callable] = None,
+                      op_modes: Optional[dict] = None, op_key: str = "op") -> None:
         """Thêm 1 tool cho MỌI engine. handler(args: dict, ctx: PluginContext) -> str (sync|async).
         min_mode: readonly(mặc định, luôn chạy) | safe(chặn ở chế độ suggest) | full(chỉ chế độ full).
         check_fn(): None nếu sẵn sàng, hoặc str lý do để chặn (vd chưa đăng nhập).
         visible_fn(vault_root) -> bool: tool chỉ có mặt trong danh sách khi hàm trả True cho brain đó.
         Khác check_fn: check_fn chặn lúc GỌI nhưng tool vẫn hiện, visible_fn giấu hẳn tool khỏi brain
-        chưa bật tính năng, nên brain đó không thấy, không tốn chỗ trong prompt và không gọi nhầm."""
+        chưa bật tính năng, nên brain đó không thấy, không tốn chỗ trong prompt và không gọi nhầm.
+
+        op_modes: per-operation levels for a tool that multiplexes several operations through one
+        argument (`op_key`, default "op"), e.g. {"write": "safe"} on a tool whose other ops only
+        read. `min_mode` stays the floor every op needs; an op listed here needs the stronger of the
+        two, and an op NOT listed needs the strongest level the tool declares at all, so a typo can
+        never slip a write through at the read level. The tool stays listed at every level and the
+        gate runs at call time, like any plugin tool."""
         if not _TOOL_RE.match(str(name or "")):
             raise ValueError(f"tên tool không hợp lệ (a-z0-9_): {name!r}")
         if min_mode not in VALID_MIN_MODE:
             min_mode = "readonly"
+        ops = {}
+        for k, v in (op_modes or {}).items():
+            k = str(k or "").strip().lower()
+            if k and v in VALID_MIN_MODE:
+                ops[k] = v
         self._tools.append({
             "name": name, "description": description or name, "handler": handler,
             "schema": schema or parameters or {"type": "object", "properties": {}},
             "min_mode": min_mode, "check_fn": check_fn, "emoji": emoji, "visible_fn": visible_fn,
+            "op_modes": ops, "op_key": str(op_key or "op"),
         })
 
     def on_unload(self, fn: Callable) -> None:
@@ -609,6 +623,12 @@ def _signature(vault_root: Optional[str], scope_vault: bool = True) -> tuple:
     return tuple(sig)
 
 
+def shared_signature() -> tuple:
+    """Signature of the plugin sources every brain shares (bundled, packs, global user plugins, plugins.json).
+    Stat calls only; ops_index_watch takes it once per sweep instead of once per brain."""
+    return _signature(None, scope_vault=False)
+
+
 def _import_entry(slug: str, source: str, entry: Path):
     """Nạp entry file thành module riêng. Chèn tạm dir vào sys.path để import phụ (nếu có)."""
     mod_name = f"aivon_plugin_{source}_{re.sub(r'[^a-z0-9_]', '_', slug.lower())}"
@@ -787,6 +807,20 @@ def tim_http(slug: str, duong: str, method: str = ""):
         for r in lp.http:
             if r["path"] == duong and (not method or method.upper() in r["methods"]):
                 return lp, r
+    # 0.440.0: plugin đổi tên theo gói (gói khai `replaces`): địa chỉ cũ đã dán ra ngoài vẫn tới
+    # plugin mới. Chỉ một bước, và chỉ khi slug cũ không còn plugin nào giữ.
+    try:
+        import packs
+        moi = packs.plugin_alias(slug)
+    except Exception:
+        moi = ""
+    if moi and moi != slug and not any(lp.slug == slug for lp in _plugin_http()):
+        for lp in _plugin_http():
+            if lp.slug != moi:
+                continue
+            for r in lp.http:
+                if r["path"] == duong and (not method or method.upper() in r["methods"]):
+                    return lp, r
     return None
 
 
@@ -894,20 +928,77 @@ def _min_mode_ok(min_mode: str, mode: str) -> bool:
     return rank.get(eff, 2) >= rank.get(min_mode, 0)
 
 
+def _strongest(*modes: str) -> str:
+    """The strongest of the given levels (readonly < safe < full)."""
+    rank = mcp_catalog.PERM_RANK
+    return max((m for m in modes if m in VALID_MIN_MODE), key=lambda m: rank.get(m, 0), default="readonly")
+
+
+def _required_mode(tool: dict, args) -> str:
+    """Level one call of this tool needs. Plain tools: `min_mode`. A tool with `op_modes`: the op's
+    level (never below `min_mode`); an op it does not list needs the strongest level it declares."""
+    min_mode = tool.get("min_mode") or "readonly"
+    ops = tool.get("op_modes") or {}
+    if not ops:
+        return min_mode
+    op = str((args or {}).get(tool.get("op_key") or "op") or "").strip().lower()
+    if op in ops:
+        return _strongest(min_mode, ops[op])
+    return _strongest(min_mode, *ops.values())
+
+
 async def _maybe_await(v):
     if inspect.isawaitable(v):
         return await v
     return v
 
 
+# Tools that queue work which runs LATER, and the argument holding that work's level (security fix, 2026-11-05 audit).
+# Both are `safe`, so an "auto" run (a customer bot, a loop reading untrusted text) could call them, and the work they
+# queued ran at Full access by default: shell, every connection. The level a run hands on is now capped at its own.
+_JOB_LEVEL_ARG = {"aivon_schedule": "muc_quyen", "aivon_task": "mode"}
+_JOB_LEVEL_RANK = {"suggest": 0, "auto": 1, "full": 2}
+
+
+def _cap_job_level(name: str, args: dict, mode: str):
+    """(args, refusal). A run below Full access may only queue work at its own level or lighter.
+
+    Full-access runs and gated Team steps (they go through the owner's approval) pass unchanged. Below Full, the level
+    argument is set to the weaker of what was asked (missing = the tool's default, Full) and the run's own level, and
+    `aivon_schedule op=update` is refused: it would rewrite the prompt of a job the owner may have made at Full."""
+    field = _JOB_LEVEL_ARG.get(name)
+    m = str(mode or "").strip().lower()
+    if not field or m == "gated":
+        return args, ""
+    try:
+        import mcp_catalog
+        eff = mcp_catalog.effective_perm("full", m)
+    except Exception:  # noqa: BLE001
+        eff = "full" if m in ("", "full") else "readonly"
+    if eff == "full":
+        return args, ""
+    tran = "auto" if eff == "safe" else "suggest"
+    a = dict(args or {})
+    op = str(a.get("op") or ("create" if name == "aivon_schedule" else "")).strip().lower()
+    if name == "aivon_schedule" and op == "update":
+        return a, ("ERROR: việc chạy dưới mức Toàn quyền không được sửa việc đã lên lịch (việc đó có thể đang chạy "
+                   "toàn quyền). Nhờ chủ sửa ở trang Việc, hoặc tạo việc mới.")
+    if name == "aivon_task" and op != "add":
+        return a, ""
+    xin = str(a.get(field) or "full").strip().lower()
+    if _JOB_LEVEL_RANK.get(xin, 2) > _JOB_LEVEL_RANK[tran]:
+        a[field] = tran
+    return a, ""
+
+
 def _make_call(tool: dict, ctx: PluginContext, mode: str):
     """Bọc 1 handler plugin thành async call(args) có gate min_mode + check_fn + chống crash."""
     handler = tool["handler"]
-    min_mode = tool["min_mode"]
     check_fn = tool.get("check_fn")
     name = tool["name"]
 
     async def _call(args):
+        min_mode = _required_mode(tool, args)
         if str(mode or "").strip().lower() == "gated" and min_mode != "readonly":
             # 0.207.0: a gated Team step. A plugin that writes or acts (review: `aivon_task` and `aivon_schedule` are
             # `safe` yet queue work that runs at full later) needs the owner's approval of this exact call
@@ -929,6 +1020,10 @@ def _make_call(tool: dict, ctx: PluginContext, mode: str):
                 return f"ERROR: kiểm tra điều kiện tool '{name}' lỗi: {type(e).__name__}: {e}"
             if why:
                 return f"ERROR: {why}"
+        args, tu_choi = _cap_job_level(name, args, mode)
+        if tu_choi:
+            return tu_choi
+
         async def _run(a):
             try:
                 res = handler(a or {}, ctx)
@@ -1048,8 +1143,11 @@ def plugin_tools(mode: str = "full", vault_root: Optional[str] = None, *,
                           "description": desc, "schema": t["schema"],
                           "namespace": lp.slug, "label": lp.name,
                           "group_desc": lp.description})
-            effect = "read" if t["min_mode"] == "readonly" else (
-                "write" if t["min_mode"] == "safe" else "danger"
+            # A tool with per-op levels is described by its strongest op: the registry and the fast
+            # paths must never take a tool that can write for a read-only one.
+            top = _strongest(t["min_mode"], *(t.get("op_modes") or {}).values())
+            effect = "read" if top == "readonly" else (
+                "write" if top == "safe" else "danger"
             )
             route[fn] = {
                 "call": _make_call(t, lp.ctx, mode),
@@ -1057,9 +1155,11 @@ def plugin_tools(mode: str = "full", vault_root: Optional[str] = None, *,
                 "source_type": "plugin",
                 "source_id": f"{lp.source}:{lp.slug}",
                 "effect": effect,
-                "required_mode": t["min_mode"],
+                "required_mode": top,
                 "health": "healthy",
             }
+            if t.get("op_modes"):
+                route[fn]["op_modes"] = dict(t["op_modes"])
     return tools, route
 
 

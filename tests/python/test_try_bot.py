@@ -59,8 +59,15 @@ BRAIN = Path(tempfile.mkdtemp(prefix="brain-try-"))
 (BRAIN / "cai-dat.md").write_text(
     "# Hướng dẫn cài đặt Aivon\n\n## Lỗi cổng 7979 đang được dùng\n\nNếu Aivon báo lỗi cổng 7979 đang được dùng, "
     "hãy tắt tiến trình Aivon cũ rồi khởi động lại bằng file start-aivon.bat.\n", encoding="utf-8")
+def _pin_all():
+    """The Agent's Documents section (2026-11-09: a bot reads only what its Agent lists): every .md of this test brain.
+    The grounding rules still drop operating folders and scoped files, so this test checks the same as before."""
+    return {"assets": {"files": [{"id": str(i), "path": p} for i, p in enumerate(
+        sorted(x.relative_to(BRAIN).as_posix() for x in BRAIN.rglob("*.md")))]}}
+
+
 chatbot_runtime.wire(answer=_engine, brain_root=lambda b: str(BRAIN),
-                     read_agent=lambda br, slug: ({"name": "Lan", "role": "Trợ lý cài đặt Aivon"}, "Trả lời ngắn gọn."),
+                     read_agent=lambda br, slug: ({**_pin_all(), "name": "Lan", "role": "Trợ lý cài đặt Aivon"}, "Trả lời ngắn gọn."),
                      session_probe=lambda key: ("sid-1", 3), session_undo=lambda key, keep: UNDO.append((key, keep)))
 
 
@@ -187,7 +194,7 @@ check("Zalo bot -> never a Telegram warning",
 import main  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
 chatbot_runtime.wire(answer=_engine, brain_root=lambda b: str(BRAIN),
-                     read_agent=lambda br, slug: ({"name": "Lan"}, "Trả lời ngắn gọn."),
+                     read_agent=lambda br, slug: ({**_pin_all(), "name": "Lan"}, "Trả lời ngắn gọn."),
                      session_probe=lambda key: ("", 0), session_undo=lambda key, keep: None)
 c = TestClient(main.app)
 res = c.post(f"/chatbots/{bid}/try", data={"text": "@Aivon Vũ chào em", "chat_type": "group", "mentioned": "1"})

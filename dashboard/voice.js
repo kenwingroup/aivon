@@ -14,6 +14,12 @@ class AivonVoice {
   // luôn ngắt hơi trước mốc này, nên nó chỉ cắt đúng thứ đáng cắt: một dòng tiếng liên tục
   // của TV hay của người khác trong phòng.
   static TRAN_LUOT_MS = 30000;
+  // 0.347.0: how long start()/stop() may go unanswered (no onstart, onend or onerror) before the recognizer counts as
+  // wedged. Chrome sometimes stops answering after many open/close cycles, which is exactly what the wait-for-name
+  // loop of a long ChatGPT Live call does (owner, 27/10/2026: "after 5 minutes it stops hearing, calling again does
+  // not help either"). The flags then stayed set for good: no more listening, and every new call said "mic not
+  // closed yet" until the page was reloaded. See _goKet.
+  static KET_MS = 5000;
 
   // ---- Ngắt lời bằng giọng: mẹo NHÁ TIẾNG (0.57.14) ----
   // Đo mức âm mic KHÔNG phân biệt nổi giọng người với tiếng LOA NGOÀI vọng lại, nên bản cũ
@@ -127,6 +133,7 @@ class AivonVoice {
     // onTranscript ở đây để onend của recognition không phải biết gì về chuyện này.
     this.sttUpload = false;                            // app.js bật khi cài đặt stt_provider = groq
     this.sttUrl = "/stt";
+    this.sttSession = null;                            // app.js: () => id of the open chat, so its model's ear hears
     this._rec = null;
     this._recChunks = [];
     const _userTranscript = this.onTranscript;
@@ -273,6 +280,9 @@ class AivonVoice {
       // Bản nháp của Web Speech đi kèm: server đối chiếu, Groq BỊA câu kết video (audio thiếu
       // tiếng) thì trả ok=false và ta giữ bản nháp (0.64.74, stt.khop_ban_nhap).
       fd.append("draft", text);
+      let sid = "";
+      try { sid = typeof this.sttSession === "function" ? String(this.sttSession() || "") : ""; } catch (e) { sid = ""; }
+      if (sid) fd.append("session", sid);
       const r = await fetch(url || this.sttUrl, { method: "POST", body: fd, signal: ctl.signal });
       const d = await r.json();
       return r.ok && d && d.ok && String(d.text || "").trim() ? String(d.text).trim() : text;
@@ -463,6 +473,7 @@ class AivonVoice {
           // nửa câu đầu biến mất.
           this._committed = AivonVoice.ghepDuoiTam(this.accumulatedTranscript || this._committed, this._duoiTam);
           this._duoiTam = "";
+          this._chuyenLuc = Date.now();
           this._starting = true;
           this.recognition.start();
           return;
@@ -692,6 +703,7 @@ class AivonVoice {
       this.onError("not-supported");
       return;
     }
+    if (this._dangKet()) this._goKet();
     if (this.isListening || this._starting || this._stopping || (tuDong && this.isTranscribing)) return;
     if (this._micHong) {
       if (tuDong) return;
@@ -732,6 +744,7 @@ class AivonVoice {
     try {
       this._startRecorder(); // nếu đã có stream, bắt đầu thu TRƯỚC SpeechRecognition
       this._recognitionStarted = true;
+      this._chuyenLuc = Date.now();
       this.recognition.start();
     } catch (e) {
       // "InvalidStateError" = phiên trước đã/đang mở (vòng lặp giữ mic của chế độ rảnh tay gọi
@@ -754,6 +767,7 @@ class AivonVoice {
     if (this.recognition && this.isListening) {
       this.userStopped = true;     // đánh dấu user chủ động dừng → không auto-restart
       this._stopping = true;
+      this._chuyenLuc = Date.now();
       try { this.recognition.stop(); } catch (e) { this._stopping = false; }
     } else if (this._starting) {
       // Phiên đang mở dở (start() đã gọi, onstart chưa chạy) nên chưa có gì để dừng. Ghi nợ
@@ -767,7 +781,9 @@ class AivonVoice {
     if (!this.isListening && !this._starting && !this._stopping) return Promise.resolve(true);
     return new Promise(resolve => {
       const done = ok => { clearTimeout(timer); this._captureWaiters.delete(done); resolve(ok); };
-      const timer = setTimeout(() => done(false), 2000);
+      // 0.347.0: two silent seconds used to return false, and the caller then hung the call up with "mic not closed
+      // yet". A recognizer that does not close when told to is wedged: rebuild it, which releases the capture.
+      const timer = setTimeout(() => this._goKet(), 2000);
       this._captureWaiters.add(done);
     });
   }
@@ -829,7 +845,7 @@ class AivonVoice {
     const next = this.speechQueue && this.speechQueue[0];
     if (!next) return;
     const first = this._splitForLatency(next)[0];
-    if (first) this._preloadUrl(this._chunkUrl(first));
+    if (first) this._preloadUrl(this._chunkUrl(first, this._englishFlag(next)));
   }
 
   _preloadUrl(url) {
@@ -890,7 +906,33 @@ class AivonVoice {
     this._duoiTam = "";                  // cả đuôi chữ tạm, kẻo onend ghép nó thành tin
     this.onInterim("");                  // xoá chữ đang hiện dở trên màn hình
     this._stopRecorder().catch(() => {}); // Voice V2: bỏ đoạn ghi âm dở, không gửi Groq
+    this._chuyenLuc = Date.now();
     try { this.recognition.abort(); } catch (e) {}
+  }
+
+  // The recognizer has been opening or closing for longer than KET_MS without a single event from the browser.
+  _dangKet() {
+    return !!(this._starting || this._stopping) && !!this._chuyenLuc
+      && Date.now() - this._chuyenLuc > AivonVoice.KET_MS;
+  }
+
+  // Drop a wedged recognizer and build a fresh one (same language, same settings), then release anyone waiting
+  // for the capture to end. Without this only a page reload recovered (see KET_MS).
+  _goKet() {
+    const cu = this.recognition;
+    if (cu) {
+      try { cu.onstart = cu.onresult = cu.onerror = cu.onend = null; } catch (e) {}
+      try { cu.abort(); } catch (e) {}
+    }
+    const silenceMs = this.silenceMs;
+    this.isListening = false;
+    this._stopping = false;
+    this._recognitionStarted = false;
+    this._chuyenLuc = 0;
+    this._initRecognition();          // resets _starting, _stopPending, userStopped and the handlers
+    this.silenceMs = silenceMs;
+    try { console.warn("[voice] the browser recognizer stopped answering; rebuilt it"); } catch (e) {}
+    for (const done of this._captureWaiters) done(true);
   }
 
   _audioActuallyStarted(epoch) {
@@ -1185,8 +1227,17 @@ class AivonVoice {
       .trim();
   }
 
-  _chunkUrl(text) {
-    return `${this.ttsBackend}?text=${encodeURIComponent(text)}&voice=${encodeURIComponent(this._voiceFor(text))}&rate=${encodeURIComponent(this.ttsRate)}`;
+  // `en` = whether the WHOLE message the chunk belongs to is English (2026-11-08, owner): the server reads an English
+  // answer in English, even with Hoai My picked, and keeps the Vietnamese way of saying English words in a Vietnamese
+  // answer. Decided per message, so one chunk of an English answer that names "Hội thoại" stays English.
+  _chunkUrl(text, en = this._msgEnglish) {
+    const flag = en ? `&en=${encodeURIComponent(en)}` : "";
+    return `${this.ttsBackend}?text=${encodeURIComponent(text)}&voice=${encodeURIComponent(this._voiceFor(text))}&rate=${encodeURIComponent(this.ttsRate)}${flag}`;
+  }
+
+  _englishFlag(text) {
+    const L = typeof window !== "undefined" && window.AivonVoiceLang;
+    return L && L.englishFlag ? L.englishFlag(text) : "";
   }
 
   // "auto" (0.220.0): the Edge voice follows the language of the text being read (voice-lang.js).
@@ -1201,6 +1252,7 @@ class AivonVoice {
   async _speakBackend(text) {
     // KHÔNG stopSpeaking ở đây - hàng đợi (_pumpQueue) điều phối thứ tự đọc.
     // Chunk ĐẦU nhỏ (1 câu) để audio đầu tiên tổng hợp + tải NHANH → bớt khựng; các chunk sau to (liền mạch).
+    this._msgEnglish = this._englishFlag(text);
     this.ttsChunks = this._splitForLatency(text);
     this._preloaded = null;
     this.isPlaying = true;
@@ -1353,14 +1405,15 @@ class AivonVoice {
     const epoch = this._ttsEpoch;
     const done = onDone || (() => this._pumpQueue());
     const chunks = this._splitIntoChunks(text, 200);
+    const english = this._englishFlag(text) === "1";   // an English answer: no Vietnamese browser voice
     let idx = 0;
     const playNext = () => {
       if (epoch !== this._ttsEpoch) return;
       if (idx >= chunks.length) { done(); return; }
       const piece = chunks[idx++];
       const utter = new SpeechSynthesisUtterance(piece);
-      utter.lang = this.lang;
-      if (this.vietnameseVoice) utter.voice = this.vietnameseVoice;
+      utter.lang = english ? "en-US" : this.lang;
+      if (this.vietnameseVoice && !english) utter.voice = this.vietnameseVoice;
       utter.rate = 1.05;
       utter.onstart = () => this._audioActuallyStarted(epoch);
       utter.onend = () => { if (epoch !== this._ttsEpoch) return; if (this._countThis) this._wordsDone += AivonVoice.demTu(piece); playNext(); };

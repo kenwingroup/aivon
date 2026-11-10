@@ -21,8 +21,10 @@ start it like a normal app.
   Finder alternatives.
 - **`bin/aivon-start.sh`** / **`bin/aivon-stop.sh`** - the underlying scripts.
 - **`bin/aivon-autostart.sh [install|uninstall]`** - run the server at login via a
-  macOS LaunchAgent. The plist is generated with paths for your machine; nothing
-  is hardcoded in the repo.
+  macOS LaunchAgent, and open the dashboard in the browser once it is up (a second,
+  run-once agent; `AIVON_AUTOSTART_OPEN=0` skips it). `./install.sh` turns this on by
+  default since 0.306.0 (`AIVON_NO_AUTOSTART=1` to skip). The plists are generated with
+  paths for your machine; nothing is hardcoded in the repo.
 
 ## Notes
 

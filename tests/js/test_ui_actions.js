@@ -15,6 +15,8 @@ const consoleJs = fs.readFileSync(path.join(root, "dashboard", "console.js"), "u
 const plugin = fs.readFileSync(path.join(root, "server", "ui_targets.py"), "utf8");
 const app = fs.readFileSync(path.join(root, "dashboard", "app.js"), "utf8");
 const main = fs.readFileSync(path.join(root, "server", "main.py"), "utf8");
+const tasksJs = fs.readFileSync(path.join(root, "dashboard", "tasks.js"), "utf8");
+const src = fs.readFileSync(path.join(root, "dashboard", "ui-actions.js"), "utf8");
 
 let fails = [];
 function check(name, cond) {
@@ -53,6 +55,11 @@ check("PAGES của ui_targets.py == RAIL_ITEMS", JSON.stringify(rail) === JSON.s
 // ---- Nhóm thanh bên: mở NHÓM khác mở TRANG (0.57.5) ----
 check("open_group nhóm có thật: ok", A.validate({ action: "open_group", target: "nang_luc" }).ok);
 check("open_group nhóm lạ: chặn", !A.validate({ action: "open_group", target: "admin" }).ok);
+// 0.347.0: the Code group left the rail (Terminal moved into Capabilities); an old "code" opens nang_luc.
+check("open_group 'code' (removed group) opens Capabilities", (() => {
+  const v = A.validate({ action: "open_group", target: "code" });
+  return v.ok && v.target === "nang_luc" && A.GROUPS.indexOf("code") < 0;
+})());
 check("sidebar open/close: ok", A.validate({ action: "sidebar", target: "open" }).ok
   && A.validate({ action: "sidebar", target: "close" }).ok);
 check("sidebar target lạ: chặn", !A.validate({ action: "sidebar", target: "half" }).ok);
@@ -69,10 +76,11 @@ check("AivonNav.go đi qua store Alpine để bung nhóm", /go\(id\) \{ const s 
 check("console.js xuất AivonNav.openGroup và setCollapsed",
   /openGroup\(groupId\)/.test(consoleJs) && /setCollapsed\(thu\)/.test(consoleJs));
 
-// Dây nối: app.js chuyển frame ui_action sang AivonUiActions, console.js xuất AivonKanbanShow,
-// server có nhánh ui_result.
+// Dây nối: app.js chuyển frame ui_action sang AivonUiActions, tasks.js xuất AivonTasks.show (0.426.0, việc Kanban
+// nằm ở trang Nhiệm vụ), server có nhánh ui_result.
 check("app.js xử lý frame ui_action", /data\.type === "ui_action"/.test(app) && /AivonUiActions\.handle\(/.test(app));
-check("console.js xuất window.AivonKanbanShow", /window\.AivonKanbanShow = showTask/.test(consoleJs));
+check("tasks.js xuất AivonTasks.show và ready", /window\.AivonTasks = \{[^}]*show: show, ready:/.test(tasksJs));
+check("open_task mở trang Nhiệm vụ rồi gọi AivonTasks.show", /AivonNav\.go\("tasks"\)/.test(src) && /await nv\.show\(v\.target\)/.test(src));
 check("main.py có nhánh ui_result", /action == "ui_result"/.test(main));
 
 if (fails.length) { console.log("\nFAIL:", fails.length, fails); process.exit(1); }

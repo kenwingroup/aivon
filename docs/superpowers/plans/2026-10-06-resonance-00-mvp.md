@@ -1,4 +1,4 @@
-# AIVON Resonance MVP Implementation Plan
+# Aivon Resonance MVP Implementation Plan
 
 **Kế hoạch triển khai hiện hành.** Đọc cùng [danh mục chốt](../README-RESONANCE.md) và [bản review mới nhất](../specs/2026-10-06-resonance-revised-package-review.md). Phụ lục code của Claude là mẫu chưa nghiệm thu, được lưu trong gói lịch sử; không phải lộ trình triển khai song song.
 

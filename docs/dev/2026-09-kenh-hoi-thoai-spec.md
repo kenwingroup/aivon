@@ -8,7 +8,7 @@ Trước 0.61.0, "kiến thức về một kênh" nằm rải ở tám chỗ (`c
 
 ## Ba lớp
 
-1. **Sổ đăng ký kênh** `server/channels/`: mỗi kênh một module khai `SPEC: KenhSpec` (id, nhãn, logo, kind, năng lực, cách lấy token, tóm tắt) và một bộ hàm theo khế ước (xem docstring `channels/__init__.py`). Năng lực "trả lời từ AIVON" và "gắn được bot" SUY từ module (có hàm `gui`, có `Transport`), không tin lời khai. Thứ tự `_MODULES` là thứ tự hiện trên giao diện; không có kênh nào "chính".
+1. **Sổ đăng ký kênh** `server/channels/`: mỗi kênh một module khai `SPEC: KenhSpec` (id, nhãn, logo, kind, năng lực, cách lấy token, tóm tắt) và một bộ hàm theo khế ước (xem docstring `channels/__init__.py`). Năng lực "trả lời từ Aivon" và "gắn được bot" SUY từ module (có hàm `gui`, có `Transport`), không tin lời khai. Thứ tự `_MODULES` là thứ tự hiện trên giao diện; không có kênh nào "chính".
 2. **Tài khoản kênh** `server/channel_accounts.py`: kho JSON cho tài khoản kind `bot` (token qua `secrets_store`). Tài khoản kind `account` (Zalo cá nhân) sống ở `mcp_store`, module kênh tự liệt kê. Id tài khoản di trú từ bot cũ = id bot, để khoá `f"{kenh}:{id}"` của kho hội thoại giữ nguyên.
 3. **Bot** `server/chatbot_store.py`: chỉ còn PHÂN CÔNG, trỏ tới tài khoản qua `accounts: [id]`. `channel`/`bot_username` là ảnh của tài khoản đầu tiên (giữ cho chỗ đọc cũ). Di trú chạy trong `_load()` lần đọc đầu, ghi lại một lần, không cần script.
 

@@ -6,12 +6,12 @@ Trạng thái: chờ duyệt
 ## Vấn đề
 
 Connector `google-keep` bắt người dùng mở terminal chạy một lệnh dài để đổi App Password lấy
-Google master token, rồi dán token vào AIVON. Người dùng hỏi thẳng: "sao khó thế, không làm trên
+Google master token, rồi dán token vào Aivon. Người dùng hỏi thẳng: "sao khó thế, không làm trên
 UI luôn được à?"
 
 Câu trả lời là ĐƯỢC. `gpsoauth.perform_master_login(email, app_password, android_id)` chỉ là một
 lời gọi HTTP tới máy chủ xác thực của Google, trả về dict chứa token. Không có gì buộc nó phải
-chạy trong terminal; server AIVON gọi được y hệt.
+chạy trong terminal; server Aivon gọi được y hệt.
 
 Hai bước KHÔNG tự động hoá được vì là giao diện bảo mật của chính Google: bật xác minh 2 bước, và
 tạo App Password. Google cố tình bắt làm tay. Ngoài ra thì hết.
@@ -69,18 +69,18 @@ bấm mở trang ngoài dù catalog có khai `auth.setup.links`. Thêm lời g�
 
 ## Luồng sau khi sửa
 
-1. Bấm nút trong AIVON, mở thẳng trang App Password của Google.
+1. Bấm nút trong Aivon, mở thẳng trang App Password của Google.
 2. Copy chuỗi 16 ký tự.
-3. Dán email + chuỗi đó vào AIVON, bấm Kết nối.
+3. Dán email + chuỗi đó vào Aivon, bấm Kết nối.
 
-AIVON tự đổi lấy master token, lưu token, vứt App Password. Không còn terminal.
+Aivon tự đổi lấy master token, lưu token, vứt App Password. Không còn terminal.
 
 ## Rủi ro đã biết
 
 - **Google có thể chặn đăng nhập từ IP VPS.** Đăng nhập từ trung tâm dữ liệu ở nước khác dễ bị
   trả `BadAuthentication` hơn từ máy nhà. Vì vậy đường lui dán tay master token phải giữ, và
   thông báo lỗi phải gợi ý đúng cách xử lý này.
-- **App Password đi qua server AIVON.** Không lưu, không log, dùng một lần rồi bỏ. Nhưng khác với
+- **App Password đi qua server Aivon.** Không lưu, không log, dùng một lần rồi bỏ. Nhưng khác với
   cách cũ (chuỗi chỉ nằm trên máy người dùng), nên phải nói rõ trong hướng dẫn.
 - **Thêm 4 gói phụ thuộc**: gpsoauth, pycryptodomex, requests, charset-normalizer, urllib3. Đã
   kiểm bằng `pip install --dry-run`: KHÔNG đụng tới `fastapi`/`starlette`, nên không dẫm vào cái
@@ -92,7 +92,7 @@ AIVON tự đổi lấy master token, lưu token, vứt App Password. Không cò
 chuỗi `--scopes=` rất dài, xong đi tìm file JSON trong `%APPDATA%` mà dán vào. Còn cực hơn Keep.
 
 Chìa khoá: file ADC mà gcloud sinh ra thực chất CHỈ LÀ
-`{type: authorized_user, client_id, client_secret, refresh_token}`. Mà AIVON đã có sẵn luồng OAuth
+`{type: authorized_user, client_id, client_secret, refresh_token}`. Mà Aivon đã có sẵn luồng OAuth
 Google hoàn chỉnh đang chạy cho Gmail và Lịch. Nên chỉ cần chạy luồng đó với scope
 `https://www.googleapis.com/auth/adwords` rồi TỰ DỰNG file ADC. Không cần gcloud, không chạy lệnh.
 

@@ -192,7 +192,7 @@ def list_models(timeout: float = 20.0, cli_path: Optional[str] = None,
             "id": 0,
             "params": {
                 "clientInfo": {
-                    "name": "aivon_os",
+                    "name": "aivon",
                     "title": "AIVON",
                     "version": "1.0",
                 }

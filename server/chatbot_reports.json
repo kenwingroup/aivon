@@ -1,0 +1,11 @@
+{
+  "bots": {
+    "bot_ebda1432ed": {
+      "enabled": true,
+      "accounts": [
+        "d802d364b027"
+      ],
+      "audience": "all_current_conversations"
+    }
+  }
+}

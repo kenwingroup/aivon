@@ -20,6 +20,7 @@ from __future__ import annotations
 import localefmt
 import json
 import os
+import hashlib
 from datetime import datetime, timezone, timedelta
 
 # Múi giờ để cắt NGÀY của thống kê. Đọc từ cấu hình qua `localefmt`, KHÔNG còn là hằng số.
@@ -34,6 +35,14 @@ from datetime import datetime, timezone, timedelta
 # khởi động lại server.
 def _tz():
     return localefmt.tz()
+
+
+def observation_key(event):
+    """Stable projection identity: retries in another host execution remain separate."""
+    ex = event.get("execution") or {}
+    identity = [event.get("provider"), event.get("source_id"), ex.get("execution_id") or ex.get("turn_id"),
+                ex.get("attempt"), event.get("event_id")]
+    return hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()
 
 
 _PRICING_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "usage_pricing.json")
@@ -154,7 +163,7 @@ def parse_claude_line(obj: dict, chat_sessions: set, session_brains: dict = None
     Bo qua: khong phai type=assistant, model synthetic/thieu, khong co usage, tong token = 0.
 
     session_brains: {session_id: duong_dan_brain} tu session_brain.py. Moi engine Aivon chay
-    voi cwd = goc project nen 'project' suy tu cwd gop het ve mot cho ('Aivon-OS' / 'app');
+    voi cwd = goc project nen 'project' suy tu cwd gop het ve mot cho ('AIVON' / 'app');
     phien nao tra duoc brain thi lay TEN BRAIN lam nhan dung hon. Khong tra duoc -> cwd nhu cu.
     """
     if not isinstance(obj, dict) or obj.get("type") != "assistant":
@@ -196,6 +205,7 @@ def parse_claude_line(obj: dict, chat_sessions: set, session_brains: dict = None
         "ts": ts, "day": day, "provider": "claude",
         "engine": entrypoint or "claude", "model": model,
         "project": project, "session_id": session_id,
+        "request_id": msg.get("id") or obj.get("uuid"),
         "source": source, "activity": activity,
         "input": inp, "output": out, "cache_read": cread, "cache_create": ccreate,
         "turns": 1,

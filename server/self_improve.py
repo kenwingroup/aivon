@@ -68,6 +68,7 @@ from fastapi import APIRouter, Form, Query
 
 from claude_cli import claude_engine, cancel_all, _empty_mcp_file
 import aux_engine   # engine viec nen theo model phu nguoi dung chon
+import memory_control   # #1165: background writers are not stamped with a chat source
 import channel_context   # bóc khối AIVON_* trước khi báo Telegram - kênh chữ, không phải web
 
 LEGACY_SLUG = "vong-lap-goc"
@@ -175,7 +176,22 @@ class LoopDeps:
     # None = giữ nguyên Claude như trước (test dựng deps tối giản không cần tiêm).
     aux_swap: Optional[Callable] = None
     # 0.199.0: (source, ref, brain=, title=, error=, request=) -> report a broken run to Aivon Core (incident_desk.py).
+    # also chat= (the loop's owner_chat), so the incident is told where the job came from.
     incident_hook: Optional[Callable] = None
+    # a loop made in a partner chat (`agent:` in its frontmatter) runs as that assistant.
+    # build_agent_prompt(brain, slug) -> system prompt, raises when the assistant is gone (the loop then runs as Aivon);
+    # finish_agent_run(brain, slug, task, output) -> output without the AIVON_LESSON lines (written to its memory).
+    build_agent_prompt: Optional[Callable[[str, str], str]] = None
+    finish_agent_run: Optional[Callable[[str, str, str, str], str]] = None
+
+
+_AGENT_SLUG = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,119}")
+
+
+def _agent_slug(value) -> str:
+    """an assistant slug from a loop file (agents/<slug>.md) or "": one file name, never a path."""
+    v = str(value or "").strip()
+    return v if _AGENT_SLUG.fullmatch(v) and ".." not in v else ""
 
 
 class LoopFeature:
@@ -332,6 +348,10 @@ class LoopFeature:
             "max_runs_per_day": maxr,
             # owner_chat = chat_id người YÊU CẦU loop (để báo về đúng người). Rỗng = web → ID đầu.
             "owner_chat": str(fm.get("owner_chat", "") or "").strip(),
+            # 0.429.0: the chatbot whose turn created the loop ("" = the owner or Aivon Core), for the Tasks page.
+            "bot_id": str(fm.get("bot_id", "") or "").strip(),
+            # the Partners-page assistant this loop runs as ("" = Aivon), set when a partner chat made it.
+            "agent": _agent_slug(fm.get("agent", "")),
             "notify": notify,
             "ambient_mcp": ambient_mcp,
             "updated": str(fm.get("updated", "") or ""),
@@ -389,6 +409,10 @@ class LoopFeature:
         # Chỉ ghi ambient_mcp khi BẬT - giữ file loop mặc định sạch (fork không thấy cờ lạ).
         if loop.get("ambient_mcp"):
             fm["ambient_mcp"] = True
+        if loop.get("bot_id"):   # 0.429.0: keep which chatbot made it across edits and toggles
+            fm["bot_id"] = loop["bot_id"]
+        if loop.get("agent"):    # same for the assistant it runs as
+            fm["agent"] = loop["agent"]
         y = yaml.safe_dump(fm, allow_unicode=True, sort_keys=False, default_flow_style=False, width=1000).strip()
         d = self._loops_dir(brain)
         d.mkdir(parents=True, exist_ok=True)
@@ -909,7 +933,9 @@ class LoopFeature:
                 return {"ok": False, "error": localefmt.chu(f"Không tìm thấy loop '{slug}'", f"Loop '{slug}' not found")}
             self._running = (str(Path(self.deps.brain_root(brain)).resolve()), slug)
             try:
-                return await self._run_cycle_inner(brain, slug, loop, reason)
+                # #1165: memories this loop writes are not stamped with a chat open at the same time.
+                with memory_control.background_writer(self.deps.brain_root(brain), loop.get("mode") or "full"):
+                    return await self._run_cycle_inner(brain, slug, loop, reason)
             finally:
                 self._running = None
 
@@ -996,7 +1022,8 @@ class LoopFeature:
                 try:
                     self.deps.incident_hook("loop", f"{vault_root}::{slug}", brain=vault_root,
                                             title=str(loop.get("name") or slug), error=summary[:1500],
-                                            request=str(loop.get("body") or "")[:1500])
+                                            request=str(loop.get("body") or "")[:1500],
+                                            chat=str(loop.get("owner_chat") or ""))
                 except Exception:
                     pass
             if paused_now and self.deps.notify and not report_sent:
@@ -1031,7 +1058,19 @@ class LoopFeature:
         # Read the tail BEFORE this round is logged, so it holds earlier rounds only.
         prompt += self._previous_rounds_block(brain, slug)
 
-        sysprompt =self.deps.build_system_prompt(brain)
+        sysprompt, as_agent = None, ""
+        if loop.get("agent") and self.deps.build_agent_prompt:
+            # made in a partner chat -> this round runs as that assistant. Assistant gone -> plain Aivon.
+            try:
+                sysprompt = await asyncio.to_thread(self.deps.build_agent_prompt, brain, loop["agent"])
+                as_agent = loop["agent"]
+            except Exception as _e:
+                print(f"[loops] {slug}: assistant '{loop['agent']}' unavailable, running as Aivon: "
+                      f"{type(_e).__name__}: {_e}", file=sys.stderr)
+        if sysprompt is None:
+            # 2026-11-09: built on a worker thread. It reads every skill, agent and plugin of the brain; on the event loop it
+            # froze the whole server for 2 to 5 s on the owner's VPS (GET /health/loop).
+            sysprompt = await asyncio.to_thread(self.deps.build_system_prompt, brain)
         gcli = self._make_cli(loop, cwd, sysprompt, brain=brain)
         if gcli is None:
             return _finish("Lỗi: không tạo được file MCP rỗng để cô lập (profile code từ chối chạy)", "", True)
@@ -1055,6 +1094,11 @@ class LoopFeature:
                     summary = "Lỗi: " + ev["content"][:200]
         except Exception as _e:
             summary = f"Lỗi: {type(_e).__name__}: {_e}"[:200]
+        if as_agent and summary and not summary.startswith("Lỗi:") and self.deps.finish_agent_run:
+            try:
+                summary = self.deps.finish_agent_run(brain, as_agent, str(loop.get("body") or ""), summary)
+            except Exception as _e:
+                print(f"[loops] {slug}: assistant run log failed: {type(_e).__name__}: {_e}", file=sys.stderr)
 
         verify_line, verify_failed = "", False
         if mode in ("auto", "full") and summary and not summary.startswith("Lỗi:") \
@@ -1141,7 +1185,7 @@ class LoopFeature:
         # ---------- API mới /loops/* ----------
 
         @router.get("/loops")
-        async def loops_list(brain: str = Query("brain")):
+        def loops_list(brain: str = Query("brain")):
             self.ensure_migrated()
             st_all = self.read_state(brain)
             loops = [self.loop_view(brain, lp, st_all) for lp in self.list_loops(brain)]
@@ -1203,6 +1247,8 @@ class LoopFeature:
                 "interval_min": iv, "workspace": ws, "tools_profile": tools_profile,
                 "quiet_hours": quiet_hours.strip(), "max_runs_per_day": mr,
                 "owner_chat": (oc or "").strip(), "notify": nf, "body": body,
+                "bot_id": old["bot_id"] if old else "",
+                "agent": old["agent"] if old else "",
             })
             self.register_brain(brain)
             return {"ok": True, "loop": self.loop_view(brain, loop)}
@@ -1240,7 +1286,9 @@ class LoopFeature:
 
         @router.get("/loops/log")
         async def loops_log(brain: str = Query("brain"), slug: str = Query(""), limit: int = Query(10)):
-            return {"entries": self._read_log_entries(brain, slug, limit),
+            # Performance (2026-11-05): reading the log files runs in a worker thread, not on the event loop.
+            entries = await asyncio.to_thread(self._read_log_entries, brain, slug, limit)
+            return {"entries": entries,
                     "running": self.lock.locked(),
                     "running_slug": self._running[1] if self._running else ""}
 

@@ -218,6 +218,27 @@ check("có trần thời gian chờ, không treo vô hạn",
 check("chỉ chờ MỘT lần mỗi lượt, không chờ chồng",
       "not waited_for_window" in _eng)
 
+# 0.410.0: Claude Code's message once the plan's extra usage is spent too (field report 30/10/2026).
+_extra = ll.parse_subscription_limit("You're out of extra usage · resets 3pm (UTC)", engine_hint="claude-code")
+check("'out of extra usage' is a plan limit, with its reset time",
+      bool(_extra) and _extra.engine == "claude-code" and _extra.reset_epoch > 0)
+check("and it dominates when it is the whole output",
+      ll.subscription_dominates("You're out of extra usage · resets 3pm (UTC)"))
+
+# Field report 08/11/2026: the monthly extra-usage cap is spent too, and a customer chatbot sent this to a customer.
+_SPEND = ("You've hit your monthly spend limit · raise it at "
+          "https://claude.ai/settings/usage?from=cc_cli_limit_message · your 5-hour limit resets 7am (UTC)")
+_spend = ll.parse_subscription_limit(_SPEND, engine_hint="claude-code")
+check("'monthly spend limit' is a plan limit, with its reset time",
+      bool(_spend) and _spend.engine == "claude-code" and _spend.reset_epoch > 0 and "7am" in _spend.reset_text)
+check("and it dominates when it is the whole output", ll.subscription_dominates(_SPEND))
+check("a curly apostrophe (You’ve) is read like a straight one",
+      bool(ll.parse_subscription_limit("You\u2019ve hit your limit · resets 1:50am (Asia/Bangkok)"))
+      and ll.subscription_dominates(_SPEND.replace("'", "\u2019")))
+check("an ads account's spending limit is NOT Aivon's plan running out",
+      ll.parse_subscription_limit("You've reached your spending limit for this ad account.") is None
+      and ll.parse_subscription_limit("Campaign paused: account spending limit reached") is None)
+
 print()
 if _fails:
     print(f"THẤT BẠI {len(_fails)}: {_fails}")

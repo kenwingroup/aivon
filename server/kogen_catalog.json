@@ -1,12 +1,16 @@
 {
-  "version": "MN-2026-07-09-owner-confirmed-2026-10-27",
+  "version": "MN-2026-07-09-owner-confirmed-2026-10-27-glass-v2-spacing-v7",
   "region": "Miền Nam",
   "customer_type": "Đại lý mua cửa thành phẩm",
   "vat_included_percent": 8,
   "round_area_up_to_m2": "0.1",
   "glass_adjustment_per_m2": {
     "none": -100000,
-    "tempered_8mm": 265000
+    "tempered_8mm": 275000,
+    "tempered_8mm_acid_frosted": 275000,
+    "tempered_6mm": 250000,
+    "laminated_8_38mm_smoke": 475000,
+    "laminated_8_38mm_clear": 410000
   },
   "extra_accessories": {
     "extra_hinge": 150000,
@@ -302,5 +306,14 @@
   },
   "minimum_area_m2": "3.1",
   "minimum_area_basis": "actual_before_rounding",
-  "oversize_pricing": "last_band_rate_actual_area"
+  "oversize_pricing": "last_band_rate_actual_area",
+  "quote_layout_version": "BG-mau-2026-10-27-spacing-v7",
+  "glass_labels": {
+    "none": "Không kính",
+    "tempered_8mm": "Kính 8mm cường lực",
+    "tempered_8mm_acid_frosted": "Kính 8mm cường lực nhúng acid mờ",
+    "tempered_6mm": "Kính 6mm cường lực",
+    "laminated_8_38mm_smoke": "Kính dán an toàn 8.38mm xám khói",
+    "laminated_8_38mm_clear": "Kính dán an toàn 8.38mm trong"
+  }
 }

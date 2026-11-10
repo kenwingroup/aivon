@@ -113,7 +113,7 @@ def login(args) -> int:
         url = "https://" + url
     token = args.token or ""
     if not token:
-        r.tieu_de("Tạo token ở dashboard: Tài khoản > Token API, rồi dán vào đây.")
+        r.tieu_de("Tạo token ở dashboard: Tích hợp > Token API, rồi dán vào đây.")
         try:
             token = input("Token: ").strip()
         except (EOFError, KeyboardInterrupt):
@@ -243,7 +243,7 @@ def _tim_aivon() -> Path:
         ung_vien.append(Path(os.environ["AIVON_HOME"]))
     ung_vien += [Path.cwd(), Path.cwd().parent,
                  Path(os.path.expanduser("~")) / "aivon",
-                 Path(os.path.expanduser("~")) / "Aivon-OS"]
+                 Path(os.path.expanduser("~")) / "AIVON"]
     for p in ung_vien:
         try:
             if (p / "server" / "main.py").is_file():

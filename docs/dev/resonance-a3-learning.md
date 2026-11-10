@@ -5,14 +5,14 @@ Thiết kế: [2026-10-09-resonance-a3-feedback-learning-design.md](../superpowe
 ## Hai làn học
 
 **Làn trình bày (P):**
-- Dưới mỗi tin báo của trợ lý (tin do AIVON gửi về khung chat, có thẻ mục tiêu) có hàng **Tin này thế nào?** gồm hai nút Hữu ích và Chưa ổn.
+- Dưới mỗi tin báo của trợ lý (tin do Aivon gửi về khung chat, có thẻ mục tiêu) có hàng **Tin này thế nào?** gồm hai nút Hữu ích và Chưa ổn.
 - Bấm Chưa ổn thì hiện ba lý do: Dài quá, Báo nhiều quá, Khó hiểu. Bấm lại đúng nút đang sáng là rút phản hồi.
-- Đủ hai tin khác nhau cùng lý do thì AIVON **đề xuất**: báo gọn tin "đã đạt" và tin cập nhật định kỳ, hoặc không rung chuông cho tin cập nhật định kỳ.
+- Đủ hai tin khác nhau cùng lý do thì Aivon **đề xuất**: báo gọn tin "đã đạt" và tin cập nhật định kỳ, hoặc không rung chuông cho tin cập nhật định kỳ.
 - Đề xuất nằm ở mục **Bài học** trên trang trợ lý (trang Cộng sự, cột phải), kèm câu cũ và câu mới của cùng một tin. Bạn bấm Áp dụng hay Bỏ qua. Không ai quyết thì đề xuất hết hạn sau 14 ngày và giữ cách cũ.
 - Làn này không bao giờ gọi model.
 
 **Làn cách làm (M):**
-- Khi hai lượt liên tiếp không tiến thêm theo tiêu chí AIVON tự chấm được (bế tắc của A2), AIVON có thể thử cách làm "Rà đủ ý trước khi trả" so với cách cũ, trên hai tình huống, bằng đúng phép thử M5.
+- Khi hai lượt liên tiếp không tiến thêm theo tiêu chí Aivon tự chấm được (bế tắc của A2), Aivon có thể thử cách làm "Rà đủ ý trước khi trả" so với cách cũ, trên hai tình huống, bằng đúng phép thử M5.
 - Chỉ thử khi đủ cả hai điều kiện:
   - **ngân sách trọn vòng**: phép thử 4 lượt, cộng một lượt làm lại sản phẩm được giữ sẵn, cộng lượt dự phòng;
   - **có tình huống đối chứng hợp lệ**: một cách hiểu trước của cùng mục tiêu, cùng bộ tiêu chí, lời người dùng khác thật.
@@ -27,7 +27,7 @@ Thiết kế: [2026-10-09-resonance-a3-feedback-learning-design.md](../superpowe
   - cảnh báo: guard, mất giám sát, qua hạn chót, xung đột ghi file, lỗi, bị chặn;
   - tin cần bạn làm gì: chờ xác nhận, bế tắc, khám phá xong;
   - tin đổi cách làm.
-- Lời chat thường không nhận phản hồi; chỉ tin báo có biên nhận của AIVON mới nhận.
+- Lời chat thường không nhận phản hồi; chỉ tin báo có biên nhận của Aivon mới nhận.
 
 ## Thu hồi
 
@@ -38,7 +38,7 @@ Thiết kế: [2026-10-09-resonance-a3-feedback-learning-design.md](../superpowe
 ## Nâng cấp từ 0.88.x
 
 - Lần đầu 0.89 mở kho `resonance.sqlite3` có từ trước: chép bản sao `resonance.sqlite3.pre-a3.bak`, rồi thêm năm bảng `reactions`, `reaction_log`, `lessons`, `lesson_events`, `call_holds`. Bảng cũ không đổi cột.
-- Mỗi lần mở kho, AIVON đối soát lượt giữ: dựng lại lý do làm sản phẩm nếu bị mất, trả lượt không còn hợp lệ, đúng một lần.
+- Mỗi lần mở kho, Aivon đối soát lượt giữ: dựng lại lý do làm sản phẩm nếu bị mất, trả lượt không còn hợp lệ, đúng một lần.
 
 ## Quay về 0.88.x
 
@@ -49,4 +49,4 @@ Thiết kế: [2026-10-09-resonance-a3-feedback-learning-design.md](../superpowe
 
 ## Khôi phục bằng bản sao trước nâng cấp
 
-Dừng AIVON, đổi tên `resonance.sqlite3` hiện tại, chép `resonance.sqlite3.pre-a3.bak` thành `resonance.sqlite3`, rồi chạy bản 0.88.x. Mọi phản hồi và bài học sau lúc nâng cấp sẽ mất; mục tiêu và lịch A2 giữ như lúc chép.
+Dừng Aivon, đổi tên `resonance.sqlite3` hiện tại, chép `resonance.sqlite3.pre-a3.bak` thành `resonance.sqlite3`, rồi chạy bản 0.88.x. Mọi phản hồi và bài học sau lúc nâng cấp sẽ mất; mục tiêu và lịch A2 giữ như lúc chép.

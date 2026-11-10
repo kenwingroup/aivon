@@ -6,6 +6,7 @@
 // thứ tự chạy, khung soạn (@ có cấu trúc, Giao việc), cài đặt một cột. Cộng các chỗ nối: thanh bên, script, CSS, i18n.
 "use strict";
 const fs = require("fs");
+const { napTruoc, coNap } = require("./_thu_tu_nap");   // load order that understands lazy groups (0.417.0)
 const path = require("path");
 const ROOT = path.join(__dirname, "..", "..");
 const TM = require(path.join(ROOT, "dashboard", "teams.js"));
@@ -170,7 +171,8 @@ const rail = (consoleJs.match(/const RAIL_ITEMS = \[\s*([\s\S]*?)\]\.map/) || []
 check("thanh bên có mục teams ngay sau workspace", /"workspace", "teams"/.test(rail), rail);
 check("nhóm Năng lực chứa teams", /ids: \["workspace", "teams"/.test(consoleJs));
 check("icon và tiêu đề trang teams", /teams: "users"/.test(consoleJs) && consoleJs.includes('"teams"') && /id === "teams"/.test(consoleJs));
-check("index.html nạp teams.js", /<script src="\/static\/teams\.js\?v=\d+"><\/script>/.test(indexHtml));
+// 0.417.0: teams.js nạp chậm qua nap-cham.js (khối aivon-lazy), không còn là thẻ <script>.
+check("index.html nạp teams.js", coNap("teams.js", indexHtml));
 check("app.js chuyển gói team_message, team_state thành sự kiện trang", appJs.includes('"team_message"') && appJs.includes("aivon:team-event"));
 // 0.173.0: nhóm đang mở bị xoá (công cụ aivon_team hay tab khác): khung chat đóng về trống, báo bằng chữ, không giữ nhóm ma.
 check("nhóm đang mở bị xoá: gói team_state deleted và GET nhóm 404 đều đóng khung qua closeGone",
@@ -288,7 +290,8 @@ const qm = TM.messageHtml({ id: 9, author_kind: "owner", content: "> Lan: Câu <
 check("0.176 owner reply shows the quote block (name bold) above the text, both escaped",
       qm.includes('<span class="tm-quote-body"><b>Lan</b>Câu &lt;cũ&gt;</span></div>') && qm.includes('<div class="tm-text utext">Sai rồi em</div>'), qm);
 check("0.176 sending a reply puts the quote on top and calls the assistant replied to when nobody is @-mentioned",
-      /var text = S\.replyTo && Q \? Q\.ghep\(S\.replyTo\.quote, typed\) : typed;/.test(teamsJs)
+      /var text = S\.replyTo && Q \? Q\.ghep\(S\.replyTo\.quote, words\) : words;/.test(teamsJs)
+      && /var words = call \? call\.rest : typed;/.test(teamsJs)
       && /if \(S\.replyTo && S\.replyTo\.key && !mentions\.length\) mentions = \[S\.replyTo\.key\];/.test(teamsJs));
 check("0.176 list preview drops the quote", TM.previewText({ last: { text: "> Lan: cũ\n\nmới", author_kind: "owner" } }) ===
       vi["teams.you"] + ": mới");
@@ -835,6 +838,13 @@ check("khoá chữ ghim có ở vi và en", ["teams.pin_team", "teams.unpin_team
           teamsJs.includes('lease_lost: "teams.status.lease_lost"') && teamsJs.includes('"leader_changed", "lease_lost"]') &&
           teamsJs.includes('lease_lost: "teams.reply.why.lease_lost"') && !!vi["teams.reply.why.lease_lost"] && !!en["teams.reply.why.lease_lost"] &&
           !!vi["teams.status.lease_lost"] && !!en["teams.status.lease_lost"]);
+    // Owner, 2026-11-06: a team chat's GitHub repo shows the same GitHub logo as the main chat, not a branch icon.
+    const ghJs = fs.readFileSync(path.join(ROOT, "dashboard", "github-connect.js"), "utf8");
+    check("GitHub logo: github-connect.js shares its logo", /current: function \(\) \{ return attached\.slice\(\); \}, logo: LOGO \}/.test(ghJs));
+    check("GitHub logo: the team's + menu, repo chip and info panel use it",
+          teamsJs.includes("item('role=\"menuitem\" data-plus-github=\"1\"', ghLogo(), tw(\"gh.menu\"))") &&
+          teamsJs.includes('esc(tw("gh.chip_label", { names: names.join(", ") })) + \'">\' + ghLogo() +') &&
+          (teamsJs.match(/ic\("git-branch"\)/g) || []).length === 1);
   })();
   process.exit(fails ? 1 : 0);
 })();

@@ -7,9 +7,22 @@
 
 数分で AIVON を動かせます。詳しいガイド：[docs/en/](../../../docs/en/README.md)。
 
+## パソコン（Windows、macOS）- インストーラーをダウンロード
+
+Aivon を普通のアプリのようにインストールできます。ファイルを 1 つダウンロードして開けば、毎日クリックする AIVON アイコンができます。インストーラーはパソコンに足りないもの（Git、Python、Node、AI ブレイン）を確認し、足りない分だけをインストールします。
+
+- **Windows 10/11:** [AivonOS-Setup.exe](https://github.com/kenwingroup/aivon/releases/download/desktop/AivonOS-Setup.exe) をダウンロードし、ダブルクリックして最後まで Next を押します。黒いウィンドウに進行状況が表示されます（数分）。完了するとデスクトップとスタートメニューに AIVON アイコンができます。
+- **macOS 11 以降:** [AivonOS-macOS.dmg](https://github.com/kenwingroup/aivon/releases/download/desktop/AivonOS-macOS.dmg) をダウンロードして開き、**AIVON** を **Applications** にドラッグしてから Launchpad で開きます。初回はターミナルが開いてインストールします（Aivon の管理者アカウントの設定と、Mac のパスワードを一度求められることがあります）。
+
+アイコンをクリックすると Aivon は専用ウィンドウ（アドレスバーなし）で開き、パソコンの起動時に自動で動き、アプリ内の **Update** ボタンも通常どおり使えます。データはユーザーフォルダ内の `AivonOS` フォルダにあり、アプリをアンインストールしてもこのフォルダは残ります。
+
+どちらのインストーラーもまだコード署名されていないため、初回に確認が表示されます:
+- Windows で「Windows protected your PC」と出たら、**More info** を押してから **Run anyway** を押します。
+- macOS で開けないと表示されたら、**System Settings → Privacy & Security** を開き、下にスクロールして **Open Anyway** を押し、もう一度 AIVON を開きます。
+
 ## 方法 1 - Hostinger VPS（Docker Manager、ワンクリック）
 
-> 🛒 **VPS をまだお持ちでない方へ：** [Hostinger VPS はこちら](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN)。Docker Manager が標準搭載なので、AIVON はワンクリックで入ります。準備ができたら下の手順に戻ってください。
+> 🛒 **VPS をまだお持ちでない方へ：** [Hostinger VPS はこちら](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN)。Docker Manager が標準搭載なので、Aivon はワンクリックで入ります。準備ができたら下の手順に戻ってください。
 
 1. hPanel → VPS → **Docker Manager** → **Compose** → **Compose from URL**。
 2. 次の URL を貼り付けます。

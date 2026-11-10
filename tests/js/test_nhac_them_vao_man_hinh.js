@@ -130,6 +130,44 @@ const v = (f) => Number((html.match(new RegExp(f.replace(/[.\-]/g, "\\$&") + "\\
 check("app.js đã bump ?v= (>= 96)", v("app.js") >= 96, v("app.js"));
 check("style.css đã bump ?v= (>= 72)", v("style.css") >= 72, v("style.css"));
 
+
+// ---- 7. Nút "Cài lên điện thoại" ở chân menu (0.450.0) ----
+// Chủ repo 04/11/2026: muốn một nút cố định ở menu điện thoại, bấm là ra hướng dẫn, đã cài
+// thì không hiện. Lời nhắc tự bung mỗi ngày không thay được nút này: ai đã bấm "Đừng nhắc nữa"
+// hay lỡ đóng mất thì không còn đường nào mở lại hướng dẫn.
+const ganNut = (nudge.match(/function ganNutMenu\(\)[\s\S]*?\n  \}/) || [""])[0];
+check("có hàm gắn nút vào chân menu", /\.rail-foot/.test(ganNut) && /rf-install/.test(ganNut));
+check("nút chỉ gắn trên ĐIỆN THOẠI và khi CHƯA chạy dạng app",
+  /if \(!laDienThoai\(\) \|\| daLaApp\(\)\) return;/.test(ganNut));
+check("nút KHÔNG đọc cờ Đừng nhắc nữa (cờ đó chỉ tắt lời nhắc tự bung)",
+  !/KEY_TAT|denHen/.test(ganNut));
+check("bấm nút mở thẳng hướng dẫn, bỏ qua nhịp một ngày", /b\.onclick = moHuongDan;/.test(ganNut));
+const moHD = (nudge.match(/function moHuongDan\(\)[\s\S]*?\n  \}/) || [""])[0];
+check("moHuongDan vẽ popup ở chế độ tự mở (không có nút Đừng nhắc nữa)",
+  /ve\(true\)/.test(moHD) && /tuMenu \? ""/.test(nudge));
+check("moHuongDan đóng ngăn kéo menu trước khi mở", /nav-open/.test(moHD));
+check("cài xong (appinstalled) thì gỡ nút",
+  /addEventListener\("appinstalled", function \(\) \{[^}]*goNutMenu\(\)/.test(nudge));
+check("nút được gắn ngay lúc trang nạp, không đợi 12 giây như lời nhắc",
+  /function batDau\(\) \{ ganNutMenu\(\);/.test(nudge));
+check("nút dùng khoá i18n instl.rail", goiKhoa("instl.rail") && cauLa("instl.rail", "Cài lên điện thoại"));
+check("có style cho nút, ẩn trên máy tính", css.indexOf(".rail-foot .rf-install") !== -1
+  && /@media \(min-width: 861px\) and \(pointer: fine\) \{ \.rail-foot \.rf-install \{ display: none; \} \}/.test(css));
+check("install-nudge.js đã bump ?v= (>= 2)", v("install-nudge.js") >= 2, v("install-nudge.js"));
+
+// 2026-11-09 (owner: "nút install app bị vỡ"): a touch tablet or laptop gets the button in the 160px computer rail, where
+// "Install on phone" ran past the edge. There it shows a short label in the "Give a star" mould, and only the icon once
+// the rail folds; the phone drawer keeps the long label.
+const wideRail = (css.match(/@media \(min-width: 861px\) \{\n  \.rail-foot \.rf-install \{[\s\S]*?\n\}/) || [""])[0];
+check("computer-width rail: short label, star-sized, icon only when folded",
+  /rf-install-short">' \+ window\.t\("instl\.rail_short"\)/.test(nudge)
+  && goiKhoa("instl.rail_short") && cauLa("instl.rail_short", "Cài app")
+  && css.includes(".rail-foot .rf-install .rf-install-short { display: none; }")
+  && /\.rail-foot \.rf-install \{ min-width: 0; min-height: 32px; gap: 6px; font-size: 13px; \}/.test(wideRail)
+  && /\.rail-foot \.rf-install \.rf-install-chu \{ display: none; \}/.test(wideRail)
+  && /\.rail-foot \.rf-install \.rf-install-short \{ display: inline; \}/.test(wideRail)
+  && /\.rail\.collapsed \.rail-foot \.rf-install \{ flex: 0 0 auto; width: 32px; padding: 0; \}/.test(wideRail));
+
 console.log();
 if (fails.length) {
   console.log("THAT BAI " + fails.length + ": " + fails.join(", "));

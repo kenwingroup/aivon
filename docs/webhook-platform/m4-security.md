@@ -15,7 +15,7 @@ repository.
 
 | provider | Header | Scheme | Replay | Delivery id (when the sender sends no Idempotency-Key) | Status |
 |---|---|---|---|---|---|
-| `none` | | the AIVON token only (default) | | | |
+| `none` | | the Aivon token only (default) | | | |
 | `stripe` | `Stripe-Signature: t=..,v1=..` | HMAC-SHA256 of `t.body`, any `v1` | 5 min | event `id` | spec |
 | `github` | `X-Hub-Signature-256: sha256=<hex>` | HMAC-SHA256 of the body | | `X-GitHub-Delivery` | spec |
 | `shopify` | `X-Shopify-Hmac-Sha256: <base64>` | HMAC-SHA256 of the body | | `X-Shopify-Webhook-Id` | spec |
@@ -24,7 +24,7 @@ repository.
 | `poscake` | refused when saved: "contract not known" | | | | not built |
 
 Order on receipt:
-1. AIVON token (always).
+1. Aivon token (always).
 2. Size.
 3. Signature on the RAW body.
 4. Rules (M2).
@@ -34,7 +34,7 @@ A bad signature answers 401, and nothing is stored: no event, no key. A secret t
 answers 503, so the sender retries later. The secret is never compared with `==`: `hmac.compare_digest` is used.
 
 Normalisation: the adapter sets `_event = {provider, type, id, occurred_at}` (Systeme.io adds `contact`). Rules read
-it, for example `{"path": "_event.type", "op": "eq", "value": "contact.created"}`. AIVON always sets `_event` (empty
+it, for example `{"path": "_event.type", "op": "eq", "value": "contact.created"}`. Aivon always sets `_event` (empty
 without a provider), so a payload can never forge it.
 
 ## Encrypted secrets
@@ -92,7 +92,7 @@ All in `tests/python/test_webhook_security_m4.py` unless noted.
 
 | Invariant | Test |
 |---|---|
-| No ACK and no dedup before commit, and not before the signature | bad signature: 401, no event, no key; the AIVON token is still required |
+| No ACK and no dedup before commit, and not before the signature | bad signature: 401, no event, no key; the Aivon token is still required |
 | Replay | Stripe timestamp older than 5 min refused; generic HMAC outside `tolerance_s` refused |
 | Provider retry is a duplicate | Stripe event id, GitHub delivery id: second delivery `duplicate` |
 | No secret leak | `webhooks.json` holds references only; view masked; ciphertext bound to its name; files mode 600 |
@@ -121,7 +121,7 @@ The review of bdbd33f3, read at e6c0165b, found 2 P1 and 6 P2 issues, all fixed.
 
 | Finding | Fix |
 |---|---|
-| P1 a client-sent `{"$secret": "<another hook's name>"}` read that secret (across brains) and could delete it | references are written only by AIVON: a client reference is refused on create and update; at run time a reference must be the hook's own canonical name; deletion only under `<hook id>/` |
+| P1 a client-sent `{"$secret": "<another hook's name>"}` read that secret (across brains) and could delete it | references are written only by Aivon: a client reference is refused on create and update; at run time a reference must be the hook's own canonical name; deletion only under `<hook id>/` |
 | P1 a broken MCP call after it was sent became `failed` (an owner retry could create a second order) | the hub's exception marker becomes `unknown`; webhook timeout 150 s, above the transport's 120 s |
 | P2 `POST /webhooks` ignored `verify` (unsigned bodies accepted, `poscake` accepted) | passed through (fixed with M5), plus a route test |
 | P2 approval came from the event snapshot | the hook of now also counts: turning approval on applies to waiting events |
@@ -136,5 +136,5 @@ The review of bdbd33f3, read at e6c0165b, found 2 P1 and 6 P2 issues, all fixed.
 
 - To M3 code: hooks now hold `{"$secret"}` references, which M3 would send as broken header values. Before rolling
   back, re-enter the header values in plain form (M3 accepts them), or remove those actions. Signature checks are
-  ignored by M3, so the AIVON token stays the only check.
+  ignored by M3, so the Aivon token stays the only check.
 - `webhook_keys.json` and `webhook_secrets.json` can stay. Older code ignores them.

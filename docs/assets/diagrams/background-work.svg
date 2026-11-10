@@ -1,6 +1,6 @@
 <svg viewBox="0 0 1200 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d">
-<title id="t">AIVON works while you sleep</title>
-<desc id="d">Four tasks move on their own across a Kanban board from Queued to Running, Review and Done overnight, and by 07:00 AIVON sends a Telegram message that the daily sales report is ready.</desc>
+<title id="t">Aivon works while you sleep</title>
+<desc id="d">Four tasks move on their own across a Kanban board from Queued to Running, Review and Done overnight, and by 07:00 Aivon sends a Telegram message that the daily sales report is ready.</desc>
 <style>
 .mv,.fade,.st,.pg,.pf,.vf,.tm,.ic,.note,.morn,.pulse{animation-duration:14s;animation-iteration-count:infinite;animation-fill-mode:both}
 .pf{transform-box:fill-box;transform-origin:left center}
@@ -8,25 +8,25 @@
 @keyframes fade{0%{opacity:0}4%{opacity:1}95%{opacity:1}98%{opacity:0}100%{opacity:0}}
 
 @keyframes mv0{0%{transform:translateX(-678px)}8%{transform:translateX(-678px)}11%{transform:translateX(-452px)}27%{transform:translateX(-452px)}30%{transform:translateX(-226px)}40%{transform:translateX(-226px)}43%{transform:translateX(0px)}98%{transform:translateX(0px)}98.5%{transform:translateX(-678px)}100%{transform:translateX(-678px)}}
-@keyframes st0{0%{stroke:#1e2f4d}9%{stroke:#1e2f4d}11%{stroke:#38bdf8}28%{stroke:#38bdf8}30%{stroke:#0ea5e9}41%{stroke:#0ea5e9}43%{stroke:rgba(74,222,128,0.55)}98%{stroke:rgba(74,222,128,0.55)}98.5%{stroke:#1e2f4d}100%{stroke:#1e2f4d}}
+@keyframes st0{0%{stroke:#2a2a40}9%{stroke:#2a2a40}11%{stroke:#f97316}28%{stroke:#f97316}30%{stroke:#2563eb}41%{stroke:#2563eb}43%{stroke:rgba(74,222,128,0.55)}98%{stroke:rgba(74,222,128,0.55)}98.5%{stroke:#2a2a40}100%{stroke:#2a2a40}}
 @keyframes pg0{0%{opacity:0}10%{opacity:0}11.5%{opacity:1}33%{opacity:1}34.5%{opacity:0}100%{opacity:0}}
 @keyframes pf0{0%{transform:scaleX(0)}12%{transform:scaleX(0)}26%{transform:scaleX(1)}100%{transform:scaleX(1)}}
 @keyframes vf0{0%{opacity:0}34%{opacity:0}36%{opacity:1}98%{opacity:1}98.5%{opacity:0}100%{opacity:0}}
 .c0 .mv{animation-name:mv0;animation-timing-function:ease-in-out}.c0 .st{animation-name:st0;animation-timing-function:linear}.c0 .pg{animation-name:pg0;animation-timing-function:linear}.c0 .pf{animation-name:pf0;animation-timing-function:ease-in-out}.c0 .vf{animation-name:vf0;animation-timing-function:linear}
 @keyframes mv1{0%{transform:translateX(-678px)}15%{transform:translateX(-678px)}18%{transform:translateX(-452px)}34%{transform:translateX(-452px)}37%{transform:translateX(-226px)}47%{transform:translateX(-226px)}50%{transform:translateX(0px)}98%{transform:translateX(0px)}98.5%{transform:translateX(-678px)}100%{transform:translateX(-678px)}}
-@keyframes st1{0%{stroke:#1e2f4d}16%{stroke:#1e2f4d}18%{stroke:#38bdf8}35%{stroke:#38bdf8}37%{stroke:#0ea5e9}48%{stroke:#0ea5e9}50%{stroke:rgba(74,222,128,0.55)}98%{stroke:rgba(74,222,128,0.55)}98.5%{stroke:#1e2f4d}100%{stroke:#1e2f4d}}
+@keyframes st1{0%{stroke:#2a2a40}16%{stroke:#2a2a40}18%{stroke:#f97316}35%{stroke:#f97316}37%{stroke:#2563eb}48%{stroke:#2563eb}50%{stroke:rgba(74,222,128,0.55)}98%{stroke:rgba(74,222,128,0.55)}98.5%{stroke:#2a2a40}100%{stroke:#2a2a40}}
 @keyframes pg1{0%{opacity:0}17%{opacity:0}18.5%{opacity:1}40%{opacity:1}41.5%{opacity:0}100%{opacity:0}}
 @keyframes pf1{0%{transform:scaleX(0)}19%{transform:scaleX(0)}33%{transform:scaleX(1)}100%{transform:scaleX(1)}}
 @keyframes vf1{0%{opacity:0}41%{opacity:0}43%{opacity:1}98%{opacity:1}98.5%{opacity:0}100%{opacity:0}}
 .c1 .mv{animation-name:mv1;animation-timing-function:ease-in-out}.c1 .st{animation-name:st1;animation-timing-function:linear}.c1 .pg{animation-name:pg1;animation-timing-function:linear}.c1 .pf{animation-name:pf1;animation-timing-function:ease-in-out}.c1 .vf{animation-name:vf1;animation-timing-function:linear}
 @keyframes mv2{0%{transform:translateX(-678px)}22%{transform:translateX(-678px)}25%{transform:translateX(-452px)}41%{transform:translateX(-452px)}44%{transform:translateX(-226px)}54%{transform:translateX(-226px)}57%{transform:translateX(0px)}98%{transform:translateX(0px)}98.5%{transform:translateX(-678px)}100%{transform:translateX(-678px)}}
-@keyframes st2{0%{stroke:#1e2f4d}23%{stroke:#1e2f4d}25%{stroke:#38bdf8}42%{stroke:#38bdf8}44%{stroke:#0ea5e9}55%{stroke:#0ea5e9}57%{stroke:rgba(74,222,128,0.55)}98%{stroke:rgba(74,222,128,0.55)}98.5%{stroke:#1e2f4d}100%{stroke:#1e2f4d}}
+@keyframes st2{0%{stroke:#2a2a40}23%{stroke:#2a2a40}25%{stroke:#f97316}42%{stroke:#f97316}44%{stroke:#2563eb}55%{stroke:#2563eb}57%{stroke:rgba(74,222,128,0.55)}98%{stroke:rgba(74,222,128,0.55)}98.5%{stroke:#2a2a40}100%{stroke:#2a2a40}}
 @keyframes pg2{0%{opacity:0}24%{opacity:0}25.5%{opacity:1}47%{opacity:1}48.5%{opacity:0}100%{opacity:0}}
 @keyframes pf2{0%{transform:scaleX(0)}26%{transform:scaleX(0)}40%{transform:scaleX(1)}100%{transform:scaleX(1)}}
 @keyframes vf2{0%{opacity:0}48%{opacity:0}50%{opacity:1}98%{opacity:1}98.5%{opacity:0}100%{opacity:0}}
 .c2 .mv{animation-name:mv2;animation-timing-function:ease-in-out}.c2 .st{animation-name:st2;animation-timing-function:linear}.c2 .pg{animation-name:pg2;animation-timing-function:linear}.c2 .pf{animation-name:pf2;animation-timing-function:ease-in-out}.c2 .vf{animation-name:vf2;animation-timing-function:linear}
 @keyframes mv3{0%{transform:translateX(-678px)}29%{transform:translateX(-678px)}32%{transform:translateX(-452px)}48%{transform:translateX(-452px)}51%{transform:translateX(-226px)}61%{transform:translateX(-226px)}64%{transform:translateX(0px)}98%{transform:translateX(0px)}98.5%{transform:translateX(-678px)}100%{transform:translateX(-678px)}}
-@keyframes st3{0%{stroke:#1e2f4d}30%{stroke:#1e2f4d}32%{stroke:#38bdf8}49%{stroke:#38bdf8}51%{stroke:#0ea5e9}62%{stroke:#0ea5e9}64%{stroke:rgba(74,222,128,0.55)}98%{stroke:rgba(74,222,128,0.55)}98.5%{stroke:#1e2f4d}100%{stroke:#1e2f4d}}
+@keyframes st3{0%{stroke:#2a2a40}30%{stroke:#2a2a40}32%{stroke:#f97316}49%{stroke:#f97316}51%{stroke:#2563eb}62%{stroke:#2563eb}64%{stroke:rgba(74,222,128,0.55)}98%{stroke:rgba(74,222,128,0.55)}98.5%{stroke:#2a2a40}100%{stroke:#2a2a40}}
 @keyframes pg3{0%{opacity:0}31%{opacity:0}32.5%{opacity:1}54%{opacity:1}55.5%{opacity:0}100%{opacity:0}}
 @keyframes pf3{0%{transform:scaleX(0)}33%{transform:scaleX(0)}47%{transform:scaleX(1)}100%{transform:scaleX(1)}}
 @keyframes vf3{0%{opacity:0}55%{opacity:0}57%{opacity:1}98%{opacity:1}98.5%{opacity:0}100%{opacity:0}}
@@ -55,55 +55,55 @@
 @keyframes n33{0%{opacity:0}55.1%{opacity:0}55.5%{opacity:1}62.1%{opacity:1}62.5%{opacity:0}100%{opacity:0}}.n33{animation:n33 14s linear infinite both;opacity:0}
 @keyframes n34{0%{opacity:0}62.1%{opacity:0}62.5%{opacity:1}97.85%{opacity:1}98.25%{opacity:0}100%{opacity:0}}.n34{animation:n34 14s linear infinite both;opacity:1}</style>
 <defs>
-<radialGradient id="glow" cx="30%" cy="35%" r="65%"><stop offset="0" stop-color="#0284c7" stop-opacity=".12"/><stop offset="1" stop-color="#0284c7" stop-opacity="0"/></radialGradient>
-<radialGradient id="sunglow" cx="88%" cy="2%" r="45%"><stop offset="0" stop-color="#38bdf8" stop-opacity=".14"/><stop offset="1" stop-color="#38bdf8" stop-opacity="0"/></radialGradient>
+<radialGradient id="glow" cx="30%" cy="35%" r="65%"><stop offset="0" stop-color="#1d4ed8" stop-opacity=".12"/><stop offset="1" stop-color="#1d4ed8" stop-opacity="0"/></radialGradient>
+<radialGradient id="sunglow" cx="88%" cy="2%" r="45%"><stop offset="0" stop-color="#f97316" stop-opacity=".14"/><stop offset="1" stop-color="#f97316" stop-opacity="0"/></radialGradient>
 <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#ffffff" stroke-opacity=".04" stroke-width="1"/></pattern>
 <clipPath id="bg"><rect width="1200" height="640" rx="20"/></clipPath>
 </defs>
-<g clip-path="url(#bg)"><rect width="1200" height="640" fill="#060a14"/><rect width="1200" height="640" fill="url(#grid)"/><rect width="1200" height="640" fill="url(#glow)"/><rect class="morn" width="1200" height="640" fill="url(#sunglow)"/></g>
-<text x="40" y="50" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" letter-spacing="2.5" fill="#38bdf8">WORKS WHILE YOU SLEEP</text>
-<text x="40" y="88" font-family="Inter, 'Segoe UI', system-ui, -apple-system, Arial, sans-serif" font-size="28" font-weight="700" fill="#e5e7eb">Hand over a goal. <tspan fill="#38bdf8">Wake up to the result.</tspan></text>
-<g font-family="Inter, 'Segoe UI', system-ui, -apple-system, Arial, sans-serif"><rect x="942" y="28" width="226" height="50" rx="25" fill="#0d1527" stroke="#1e2f4d" stroke-width="1.5"/>
-<g class="ic night"><path d="M980 41a12 12 0 1 0 10 18a10 10 0 0 1 -10 -18z" fill="#38bdf8"/></g>
-<g class="ic day"><circle cx="976" cy="53" r="6.5" fill="#0ea5e9"/><path d="M986.0 53.0L990.0 53.0M983.1 60.1L985.9 62.9M976.0 63.0L976.0 67.0M968.9 60.1L966.1 62.9M966.0 53.0L962.0 53.0M968.9 45.9L966.1 43.1M976.0 43.0L976.0 39.0M983.1 45.9L985.9 43.1" stroke="#0ea5e9" stroke-width="2.2" stroke-linecap="round"/></g>
-<g class="tm tm0"><text x="1002" y="61" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="22" font-weight="700" fill="#e5e7eb">23:00</text><text x="1078" y="60" font-size="16" fill="#38bdf8">night</text></g>
-<g class="tm tm1"><text x="1002" y="61" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="22" font-weight="700" fill="#e5e7eb">01:00</text><text x="1078" y="60" font-size="16" fill="#38bdf8">night</text></g>
-<g class="tm tm2"><text x="1002" y="61" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="22" font-weight="700" fill="#e5e7eb">03:00</text><text x="1078" y="60" font-size="16" fill="#38bdf8">night</text></g>
-<g class="tm tm3"><text x="1002" y="61" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="22" font-weight="700" fill="#e5e7eb">05:00</text><text x="1078" y="60" font-size="16" fill="#38bdf8">night</text></g>
-<g class="tm tm4"><text x="1002" y="61" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="22" font-weight="700" fill="#e5e7eb">07:00</text><text x="1078" y="60" font-size="16" fill="#0ea5e9">morning</text></g>
+<g clip-path="url(#bg)"><rect width="1200" height="640" fill="#0b0b14"/><rect width="1200" height="640" fill="url(#grid)"/><rect width="1200" height="640" fill="url(#glow)"/><rect class="morn" width="1200" height="640" fill="url(#sunglow)"/></g>
+<text x="40" y="50" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" letter-spacing="2.5" fill="#f97316">WORKS WHILE YOU SLEEP</text>
+<text x="40" y="88" font-family="Inter, 'Segoe UI', system-ui, -apple-system, Arial, sans-serif" font-size="28" font-weight="700" fill="#e5e7eb">Hand over a goal. <tspan fill="#f97316">Wake up to the result.</tspan></text>
+<g font-family="Inter, 'Segoe UI', system-ui, -apple-system, Arial, sans-serif"><rect x="942" y="28" width="226" height="50" rx="25" fill="#151525" stroke="#2a2a40" stroke-width="1.5"/>
+<g class="ic night"><path d="M980 41a12 12 0 1 0 10 18a10 10 0 0 1 -10 -18z" fill="#a78bfa"/></g>
+<g class="ic day"><circle cx="976" cy="53" r="6.5" fill="#fb923c"/><path d="M986.0 53.0L990.0 53.0M983.1 60.1L985.9 62.9M976.0 63.0L976.0 67.0M968.9 60.1L966.1 62.9M966.0 53.0L962.0 53.0M968.9 45.9L966.1 43.1M976.0 43.0L976.0 39.0M983.1 45.9L985.9 43.1" stroke="#fb923c" stroke-width="2.2" stroke-linecap="round"/></g>
+<g class="tm tm0"><text x="1002" y="61" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="22" font-weight="700" fill="#e5e7eb">23:00</text><text x="1078" y="60" font-size="16" fill="#a78bfa">night</text></g>
+<g class="tm tm1"><text x="1002" y="61" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="22" font-weight="700" fill="#e5e7eb">01:00</text><text x="1078" y="60" font-size="16" fill="#a78bfa">night</text></g>
+<g class="tm tm2"><text x="1002" y="61" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="22" font-weight="700" fill="#e5e7eb">03:00</text><text x="1078" y="60" font-size="16" fill="#a78bfa">night</text></g>
+<g class="tm tm3"><text x="1002" y="61" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="22" font-weight="700" fill="#e5e7eb">05:00</text><text x="1078" y="60" font-size="16" fill="#a78bfa">night</text></g>
+<g class="tm tm4"><text x="1002" y="61" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="22" font-weight="700" fill="#e5e7eb">07:00</text><text x="1078" y="60" font-size="16" fill="#fb923c">morning</text></g>
 </g>
-<rect x="32" y="108" width="218" height="514" rx="16" fill="#0d1527" stroke="#1e2f4d" stroke-width="1.5"/>
+<rect x="32" y="108" width="218" height="514" rx="16" fill="#151525" stroke="#2a2a40" stroke-width="1.5"/>
 <circle cx="54" cy="136" r="6" fill="#9ca3af"/>
 <text x="68" y="143" font-family="Inter, 'Segoe UI', system-ui, -apple-system, Arial, sans-serif" font-size="20" font-weight="700" fill="#e5e7eb">Queued</text>
-<line x1="46" y1="156" x2="236" y2="156" stroke="#1e2f4d" stroke-width="1.5"/>
-<rect x="258" y="108" width="218" height="514" rx="16" fill="#0d1527" stroke="#1e2f4d" stroke-width="1.5"/>
-<circle class="pulse" cx="280" cy="136" r="6" fill="#38bdf8"/>
+<line x1="46" y1="156" x2="236" y2="156" stroke="#2a2a40" stroke-width="1.5"/>
+<rect x="258" y="108" width="218" height="514" rx="16" fill="#151525" stroke="#2a2a40" stroke-width="1.5"/>
+<circle class="pulse" cx="280" cy="136" r="6" fill="#f97316"/>
 <text x="294" y="143" font-family="Inter, 'Segoe UI', system-ui, -apple-system, Arial, sans-serif" font-size="20" font-weight="700" fill="#e5e7eb">Running</text>
-<line x1="272" y1="156" x2="462" y2="156" stroke="#1e2f4d" stroke-width="1.5"/>
-<rect x="484" y="108" width="218" height="514" rx="16" fill="#0d1527" stroke="#1e2f4d" stroke-width="1.5"/>
-<circle cx="506" cy="136" r="6" fill="#38bdf8"/>
+<line x1="272" y1="156" x2="462" y2="156" stroke="#2a2a40" stroke-width="1.5"/>
+<rect x="484" y="108" width="218" height="514" rx="16" fill="#151525" stroke="#2a2a40" stroke-width="1.5"/>
+<circle cx="506" cy="136" r="6" fill="#a78bfa"/>
 <text x="520" y="143" font-family="Inter, 'Segoe UI', system-ui, -apple-system, Arial, sans-serif" font-size="20" font-weight="700" fill="#e5e7eb">Review</text>
-<line x1="498" y1="156" x2="688" y2="156" stroke="#1e2f4d" stroke-width="1.5"/>
-<rect x="710" y="108" width="218" height="514" rx="16" fill="#0d1527" stroke="#1e2f4d" stroke-width="1.5"/>
+<line x1="498" y1="156" x2="688" y2="156" stroke="#2a2a40" stroke-width="1.5"/>
+<rect x="710" y="108" width="218" height="514" rx="16" fill="#151525" stroke="#2a2a40" stroke-width="1.5"/>
 <circle cx="732" cy="136" r="6" fill="#4ade80"/>
 <text x="746" y="143" font-family="Inter, 'Segoe UI', system-ui, -apple-system, Arial, sans-serif" font-size="20" font-weight="700" fill="#e5e7eb">Done</text>
-<line x1="724" y1="156" x2="914" y2="156" stroke="#1e2f4d" stroke-width="1.5"/>
-<rect x="201" y="123" width="34" height="26" rx="13" fill="#060a14" stroke="#1e2f4d"/>
+<line x1="724" y1="156" x2="914" y2="156" stroke="#2a2a40" stroke-width="1.5"/>
+<rect x="201" y="123" width="34" height="26" rx="13" fill="#0b0b14" stroke="#2a2a40"/>
 <text class="n00" x="218" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#9ca3af">0</text>
 <text class="n01" x="218" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#9ca3af">1</text>
 <text class="n02" x="218" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#9ca3af">2</text>
 <text class="n03" x="218" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#9ca3af">3</text>
 <text class="n04" x="218" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#9ca3af">4</text>
-<rect x="427" y="123" width="34" height="26" rx="13" fill="#060a14" stroke="#1e2f4d"/>
+<rect x="427" y="123" width="34" height="26" rx="13" fill="#0b0b14" stroke="#2a2a40"/>
 <text class="n10" x="444" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#9ca3af">0</text>
-<text class="n11" x="444" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#38bdf8">1</text>
-<text class="n12" x="444" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#38bdf8">2</text>
-<text class="n13" x="444" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#38bdf8">3</text>
-<rect x="653" y="123" width="34" height="26" rx="13" fill="#060a14" stroke="#1e2f4d"/>
+<text class="n11" x="444" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#f97316">1</text>
+<text class="n12" x="444" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#f97316">2</text>
+<text class="n13" x="444" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#f97316">3</text>
+<rect x="653" y="123" width="34" height="26" rx="13" fill="#0b0b14" stroke="#2a2a40"/>
 <text class="n20" x="670" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#9ca3af">0</text>
-<text class="n21" x="670" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#38bdf8">1</text>
-<text class="n22" x="670" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#38bdf8">2</text>
-<rect x="879" y="123" width="34" height="26" rx="13" fill="#060a14" stroke="#1e2f4d"/>
+<text class="n21" x="670" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#a78bfa">1</text>
+<text class="n22" x="670" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#a78bfa">2</text>
+<rect x="879" y="123" width="34" height="26" rx="13" fill="#0b0b14" stroke="#2a2a40"/>
 <text class="n30" x="896" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#9ca3af">0</text>
 <text class="n31" x="896" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#4ade80">1</text>
 <text class="n32" x="896" y="142" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" font-weight="700" fill="#4ade80">2</text>
@@ -112,10 +112,10 @@
 <g class="c0" transform="translate(718 160)"><g class="mv"><g class="fade">
 <rect class="st" width="202" height="110" rx="12" fill="#1c1c31" stroke="rgba(74,222,128,0.55)" stroke-width="2"/>
 <text font-family="Inter, 'Segoe UI', system-ui, -apple-system, Arial, sans-serif" font-size="16" font-weight="600" fill="#e5e7eb"><tspan x="14" y="28">Daily sales</tspan><tspan x="14" y="49">report</tspan></text>
-<rect x="14" y="60" width="147" height="26" rx="13" fill="#0ea5e9" fill-opacity=".13" stroke="#0ea5e9" stroke-opacity=".45"/>
-<circle cx="27" cy="73" r="4" fill="#0ea5e9"/>
-<text x="37" y="78.5" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" fill="#0ea5e9">Claude Code</text>
-<g class="pg"><rect x="14" y="96" width="174" height="5" rx="2.5" fill="#1e2f4d"/><rect class="pf" x="14" y="96" width="174" height="5" rx="2.5" fill="#38bdf8"/></g>
+<rect x="14" y="60" width="147" height="26" rx="13" fill="#fb923c" fill-opacity=".13" stroke="#fb923c" stroke-opacity=".45"/>
+<circle cx="27" cy="73" r="4" fill="#fb923c"/>
+<text x="37" y="78.5" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" fill="#fb923c">Claude Code</text>
+<g class="pg"><rect x="14" y="96" width="174" height="5" rx="2.5" fill="#2a2a40"/><rect class="pf" x="14" y="96" width="174" height="5" rx="2.5" fill="#f97316"/></g>
 <g class="vf"><circle cx="22" cy="98" r="8" fill="#4ade80" fill-opacity=".18" stroke="#4ade80" stroke-width="1.5"/><path d="M18.2 98.2l2.6 2.6l5-5.2" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="36" y="104" font-family="Inter, 'Segoe UI', system-ui, -apple-system, Arial, sans-serif" font-size="16" fill="#4ade80">verified</text></g>
 </g></g></g>
 <g class="c1" transform="translate(718 274)"><g class="mv"><g class="fade">
@@ -124,16 +124,16 @@
 <rect x="14" y="60" width="98" height="26" rx="13" fill="#2dd4bf" fill-opacity=".13" stroke="#2dd4bf" stroke-opacity=".45"/>
 <circle cx="27" cy="73" r="4" fill="#2dd4bf"/>
 <text x="37" y="78.5" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" fill="#2dd4bf">Gemini</text>
-<g class="pg"><rect x="14" y="96" width="174" height="5" rx="2.5" fill="#1e2f4d"/><rect class="pf" x="14" y="96" width="174" height="5" rx="2.5" fill="#38bdf8"/></g>
+<g class="pg"><rect x="14" y="96" width="174" height="5" rx="2.5" fill="#2a2a40"/><rect class="pf" x="14" y="96" width="174" height="5" rx="2.5" fill="#f97316"/></g>
 <g class="vf"><circle cx="22" cy="98" r="8" fill="#4ade80" fill-opacity=".18" stroke="#4ade80" stroke-width="1.5"/><path d="M18.2 98.2l2.6 2.6l5-5.2" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="36" y="104" font-family="Inter, 'Segoe UI', system-ui, -apple-system, Arial, sans-serif" font-size="16" fill="#4ade80">verified</text></g>
 </g></g></g>
 <g class="c2" transform="translate(718 388)"><g class="mv"><g class="fade">
 <rect class="st" width="202" height="110" rx="12" fill="#1c1c31" stroke="rgba(74,222,128,0.55)" stroke-width="2"/>
 <text font-family="Inter, 'Segoe UI', system-ui, -apple-system, Arial, sans-serif" font-size="16" font-weight="600" fill="#e5e7eb"><tspan x="14" y="28">Research 3</tspan><tspan x="14" y="49">competitors</tspan></text>
-<rect x="14" y="60" width="88" height="26" rx="13" fill="#38bdf8" fill-opacity=".13" stroke="#38bdf8" stroke-opacity=".45"/>
-<circle cx="27" cy="73" r="4" fill="#38bdf8"/>
-<text x="37" y="78.5" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" fill="#38bdf8">Codex</text>
-<g class="pg"><rect x="14" y="96" width="174" height="5" rx="2.5" fill="#1e2f4d"/><rect class="pf" x="14" y="96" width="174" height="5" rx="2.5" fill="#38bdf8"/></g>
+<rect x="14" y="60" width="88" height="26" rx="13" fill="#a78bfa" fill-opacity=".13" stroke="#a78bfa" stroke-opacity=".45"/>
+<circle cx="27" cy="73" r="4" fill="#a78bfa"/>
+<text x="37" y="78.5" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" fill="#a78bfa">Codex</text>
+<g class="pg"><rect x="14" y="96" width="174" height="5" rx="2.5" fill="#2a2a40"/><rect class="pf" x="14" y="96" width="174" height="5" rx="2.5" fill="#f97316"/></g>
 <g class="vf"><circle cx="22" cy="98" r="8" fill="#4ade80" fill-opacity=".18" stroke="#4ade80" stroke-width="1.5"/><path d="M18.2 98.2l2.6 2.6l5-5.2" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="36" y="104" font-family="Inter, 'Segoe UI', system-ui, -apple-system, Arial, sans-serif" font-size="16" fill="#4ade80">verified</text></g>
 </g></g></g>
 <g class="c3" transform="translate(718 502)"><g class="mv"><g class="fade">
@@ -142,24 +142,24 @@
 <rect x="14" y="60" width="98" height="26" rx="13" fill="#e5e7eb" fill-opacity=".13" stroke="#e5e7eb" stroke-opacity=".45"/>
 <circle cx="27" cy="73" r="4" fill="#e5e7eb"/>
 <text x="37" y="78.5" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" fill="#e5e7eb">Ollama</text>
-<g class="pg"><rect x="14" y="96" width="174" height="5" rx="2.5" fill="#1e2f4d"/><rect class="pf" x="14" y="96" width="174" height="5" rx="2.5" fill="#38bdf8"/></g>
+<g class="pg"><rect x="14" y="96" width="174" height="5" rx="2.5" fill="#2a2a40"/><rect class="pf" x="14" y="96" width="174" height="5" rx="2.5" fill="#f97316"/></g>
 <g class="vf"><circle cx="22" cy="98" r="8" fill="#4ade80" fill-opacity=".18" stroke="#4ade80" stroke-width="1.5"/><path d="M18.2 98.2l2.6 2.6l5-5.2" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="36" y="104" font-family="Inter, 'Segoe UI', system-ui, -apple-system, Arial, sans-serif" font-size="16" fill="#4ade80">verified</text></g>
 </g></g></g>
 <g font-family="Inter, 'Segoe UI', system-ui, -apple-system, Arial, sans-serif">
-<rect x="942" y="108" width="226" height="514" rx="30" fill="#0d1527" stroke="#1e2f4d" stroke-width="2"/>
-<rect x="1021.0" y="120" width="68" height="8" rx="4" fill="#1e2f4d"/>
-<circle cx="978" cy="164" r="18" fill="#38bdf8"/><text x="978" y="170.5" text-anchor="middle" font-size="18" font-weight="700" fill="#060a14">A</text>
-<text x="1006" y="160" font-size="18" font-weight="700" fill="#e5e7eb">AIVON</text>
+<rect x="942" y="108" width="226" height="514" rx="30" fill="#151525" stroke="#2a2a40" stroke-width="2"/>
+<rect x="1021.0" y="120" width="68" height="8" rx="4" fill="#2a2a40"/>
+<circle cx="978" cy="164" r="18" fill="#f97316"/><text x="978" y="170.5" text-anchor="middle" font-size="18" font-weight="700" fill="#0b0b14">J</text>
+<text x="1006" y="160" font-size="18" font-weight="700" fill="#e5e7eb">Aivon</text>
 <text x="1006" y="181" font-size="16" fill="#9ca3af">Telegram bot</text>
-<line x1="956" y1="200" x2="1154" y2="200" stroke="#1e2f4d" stroke-width="1.5"/>
+<line x1="956" y1="200" x2="1154" y2="200" stroke="#2a2a40" stroke-width="1.5"/>
 <rect x="952" y="224" width="206" height="74" rx="14" fill="#2dd4bf" fill-opacity=".14" stroke="#2dd4bf" stroke-opacity=".35"/>
 <text font-size="16" fill="#e5e7eb"><tspan x="966" y="252">Run tonight's queue,</tspan><tspan x="966" y="274">report back here.</tspan></text>
 <text x="1158" y="320" text-anchor="end" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" fill="#9ca3af">23:00</text>
-<g class="note"><rect x="952" y="348" width="206" height="132" rx="14" fill="#38bdf8" fill-opacity=".12" stroke="#38bdf8" stroke-opacity=".55" stroke-width="1.5"/>
-<text x="966" y="375" font-size="16" font-weight="700" fill="#0ea5e9">AIVON:</text>
+<g class="note"><rect x="952" y="348" width="206" height="132" rx="14" fill="#f97316" fill-opacity=".12" stroke="#f97316" stroke-opacity=".55" stroke-width="1.5"/>
+<text x="966" y="375" font-size="16" font-weight="700" fill="#fb923c">Aivon:</text>
 <text font-size="16" fill="#e5e7eb"><tspan x="966" y="400">Daily sales report is</tspan><tspan x="966" y="422">ready. Revenue <tspan fill="#4ade80" font-weight="700">+12%</tspan></tspan><tspan x="966" y="444">vs last week.</tspan></text>
 <text x="1146" y="468" text-anchor="end" font-family="ui-monospace, 'SFMono-Regular', Consolas, 'Courier New', monospace" font-size="16" fill="#9ca3af">07:00</text></g>
-<rect x="956" y="560" width="198" height="40" rx="20" fill="#060a14" stroke="#1e2f4d" stroke-width="1.5"/>
+<rect x="956" y="560" width="198" height="40" rx="20" fill="#0b0b14" stroke="#2a2a40" stroke-width="1.5"/>
 <text x="974" y="586" font-size="16" fill="#9ca3af">Message</text>
 </g>
 </svg>

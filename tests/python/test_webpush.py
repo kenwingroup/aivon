@@ -26,9 +26,9 @@ import os
 import struct
 import tempfile
 
-os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="aivon-push-"))
-
 from _paths import ROOT, SERVER  # noqa: E402,F401
+
+os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="aivon-push-"))
 
 from cryptography.hazmat.primitives import hashes, serialization  # noqa: E402
 from cryptography.hazmat.primitives.asymmetric import ec  # noqa: E402

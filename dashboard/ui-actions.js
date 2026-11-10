@@ -3,7 +3,7 @@
    Server bắn frame {"type":"ui_action","id","action","target","session_id"} qua /ws khi model
    gọi tool aivon_ui. File này: kiểm lại target (không tin server tuyệt đối vì đây là bên thực
    hiện), chạy bằng đúng những hàm dashboard đã có (AivonNav.go, AivonOpenVaultPath,
-   AivonKanbanShow), rồi gửi {"action":"ui_result","id","ok","detail"} về để tool trả lời model
+   AivonTasks.show), rồi gửi {"action":"ui_result","id","ok","detail"} về để tool trả lời model
    ngay trong lượt.
 
    Tab đang xem phiên KHÁC với session_id trong frame thì trả `skipped=true` (server bỏ qua,
@@ -15,12 +15,13 @@
 
   // Cùng danh sách với RAIL_ITEMS trong console.js và PAGES trong plugin aivon-ui.
   var PAGES = ["home", "chat", "settings", "workspace", "teams", "skills", "chatbots", "conversations", "files",
-               "terminal", "coding", "selfimprove", "webhooks", "learn", "kanban", "models", "channels", "mcp", "plugins",
+               "terminal", "coding", "tasks", "webhooks", "learn", "models", "channels", "mcp", "plugins",
                "packs", "logs", "account", "usage", "logins", "pet", "share"];
   // Nhóm trên thanh bên (accordion). Cùng danh sách với RAIL_GROUPS trong console.js và GROUPS
   // trong plugin aivon-ui. Mở một NHÓM khác với mở một TRANG: người dùng hay muốn bung phần
   // đang gập lại để nhìn xem có gì, chứ chưa chọn trang nào.
-  var GROUPS = ["bo_nao", "code", "nang_luc", "viec", "ket_noi", "he_thong"];
+  // "code" left the rail in 0.347.0 (Terminal moved into nang_luc); an old "code" still opens nang_luc.
+  var GROUPS = ["bo_nao", "nang_luc", "viec", "ket_noi", "he_thong"];
   var ACTIONS = ["open_page", "open_file", "open_task", "scroll", "open_group", "sidebar"];
   // Phạm vi cuộn. Cùng danh sách với SCROLL_TARGETS trong server/ui_targets.py. `top`/`bottom` để
   // TRANG NÀY tự chọn (xem khungCuonTrang): người nói "cuộn xuống" muốn cuộn thứ họ đang nhìn, mà chỉ
@@ -47,6 +48,8 @@
     var target = String(frame.target || "").trim();
     if (ACTIONS.indexOf(action) < 0) return { ok: false, error: tw("ui.err_action", { action: action }) };
     if (action === "open_page") {
+      // 0.422.0: Kanban and Scheduled became the Tasks page; an old id from a model or a saved command still opens it.
+      if (target === "kanban" || target === "selfimprove") target = "tasks";
       if (PAGES.indexOf(target) < 0) return { ok: false, error: tw("ui.err_page", { page: target }) };
     } else if (action === "open_file") {
       var p = target.replace(/\\/g, "/");
@@ -61,6 +64,7 @@
     } else if (action === "scroll") {
       if (SCROLLS.indexOf(target) < 0) return { ok: false, error: tw("ui.err_scroll", { list: SCROLLS.join(", ") }) };
     } else if (action === "open_group") {
+      if (target === "code") target = "nang_luc";
       if (GROUPS.indexOf(target) < 0) return { ok: false, error: tw("ui.err_group", { group: target }) };
     } else if (action === "sidebar") {
       if (target !== "open" && target !== "close") return { ok: false, error: tw("ui.err_sidebar") };
@@ -112,12 +116,14 @@
       return { ok: false, detail: tw("ui.err_opener_not_ready") };
     }
     if (v.action === "open_task") {
-      if (window.AivonNav && typeof window.AivonNav.go === "function") window.AivonNav.go("kanban");
-      // renderKanban là async: đợi nó gắn AivonKanbanShow (tối đa ~3 giây).
+      if (window.AivonNav && typeof window.AivonNav.go === "function") window.AivonNav.go("tasks");
+      // 0.426.0: Kanban jobs live on the Tasks page (tasks.js, lazy). Wait up to ~3 s for it to load its data.
       for (var i = 0; i < 30; i++) {
-        if (typeof window.AivonKanbanShow === "function") {
-          try { await window.AivonKanbanShow(v.target); } catch (e) {}
-          return { ok: true, detail: "" };
+        var nv = window.AivonTasks;
+        if (nv && typeof nv.ready === "function" && nv.ready()) {
+          var shown = false;
+          try { shown = await nv.show(v.target); } catch (e) {}
+          return shown ? { ok: true, detail: "" } : { ok: false, detail: tw("ui.err_task_missing") };
         }
         await sleep(100);
       }

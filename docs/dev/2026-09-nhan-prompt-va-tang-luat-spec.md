@@ -13,7 +13,7 @@
 3. Bằng chứng nằm sẵn trong repo: việc đặt lịch **có tool riêng** nên chỉ tốn ~600 ký tự
    prose; việc tạo agent **không có tool** nên tốn 2.875 ký tự cho một việc đơn giản hơn.
 4. Nên hướng đi là: **biến luật thành tool và code**, không phải nén luật cho khéo hơn.
-5. Ba hằng số giữ cho nó không trôi lại: nhân chỉ chứa thứ thuộc về **tính cách** AIVON, trần
+5. Ba hằng số giữ cho nó không trôi lại: nhân chỉ chứa thứ thuộc về **tính cách** Aivon, trần
    nhân **đóng băng không vay được**, và mỗi luật phải khai **ai đang thi hành nó**.
 
 ---
@@ -60,7 +60,7 @@ nhưng 33.577 ký tự vẫn tốn y nguyên thời gian xử lý mỗi lượt.
 
 Dòng thứ ba trong kết quả test ở trên đáng chú ý: đường biên dịch **đã chứng minh** một prompt
 lõi 740 ký tự chạy được. Nó chỉ áp cho engine API. Bản kế hoạch này không đi theo hướng
-CORE_CONTRACT (bỏ hẳn `CLAUDE.md` là bỏ luôn tính cách AIVON), nhưng con số đó là bằng chứng
+CORE_CONTRACT (bỏ hẳn `CLAUDE.md` là bỏ luôn tính cách Aivon), nhưng con số đó là bằng chứng
 rằng phần lớn 33.577 ký tự kia **không phải thứ bắt buộc phải có mặt ở mọi lượt**.
 
 ---
@@ -103,7 +103,7 @@ Lập luận "chi phí mỗi lượt là O(top-k) nên tổng số luật tăng 
 **k không phải hằng số**.
 
 Số luật liên quan tới MỘT hành động tăng theo độ phức tạp hệ thống. Hôm nay tạo một agent cần
-biết 6 luật. Khi AIVON có 20 engine, 50 connector, 5 kênh thì cần biết 6 luật đó **cộng** các
+biết 6 luật. Khi Aivon có 20 engine, 50 connector, 5 kênh thì cần biết 6 luật đó **cộng** các
 luật tương tác: engine này ghi file khác engine kia, kênh này không hiện markdown, connector
 kia cần quyền khác. Số cặp tương tác tăng theo bình phương bề mặt.
 
@@ -238,7 +238,7 @@ không.**
 ## 4.3. Skill thứ 21 trở đi vô hình với router
 
 `skill_router.py:49` đặt `SKILL_LIST_MAX = 20`. `_skill_router_block` cắt ở đó rồi ghi
-`…(+N skill nữa - xem AIVON/index.md)`. Model không đọc file đó trừ khi được bảo, nên skill thứ
+`…(+N skill nữa - xem Aivon/index.md)`. Model không đọc file đó trừ khi được bảo, nên skill thứ
 21 trở đi **không bao giờ được route**. Một brain dùng lâu chắc chắn vượt 20.
 
 ## 4.4. `_fit_memory_index`: NÓI QUÁ, đã đính chính
@@ -276,7 +276,7 @@ rẻ**, không phải vì "đang mất trí nhớ". Xếp lại ưu tiên cho đ
 
 **Kết luận: bỏ việc "nhân đúc sẵn theo chữ ký" khỏi lộ trình.** Lý do CPU đã hết. Lý do còn
 lại (tiền tố byte-identical cho prompt cache) tự nó không đủ để dựng thêm một tầng cache có
-chữ ký, nhất là khi đường CLI không dùng prompt cache của AIVON.
+chữ ký, nhất là khi đường CLI không dùng prompt cache của Aivon.
 
 Bài học chung, đáng ghi hơn cả bản vá: **một mốc nghiệm thu trong file bench không phải một số
 đo.** Đọc nhầm hai thứ đó là dựng cả một hạng mục công việc trên một con số không ai từng đo.
@@ -300,7 +300,7 @@ Bài học chung, đáng ghi hơn cả bản vá: **một mốc nghiệm thu tro
 
 **Kết luận: bỏ việc "bật cache 1 giờ" khỏi lộ trình dưới dạng một dòng sửa.** TTL 1 giờ chỉ
 đúng cho khoảng cách 5 tới 60 phút giữa hai lượt. Muốn làm cho đúng thì phải CHỌN theo khoảng
-cách thật của từng phiên (AIVON biết được: kho phiên có thời điểm lượt trước), và đó là một
+cách thật của từng phiên (Aivon biết được: kho phiên có thời điểm lượt trước), và đó là một
 tính năng có thiết kế riêng, không phải một tham số mặc định.
 
 Bài học: `5m` mặc định hiện tại **đang đúng** cho ca phổ biến nhất. Một nhánh code viết sẵn mà
@@ -321,7 +321,7 @@ một vòng inference, tức **30 tới 60 giây**.
 
 Chênh lệch giữa hai loại là **hơn 200 lần**. Nên:
 
-> Hiệu suất của AIVON nằm ở chỗ đứng đúng bên của vài cái vách, không ở chỗ gọt từng nghìn
+> Hiệu suất của Aivon nằm ở chỗ đứng đúng bên của vài cái vách, không ở chỗ gọt từng nghìn
 > ký tự trên dốc.
 
 Bốn cái vách trong hệ thống:
@@ -349,12 +349,12 @@ thư viện, model hay thuật toán nào, nên chúng sống lâu được.
 
 ## Hằng số 1: Đường phân đôi tính cách và bề mặt
 
-> **Nhân prompt chỉ chứa thứ tỉ lệ với TÍNH CÁCH của AIVON. Mọi thứ tỉ lệ với BỀ MẶT của
-> AIVON nằm cùng carrier của nó.**
+> **Nhân prompt chỉ chứa thứ tỉ lệ với TÍNH CÁCH của Aivon. Mọi thứ tỉ lệ với BỀ MẶT của
+> Aivon nằm cùng carrier của nó.**
 
 | | Tính cách | Bề mặt |
 |---|---|---|
-| Nội dung | AIVON là ai, xưng hô, cách trình bày, thang quyết định, khi nào hỏi lại | Engine, connector, định dạng file, quy trình vận hành, sự cố |
+| Nội dung | Aivon là ai, xưng hô, cách trình bày, thang quyết định, khi nào hỏi lại | Engine, connector, định dạng file, quy trình vận hành, sự cố |
 | Tốc độ tăng | Gần như đứng yên | Tăng siêu tuyến tính |
 | Bằng chứng | Thang quyết định không đổi từ đầu repo | Gemini CLI bị gỡ, Antigravity thêm vào, Grok thêm vào |
 | Nơi ở | `kernel.md` (trần đóng băng) | Tool contract, skill body, code, connector metadata |
@@ -387,7 +387,7 @@ id: agent-ghi-dung-thu-muc
 enforced_by: aivon_create_agent     # code ép → XOÁ khỏi prose
 # enforced_by: ""                   # trống → ứng viên để biến thành code
 added: 2026-07-19
-because: "Agent ghi vào AIVON/agents/ nên biến mất khỏi app"
+because: "Agent ghi vào Aivon/agents/ nên biến mất khỏi app"
 review: 2026-12-19
 ```
 
@@ -434,7 +434,7 @@ Thử với mục đắt nhất trong nhóm này, mục tạo agent và workflow
 
 | Luật hiện tại | Vì sao nó tồn tại | Bỏ bậc tự do bằng |
 |---|---|---|
-| Ghi vào `agents/` phẳng, KHÔNG phải `AIVON/agents/` | Model được chọn đường dẫn | Tool tự ghi đúng chỗ |
+| Ghi vào `agents/` phẳng, KHÔNG phải `Aivon/agents/` | Model được chọn đường dẫn | Tool tự ghi đúng chỗ |
 | slug ASCII không dấu | Model tự đặt slug | Tool tự slugify (`main.py:_ascii_slug`, có `replace("đ","d")`) |
 | `description` tối đa 150 ký tự, đếm sau khi viết | Model tự đếm | Validation trả lỗi kèm số ký tự thừa |
 | `group` không được trống, đọc group đang dùng rồi chọn gần nhất | Model phải tự khảo sát | Tham số enum dựng từ group có sẵn |
@@ -446,12 +446,12 @@ từ ~80% (model nhớ luật) lên 100% (code ép).
 
 ## Đường trải nhựa, không phải cái lồng
 
-Thu hẹp giao diện làm giảm linh hoạt, mà linh hoạt là điểm bán của AIVON. Nên thiết kế là hai
+Thu hẹp giao diện làm giảm linh hoạt, mà linh hoạt là điểm bán của Aivon. Nên thiết kế là hai
 lớp:
 
 - **Đường trải nhựa:** `aivon_create_agent(...)` làm đúng mọi thứ, là đường dễ nhất nên model
   tự chọn
-- **Lan can:** hook `pre_tool_call` chặn hoặc sửa một lệnh ghi vào `AIVON/agents/`, kèm câu
+- **Lan can:** hook `pre_tool_call` chặn hoặc sửa một lệnh ghi vào `Aivon/agents/`, kèm câu
   giải thích
 
 Tool file thô vẫn còn cho việc tự do (viết bài, phân tích, dữ liệu). Ranh giới:
@@ -527,7 +527,7 @@ Nên trong lộ trình, việc hook phủ quyết **chặn cứng** mọi việc
 khác hẳn nhau:
 
 1. **Claude Code làm việc trên repo `aivon`** đọc nó làm project file (tự động theo cwd)
-2. **Mọi người dùng cuối của AIVON** nhận nó làm system prompt, mọi lượt chat
+2. **Mọi người dùng cuối của Aivon** nhận nó làm system prompt, mọi lượt chat
 
 Đây là nguyên nhân **cấu trúc** của việc phình: mỗi lần thêm một quy ước dev là mọi khách hàng
 trả tiền cho nó ở mọi lượt. Mục "Dev conventions" (1.005 ký tự) chỉ là phần nhìn thấy được;
@@ -546,7 +546,7 @@ system/prompt/policies/*.md  luật theo carrier skill (Hợp đồng 2)
 ### Mục lục cố định của nhân
 
 ```
-1. AIVON là ai                      ~1.200   tính cách, bộ não thay được
+1. Aivon là ai                      ~1.200   tính cách, bộ não thay được
 2. Hợp đồng đầu ra                  ~1.500   ngôn ngữ, xưng hô, định dạng, cấm em dash
 3. Thang quyết định                   ~700   5 dòng, không phải 8.888 ký tự
 4. Khi nào hỏi lại                  ~1.200   phán đoán thật, giữ
@@ -713,7 +713,7 @@ tức **có thể vẫn trên ngưỡng, nhưng không chắc với mọi model*
 lượt liên tiếp. Bằng 0 nghĩa là cache không chạy.
 
 **Ba: phạm vi.** Toàn bộ lập luận cache chỉ áp cho engine API. Với Claude Code, Codex và `agy`,
-AIVON không điều khiển cache, CLI và nhà cung cấp tự lo. Với đúng những bộ não hay bị than là
+Aivon không điều khiển cache, CLI và nhà cung cấp tự lo. Với đúng những bộ não hay bị than là
 chậm, thứ quyết định là Vách 1 (trần argv), không phải cache.
 
 ## Hợp đồng 6: nhân đúc sẵn theo chữ ký
@@ -764,7 +764,7 @@ Thứ tự có ràng buộc thật, không xếp theo cảm tính. Ba luật th�
 | 5 | Bốn khối điều kiện + dời `cache_control` + **kiểm `cache_read_input_tokens`** | Lượt không đính kèm giảm đúng 2.272 ký tự. Cache read khác 0 qua 3 lượt liên tiếp | 1,5 ngày |
 | 6 | Rút luật code đã ép + thêm `enforced_by` vào mọi file luật | Ba đoạn "hứa suông" (2.403) còn 1 dòng. Test: `enforced_by` khác trống phải trỏ tới symbol có thật | 0,5 ngày |
 | 7 | `aivon_remember` | Retire 2.297. Ghi thử 60 ký ức, `MEMORY.md` không mất dòng nào | 1 ngày |
-| 8 | `aivon_create_agent`, `aivon_create_workflow` + lan can hook | Retire 2.875 + 1.726. Ghi thẳng vào `AIVON/agents/` bị chặn kèm giải thích | 2 ngày |
+| 8 | `aivon_create_agent`, `aivon_create_workflow` + lan can hook | Retire 2.875 + 1.726. Ghi thẳng vào `Aivon/agents/` bị chặn kèm giải thích | 2 ngày |
 | 9 | `aivon_create_plugin` | Retire 2.114 | 1 ngày |
 | 10 | Tách Orchestration thành policy | Retire ~8.000. Nhân dưới 6.500 | 2-3 ngày |
 | ~~11~~ | ~~Nhân đúc sẵn theo chữ ký~~ **RÚT LẠI** | Đo được 3,9 ms chứ không phải 40 ms (xem 4.5). Lý do CPU không còn | - |
@@ -860,7 +860,7 @@ Ghi lại vì mỗi cái đều từng được cân nhắc rồi bị loại c�
 | Mục | Ký tự | Đích | Ghi chú |
 |---|---:|---|---|
 | Orchestration | 8.888 | Tool + nhân | Thang quyết định 5 dòng vào nhân (~700). Báo kết quả → server tự gắn `chat_id`. Ba mức quyền → tham số tool. Luật Zalo → mô tả `zalo_send_message`. Hứa suông → `background_status` đã ép |
-| What AIVON is | 4.071 | Nhân + dữ liệu | Tính cách giữ ~1.200. Bảng 10 engine là **dữ liệu**, sinh từ `PROVIDERS`, không viết tay |
+| What Aivon is | 4.071 | Nhân + dữ liệu | Tính cách giữ ~1.200. Bảng 10 engine là **dữ liệu**, sinh từ `PROVIDERS`, không viết tay |
 | Response principles | 3.812 | Nhân + kênh | Tính cách giữ ~1.500. Phần theo kênh đã có `channel_context` |
 | Creating Agents/Workflows | 2.875 | Tool | `aivon_create_agent`, `aivon_create_workflow`. Còn 0 |
 | Long-term memory | 2.297 | Tool | `aivon_remember`. Còn 0 |

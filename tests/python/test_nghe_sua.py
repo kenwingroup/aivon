@@ -75,11 +75,11 @@ check("Bánh kếp không thành Pancake", S("ăn bánh kếp", TV2) == "ăn bá
 
 # ---- 6. Rút bộ từ vựng từ settings + gợi ý cho Whisper ----
 cfg = {"voice": {"hotwords": "OpenRouter, Pancake\n aivon ; Zalo,, Pancake"}}
-tv = nghe_sua.tu_vung(cfg)
+tv = nghe_sua.vocabulary(cfg)
 check("Aivon luôn đứng đầu, không nhân đôi dù người dùng gõ 'aivon'", tv[0] == "Aivon" and tv.count("Aivon") == 1
       and not any(t.lower() == "aivon" for t in tv[1:]))
 check("tách bằng phẩy, chấm phẩy, xuống dòng; bỏ trùng", tv == ["Aivon", "OpenRouter", "Pancake", "Zalo"])
-check("không có cài đặt vẫn có Aivon", nghe_sua.tu_vung({}) == ["Aivon"])
+check("không có cài đặt vẫn có Aivon", nghe_sua.vocabulary({}) == ["Aivon"])
 check("gợi ý Whisper là danh sách ngăn phẩy, khép dấu chấm",
       nghe_sua.goi_y_whisper(tv, ky_thuat=()) == "Aivon, OpenRouter, Pancake, Zalo.")
 check("gợi ý rỗng khi không có từ", nghe_sua.goi_y_whisper([], ky_thuat=()) == "")
@@ -98,7 +98,7 @@ check("quá trần thì bỏ bớt từ mồi chung, giữ nguyên từ người
       gy3.endswith(", ".join(dai) + ".") and len(gy3) <= nghe_sua.MAX_GOI_Y
       and gy3.startswith("GitHub") and "email" not in gy3)
 check("vừa trần thì nằm trong MAX_GOI_Y", len(nghe_sua.goi_y_whisper(tv)) <= nghe_sua.MAX_GOI_Y)
-check("từ mồi chung KHÔNG đi vào lớp sửa mờ", "GitHub" not in nghe_sua.tu_vung(cfg))
+check("từ mồi chung KHÔNG đi vào lớp sửa mờ", "GitHub" not in nghe_sua.vocabulary(cfg))
 
 if _fails:
     print("\nFAIL:", len(_fails), _fails)

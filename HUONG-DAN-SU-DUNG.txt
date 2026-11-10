@@ -1,10 +1,10 @@
 # Hướng dẫn AIVON
 
-Đã cài bản 0.278.0 tại C:\Users\Admin\Desktop\Aivon, gồm Python 3.12.15, thư viện và CLI Claude/Codex.
+Đã cài bản 0.278.0 tại C:\Users\Admin\Desktop\AIVON, gồm Python 3.12.15, thư viện và CLI Claude/Codex.
 
 ## Mở và tắt
 
-- Mở: nhấp đúp AIVON.bat trong thư mục Aivon trên Desktop.
+- Mở: nhấp đúp AIVON.bat trong thư mục AIVON trên Desktop.
 - Dashboard: http://localhost:7979.
 - Tắt: nhấp đúp stop-aivon.bat. Đóng trình duyệt không tắt máy chủ.
 - Không cần chạy lại setup.bat hay install.ps1 mỗi lần dùng.

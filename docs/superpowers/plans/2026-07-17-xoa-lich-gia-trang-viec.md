@@ -20,9 +20,9 @@ Spec: `docs/superpowers/specs/2026-07-17-hop-nhat-viec-dinh-ky-design.md`
 - Tiếng Việt là ngôn ngữ chính cho comment, docstring, tên hiển thị, thông báo lỗi.
 - Test là **script thuần, không pytest**. Quy ước nhà: `server/test_*.py`, có `def check(name, cond)`, gom `_fails`, `sys.exit(1)` khi có lỗi. CI chạy `for f in test_*.py; do python "$f"; done` (`.github/workflows/ci.yml:35-37`), nên mọi file `server/test_*.py` tự động vào CI.
 - Chạy test bằng venv: `.venv/Scripts/python.exe` (python hệ thống thiếu lib).
-- Test phải tự cô lập: `os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="..."))` **trước** khi import module AIVON.
+- Test phải tự cô lập: `os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="..."))` **trước** khi import module Aivon.
 - **Helper của `dashboard/console.js`** (dùng cho Task 2): chỉ có `esc(s)` (`:116`) và `fbrain()` (`:363`), gọi HTTP bằng `fetch()` trần với `FormData` dựng tại chỗ. **KHÔNG** có `api()`, `fd()`, `brain()` - đó là helper của `studio.js`, không dùng được ở console.js.
-- Không chạm `AIVON/loops/*.md`, `loop-state.json`, hay `system_sync.LEGACY_HASHES` trong giai đoạn này. Loop giữ nguyên hành vi.
+- Không chạm `Aivon/loops/*.md`, `loop-state.json`, hay `system_sync.LEGACY_HASHES` trong giai đoạn này. Loop giữ nguyên hành vi.
 - Không sửa `self_improve.py:105-113` (`_isolate`). Nó là nhánh chết trong production (`main.py:3029` luôn inject `apply_mcp`) nhưng `test_loop_ambient.py` đang dựa vào nó.
 
 ## File Structure
@@ -113,7 +113,7 @@ check("helper: _automations_path đã xoá", not hasattr(main, "_automations_pat
 # tử), và comment mới ở đầu khối cũng nhắc nó để giải thích vì sao đã xoá. Assert trần sẽ
 # BẤT KHẢ THI dù code đã đúng.
 check("nguồn: không còn code dựng đường dẫn tới automations.json",
-      '"AIVON" / "automations.json"' not in src)
+      '"Aivon" / "automations.json"' not in src)
 
 # ---- 2b. Hai lớp chiếu vào hình dạng Lịch giả cũng chết theo ----
 # Caller duy nhất của cả hai là /automations GET (main.py:3199). Chúng chiếu loop/nhắc hẹn
@@ -178,7 +178,7 @@ Giữ nguyên mọi thứ khác trong file, đặc biệt là `cancel` (`:300`),
 
 Kiểm tra `List` còn được dùng chỗ khác không trước khi động vào import:
 
-Run: `cd /d/Project/AIVON-OS && grep -c "List\[" server/reminders.py`
+Run: `cd /d/Project/AIVON && grep -c "List\[" server/reminders.py`
 
 Nếu kết quả > 0 thì **giữ** `from typing import ... List`. Không xoá import đang có người dùng.
 
@@ -209,7 +209,7 @@ Ba sửa trong `server/main.py`:
             L.append(f"- **{a['name']}** - {a['type']} · {a['schedule']} · {a['status']}")
 ```
 
-Ghi chú: khối này **không** rác vào system prompt. Nó đi vào `AIVON/index.md` qua `rebuild_aivon_index` (`main.py:3462`), và vì list luôn rỗng nên `if caps["automations"]:` luôn falsy → section chưa từng render. Đây là dọn code chết. `_aivon_capability_summary` (`:3477`) không hề nhắc automations.
+Ghi chú: khối này **không** rác vào system prompt. Nó đi vào `Aivon/index.md` qua `rebuild_aivon_index` (`main.py:3462`), và vì list luôn rỗng nên `if caps["automations"]:` luôn falsy → section chưa từng render. Đây là dọn code chết. `_aivon_capability_summary` (`:3477`) không hề nhắc automations.
 
 - [ ] **Step 6: Chạy test để xác nhận PASS**
 
@@ -219,7 +219,7 @@ Expected: PASS, in `OK - test_jobs: tất cả pass`.
 
 - [ ] **Step 7: Xác nhận không còn ai gọi thứ đã xoá trong server/**
 
-Run: `cd /d/Project/AIVON-OS && grep -rn "/automations\|_read_automations\|_loops_as_routines\|pending_as_automations" server/ --include=*.py`
+Run: `cd /d/Project/AIVON && grep -rn "/automations\|_read_automations\|_loops_as_routines\|pending_as_automations" server/ --include=*.py`
 
 Expected: **0 hit** (trừ `server/test_jobs.py`, nơi chúng là chuỗi trong assert). Nếu còn hit code thật, xoá nốt trước khi commit.
 
@@ -285,7 +285,7 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 Run:
 
 ```bash
-cd /d/Project/AIVON-OS
+cd /d/Project/AIVON
 git status --short dashboard/
 grep -rc "automations" dashboard/console.js dashboard/studio.js dashboard/index.html
 ```
@@ -325,7 +325,7 @@ Trong `dashboard/console.js`:
 
 `dashboard/console.js:683` hiện kết thúc bằng: `Loop bật sẽ hiện ở tab <b>Lịch</b>.` Tab đó sắp không tồn tại. Bỏ đúng câu cuối đó, giữ nguyên phần còn lại của đoạn văn.
 
-Run kiểm chứng: `cd /d/Project/AIVON-OS && grep -n "tab <b>Lịch</b>" dashboard/console.js`
+Run kiểm chứng: `cd /d/Project/AIVON && grep -n "tab <b>Lịch</b>" dashboard/console.js`
 
 Expected sau khi sửa: 0 hit.
 
@@ -390,7 +390,7 @@ Rồi gọi nó ở cuối `loadLoops` (`:809-826`), ngay trước dòng `clearT
 Trước tiên lấy vị trí thật (số dòng trong plan đã trôi, xem cảnh báo tranh chấp ở đầu task):
 
 ```bash
-cd /d/Project/AIVON-OS
+cd /d/Project/AIVON
 git status --short dashboard/studio.js
 grep -n "function loadAutomations\|function editAutomation\|automations" dashboard/studio.js
 ```
@@ -408,7 +408,7 @@ Trong `dashboard/studio.js` (ba chỗ đầu vẫn ở đúng dòng cũ vì nằ
 
 - [ ] **Step 7: Xác nhận không còn tham chiếu**
 
-Run: `cd /d/Project/AIVON-OS && grep -rn "automations" dashboard/console.js dashboard/studio.js dashboard/index.html`
+Run: `cd /d/Project/AIVON && grep -rn "automations" dashboard/console.js dashboard/studio.js dashboard/index.html`
 
 Expected: **0 hit** ở ba file này. (So với ba con số ghi ở Step 1.)
 
@@ -455,7 +455,7 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 
 - [ ] **Step 1: Xác nhận panel thật sự chết**
 
-Run: `cd /d/Project/AIVON-OS && sed -n '160,192p' dashboard/index.html | grep -n "display:none"; grep -rn "loop/config" dashboard/*.js`
+Run: `cd /d/Project/AIVON && sed -n '160,192p' dashboard/index.html | grep -n "display:none"; grep -rn "loop/config" dashboard/*.js`
 
 Expected: thấy `display:none` trong panel, và hit `loop/config` ở `app.js:1497`. Nếu **không** thấy `display:none`, DỪNG - panel đang sống, task này sai giả định, báo lại người review.
 
@@ -518,19 +518,19 @@ Expected: mọi file in `OK - ...`. Không file nào FAIL. Đặc biệt chú ý
 
 - [ ] **Step 2: Chạy compileall như CI**
 
-Run: `cd /d/Project/AIVON-OS && .venv/Scripts/python.exe -m compileall -q server system/plugins`
+Run: `cd /d/Project/AIVON && .venv/Scripts/python.exe -m compileall -q server system/plugins`
 
 Expected: không output (thành công).
 
 - [ ] **Step 3: Chạy test JS của CI**
 
-Run: `cd /d/Project/AIVON-OS && node dashboard/test_chat_ask.js`
+Run: `cd /d/Project/AIVON && node dashboard/test_chat_ask.js`
 
 Expected: pass. (CI chạy đúng lệnh này ở `.github/workflows/ci.yml:27`.)
 
 - [ ] **Step 4: Sửa CLAUDE.md**
 
-Run: `cd /d/Project/AIVON-OS && grep -n "tab Lịch\|automations" CLAUDE.md`
+Run: `cd /d/Project/AIVON && grep -n "tab Lịch\|automations" CLAUDE.md`
 
 Ở mục "Điều phối", bậc 6 hiện ghi: `**Tạo Lịch** - nhắc nhở / job có MỐC GIỜ cố định → qua automations (tab Lịch).` Sửa thành:
 
@@ -542,7 +542,7 @@ Giữ nguyên 8 bậc, không đánh số lại, để khỏi vỡ các chỗ kh
 
 - [ ] **Step 5: Kiểm tra aivon-builder skill**
 
-Run: `cd /d/Project/AIVON-OS && grep -rn "automations\|tab Lịch" .claude/skills/aivon-builder/SKILL.md skills/aivon-builder/SKILL.md 2>/dev/null`
+Run: `cd /d/Project/AIVON && grep -rn "automations\|tab Lịch" .claude/skills/aivon-builder/SKILL.md skills/aivon-builder/SKILL.md 2>/dev/null`
 
 Nếu có hit, sửa theo cùng cách Step 4. Nếu không có hit, bỏ qua step này.
 
@@ -576,7 +576,7 @@ Không làm trong plan này, ghi ra để khỏi quên:
 
 - `parse_schedule()` dùng chung: một field `schedule` → `{kind: once|interval|cron}` kiểu Hermes.
 - `cron` trong `_eligible_overdue` (`self_improve.py:455-466`) + jitter theo `hash(slug)`.
-- Hub `X-AIVON-Connectors` + `connectors: [...]` trên frontmatter loop (rủi ro cao nhất: hub là lớp cứng, phải fail-closed).
+- Hub `X-Aivon-Connectors` + `connectors: [...]` trên frontmatter loop (rủi ro cao nhất: hub là lớp cứng, phải fail-closed).
 - `allow_real_actions` thay dial 3 nấc, map vào `effective_perm` (`mcp_hub.py:314`) sẵn có.
 - Tool `aivon_schedule` route hai kho; `op: list`/`cancel` phải nhìn union cả hai.
 - Số phận 5 route shim legacy `/loop/*` (`self_improve.py:988-1036`).

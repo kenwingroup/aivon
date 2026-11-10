@@ -214,6 +214,72 @@ async def _goi(conn: dict, tool: str, args: dict) -> Any:
     return _json_cua(raw)
 
 
+# ============================================================
+# Chat labels (tags the owner set in the Zalo app), 0.281.0
+# ============================================================
+# Read with aivon-zalo 1.6.0's `zalo_get_labels`. One call returns every label with its chats, so the whole map is
+# kept per connection for `LABEL_TTL_S` and each incoming message only looks it up. A connection whose MCP has no such
+# tool (older aivon-zalo) or that fails is asked again only after `LABEL_RETRY_S`: a bot must never wait on Zalo for
+# every message just to learn there are no labels.
+LABEL_TTL_S = 60
+LABEL_RETRY_S = 600
+_LABELS: Dict[str, dict] = {}       # conn_id -> {"at", "names": [...], "by_thread": {thread_id: [names]}, "ok"}
+
+
+def _label_map(data: Any) -> dict:
+    """`zalo_get_labels` result -> {"names": [label names in the owner's order], "by_thread": {thread_id: [names]}}."""
+    names, by_thread = [], {}
+    labels = data.get("labels") if isinstance(data, dict) else None
+    for lb in labels if isinstance(labels, list) else []:
+        if not isinstance(lb, dict):
+            continue
+        name = " ".join(str(lb.get("name") or "").split())[:60]
+        if not name:
+            continue
+        if name not in names:
+            names.append(name)
+        for t in lb.get("threads") or []:
+            tid = str((t or {}).get("threadId") or "").strip() if isinstance(t, dict) else ""
+            if tid:
+                ds = by_thread.setdefault(tid, [])
+                if name not in ds:
+                    ds.append(name)
+    return {"names": names, "by_thread": by_thread}
+
+
+async def _labels_of_conn(conn_id: str) -> dict:
+    """The cached label map of one connection; `{"names": [], "by_thread": {}}` when unknown. Never raises."""
+    now = time.time()
+    c = _LABELS.get(conn_id)
+    if c and now - c["at"] < (LABEL_TTL_S if c.get("ok") else LABEL_RETRY_S):
+        return c
+    conn = ket_noi_theo_id(conn_id)
+    if not conn:
+        return {"names": [], "by_thread": {}}
+    try:
+        data = await asyncio.wait_for(_goi(conn, "zalo_get_labels", {}), timeout=8)
+        m = _label_map(data)
+        if not isinstance(data, dict) or "labels" not in data:
+            raise RuntimeError("no labels in the reply")
+        c = dict(m, at=now, ok=True)
+    except Exception as e:      # noqa: BLE001 - labels are a hint for the bot; without them it runs as before
+        print(f"[zalo-personal {conn_id}] đọc tag Zalo lỗi: {type(e).__name__}: {str(e)[:160]}", file=sys.stderr)
+        c = dict(c or {"names": [], "by_thread": {}}, at=now, ok=False)
+    _LABELS[conn_id] = c
+    return c
+
+
+async def labels_of_chat(conn_id: str, thread_id: str) -> List[str]:
+    """Names of the Zalo labels on one chat of a connection (e.g. ["Gia đình"]); [] when none or unknown."""
+    m = await _labels_of_conn(str(conn_id or ""))
+    return list((m.get("by_thread") or {}).get(str(thread_id or ""), []))
+
+
+async def label_names(conn_id: str) -> List[str]:
+    """Every label name of a connection, for the bot form's picker; [] when unknown."""
+    return list((await _labels_of_conn(str(conn_id or ""))).get("names") or [])
+
+
 def _json_cua(raw: Any) -> Any:
     """Kết quả MCP về dạng chữ; bóc JSON nếu có, không thì trả nguyên."""
     if isinstance(raw, (dict, list)):
@@ -383,9 +449,43 @@ def _bao_xin_vao(conn: dict, theo_nhom: Dict[str, dict]) -> None:
         return
     for nhom in theo_nhom.values():
         cau = cau_bao_xin_vao(conn, nhom["ten"], nhom["nguoi"])
-        t = loop.create_task(NOTIFY_OWNER("", cau, kind="system", label="Zalo", source="zalo"))
+        t = loop.create_task(NOTIFY_OWNER("", cau, kind="system", label="Zalo", source="zalo-group"))
         _VIEC.add(t)
         t.add_done_callback(_VIEC.discard)
+
+
+def _reaction_meta(conn: dict, msg: dict, thread: str, sender_id: str) -> dict:
+    """A reaction entry of the feed (aivon-zalo >= 1.7.0, `type: "reaction"`) -> `metadata.reaction` (0.334.0).
+
+    Looks up the message it was put on in the inbox, so the line the judge and the Agent read says WHAT was reacted
+    to and whose it was: `target_side` "ours" (this account: the bot or the owner), "self" (the reactor's own), or
+    the member's name. A message the inbox never stored keeps an empty `target_text`."""
+    import bot_reaction
+    r = msg.get("reaction") if isinstance(msg.get("reaction"), dict) else {}
+    name = str(r.get("name") or "").strip().lower()
+    target_id = str(r.get("targetMsgId") or "").strip()
+    target = conversations.tin_theo_id(KENH, conn["id"], thread, target_id) if target_id else {}
+    kind = str(target.get("message_type") or "")
+    text = str(target.get("text") or "")
+    if kind == "image":
+        text = conversations.chu_thich_anh(text) or localefmt.chu("(ảnh)", "(photo)")
+    elif kind == "reaction":
+        text = ""
+    elif kind and kind != "text" and text.startswith("["):
+        text = f"({kind})"
+    author = str(target.get("sender_type") or "")
+    if author in ("ai", "human"):
+        side = "ours"
+    elif author == "customer":
+        side = ("self" if str(target.get("sender_id") or "") == str(sender_id or "")
+                else (str(target.get("sender_name") or "").strip() or "self"))
+    else:
+        side = ""
+    return {
+        "name": name, "emoji": str(r.get("emoji") or "") or bot_reaction.emoji_of(name), "code": str(r.get("code") or ""),
+        "removed": bool(r.get("removed")), "target_msg_id": target_id,
+        "target_cli_msg_id": str(r.get("targetCliMsgId") or ""), "target_text": text, "target_side": side,
+    }
 
 
 def chuan_hoa_tin(conn: dict, msg: dict, ten: Dict[str, dict]) -> Optional[dict]:
@@ -420,6 +520,11 @@ def chuan_hoa_tin(conn: dict, msg: dict, ten: Dict[str, dict]) -> Optional[dict]
         ten_moi = sender_name or sender_id
         text = localefmt.chu(f"[{ten_moi} xin vào nhóm]", f"[{ten_moi} asked to join the group]")
     cua_minh = _la_cua_minh(msg)
+    reaction = _reaction_meta(conn, msg, thread, sender_id) if loai == "reaction" else None
+    if reaction is not None:
+        import bot_reaction
+        text = bot_reaction.describe(localefmt.chu("Bên mình", "We") if cua_minh else (sender_name or sender_id),
+                                     reaction)
     return {
         "channel": KENH,
         "account_id": conn["id"],
@@ -436,13 +541,18 @@ def chuan_hoa_tin(conn: dict, msg: dict, ten: Dict[str, dict]) -> Optional[dict]
         "text": text,
         "external_message_id": str(_lay(msg, "id", "msgId", "message_id", mac_dinh="") or ""),
         "created_at": _ts(_lay(msg, "ts", "timestamp", "time", mac_dinh=0)),
-        "metadata": dict({k: msg.get(k) for k in ("replyTo", "mentions", "mediaUrl", "url", "fileName")
+        "metadata": dict({k: msg.get(k) for k in ("replyTo", "mentions", "mediaUrl", "url", "fileName", "cliMsgId")
                           if msg.get(k) not in (None, "")},
+                         **({"reaction": reaction} if reaction is not None else {}),
                          **({"chua_ro_loai": True} if _chua_ro_loai(msg, ten) else {}),
                          **({"member_join": vao_nhom} if vao_nhom is not None else {}),
                          **({"join_request": xin_vao} if xin_vao is not None else {}),
                          **({"attachment": normalize_attachment(msg)} if loai == "file" else {}),
-                         **({"image_url": _link_anh(msg)} if loai == "image" and _link_anh(msg) else {})),
+                         **({"image_url": _link_anh(msg)} if loai == "image" and _link_anh(msg) else {}),
+                         # 0.433.0: the clip's link (aivon-zalo `attachment.url`), so the bot can look at its frames.
+                         **({"video_url": _link_anh(msg)} if loai == "video" and _link_anh(msg) else {}),
+                         # 0.435.0: a voice message's link, so the bot can hear it (`chatbot_runtime.nghe_cho_bot`).
+                         **({"audio_url": _link_anh(msg)} if loai == "audio" and _link_anh(msg) else {})),
     }
 
 
@@ -455,8 +565,10 @@ def chuan_hoa_tin(conn: dict, msg: dict, ten: Dict[str, dict]) -> Optional[dict]
 # định 3 ở đầu file. Nút "Nhập tin cũ" là lựa chọn riêng của chủ, không chạy tự động.
 #
 # Ba rào:
-#   1. Chỉ nhập vào cuộc chat CHƯA có tin nào trong kho. Khung tin xếp theo id, nên tin cũ nhập sau tin mới sẽ hiện SAU tin mới.
-#      Cuộc chat đã có tin thì bỏ qua, nói rõ trong kết quả.
+#   1. Cuộc chat đã có tin thì chỉ nhập các tin CŨ HƠN tin đầu tiên của nó, và đặt chúng lên trên bằng `seq` (conversations.ORDER_KEY):
+#      id của chúng mới hơn nên xếp theo id thì chúng hiện dưới cùng. Tin nằm giữa các tin đã có là việc của phần bắt bù ở dưới.
+#      Trước 08/11/2026 cuộc chat đã có tin bị bỏ qua hẳn. Chủ báo "nhập lịch sử mà vẫn không nhập được": tài khoản đã bật Ghi hội
+#      thoại thì cuộc chat nào đang nói chuyện cũng đã có tin, nên lần nhập không thêm được gì.
 #   2. Không giao cho bot, không cộng số chưa đọc, không đụng đồng hồ "chủ vừa nhắn tay": đây là tin đã qua, ghi để xem lại.
 #   3. Có trần (`NHAP_TOI_DA` tin, `NHAP_NGAY` ngày) để một nick nhiều nhóm không làm kho phình. Nhóm vẫn chỉ giữ
 #      `conversations.GIU_TIN_NHOM` tin gần nhất như mọi lúc.
@@ -467,9 +579,10 @@ _DANG_NHAP: set = set()     # conn_id đang nhập: bấm hai lần liền khôn
 
 
 async def nhap_lich_su(conn_id: str, ngay: int = NHAP_NGAY) -> dict:
-    """Nhập tin cũ aivon-zalo đã giữ (tối đa `ngay` ngày, `NHAP_TOI_DA` tin) vào Hộp thư, chỉ cho cuộc chat chưa có tin nào.
+    """Nhập tin cũ aivon-zalo đã giữ (tối đa `ngay` ngày, `NHAP_TOI_DA` tin) vào Hộp thư. Cuộc chat đã có tin chỉ nhận các tin cũ
+    hơn tin đầu tiên của nó, xếp lên trên.
 
-    Trả {"ok", "so_tin", "so_cuoc_chat", "bo_qua", "het_tran"} hoặc {"ok": False, "loi"}."""
+    Trả {"ok", "so_tin", "so_cuoc_chat", "het_tran"} hoặc {"ok": False, "loi"}."""
     cid = str(conn_id or "")
     conn = ket_noi_theo_id(cid)
     if not conn:
@@ -505,7 +618,7 @@ async def nhap_lich_su(conn_id: str, ngay: int = NHAP_NGAY) -> dict:
             if not (isinstance(d, dict) and d.get("hasMore") and truoc and trang):
                 break
         if not tin:
-            return {"ok": True, "so_tin": 0, "so_cuoc_chat": 0, "bo_qua": 0, "het_tran": False}
+            return {"ok": True, "so_tin": 0, "so_cuoc_chat": 0, "het_tran": False}
         ten = await _nap_ten(conn, {})
         theo_chat: Dict[str, List[dict]] = {}
         for m in tin:
@@ -513,23 +626,234 @@ async def nhap_lich_su(conn_id: str, ngay: int = NHAP_NGAY) -> dict:
             if ev and ev.get("external_message_id"):
                 ev["metadata"] = dict(ev.get("metadata") or {}, lich_su=True)
                 theo_chat.setdefault(ev["external_chat_id"], []).append(ev)
-        so_tin = so_chat = bo_qua = 0
+        so_tin = so_chat = 0
         for chat, evs in theo_chat.items():
-            if conversations.co_tin(KENH, cid, chat):
-                bo_qua += 1
-                continue
             evs.sort(key=lambda e: float(e.get("created_at") or 0))
+            dau = conversations.first_order(KENH, cid, chat)
+            if dau is not None:
+                # Only what is older than the chat's first message, placed above it in time order: the oldest gets the lowest seq.
+                evs = [e for e in evs if float(e.get("created_at") or 0) < dau["at"]]
             ghi = 0
-            for ev in evs:
-                r = conversations.ghi_su_kien(ev, dem_chua_doc=False)
+            for i, ev in enumerate(evs):
+                if dau is None:
+                    r = conversations.ghi_su_kien(ev, dem_chua_doc=False)
+                else:
+                    r = conversations.ghi_su_kien(ev, dem_chua_doc=False, late=True, seq=dau["key"] - (len(evs) - i))
                 if r.get("ok") and not r.get("trung"):
                     ghi += 1
             if ghi:
                 so_tin += ghi
                 so_chat += 1
-        return {"ok": True, "so_tin": so_tin, "so_cuoc_chat": so_chat, "bo_qua": bo_qua, "het_tran": het_tran}
+        return {"ok": True, "so_tin": so_tin, "so_cuoc_chat": so_chat, "het_tran": het_tran}
     finally:
         _DANG_NHAP.discard(cid)
+
+
+# ============================================================
+# Catching up from the history (private chats)
+# ============================================================
+# Field report 08/11/2026 (owner): a private chat stopped in the inbox at 09:28 while the phone went on until 09:53,
+# messages both ways. `zalo_get_history` had every one of them, so they reached aivon-zalo but never its live buffer
+# (or never left it): the read loop above only sees that buffer. aivon-zalo files each message in its history first,
+# and also fills the history from Zalo's replay after each reconnect, while the live feed only gets the replayed
+# messages of an outage it noticed.
+#
+# Driven by a signal, not a schedule (owner, 08/11/2026: "only work where there is a signal, never on dead chats").
+# aivon-zalo (>= 1.5.0) appends every message it files to `<HOME>/.zalo-agent-cli/history.jsonl`, one JSON line each,
+# and nothing else touches that file. So after each read the loop only asks the OS for the file's size: unchanged (an
+# idle day) costs one stat call and nothing more, no MCP call, no query. When it grew, the new lines are read and their
+# private-chat messages wait in `history_pending`; once old enough, only their ids are looked up in the inbox and the
+# missing ones written. A chat nobody writes in is never looked at.
+#
+# Rules:
+#   1. Private chats only. Groups keep only `conversations.GIU_TIN_NHOM` messages, so a trimmed one would come back.
+#   2. A new line waits RECONCILE_MIN_AGE seconds, and only a read that emptied the buffer releases it: a message still
+#      on its way through the read loop must arrive there, since that is where the bot gets it.
+#   3. A recovered message is never handed to the bot (it is late; the owner sees it unread in the inbox). The owner's
+#      own recovered message still counts as typing by hand, so the bot keeps yielding in that chat.
+#   4. The account's own message is skipped when the inbox already holds the same sentence from the bot or the owner
+#      around that time (written before Zalo gave it an id); that row gets the id instead.
+#   5. Stickers and short emoji stay out, as in the live feed (aivon-zalo `ThreadFilter.shouldKeep`).
+#   6. A message from before this server started reading the account is only written when the inbox already holds an
+#      older message of that chat (a hole in a chat it follows), so turning an account on never pulls hours of old
+#      chats in through this door ("Import old messages" does that). Nothing older than RECONCILE_WINDOW is written.
+RECONCILE_WINDOW = 2 * 3600  # a filed message older than this is never written (an old replay, not a hole of now)
+RECONCILE_MIN_AGE = 90       # seconds a new line waits so the live read gets its message first
+RECONCILE_OWN_MATCH_S = 600  # rule 4 looks this far around the message's time
+HISTORY_FILE = (".zalo-agent-cli", "history.jsonl")
+HISTORY_READ_MAX = 4 * 1024 * 1024   # bytes read per turn at most (a big replay is read over several turns)
+HISTORY_TAIL = 512 * 1024            # bytes looked at after a start or a rewrite of the file
+HISTORY_PENDING_MAX = 5000
+_EMOJI_ONLY = re.compile(r"^[\s\U0001F000-\U0001FAFF☀-➿️‍]*$")
+
+
+def history_path(conn: dict) -> str:
+    """aivon-zalo's history file for this connection (its session HOME, else this user's home)."""
+    import os
+    home = str(((conn or {}).get("env") or {}).get("HOME") or "") or os.path.expanduser("~")
+    return os.path.join(home, *HISTORY_FILE)
+
+
+def _is_dm(msg: dict, names: dict) -> bool:
+    kind = str(_lay(msg, "threadType", "thread_type", mac_dinh="") or "").strip().lower()
+    if kind:
+        return kind in ("dm", "0", "user", "private")
+    return str(((names or {}).get(_thread_cua(msg)) or {}).get("type") or "").lower() == "dm"
+
+
+def _live_feed_keeps(ev: dict) -> bool:
+    """Rule 5: the same noise the live feed drops."""
+    if ev.get("message_type") in ("sticker", "reaction"):
+        return False
+    text = str(ev.get("text") or "")
+    return not (text and len(text) < 3 and _EMOJI_ONLY.match(text))
+
+
+def _own_already_stored(conn_id: str, ev: dict) -> bool:
+    """Rule 4. True when the inbox already holds this sentence of the account around the message's time."""
+    echo = _chuan(ev.get("text"))
+    if not echo:
+        return False
+    ts = float(ev.get("created_at") or time.time())
+    for row in conversations.own_messages_between(KENH, conn_id, ev["external_chat_id"],
+                                                  ts - RECONCILE_OWN_MATCH_S, ts + RECONCILE_OWN_MATCH_S):
+        if str(row.get("external_message_id") or ""):
+            continue        # a message Zalo already named: another one, even with the same words ("ok" twice)
+        sent = _chuan(row.get("text"))
+        if sent and (echo == sent or sent.startswith(echo[:80]) or echo.startswith(sent[:80])):
+            conversations.set_message_id(int(row["id"]), str(ev.get("external_message_id") or ""))
+            return True
+    return False
+
+
+def _parse_lines(raw: bytes, names: dict, oldest_ms: int) -> List[dict]:
+    """Private-chat messages of some history lines (complete lines only) not older than `oldest_ms`."""
+    out = []
+    for line in raw.split(b"\n"):
+        if not line.strip():
+            continue
+        try:
+            m = json.loads(line)
+        except ValueError:
+            continue
+        if isinstance(m, dict) and m.get("msgId") not in (None, "") and _is_dm(m, names) \
+                and float(m.get("timestamp") or 0) >= oldest_ms:
+            out.append(m)
+    return out
+
+
+def watch_history(conn: dict, now: Optional[float] = None) -> int:
+    """The signal: read what aivon-zalo appended to its history file since the last look and queue its private-chat
+    messages. Returns how many were queued. One stat call when nothing changed. Never raises."""
+    import os
+    now = time.time() if now is None else float(now)
+    tt = _TT.setdefault(str(conn["id"]), {})
+    path = history_path(conn)
+    try:
+        st = os.stat(path)
+    except OSError:
+        return 0        # no file yet (nothing filed, or aivon-zalo older than 1.5.0)
+    size, ident = st.st_size, (st.st_dev, st.st_ino)
+    off = tt.get("history_off")
+    if off is not None and ident == tt.get("history_id") and size == off:
+        return 0        # the usual case: nothing new
+    oldest_ms = int((now - RECONCILE_WINDOW) * 1000)
+    try:
+        with open(path, "rb") as f:
+            if off is None or ident != tt.get("history_id") or size < off:
+                # First look in this lifetime, or aivon-zalo rewrote the file (compaction): only its tail matters, and
+                # everything already in the inbox is filtered out later by id.
+                start = max(0, size - HISTORY_TAIL)
+                f.seek(start)
+                raw = f.read(size - start)
+                if start:
+                    raw = raw.split(b"\n", 1)[1] if b"\n" in raw else b""
+            else:
+                f.seek(off)
+                raw = f.read(min(size - off, HISTORY_READ_MAX))
+                cut = raw.rfind(b"\n")
+                raw = raw[:cut + 1] if cut >= 0 else b""     # a line still being written waits for the next look
+                size = off + len(raw)
+    except OSError as e:
+        print(f"[zalo-personal {conn.get('label')}] history file: {e}", file=sys.stderr)
+        return 0
+    tt["history_off"], tt["history_id"] = size, ident
+    found = _parse_lines(raw, tt.get("ten") or {}, oldest_ms)
+    pending = tt.setdefault("history_pending", [])
+    pending.extend((now, m) for m in found)
+    if len(pending) > HISTORY_PENDING_MAX:
+        del pending[:len(pending) - HISTORY_PENDING_MAX]
+    return len(found)
+
+
+def catch_up(conn: dict, messages: List[dict], now: Optional[float] = None) -> int:
+    """Write the private-chat messages among `messages` (history shape) the inbox does not have. Returns how many."""
+    now = time.time() if now is None else float(now)
+    cid = str(conn["id"])
+    tt = _TT.setdefault(cid, {})
+    names = tt.get("ten") or {}
+    oldest = now - RECONCILE_WINDOW
+    by_chat: Dict[str, List[dict]] = {}
+    for m in messages:
+        if not isinstance(m, dict) or not _is_dm(m, names):
+            continue
+        ev = chuan_hoa_tin(conn, m, names)
+        if not ev or not ev.get("external_message_id") or ev["chat_type"] != "private":
+            continue
+        if float(ev.get("created_at") or 0) < oldest or not _live_feed_keeps(ev):
+            continue
+        by_chat.setdefault(ev["external_chat_id"], []).append(ev)
+    written = 0
+    first_read = float(tt.get("first_read") or now)
+    for chat, evs in by_chat.items():
+        known = conversations.known_message_ids(KENH, cid, chat, [e["external_message_id"] for e in evs])
+        evs.sort(key=lambda e: float(e.get("created_at") or 0))
+        first_stored = None
+        for ev in evs:
+            if known is not None and ev["external_message_id"] in known:
+                continue
+            at = float(ev.get("created_at") or 0)
+            if at < first_read:
+                if first_stored is None:
+                    first_stored = conversations.first_message_at(KENH, cid, chat) or float("inf")
+                if at < first_stored:
+                    continue        # rule 6
+            if ev["sender_type"] == "human" and _own_already_stored(cid, ev):
+                continue
+            ev["metadata"] = dict(ev.get("metadata") or {}, recovered=True)
+            r = conversations.ghi_su_kien(ev, late=True)
+            if not (r.get("ok") and not r.get("trung")):
+                continue
+            written += 1
+            if known is None:
+                known = set()
+            known.add(ev["external_message_id"])
+            if ev["sender_type"] == "human":
+                key = (cid, chat)
+                _TAY[key] = max(float(_TAY.get(key) or 0), at)
+    if written:
+        print(f"[zalo-personal {conn.get('label')}] recovered {written} private message(s) from the history",
+              file=sys.stderr)
+    tt["recovered"] = int(tt.get("recovered") or 0) + written
+    return written
+
+
+def _history_turn(conn: dict, tt: dict, now: Optional[float] = None) -> None:
+    """After each successful read: look at the history file (the signal), then release the queued messages that are
+    old enough, but only when that read emptied the buffer (rule 2). Never raises: it must not cost the read loop."""
+    now = time.time() if now is None else float(now)
+    try:
+        watch_history(conn, now)
+        pending = tt.get("history_pending")
+        if not pending or not tt.get("drained", True):
+            return
+        due = [m for seen, m in pending if now - seen >= RECONCILE_MIN_AGE]
+        if not due:
+            return
+        tt["history_pending"] = [(seen, m) for seen, m in pending if now - seen < RECONCILE_MIN_AGE]
+        catch_up(conn, due, now)
+    except Exception as e:      # noqa: BLE001
+        print(f"[zalo-personal {conn.get('label')}] history catch-up: {type(e).__name__}: {e}", file=sys.stderr)
 
 
 # ============================================================
@@ -618,6 +942,24 @@ def _ghi_lo(conn: dict, tin: list, ten: dict) -> tuple:
         ev = chuan_hoa_tin(conn, m, ten)
         if not ev:
             continue
+        if ev.get("message_type") == "reaction":
+            # A reaction (0.334.0) is never the owner typing and never an echo of a sentence: it goes to the inbox as
+            # it is. This account's own one is the bot's when the bot just put it (`remember_bot_reaction`), else the owner's.
+            # A customer's goes to the bot like a message; whether it deserves anything is the judge's call (or the
+            # Agent's), never decided here. Taking a reaction back is only recorded.
+            if ev["sender_type"] == "human":
+                bot = _bot_reaction_echo(conn["id"], ev["external_chat_id"], (ev.get("metadata") or {}).get("reaction"))
+                if bot is not None:
+                    ev = dict(ev, sender_type="ai", sender_name=bot)
+            kq = conversations.ghi_su_kien(ev)
+            if kq.get("ok"):
+                if kq.get("trung"):
+                    trung += 1
+                else:
+                    moi += 1
+                    if ev["sender_type"] == "customer" and not ((ev.get("metadata") or {}).get("reaction") or {}).get("removed"):
+                        _giao_cho_bot(conn, ev)
+            continue
         if ev["sender_type"] == "human":
             _hoc_danh_tinh(conn["id"], m)
             # Tin chủ gửi đi. Tiếng vọng của câu BOT vừa gửi thì bỏ (bot đã tự ghi câu đó vào
@@ -626,6 +968,7 @@ def _ghi_lo(conn: dict, tin: list, ten: dict) -> tuple:
             if _la_tieng_vong(conn["id"], ev["external_chat_id"], ev["text"]) or (
                     ev.get("message_type") == "image"
                     and _la_vong_anh(conn["id"], ev["external_chat_id"])):
+                attach_echo_id(conn["id"], ev)
                 trung += 1
                 continue
             _TAY[(conn["id"], ev["external_chat_id"])] = float(ev.get("created_at") or time.time())
@@ -638,6 +981,7 @@ def _ghi_lo(conn: dict, tin: list, ten: dict) -> tuple:
             # có thể quay về như tin của một KHÁCH. Để lọt thì trong nhóm bot sẽ tự trả lời chính
             # nó, và Hộp thư ghi câu bot nói thành tin khách. Chỉ áp cho tin đủ dài: "Dạ" hay "ok"
             # khách nói trùng câu bot vừa nói là chuyện thường, còn một đoạn dài y hệt thì là vọng.
+            attach_echo_id(conn["id"], ev)
             trung += 1
             continue
         kq = conversations.ghi_su_kien(ev)
@@ -683,6 +1027,7 @@ async def doc_mot_lan(conn: dict) -> dict:
     bat_dau = time.time()       # mọi tin tới trước mốc này đã nằm trong lượt đọc này
     moi = trung = 0
     since = 0
+    drained = True      # False when the page cap stopped this round with messages still waiting in the buffer
     if tt.get("since") and tt.get("ep") and tt["ep"] == _epoch(conn):
         since = int(tt["since"])
     for _ in range(MAX_TRANG):
@@ -715,6 +1060,10 @@ async def doc_mot_lan(conn: dict) -> dict:
         if not (d.get("hasMore") and tin and nc > since):
             break
         since = nc
+    else:
+        drained = False
+    tt["drained"] = drained
+    tt.setdefault("first_read", bat_dau)
     tt["lan_cuoi"] = time.time()
     tt["read_seconds"] = round(time.time() - bat_dau, 3)
     tt["loi"] = ""
@@ -788,6 +1137,11 @@ async def _vong() -> None:
                         print(f"[zalo-personal {conn.get('label')}] {tt['loi']}", file=sys.stderr)
                     else:
                         _nhan_loi_moi(conn)
+                        # On a worker thread (2026-11-09): up to HISTORY_READ_MAX bytes of the history file read, every
+                        # line JSON-parsed and missed messages written to SQLite. On the loop it froze every request
+                        # for 1.19 s on the owner's VPS (/health/loop: _parse_lines < watch_history < _history_turn).
+                        await asyncio.to_thread(_history_turn, conn, tt)
+                    _soi_tranh_phien(conn)
                     # Hạn sớm hơn một nhịp chút ít: vòng ngủ đúng một nhịp thì lần thức sau chắc chắn đã tới hạn.
                     tt["doc_toi"] = luc + _nhip_cua(conn["id"]) * 0.9
         except asyncio.CancelledError:
@@ -799,6 +1153,91 @@ async def _vong() -> None:
         except asyncio.CancelledError:
             raise
     print("[zalo-personal] vòng đọc dừng", file=sys.stderr)
+
+
+# ============================================================
+# Another session evicting ours (0.283.0)
+# ============================================================
+# Zalo keeps ONE live socket per account. When a second session of the same account is up (an `mcp start` an earlier
+# server lifetime left behind, Zalo Web of this nick in a browser, another Aivon or Claude client), ours is evicted
+# right after every re-login and aivon-zalo backs off up to five minutes. Reading still "works" (the buffer answers),
+# so the bot card stayed green while the bot heard only the few seconds after each reconnect (field report
+# 22/10/2026, Aivon Vũ: three hours of tags in two groups unanswered). aivon-zalo prints each close as
+# "Connection closed (code: N). Re-login in Ss... (reconnect #R, rapid #K)"; K counts closes that came before the
+# connection was stable, so K >= THRASH_RAPID means a rival.
+THRASH_RAPID = 3
+THRASH_SHOW_S = 900          # the bot card says "evicted" this long after the last rapid close
+THRASH_BELL_GAP_S = 6 * 3600
+_THRASH_RE = re.compile(r"reconnect #(\d+), rapid #(\d+)")
+_THRASH_SEEN: Dict[str, tuple] = {}      # conn_id -> (session pid, last reconnect number handled)
+
+
+def thrash_of(lines: List[str]) -> Optional[tuple]:
+    """(reconnect number, rapid count) of the latest close line in a aivon-zalo stderr tail, None when there is none."""
+    for line in reversed(lines or []):
+        m = _THRASH_RE.search(str(line))
+        if m:
+            return int(m.group(1)), int(m.group(2))
+    return None
+
+
+def _soi_tranh_phien(conn: dict) -> None:
+    """After each read: a new rapid close in this connection's MCP log means another session holds the account. Kill
+    any other `mcp start` on the same HOME (this machine), mark the bot card, ring the owner (once per 6 hours)."""
+    try:
+        import mcp_client
+        import mcp_orphans
+        cid = str(conn.get("id") or "")
+        pid = mcp_client.pool.session_pid(cid)
+        th = thrash_of(mcp_client.pool.stderr_lines(cid)) if pid else None
+        if not th:
+            return
+        seen_pid, seen_n = _THRASH_SEEN.get(cid, (0, 0))
+        if (pid, th[0]) == (seen_pid, seen_n) or (pid == seen_pid and th[0] < seen_n):
+            return
+        _THRASH_SEEN[cid] = (pid, th[0])
+        if th[1] < THRASH_RAPID:
+            return
+        tt = _TT.setdefault(cid, {})
+        tt["tranh_phien"] = time.time()
+        home = str(((conn.get("env") or {}).get("HOME")) or "")
+        killed = mcp_orphans.reap_same_home(home, keep_pgids=(pid,)) if home else []
+        print(f"[zalo-personal {conn.get('label')}] another session keeps evicting this one "
+              f"(reconnect #{th[0]}, rapid #{th[1]}); killed {len(killed)} local copy(ies)", file=sys.stderr)
+        # 0.402.0: the last notice time is kept in the inbox store too, so a restart does not ring again at once.
+        if not tt.get("tranh_phien_bao"):
+            try:
+                tt["tranh_phien_bao"] = float(conversations.doc_trang_thai(f"zalo_thrash_bell:{cid}", "0") or 0)
+            except (TypeError, ValueError):
+                tt["tranh_phien_bao"] = 0.0
+        if NOTIFY_OWNER is None or time.time() - float(tt.get("tranh_phien_bao") or 0) < THRASH_BELL_GAP_S:
+            return
+        tt["tranh_phien_bao"] = time.time()
+        conversations.ghi_trang_thai(f"zalo_thrash_bell:{cid}", str(tt["tranh_phien_bao"]))
+        tk = conn.get("label") or "Zalo"
+        don = (localefmt.chu(f" Aivon đã tắt {len(killed)} bản Zalo cũ còn chạy trên máy này.",
+                             f" Aivon stopped {len(killed)} old Zalo copy(ies) still running on this machine.")
+               if killed else "")
+        cau = localefmt.chu(
+            f"Zalo ({tk}) đang bị một phiên khác của cùng nick giành kết nối: bot chỉ nghe được tin vài giây sau mỗi lần "
+            f"nối lại, tin tag và tin nhắn riêng ở giữa bị lỡ.{don} Nếu vẫn tiếp diễn: đóng Zalo Web (chat.zalo.me) của "
+            "nick này trên mọi trình duyệt, tắt Aivon hoặc Claude khác đang dùng cùng nick, rồi bấm Kiểm tra ở trang "
+            "Kết nối.",
+            f"Zalo ({tk}) is being evicted by another session of the same account: the bot only hears messages for a few "
+            f"seconds after each reconnect, and tags and private messages in between are missed.{don} If it goes on: "
+            "close Zalo Web (chat.zalo.me) for this account in every browser, stop any other Aivon or Claude client "
+            "using it, then click Check on the Connections page.")
+        loop = asyncio.get_running_loop()
+        t = loop.create_task(NOTIFY_OWNER("", cau, kind="system", label="Zalo", source="zalo"))
+        _VIEC.add(t)
+        t.add_done_callback(_VIEC.discard)
+    except Exception as e:      # noqa: BLE001 - the watch must never cost a read
+        print(f"[zalo-personal {conn.get('label')}] thrash watch: {type(e).__name__}: {e}", file=sys.stderr)
+
+
+def evicted_recently(conn_id: str) -> bool:
+    """Another session evicted this connection within `THRASH_SHOW_S` (see `_soi_tranh_phien`)."""
+    return time.time() - float((_TT.get(str(conn_id or "")) or {}).get("tranh_phien") or 0) < THRASH_SHOW_S
 
 
 def _nhan_loi_moi(conn: dict) -> None:
@@ -876,6 +1315,31 @@ def nho_anh_rieng(conn_id: str, thread: str, url: str, now: Optional[float] = No
         if len(_ANH_RIENG) > 500:
             for k in list(_ANH_RIENG)[:250]:
                 _ANH_RIENG.pop(k, None)
+
+
+_VIDEO_RIENG: Dict[tuple, tuple] = {}  # (conn_id, thread) -> (time, link, message id) of the customer's latest video
+
+
+def remember_private_video(conn_id: str, thread: str, url: str, msg_id: str = "", now: Optional[float] = None) -> None:
+    """A private chat's latest video (0.433.0), shown again with the customer's next messages for `ANH_RIENG_GIAY`,
+    like a photo: "anh xem hỗ trợ em với" right after a video is about that video. Frames are cached per link, so
+    this costs no second download."""
+    if url:
+        _VIDEO_RIENG[(str(conn_id), str(thread))] = (time.time() if now is None else now, url, str(msg_id or ""))
+        if len(_VIDEO_RIENG) > 500:
+            for k in list(_VIDEO_RIENG)[:250]:
+                _VIDEO_RIENG.pop(k, None)
+
+
+def recent_private_video(conn_id: str, thread: str, now: Optional[float] = None) -> tuple:
+    """(time, link, message id) of the customer's latest video in this private chat within `ANH_RIENG_GIAY`, else ()."""
+    v = _VIDEO_RIENG.get((str(conn_id), str(thread)))
+    if not v:
+        return ()
+    if (time.time() if now is None else now) - v[0] > ANH_RIENG_GIAY:
+        _VIDEO_RIENG.pop((str(conn_id), str(thread)), None)
+        return ()
+    return v
 
 
 def anh_rieng_gan_day(conn_id: str, thread: str, now: Optional[float] = None) -> tuple:
@@ -1005,6 +1469,48 @@ def anh_duoc_quote(conn_id: str, thread: str, md: dict) -> str:
     return _link_trong_quote(rt)
 
 
+# Files in a group (0.336.0). Owner report 2026-10-26: someone sent a PDF to a group, then tagged the bot to read it, and
+# the bot answered it could not read PDFs: a file nobody addressed to the bot is never downloaded, so the tag that came
+# next had no file. Same idea as bare photos (`_nho_anh_tron`): the file is remembered (only its Zalo link, nothing is
+# downloaded) and handed to the sender's next message that calls the bot; a message that QUOTES a file gets that file.
+BARE_FILE_TTL = 600         # seconds a bare group file waits for its sender to call the bot
+BARE_FILE_MAX = 3           # files kept per sender (the newest)
+_BARE_FILES: Dict[tuple, list] = {}     # (account, chat, sender) -> [(time, attachment)]
+
+
+def remember_bare_file(conn_id: str, thread: str, sender: str, att, ts: Optional[float] = None) -> None:
+    if not sender or not isinstance(att, dict) or not str(att.get("url") or "").startswith("https://"):
+        return
+    now = time.time()
+    key = (str(conn_id), str(thread), str(sender))
+    items = [x for x in _BARE_FILES.get(key, []) if now - x[0] < BARE_FILE_TTL]
+    items.append((float(ts or now), dict(att)))
+    _BARE_FILES[key] = items[-BARE_FILE_MAX:]
+    if len(_BARE_FILES) > 500:
+        for k in list(_BARE_FILES)[:250]:
+            _BARE_FILES.pop(k, None)
+
+
+def take_bare_files(conn_id: str, thread: str, sender: str, now: Optional[float] = None) -> list:
+    """The sender's recent bare files in this group, oldest first, used up (a later call does not get them again)."""
+    now = time.time() if now is None else now
+    items = _BARE_FILES.pop((str(conn_id), str(thread), str(sender)), [])
+    return [att for t, att in items if now - t < BARE_FILE_TTL]
+
+
+def quoted_file(conn_id: str, thread: str, md: dict) -> list:
+    """The file a message QUOTES (replies to), from the inbox row of that message: `[attachment]` or []."""
+    rt = (md or {}).get("replyTo")
+    if not isinstance(rt, dict):
+        return []
+    mid = str(_lay(rt, "msgId", "globalMsgId", "id", mac_dinh="") or "").strip()
+    if not mid:
+        return []
+    goc = conversations.tin_theo_id(KENH, str(conn_id), str(thread), mid)
+    att = (goc.get("metadata") or {}).get("attachment") if goc.get("message_type") == "file" else None
+    return [dict(att)] if isinstance(att, dict) and str(att.get("url") or "").startswith("https://") else []
+
+
 def dang_ky_bot(conn_id: str, tb: Any) -> None:
     _BOTS[str(conn_id)] = tb
     start()
@@ -1026,22 +1532,18 @@ def co_bot(conn_id: str) -> bool:
 
 
 def _chuan(text: str) -> str:
-    return " ".join(str(text or "").split())
+    # Compared as Zalo shows it (0.413.0): a reply sent as "**85.000đ**" comes back as "85.000đ" with a bold style,
+    # and must still be recognised as the bot's own echo, or the bot takes it for the owner and goes quiet.
+    return " ".join(plain_text(str(text or "")).split())
 
 
 # Zalo's own markup for a tag, e.g. `<a_mention href="zm://Profile/110413987_mention">@Minh</a_mention> Quý`.
 # Field report 2026-10-19: a group reply reached Zalo with this markup as plain text, so the group saw code instead
 # of a tag. The model copies it from messages that carry it, so it is stripped both ways: incoming (`chuan_hoa_tin`)
 # and outgoing (`channels.zalo_personal.gui`), leaving "@Minh Vũ" for the real tag (`--mention`) to find.
-_MENTION_MARKUP = re.compile(r"</?a_mention\b[^>]*>", re.IGNORECASE)
-
-
-def strip_mention_markup(text: str) -> str:
-    """`text` without Zalo's `<a_mention ...>` / `</a_mention>` tags; the "@Name" between them stays."""
-    s = str(text or "")
-    if "a_mention" not in s.lower():
-        return s
-    return _MENTION_MARKUP.sub("", s)
+# Since 0.309.0 the stripping lives in `zalo_markup` (also used by the MCP pool for direct tool calls) and also
+# removes broken fragments such as a leftover `href="zm://...">`.
+from zalo_markup import plain_text, strip_mention_markup  # noqa: E402,F401
 
 
 def ghi_da_gui(conn_id: str, thread: str, text: str) -> None:
@@ -1070,6 +1572,55 @@ def ghi_da_gui_anh(conn_id: str, thread: str, so: int = 1) -> None:
     if len(_DA_GUI_ANH) > 500:
         for k in list(_DA_GUI_ANH)[:250]:
             _DA_GUI_ANH.pop(k, None)
+
+
+def attach_echo_id(conn_id: str, ev: dict) -> bool:
+    """The echo of a message this account sent came back with Zalo's id: give the inbox row of that message the id
+    (0.334.0, `conversations.own_messages_without_id`). A customer's reaction names the message by it. Matched like
+    the echo itself (same text, or one starts with the other: a long answer goes out in parts). Never raises."""
+    msg_id = str((ev or {}).get("external_message_id") or "")
+    if not msg_id:
+        return False
+    echo = _chuan((ev or {}).get("text"))
+    try:
+        for row in conversations.own_messages_without_id(KENH, str(conn_id), str(ev.get("external_chat_id") or ""),
+                                                         time.time() - ECHO_TTL):
+            sent = _chuan(row.get("text"))
+            if echo and sent and (echo == sent or sent.startswith(echo[:80]) or echo.startswith(sent[:80])):
+                return conversations.set_message_id(int(row["id"]), msg_id)
+    except Exception as e:      # noqa: BLE001 - worst case a reaction to this message reads "a message"
+        print(f"[zalo-personal] attaching a message id failed: {type(e).__name__}", file=sys.stderr)
+    return False
+
+
+_BOT_REACTIONS: Dict[tuple, list] = {}     # (account, chat) -> [(time, target message id, reaction name, bot name)]
+
+
+def remember_bot_reaction(conn_id: str, thread: str, target_msg_id: str, name: str, bot_name: str) -> None:
+    """The bot is about to put a reaction: remember it, so its echo is filed as the bot's, not the owner's."""
+    key = (str(conn_id), str(thread))
+    now = time.time()
+    items = [x for x in _BOT_REACTIONS.get(key, []) if now - x[0] < ECHO_TTL]
+    items.append((now, str(target_msg_id), str(name or ""), str(bot_name or "")))
+    _BOT_REACTIONS[key] = items[-20:]
+    if len(_BOT_REACTIONS) > 500:
+        for k in list(_BOT_REACTIONS)[:250]:
+            _BOT_REACTIONS.pop(k, None)
+
+
+def _bot_reaction_echo(conn_id: str, thread: str, reaction) -> Optional[str]:
+    """The bot's name when this account's reaction is one the bot just put (used up), else None."""
+    r = reaction if isinstance(reaction, dict) else {}
+    key = (str(conn_id), str(thread))
+    now = time.time()
+    items = [x for x in _BOT_REACTIONS.get(key, []) if now - x[0] < ECHO_TTL]
+    for i, (_, target, name, bot) in enumerate(items):
+        if target == str(r.get("target_msg_id") or "") and name == str(r.get("name") or ""):
+            del items[i]
+            _BOT_REACTIONS[key] = items
+            return bot or "Bot"
+    _BOT_REACTIONS[key] = items
+    return None
 
 
 def _la_vong_anh(conn_id: str, thread: str) -> bool:
@@ -1277,6 +1828,9 @@ def _co_chu(ev: dict) -> bool:
     return False
 
 
+MAX_AUDIO_GOP = 3      # voice messages heard in one merged turn (newest kept): each one is a speech-to-text call
+
+
 def gop_tin(evs: List[dict]) -> dict:
     """Nhiều tin khách liền nhau của MỘT cuộc chat riêng -> một sự kiện cho `Transport.xu_ly`.
 
@@ -1286,21 +1840,43 @@ def gop_tin(evs: List[dict]) -> dict:
     ảnh rồi nhắn 'xem giúp em'" tới bot thành một câu hỏi kèm ảnh. File đi theo lượt trong
     `metadata.attachments` (tối đa `MAX_FILE_GOP` file mới nhất), nên "gửi file rồi nhắn 'xem giúp
     em'" cũng thành một câu hỏi kèm file; lượt chỉ có file là tin file. Tiếng, sticker chỉ tính là
-    khách còn đang nhắn, không góp chữ.
-    `metadata.gop` = số tin đã gộp: `xu_ly` lấy chữ nguyên như đã gộp, không bóc chú thích lại."""
+    khách còn đang nhắn, không góp chữ. Cảm xúc khách thả (0.334.0) góp dòng mô tả của nó; lượt chỉ có cảm
+    xúc là tin `reaction`.
+    `metadata.gop` = số tin đã gộp: `xu_ly` lấy chữ nguyên như đã gộp, không bóc chú thích lại.
+    `metadata.react_to` = mã tin khách cuối có nội dung, tin bot được thả cảm xúc vào ("" khi lượt chỉ có cảm xúc)."""
     import bot_gateway
     cuoi = evs[-1]
     phan: List[str] = []
     co_anh, link = False, ""
+    video, video_msg = "", ""
+    audios: List[str] = []
     files: List[dict] = []
+    react_to, react_to_cli = "", ""
     for e in evs:
         loai = e.get("message_type")
+        if loai in ("text", "image", "file", "video", "audio") and e.get("external_message_id"):
+            # The bot reacts to a message, never to a reaction.
+            react_to = str(e["external_message_id"])
+            react_to_cli = str((e.get("metadata") or {}).get("cliMsgId") or "")
         if loai == "file":
             att = (e.get("metadata") or {}).get("attachment")
             if isinstance(att, dict):
                 files.append(att)
             continue
-        if loai == "text":
+        if loai == "audio":
+            # 0.435.0: voice messages ride along (newest `MAX_AUDIO_GOP`), heard right before the bot answers.
+            a = str((e.get("metadata") or {}).get("audio_url") or "")
+            if a:
+                audios.append(a)
+            continue
+        if loai == "video":
+            # 0.433.0: the latest clip rides along like a photo; its text is only the link, never the customer's words.
+            v = str((e.get("metadata") or {}).get("video_url") or "")
+            if v:
+                video, video_msg = v, str(e.get("external_message_id") or "")
+            continue
+        if loai in ("text", "reaction"):
+            # A reaction (0.334.0) reads as its describing line, in order with the messages around it.
             t = str(e.get("text") or "").strip()
         elif loai == "image":
             co_anh = True
@@ -1310,13 +1886,23 @@ def gop_tin(evs: List[dict]) -> dict:
             continue
         if t:
             phan.append(t)
-    md = {k: v for k, v in (cuoi.get("metadata") or {}).items() if k not in ("image_url", "attachment")}
+    md = {k: v for k, v in (cuoi.get("metadata") or {}).items()
+          if k not in ("image_url", "attachment", "video_url", "audio_url")}
     if link:
         md["image_url"] = link
+    if video:
+        md["video_url"], md["video_msg"] = video, video_msg
+    if audios:
+        md["audio_urls"] = audios[-MAX_AUDIO_GOP:]
     if files:
         md["attachments"] = files[-MAX_FILE_GOP:]
     md["gop"] = len(evs)
-    kieu = "image" if co_anh else ("text" if phan or not files else "file")
+    md.pop("reaction", None)
+    md["react_to"], md["react_to_cli"] = react_to, react_to_cli
+    only_reactions = all(e.get("message_type") == "reaction" for e in evs)
+    kieu = ("image" if co_anh else "reaction" if only_reactions else "video" if video and not phan and not files
+            else "audio" if audios and not phan and not files
+            else "text" if phan or not files else "file")
     return dict(cuoi, message_type=kieu, text=bot_gateway.noi_tin(phan), metadata=md)
 
 

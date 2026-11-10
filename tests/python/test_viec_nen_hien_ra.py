@@ -33,9 +33,9 @@ import re
 import sys
 import tempfile
 
-os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="aivon-bgstatus-test-"))
-
 from _paths import ROOT, SERVER, DASHBOARD, SYSTEM  # noqa: E402,F401
+
+os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="aivon-bgstatus-test-"))
 
 import background_status as bg  # noqa: E402
 import channel_context  # noqa: E402
@@ -160,7 +160,7 @@ check("mục đứng im được đánh dấu sẵn để dải khỏi đoán l�
 
 note = bg.promise_note("off")
 check("dòng đính chính nói rõ KHÔNG có việc nền nào", "KHÔNG đặt việc nền nào" in note)
-check("dòng đính chính nêu luôn chuyện điều phối tắt", "trang Việc" in note)
+check("dòng đính chính nêu luôn chuyện điều phối tắt", "trang Nhiệm vụ" in note)   # the Tasks page since 0.422.0
 check("dòng đính chính không dùng em dash (luật CLAUDE.md)", "\u2014" not in note)
 check("promise_note khi điều phối auto thì không đổ lỗi cho điều phối",
       "trang Việc" not in bg.promise_note("auto"))
@@ -175,7 +175,7 @@ check("đính chính vẫn chỉ được việc cần làm tiếp",
 MAIN = (SERVER / "main.py").read_text(encoding="utf-8")
 check("main.py có endpoint /background", '@app.get("/background")' in MAIN)
 check("/background nhận chat_id để đánh dấu việc của đúng khung chat",
-      re.search(r"async def background_active\(.*?chat_id: str = Query", MAIN, re.S) is not None)
+      re.search(r"def background_active\(.*?chat_id: str = Query", MAIN, re.S) is not None)
 check("dashboard: lượt xong thì kiểm lời hứa rồi đẩy đính chính vào đúng phiên",
       "_canh_bao_hua_suong(" in MAIN and "await push_to_chat(conv_sid, _canh_bao)" in MAIN)
 check("telegram: đính chính nối vào cuối tin nhắn (tin chưa gửi đi)",

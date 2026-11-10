@@ -9,7 +9,7 @@ Thiết kế: [2026-10-10-resonance-a4-handoff-grants-design.md](../superpowers/
 | File | Kết quả |
 |---|---|
 | `tests/python/test_resonance_a4_grants.py` (kho thật, engine giả, đồng hồ giả) | 124 kiểm đạt |
-| `tests/python/test_resonance_a4_transport.py` (plugin thật, hub HTTP thật với `X-AIVON-Turn`, server MCP plugin của Claude SDK thật, `main.app`) | 14 kiểm đạt |
+| `tests/python/test_resonance_a4_transport.py` (plugin thật, hub HTTP thật với `X-Aivon-Turn`, server MCP plugin của Claude SDK thật, `main.app`) | 14 kiểm đạt |
 | `tests/python/test_resonance_a4_rollback.py` (mã 0.95.1 thật, `adb103ed`, bản cuối trước A4, qua `git show`) | 11 kiểm đạt |
 | `tests/js/test_resonance_a4_ui.js` (gồm hành vi `send()` thật với phản hồi server giả) | 27 kiểm đạt |
 | `tests/python/test_resonance_a4_pilot.py` (`AIVON_RESONANCE_A4_PILOT=dry`, server thật, lượt chat mô phỏng) | 13/13 ca, 0 lượt thật, mỗi ca xác minh 0 lượt engine; không đặt biến thì bỏ qua |

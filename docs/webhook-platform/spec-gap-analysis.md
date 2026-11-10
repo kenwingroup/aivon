@@ -75,7 +75,7 @@ Legend: **ok** already met; **gap** to change; **decision** met in another way, 
 | § | Requirement | At a6132b9f | Change |
 |---|---|---|---|
 | 8.1 | POST, raw body mode, allowed headers only, own credential, timeout, response cap | ok | alias `body_mode` |
-| 8.1 | `Idempotency-Key` / `X-AIVON-Event-Id` | Idempotency-Key + X-AIVON-Delivery | gap: add X-AIVON-Event-Id |
+| 8.1 | `Idempotency-Key` / `X-Aivon-Event-Id` | Idempotency-Key + X-Aivon-Delivery | gap: add X-Aivon-Event-Id |
 | 8.1 | check the IP after DNS (rebinding) and on every redirect | resolved then connected separately | gap: connection pinned to the checked address |
 | 8.1 | Apps Script: check host/IP of each hop | echo host checked, address not | gap |
 | 8.1 | Apps Script cannot read headers in doPost(e) | delivery id only in headers in raw mode | gap: owner-approved `delivery_ref: query` |

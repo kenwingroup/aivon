@@ -28,7 +28,7 @@ This Code of Conduct applies in all project spaces (issues, pull requests, discu
 
 ## Enforcement
 
-Report unacceptable behaviour privately to the maintainer through the contact page at [kenwingroup.vn](https://github.com/kenwingroup/aivon), or by opening a private report as described in [SECURITY.md](SECURITY.md). All reports are reviewed promptly and fairly, and the privacy of the person reporting is respected.
+Report unacceptable behaviour privately to the maintainer through the contact page at [minhvu.vn](https://minhvu.vn), or by opening a private report as described in [SECURITY.md](SECURITY.md). All reports are reviewed promptly and fairly, and the privacy of the person reporting is respected.
 
 The maintainer may remove, edit or reject comments, commits, code, issues and other contributions that break this Code of Conduct, and may temporarily or permanently ban anyone whose behaviour is harmful. Consequences scale with the situation: a private warning, a public warning, a temporary ban, or a permanent ban.
 

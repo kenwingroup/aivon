@@ -48,12 +48,14 @@ check("cd /d về thư mục script trước (không tin working directory kế 
       "cùng bài học với start-aivon.vbs)", 'cd /d "%~dp0"' in bat)
 
 # ---- autostart ----
-check("autostart đặt shortcut trong thư mục Startup của USER (không cần admin)",
-      'GetFolderPath("Startup")' in ps1)
-check("shortcut trỏ wscript + start-aivon.vbs (chạy NEN khi đăng nhập, không bật trình duyệt)",
-      "wscript.exe" in ps1 and "start-aivon.vbs" in ps1)
+# 0.306.0: autostart ghi CHUNG một mục với nút trong dashboard (HKCU Run "AivonOS"), không còn shortcut trong
+# Startup: hai mục cùng bật là lúc đăng nhập hai bản Aivon giành nhau cổng 7979.
+check("autostart ghi HKCU Run (không cần admin), cùng tên với dashboard",
+      "CurrentVersion\\Run" in ps1 and '$Name = "AivonOS"' in ps1)
+check("lệnh trỏ wscript + start-aivon.vbs /open (chạy nền rồi mở dashboard)",
+      "wscript.exe //nologo" in ps1 and "start-aivon.vbs" in ps1 and '`" /open"' in ps1)
 check("có đủ ba việc install/uninstall/status", all(k in ps1 for k in ("install", "uninstall", "status")))
-check("uninstall xoá đúng shortcut đã tạo", "Remove-Item $Lnk" in ps1)
+check("uninstall xoá mục Run và dọn shortcut kiểu cũ", "Remove-ItemProperty -Path $RunKey -Name $Name" in ps1 and "Remove-Item $Lnk" in ps1)
 check("wrapper .bat gọi ps1 với ExecutionPolicy Bypass (máy user mặc định chặn ps1)",
       "ExecutionPolicy Bypass" in as_bat)
 

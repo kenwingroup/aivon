@@ -91,7 +91,9 @@
   async function render(o) {
     o = o || {};
     o.cho = [];
-    const provs = nhaDaXep(o.providers || []);
+    // 0.350.0 (owner, docs/dev/2026-10-model-routing-spec.md 2.6): the chat composer lists connected providers only.
+    // Callers that still want the locked rows with their "add a key" way out (the assistant's model list) leave it off.
+    const provs = nhaDaXep((o.providers || []).filter((p) => !o.connectedOnly || p.configured));
     const sel = o.selected || {};
     const short = o.short || ((x) => x);
     const mark = o.mark || (() => "");
@@ -121,7 +123,7 @@
       }
       return h;
     };
-    const dangTai = `<div class="mb-empty">${esc(T("mpick.loading"))}</div>`;
+    const dangTai = `<div class="mb-empty pg-loading">${esc(T("mpick.loading"))}</div>`;
 
     let html = `<input class="mb-search" id="${esc(o.searchId || "mlSearch")}" `
       + `placeholder="${esc(T("mpick.search_ph"))}" value="${esc(o.filter || "")}">`;

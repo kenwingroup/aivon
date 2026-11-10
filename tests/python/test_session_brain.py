@@ -5,7 +5,7 @@
 Bối cảnh:
 - Nhãn dự án: mọi engine Claude chạy với cwd = gốc project chứ không phải thư mục brain,
   mà log thô của Claude Code chỉ ghi cwd - nên chat Telegram, việc nền và job dashboard bị
-  gộp hết vào một dự án ("Aivon-OS" ở máy, "app" trong Docker). Nay engine ghi riêng phiên
+  gộp hết vào một dự án ("AIVON" ở máy, "app" trong Docker). Nay engine ghi riêng phiên
   nào thuộc brain nào (session_brain.py) để index lấy tên brain làm nhãn.
 - Gỡ bảng số liệu: bảng thẻ ở cột trái đã bỏ khỏi giao diện từ trước, nhưng máy móc phía sau
   (/metrics + job spawn agent kèm MCP) vẫn chạy để nuôi một stub ẩn - đo trên log VPS là
@@ -32,10 +32,10 @@ def check(name, cond):
 
 
 # ---- 1. session_brain: ghi/đọc bản đồ phiên -> brain ----
-session_brain.record("sid-abc", r"D:\Project\Aivon-OS\brains\My Bullet Journal")
+session_brain.record("sid-abc", r"D:\Project\AIVON\brains\My Bullet Journal")
 check("ghi/doc duoc", session_brain.mapping().get("sid-abc", "").endswith("My Bullet Journal"))
 
-session_brain.record("sid-abc", r"D:\Project\Aivon-OS\brains\Brain Default")
+session_brain.record("sid-abc", r"D:\Project\AIVON\brains\Brain Default")
 check("ghi de cung session_id (khong nhan doi)", len(session_brain.mapping()) == 1)
 check("ghi de lay gia tri moi",
       session_brain.mapping()["sid-abc"].endswith("Brain Default"))

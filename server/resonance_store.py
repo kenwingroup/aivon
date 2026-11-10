@@ -18,6 +18,7 @@ import math
 import os
 import secrets
 import sqlite3
+import threading
 import time
 from contextlib import closing
 from dataclasses import dataclass
@@ -446,12 +447,50 @@ class Principal:
         return f"{self.kind}:{self.id}"
 
 
+# Called as fn(brain_id, slug, agent_key) after a NEW agent key for (brain, slug) is committed by `agent_register` or a
+# first `agent_set_enabled`. learned_mirror uses it to import the agent's mirrored knowledge from the brain folder before
+# the agent learns anything on this machine. A hook that raises is logged and ignored.
+AGENT_KEY_HOOKS: list = []
+
+
+def _agent_key_minted(brain_id: str, slug: str, agent_key: str) -> None:
+    for fn in list(AGENT_KEY_HOOKS):
+        try:
+            fn(brain_id, slug, agent_key)
+        except Exception as e:  # noqa: BLE001 - a hook must never break agent registration
+            import sys
+            print(f"[resonance agent hook] {type(e).__name__}: {e}", file=sys.stderr)
+
+
 def _nid(prefix: str) -> str:
     return f"{prefix}_{secrets.token_hex(6)}"
 
 
 def _j(v) -> str:
     return json.dumps(v, ensure_ascii=False)
+
+
+_SHARED: dict = {}
+_SHARED_LOCK = threading.Lock()
+
+
+def shared(path: Optional[Path] = None) -> "GoalStore":
+    """One opened store per file, for code that would otherwise build a new `GoalStore()` on every call (2026-11-09).
+
+    Opening a store is heavy on purpose (backups, schema, migrations and reconcile passes, several write transactions)
+    and is meant to happen once. The aivon-goal plugin opened one on every visibility check, i.e. every time a system
+    prompt was built (auto learning, reminders, webhooks), and those write transactions held up the Partners page.
+    A store whose file was removed (a reset, a test) is opened again."""
+    p = Path(path) if path else Path(STATE_DIR) / "resonance.sqlite3"
+    key = str(p)
+    st = _SHARED.get(key)
+    if st is not None and p.is_file():
+        return st
+    with _SHARED_LOCK:
+        st = _SHARED.get(key)
+        if st is None or not p.is_file():
+            st = _SHARED[key] = GoalStore(p)
+        return st
 
 
 class GoalStore:
@@ -622,7 +661,11 @@ class GoalStore:
     def _conn(self) -> sqlite3.Connection:
         c = sqlite3.connect(str(self.path), timeout=10, isolation_level=None)
         c.row_factory = sqlite3.Row
-        c.execute("PRAGMA journal_mode=WAL")
+        # WAL is stored in the file, so it is set only when the file is not in WAL yet (2026-11-09). Setting it on every
+        # connection waited for the lock whenever another connection was writing: on the owner's VPS that wait, on the
+        # event loop under /resonance/agents, froze the whole server for 2 to 8 s at a time.
+        if str(c.execute("PRAGMA journal_mode").fetchone()[0]).lower() != "wal":
+            c.execute("PRAGMA journal_mode=WAL")
         c.execute("PRAGMA foreign_keys=ON")
         return c
 
@@ -705,6 +748,22 @@ class GoalStore:
                           (str(agent_key or ""), brain_id)).fetchone()
             return self._agent(r) if r else None
 
+    def agents_by_keys(self, brain_id: str, agent_keys) -> dict:
+        """`agent_by_key` for many keys in ONE connection: {agent_key: row}, keys of another brain left out (2026-11-09).
+        The Teams list asked for every member of every team one by one, a new connection each: 225 for 15 teams, 80%
+        of the list's time."""
+        keys = sorted({str(k or "") for k in (agent_keys or ()) if k})
+        if not keys:
+            return {}
+        out = {}
+        with closing(self._conn()) as c:
+            for i in range(0, len(keys), 500):
+                part = keys[i:i + 500]
+                for r in c.execute("SELECT * FROM resonance_agents WHERE brain_id=? AND agent_key IN (%s)"
+                                   % ",".join("?" * len(part)), (brain_id, *part)).fetchall():
+                    out[r["agent_key"]] = self._agent(r)
+        return out
+
     def agent_any(self, agent_key: str) -> Optional[dict]:
         """Dòng sổ đăng ký theo mã, không lọc brain (host dùng khi chỉ có mã do chính host ghi, vd. reaction chat riêng)."""
         with closing(self._conn()) as c:
@@ -743,20 +802,24 @@ class GoalStore:
                     return None
                 row = self._insert_agent(c, p.brain_id, slug, True, p.by, now)
                 self._mark_resumed(c, row["agent_key"], now)
-                return self._agent(row)
-            # Kiểm trạng thái TRƯỚC nhánh "không đổi" (review PR #590, P2-1): agent missing vẫn giữ cờ bật cũ, nên
-            # đặt cờ bật lần nữa không được báo thành công.
-            if enabled and r["status"] != "active":
-                raise AgentStateError(f"agent đang {r['status']}, cần chủ dự án xác nhận trước khi bật")
-            if bool(r["enabled"]) == bool(enabled):
-                return self._agent(r)
-            # T2: mốc bật lại (`resumed_at`) ghi CÙNG giao dịch với công tắc, nên mọi đường bật (route của chủ, lệnh
-            # `set_resonance` của trưởng nhóm Toàn quyền) đều có mốc; tắt thì nhịp về `off`.
-            if enabled:
-                self._mark_resumed(c, r["agent_key"], now)
+                minted = self._agent(row)
             else:
-                self._mark_off(c, r["agent_key"], now)
-            return self._bump_agent(c, r, "enabled" if enabled else "disabled", p.by, now, enabled=1 if enabled else 0)
+                # Kiểm trạng thái TRƯỚC nhánh "không đổi" (review PR #590, P2-1): agent missing vẫn giữ cờ bật cũ, nên
+                # đặt cờ bật lần nữa không được báo thành công.
+                if enabled and r["status"] != "active":
+                    raise AgentStateError(f"agent đang {r['status']}, cần chủ dự án xác nhận trước khi bật")
+                if bool(r["enabled"]) == bool(enabled):
+                    return self._agent(r)
+                # T2: mốc bật lại (`resumed_at`) ghi CÙNG giao dịch với công tắc, nên mọi đường bật (route của chủ, lệnh
+                # `set_resonance` của trưởng nhóm Toàn quyền) đều có mốc; tắt thì nhịp về `off`.
+                if enabled:
+                    self._mark_resumed(c, r["agent_key"], now)
+                else:
+                    self._mark_off(c, r["agent_key"], now)
+                return self._bump_agent(c, r, "enabled" if enabled else "disabled", p.by, now,
+                                        enabled=1 if enabled else 0)
+        _agent_key_minted(p.brain_id, slug, minted["agent_key"])   # first enable minted a new key
+        return minted
 
     def agent_register(self, p: Principal, slug: str) -> dict:
         """Nhóm chat team (spec 2026-10-13 mục 5.1): cấp mã bền cho agent `slug` mà KHÔNG bật Cộng hưởng, để mọi thành
@@ -772,7 +835,9 @@ class GoalStore:
             r = self._live_agent_row(c, p.brain_id, slug)
             if r is not None:
                 return self._agent(r)
-            return self._agent(self._insert_agent(c, p.brain_id, slug, False, p.by, now, {"reason": "team_member"}))
+            minted = self._agent(self._insert_agent(c, p.brain_id, slug, False, p.by, now, {"reason": "team_member"}))
+        _agent_key_minted(p.brain_id, slug, minted["agent_key"])
+        return minted
 
     def agent_mark_missing(self, brain_id: str, agent_key: str, by: str = "host") -> Optional[dict]:
         """Host thấy file agent biến mất: dòng `active` chuyển `missing`, version tăng, mọi cổng của mã này đóng.

@@ -17,7 +17,7 @@ function check(name, cond) { console.log((cond ? "ok   " : "FAIL ") + name); if 
 const card = (html.match(/<div class="hud-voice" id="hudVoice">[\s\S]*?<!-- \/hudVoice -->/) || [""])[0];
 check("the #hudVoice card is found (ends with the <!-- /hudVoice --> marker)", !!card);
 ["voiceFocusResume", "attachBar", "fileInput", "chatInput", "cpRow", "plusBtn", "cpChips",
- "mbOpen", "effBtn", "effTxt", "fastBtn", "voiceBtn", "stopBtn", "sendBtn", "mbPop", "effPop", "plusMenu"].forEach(id => {
+ "mbOpen", "effBtn", "effTxt", "limitBtn", "voiceBtn", "stopBtn", "sendBtn", "mbPop", "effPop", "limitPop", "plusMenu"].forEach(id => {
   check("the card contains #" + id, card.indexOf('id="' + id + '"') !== -1);
 });
 const order = ["attachBar", "chatInput", "cpRow"].map(id => card.indexOf('id="' + id + '"'));
@@ -38,12 +38,13 @@ check("CSS: an empty #modelBar is hidden", css.indexOf(".model-bar:empty { displ
 check("CSS: no old phone order rules left", css.indexOf(".hud-voice .attach-btn { order: 1;") === -1);
 
 check("CHAT_NODE_IDS drops attachBar (it lives inside the card)",
-  consoleJs.indexOf('const CHAT_NODE_IDS = ["callBar", "chatArea", "bgStrip", "modelBar", "hudVoice"];') !== -1);
+  consoleJs.indexOf('const CHAT_NODE_IDS = ["callBar", "chatArea", "bgStrip", "goalBar", "modelBar", "hudVoice"];') !== -1);
 check("Chat page cp-css uses 24px corners", consoleJs.indexOf(".chatpage-slot .hud-voice{ background:var(--bg2); border:1px solid var(--border); border-radius:24px; }") !== -1);
 
-check("phone to desktop: the model chip goes back into #cpChips before #effBtn",
-  mobile.indexOf('chipHost.insertBefore(mbOpen, document.getElementById("effBtn"))') !== -1
-  && mobile.indexOf("mbPopHome.appendChild(mbPop)") !== -1);
+// 2026-11-09 (owner): the model chip stays in #cpChips right before #effBtn on every width; a phone no longer moves it.
+check("the model chip sits in #cpChips right before #effBtn, and the phone script leaves it there",
+  /<div class="cp-chips" id="cpChips">\s*<button type="button" class="mb-chip" id="mbOpen"[\s\S]*?<\/button>\s*<button type="button" class="cp-eff" id="effBtn"/.test(card)
+  && !/getElementById\("mb(Open|Pop)"\)|insertBefore\(mb(Open|Pop)/.test(mobile));
 check("app.js no longer calls #attachBtn directly", app.indexOf('document.getElementById("attachBtn").addEventListener') === -1);
 check("Sources come from the first attachment that has sources (brain files have none)",
   app.indexOf("(atts.find(a => a.sources) || {}).sources") !== -1);

@@ -84,7 +84,7 @@ Review chỉ ra: sổ `luot_dang_chay.doan_luot(vault)` đoán "lượt duy nh�
 **Hạ tầng sẵn có:**
 - Mỗi lượt gắn một ngữ cảnh lượt bằng `ContextVar`.
 - Engine trong tiến trình (engine API, plugin trong SDK Claude) đọc thẳng ngữ cảnh đó.
-- Engine CLI gọi hub qua HTTP (Codex) mang khoá `X-AIVON-Turn`, hub đổi khoá về đúng ngữ cảnh. Khoá giả, khoá cũ hay thiếu khoá đều ra "không có lượt". Khoá chết theo lượt.
+- Engine CLI gọi hub qua HTTP (Codex) mang khoá `X-Aivon-Turn`, hub đổi khoá về đúng ngữ cảnh. Khoá giả, khoá cũ hay thiếu khoá đều ra "không có lượt". Khoá chết theo lượt.
 
 **Thay đổi:**
 - `run_turn` (dashboard) gắn thêm vào ngữ cảnh lượt:
@@ -103,7 +103,7 @@ Review chỉ ra: sổ `luot_dang_chay.doan_luot(vault)` đoán "lượt duy nh�
 |---|---|---|
 | Claude Code (SDK, plugin trong tiến trình) | `ContextVar` | Hỗ trợ |
 | Engine API (OpenRouter, OpenAI, Anthropic API, Gemini, Groq, Ollama) | `ContextVar` (hub trong tiến trình) | Hỗ trợ lập và cập nhật mục tiêu. Bàn giao bản viết trong lượt chưa có (A4) |
-| Codex | khoá `X-AIVON-Turn` qua `-c` | Hỗ trợ lập và cập nhật mục tiêu. Bàn giao bản viết trong lượt chưa có (A4) |
+| Codex | khoá `X-Aivon-Turn` qua `-c` | Hỗ trợ lập và cập nhật mục tiêu. Bàn giao bản viết trong lượt chưa có (A4) |
 | Grok, Antigravity | chưa mang khoá lượt | Chưa hỗ trợ: tool từ chối, giao diện ghi rõ |
 
 ## 3. Công tắc và quyền chủ dự án
@@ -119,7 +119,7 @@ Review chỉ ra: sổ `luot_dang_chay.doan_luot(vault)` đoán "lượt duy nh�
 
 Mọi API đi qua lớp bảo vệ web hiện có: kiểm Origin và CSRF, và phiên đăng nhập khi `AIVON_REQUIRE_LOGIN` bật.
 
-**Công tắc theo brain cũ** (`<brain>/AIVON/resonance.json`): sau A1 KHÔNG còn cấp quyền nào.
+**Công tắc theo brain cũ** (`<brain>/Aivon/resonance.json`): sau A1 KHÔNG còn cấp quyền nào.
 - Không tự suy thành "mọi agent đều bật".
 - Không xoá file.
 - Trang cài đặt đổi khối công tắc brain cũ thành danh sách agent kèm công tắc, và ghi chú "công tắc theo brain cũ không còn dùng".
@@ -193,7 +193,7 @@ Chỉ so số version là không đủ, vì hai agent khác nhau có thể trùn
 - Lần đầu mã A1 mở kho có từ trước, host chép `resonance.sqlite3` thành `resonance.sqlite3.pre-a1.bak` bằng API backup của SQLite. Chỉ một lần, không ghi đè bản đã có.
 - **Quay về 0.86.x mà giữ kho đã nâng:** mã 0.86.1 bỏ qua các bảng mới và ghi được như cũ.
   - Đã kiểm bằng mã 0.86.1 thật: tạo mục tiêu có bàn giao, sửa, sổ hành động, đăng, huỷ (`test_resonance_a1_rollback.py`).
-  - Hệ quả: 0.86.x không biết công tắc theo agent, công tắc brain cũ lại có hiệu lực. Vì vậy TRƯỚC khi quay về, chủ dự án tắt `AIVON/resonance.json` của mọi brain (hay giữ tắt), để không có mục tiêu nào tự chạy trong lúc chuyển. Chỉ bật lại theo quyết định của chủ dự án.
+  - Hệ quả: 0.86.x không biết công tắc theo agent, công tắc brain cũ lại có hiệu lực. Vì vậy TRƯỚC khi quay về, chủ dự án tắt `Aivon/resonance.json` của mọi brain (hay giữ tắt), để không có mục tiêu nào tự chạy trong lúc chuyển. Chỉ bật lại theo quyết định của chủ dự án.
   - Nâng lại lên A1 sau đó: sổ đăng ký và liên kết phiên còn nguyên. Mục tiêu tạo trong lúc chạy 0.86.x không có dòng `goal_agents` nên chờ gán, không tự chạy.
 - **Khôi phục bằng `.pre-a1.bak`:** bản này chỉ có dữ liệu tới lúc nâng. Mọi mục tiêu, sự kiện, bằng chứng phát sinh sau đó KHÔNG có trong bản sao. Trước khi khôi phục, dừng server và chép riêng kho hiện tại để giữ trạng thái mới.
 - Kiểm migration bằng bản sao kho có dữ liệu thật trước khi phát hành, không chạy trên kho thật.
@@ -239,7 +239,7 @@ Kiểm bằng engine giả, SQLite thật, mapper SDK thật khi cần, chạy t
 | 2 | Agent A bật, B tắt, cùng brain | A lập được; B bị từ chối; list của A không thấy mục tiêu của B và ngược lại |
 | 3 | Hai agent cùng chạy lượt đồng thời | Mỗi tool call lấy đúng agent của lượt mình; không mượn quyền |
 | 4 | Hai brain cùng slug | Mã khác, mục tiêu, sản phẩm, nguồn tin không lẫn |
-| 5 | Tool truyền `agent_id` hay `goal_id` của agent khác; gọi ngoài lượt; khoá `X-AIVON-Turn` giả hay đã chết | Từ chối; không lấy quyền từ lượt duy nhất đang chạy |
+| 5 | Tool truyền `agent_id` hay `goal_id` của agent khác; gọi ngoài lượt; khoá `X-Aivon-Turn` giả hay đã chết | Từ chối; không lấy quyền từ lượt duy nhất đang chạy |
 | 6 | Tắt agent sau khi giữ lượt, trước khi đăng, trước khi tiếp nhận bản chat, trước khi áp dụng cách làm | Không tác động; lượt đã dùng vẫn ghi đúng; đầu ra giữ để đối soát |
 | 7 | Bật lại | Không mở pause, guard, huỷ; đầu ra hợp lệ được đăng không gọi model lại; worker không cần lượt chat |
 | 8 | Xoá qua host rồi tạo lại cùng slug; đổi tên tay; file biến mất rồi xuất hiện lại; restart | Không tự chuyển quyền hay mục tiêu; lịch sử đọc được; `missing` cần chủ dự án xác nhận |

@@ -1,17 +1,19 @@
 <!-- translated-from: README.md sha256:2e10ad3d2a86 -->
 <div align="center">
 
-<img src="../../../dashboard/logo.png" width="96" alt="Logo AIVON">
+<a href="https://aivon.vn"><img src="../../assets/social-preview.png" width="100%" alt="AIVON: Your AI Workforce. Never miss the best AI."></a>
 
 # AIVON
 
-### Agen AI self-hosted Anda dengan otak yang bisa diganti, dan Second Brain yang makin pintar setiap hari.
+### Tim AI Anda. Jangan pernah ketinggalan AI terbaik.
 
-Jalankan di laptop atau VPS kecil. Ajak bicara dengan suara. Pasang Claude, ChatGPT, Grok, Gemini atau salah satu dari 12 provider, semua tool tetap ada saat Anda berganti, dan biarkan ia bekerja di background selagi Anda tidur.
+AIVON mengubah **Claude, ChatGPT, Gemini, Grok** dan model pilihan Anda menjadi satu tim yang bekerja 24/7 di mesin atau server Anda sendiri. Setiap rekan punya peran, berbagi memori dan tool yang sama, dan terus bekerja di background. Saat model yang lebih baik rilis, cukup ganti dan semua yang sudah dipelajari tim tetap ada.
+
+**🌐 Situs web: [aivon.vn](https://aivon.vn)** · Open source · Self-hosted · 14 penyedia AI
 
 [![GitHub stars](https://img.shields.io/github/stars/kenwingroup/aivon?style=flat&logo=github&label=stars)](https://github.com/kenwingroup/aivon/stargazers)
 [![License: MIT](https://img.shields.io/badge/license-MIT-22c55e)](../../../LICENSE)
-[![Last commit](https://img.shields.io/github/last-commit/kenwingroup/aivon?color=38bdf8)](https://github.com/kenwingroup/aivon/commits/main)
+[![Last commit](https://img.shields.io/github/last-commit/kenwingroup/aivon?color=f97316)](https://github.com/kenwingroup/aivon/commits/main)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-3776ab?logo=python&logoColor=white)](../../../requirements.txt)
 [![Docker](https://img.shields.io/badge/docker-ghcr.io-2496ed?logo=docker&logoColor=white)](https://github.com/kenwingroup/aivon/pkgs/container/aivon)
 [![MCP](https://img.shields.io/badge/tools-Model%20Context%20Protocol-8b5cf6)](https://modelcontextprotocol.io)
@@ -36,7 +38,7 @@ Jalankan di laptop atau VPS kecil. Ajak bicara dengan suara. Pasang Claude, Chat
 
 [🇬🇧 English](../../../README.md) · [🇻🇳 Tiếng Việt](../vi/README.md) · [🇨🇳 简体中文](../zh/README.md) · [🇪🇸 Español](../es/README.md) · [🇯🇵 日本語](../ja/README.md) · [🇮🇳 हिन्दी](../hi/README.md) · [🇧🇷 Português](../pt-BR/README.md) · [🇰🇷 한국어](../ko/README.md) · [🇷🇺 Русский](../ru/README.md) · [🇩🇪 Deutsch](../de/README.md) · [🇫🇷 Français](../fr/README.md) · 🇮🇩 **Bahasa Indonesia** · [🌍 Bantu menerjemahkan](../../../CONTRIBUTING.md#translations)
 
-[Mulai cepat](#-mulai-cepat) · [Mengapa AIVON](#-mengapa-aivon) · [Otak](#-12-otak-satu-toolkit) · [Fitur](#-fitur) · [Instalasi](#-instalasi) · [Dokumentasi](../../../docs/en/README.md) · [Dukungan](#-dukung-aivon)
+[Mulai cepat](#-mulai-cepat) · [Mengapa Aivon](#-mengapa-aivon) · [Otak](#-12-otak-satu-toolkit) · [Fitur](#-fitur) · [Instalasi](#-instalasi) · [Dokumentasi](../../../docs/en/README.md) · [Dukungan](#-dukung-aivon)
 
 <br>
 
@@ -44,7 +46,7 @@ Jalankan di laptop atau VPS kecil. Ajak bicara dengan suara. Pasang Claude, Chat
 
 </div>
 
-> 🌍 Ini adalah terjemahan otomatis dari README berbahasa Inggris. AIVON membalas dalam bahasa apa pun yang Anda gunakan saat menulis; antarmukanya untuk saat ini tersedia dalam bahasa Inggris dan Vietnam. Dokumentasi lengkap tersedia dalam bahasa Inggris ([docs/en](../../../docs/en/README.md)). Koreksi sangat kami sambut ([CONTRIBUTING](../../../CONTRIBUTING.md#translations)).
+> 🌍 Ini adalah terjemahan otomatis dari README berbahasa Inggris. Aivon membalas dalam bahasa apa pun yang Anda gunakan saat menulis; antarmukanya untuk saat ini tersedia dalam bahasa Inggris dan Vietnam. Dokumentasi lengkap tersedia dalam bahasa Inggris ([docs/en](../../../docs/en/README.md)). Koreksi sangat kami sambut ([CONTRIBUTING](../../../CONTRIBUTING.md#translations)).
 
 ---
 
@@ -61,15 +63,15 @@ Jalankan di laptop atau VPS kecil. Ajak bicara dengan suara. Pasang Claude, Chat
 Lalu buka **http://localhost:7979**. Installer akan menyiapkan Python, empat otak CLI berlangganan (`claude`, `codex`, `agy`, `grok`) dan sebuah `.env`, lalu menjalankan server. Anda login ke setiap otak **di halaman Models pada dashboard**, tanpa perlu mengetik perintah lagi.
 
 > [!NOTE]
-> Menginstal CLI tambahan **setelah** AIVON sudah berjalan? **Restart AIVON.** Proses yang sedang berjalan tetap memakai PATH saat ia pertama dijalankan, sehingga tidak bisa melihat CLI yang diinstal belakangan.
+> Menginstal CLI tambahan **setelah** Aivon sudah berjalan? **Restart Aivon.** Proses yang sedang berjalan tetap memakai PATH saat ia pertama dijalankan, sehingga tidak bisa melihat CLI yang diinstal belakangan.
 
 <p align="center">
-<img src="../../../docs/assets/diagrams/install-terminal.svg" width="100%" alt="Terminal animasi: installer satu baris menyiapkan Python, empat otak CLI berlangganan dan sebuah .env, lalu melaporkan bahwa AIVON berjalan di http://localhost:7979">
+<img src="../../../docs/assets/diagrams/install-terminal.svg" width="100%" alt="Terminal animasi: installer satu baris menyiapkan Python, empat otak CLI berlangganan dan sebuah .env, lalu melaporkan bahwa Aivon berjalan di http://localhost:7979">
 </p>
 
 ---
 
-## 🤔 Mengapa AIVON?
+## 🤔 Mengapa Aivon?
 
 AIVON **bukan** chatbot. Ini adalah **AI agentik self-hosted** yang berjalan di mesin atau VPS Anda sendiri: ia membaca dan menulis file, memanggil tool lewat MCP, menjalankan skill, mengantrekan pekerjaan background, dan menjadwalkan dirinya sendiri. Semua itu ada di balik **dashboard yang bisa dikendalikan dengan suara** dan sebuah **Second Brain** (memori + wiki) yang mengumpulkan pengetahuan dari waktu ke waktu.
 
@@ -86,9 +88,9 @@ Semuanya tersimpan di server vendor, dalam format vendor. Lalu model yang lebih 
 
 Jadi Anda bertahan. Bukan karena model lama masih yang terbaik, tetapi karena pindah berarti mulai dari nol. Dan ketika vendor menaikkan harga, memperketat batas, mempensiunkan sebuah model, atau mengunci akun Anda, tidak ada rencana B.
 
-### AIVON membaliknya: sewa modelnya, miliki Brain Anda sendiri
+### Aivon membaliknya: sewa modelnya, miliki Brain Anda sendiri
 
-Di AIVON, model adalah komponen yang bisa Anda tukar. Semua yang Anda bangun tetap bersama Anda, sebagai file yang bisa Anda buka:
+Di Aivon, model adalah komponen yang bisa Anda tukar. Semua yang Anda bangun tetap bersama Anda, sebagai file yang bisa Anda buka:
 
 | Yang Anda bangun | Tempat tinggalnya | Format |
 |---|---|---|
@@ -97,17 +99,17 @@ Di AIVON, model adalah komponen yang bisa Anda tukar. Semua yang Anda bangun tet
 | **Pengetahuan** | folder Wiki dan Sources di Brain Anda | Markdown, kompatibel dengan Obsidian |
 | **Skills** | `skills/<name>/SKILL.md` | Markdown |
 | **Agent dan workflow** | `agents/*.md`, `workflows/*.md` | Markdown dengan front matter |
-| **Loop dan pengingat** | `AIVON/loops/*.md`, `AIVON/reminders.json` | Markdown, JSON |
+| **Loop dan pengingat** | `Aivon/loops/*.md`, `Aivon/reminders.json` | Markdown, JSON |
 
 Apa yang Anda dapatkan dari situ:
 
 - **Ada model baru? Ganti di halaman Models dan lanjutkan saja.** Ia membaca memori yang sama, menjalankan skill, agent, dan workflow yang sama, serta memanggil koneksi yang sama lewat MCP Hub. Tidak ada yang perlu dimigrasi, tidak ada yang perlu dibangun ulang.
 - **Pakai beberapa otak sekaligus.** Model yang kuat untuk percakapan, yang lebih murah untuk pekerjaan background, model Ollama lokal untuk catatan pribadi, semuanya bekerja di Brain yang sama.
-- **Bisa dibaca tanpa AIVON.** Brain Anda adalah folder berisi markdown. Buka di Obsidian atau editor apa pun. Kalau AIVON hilang besok, pengetahuan Anda tetap ada, dalam teks biasa.
+- **Bisa dibaca tanpa Aivon.** Brain Anda adalah folder berisi markdown. Buka di Obsidian atau editor apa pun. Kalau Aivon hilang besok, pengetahuan Anda tetap ada, dalam teks biasa.
 - **Berversi dan portabel.** Setiap proses belajar adalah satu git commit yang bisa Anda batalkan dengan satu ketukan, dan seluruh Brain bisa disinkronkan ke repo GitHub privat milik Anda sendiri, dipakai bersama antara laptop dan VPS Anda.
-- **Data Anda tetap di perangkat keras Anda.** Tidak ada cloud AIVON di tengah. Sebuah request hanya dikirim ke penyedia model yang Anda pilih untuknya, dan dengan model Ollama lokal, request itu tidak pernah keluar dari mesin Anda.
+- **Data Anda tetap di perangkat keras Anda.** Tidak ada cloud Aivon di tengah. Sebuah request hanya dikirim ke penyedia model yang Anda pilih untuknya, dan dengan model Ollama lokal, request itu tidak pernah keluar dari mesin Anda.
 
-### AIVON dibandingkan chatbot biasa
+### Aivon dibandingkan chatbot biasa
 
 | | Chatbot biasa | **AIVON** |
 |---|---|---|
@@ -119,20 +121,20 @@ Apa yang Anda dapatkan dari situ:
 | **Hasil kerja Anda** | Tertinggal di server vendor, dalam format vendor | **File biasa di mesin Anda**: riwayat, memori, skill, agent, dan workflow ikut pindah ke model baru mana pun |
 | **Deployment** | Cloud milik orang lain | **Self-hosted**: [Hostinger](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN) sekali klik, Docker, atau VPS apa pun |
 
-> 💡 **Filosofinya: kemampuan ada di AIVON, bukan di model.** Setiap otak mendapat kotak peralatan yang sama lewat satu hub koneksi bersama (MCP Hub). Beralih dari Claude ke Gemini tidak membuat Anda kehilangan apa pun kecuali akses shell, yang hanya dimiliki engine CLI.
+> 💡 **Filosofinya: kemampuan ada di Aivon, bukan di model.** Setiap otak mendapat kotak peralatan yang sama lewat satu hub koneksi bersama (MCP Hub). Beralih dari Claude ke Gemini tidak membuat Anda kehilangan apa pun kecuali akses shell, yang hanya dimiliki engine CLI.
 
 <p align="center">
-<img src="../../../docs/assets/diagrams/chat-to-action.svg" width="100%" alt="Diagram animasi: pesan chat masuk ke AIVON, yang memilih tool terkecil yang bisa menyelesaikan pekerjaan, mulai dari menjawab langsung, mengantrekan tugas, membuat agent, workflow, pengingat, atau loop">
+<img src="../../../docs/assets/diagrams/chat-to-action.svg" width="100%" alt="Diagram animasi: pesan chat masuk ke Aivon, yang memilih tool terkecil yang bisa menyelesaikan pekerjaan, mulai dari menjawab langsung, mengantrekan tugas, membuat agent, workflow, pengingat, atau loop">
 </p>
 
 ---
 
 ## 🧠 12 otak, satu toolkit
 
-Pilih otak di halaman **Models** dan ganti kapan pun Anda mau. Saat ini AIVON mendukung **12 provider**.
+Pilih otak di halaman **Models** dan ganti kapan pun Anda mau. Saat ini Aivon mendukung **12 provider**.
 
 <p align="center">
-<img src="../../../docs/assets/diagrams/swappable-brain.svg" width="100%" alt="Diagram animasi: inti AIVON di tengah dengan toolkit-nya (MCP Hub, Skills, Second Brain, Tasks, Schedules, Plugins) di sekelilingnya, sementara 12 otak bergantian terpasang dan setiap tool tetap menyala">
+<img src="../../../docs/assets/diagrams/swappable-brain.svg" width="100%" alt="Diagram animasi: inti Aivon di tengah dengan toolkit-nya (MCP Hub, Skills, Second Brain, Tasks, Schedules, Plugins) di sekelilingnya, sementara 12 otak bergantian terpasang dan setiap tool tetap menyala">
 </p>
 
 | Otak | Cara bayar | Shell, web, sub-agent |
@@ -141,15 +143,15 @@ Pilih otak di halaman **Models** dan ganti kapan pun Anda mau. Saat ini AIVON me
 | **ChatGPT** (via Codex) | Paket ChatGPT Anda | ✅ |
 | **Grok Build** | Paket SuperGrok atau X Premium+ Anda | ✅ |
 | **Antigravity CLI** | Paket Google Anda (deretan model yang sama dengan Antigravity IDE, termasuk Claude) | Shell ✅ |
-| **OpenRouter** | API key (ratusan model di balik satu key) | via tool AIVON |
-| **OpenAI API** · **Anthropic API** · **Google Gemini** · **Groq** | API key | via tool AIVON |
-| **Ollama Cloud** · **Ollama di mesin ini** | API key, atau gratis di hardware Anda sendiri | via tool AIVON |
-| **Endpoint apa pun yang kompatibel dengan OpenAI** | Apa pun yang dibutuhkan endpoint tersebut | via tool AIVON |
+| **OpenRouter** | API key (ratusan model di balik satu key) | via tool Aivon |
+| **OpenAI API** · **Anthropic API** · **Google Gemini** · **Groq** | API key | via tool Aivon |
+| **Ollama Cloud** · **Ollama di mesin ini** | API key, atau gratis di hardware Anda sendiri | via tool Aivon |
+| **Endpoint apa pun yang kompatibel dengan OpenAI** | Apa pun yang dibutuhkan endpoint tersebut | via tool Aivon |
 
 Setiap otak bisa memanggil server MCP yang Anda hubungkan, membaca dan menulis Brain, menjalankan skill, mengantrekan pekerjaan Kanban, serta membuat agent, workflow, loop dan pengingat. Engine CLI juga bisa menjalankan **perintah shell**, **mengambil dan mencari di web**, serta **menjalankan sub-agent secara paralel**.
 
 > [!WARNING]
-> **Baca ini sebelum membiarkan langganan menjalankan pekerjaan background.** Anthropic membatasi Claude Pro/Max untuk **penggunaan pribadi biasa** Claude Code. Eksekusi background terus-menerus (loop, pengingat, job Kanban, chatbot), menjalankannya di VPS, atau beberapa orang berbagi satu akun, semuanya berada di luar cakupan itu, dan sudah ada akun yang **ditangguhkan** karenanya. AIVON tidak pernah membaca token login Anda: ia menjalankan binary `claude` yang asli, tetapi itu tidak membuat penggunaan background nonstop menjadi sah. Agar aman, atur Claude Code agar berjalan dengan **API key** di halaman Models, atau arahkan **model untuk pekerjaan background** ke provider lain. Kehati-hatian yang sama berlaku untuk paket xAI. Lihat `server/claude_auth.py`.
+> **Catatan sebelum membiarkan langganan menjalankan pekerjaan background.** Anthropic membatasi Claude Pro/Max untuk **penggunaan pribadi biasa** Claude Code. Eksekusi background terus-menerus (loop, pengingat, job Kanban, chatbot), menjalankannya di VPS, atau beberapa orang berbagi satu akun, berada di luar cakupan itu, jadi ada risiko akun **diblokir**, meski sejauh ini Aivon belum mencatat satu kasus pun. Jika Anda mengalaminya, mohon kabari pengembang lewat [Issues](https://github.com/kenwingroup/aivon/issues/new/choose). Aivon tidak pernah membaca token login Anda: ia menjalankan binary `claude` yang asli, tetapi itu tidak membuat penggunaan background nonstop menjadi sah. Agar aman, atur Claude Code agar berjalan dengan **API key** di halaman Models, atau arahkan **model untuk pekerjaan background** ke provider lain. Kehati-hatian yang sama berlaku untuk paket xAI. Lihat `server/claude_auth.py`.
 
 ---
 
@@ -164,15 +166,15 @@ Setiap otak bisa memanggil server MCP yang Anda hubungkan, membaca dan menulis B
 <td width="50%" valign="top">
 
 ### 🗣️ Ajak bicara
-- **Suara hands-free**: Anda bicara, AIVON mendengarkan dan menjawab dengan suara (Edge TTS gratis secara default, atau OpenAI dan ElevenLabs).
+- **Suara hands-free**: Anda bicara, Aivon mendengarkan dan menjawab dengan suara (Edge TTS gratis secara default, atau OpenAI dan ElevenLabs).
 - **Sesi chat** yang bisa disimpan, dibuka lagi, dan dicari dengan full-text search. Sesi panjang dipadatkan menjadi ringkasan, bukan dipotong.
-- **Telegram, Slack, WhatsApp, Zalo, CLI, dan dashboard web**, semuanya terhubung ke AIVON yang sama ([pengaturan Slack dan WhatsApp](../../../docs/en/29-slack-whatsapp.md)).
-- **Bahasa apa pun**: AIVON membalas dalam bahasa yang Anda gunakan. Antarmukanya tersedia dalam bahasa Inggris dan Vietnam.
+- **Telegram, Slack, WhatsApp, Zalo, CLI, dan dashboard web**, semuanya terhubung ke Aivon yang sama ([pengaturan Slack dan WhatsApp](../../../docs/en/29-slack-whatsapp.md)).
+- **Bahasa apa pun**: Aivon membalas dalam bahasa yang Anda gunakan. Antarmukanya tersedia dalam bahasa Inggris dan Vietnam.
 
 ### 🧠 Ingat semuanya
 - **Second Brain**: vault markdown (kompatibel dengan Obsidian) dengan memori jangka panjang, Wiki, dan Sources mentah.
 - **Knowledge graph** dari catatan Anda yang terhubung lewat `[[wikilink]]`, di kanvas terang yang bisa dipakai offline.
-- **Belajar mandiri**: setelah setiap percakapan, AIVON menyaring memori, pengetahuan wiki, dan skill. Setiap proses belajar adalah satu git commit, jadi **bisa dibatalkan dengan satu ketukan**.
+- **Belajar mandiri**: setelah setiap percakapan, Aivon menyaring memori, pengetahuan wiki, dan skill. Setiap proses belajar adalah satu git commit, jadi **bisa dibatalkan dengan satu ketukan**.
 - **Backup ke GitHub**: sinkronisasi dua arah setiap Brain ke repo privat, dipakai bersama antara laptop dan VPS Anda.
 
 </td>
@@ -185,7 +187,7 @@ Setiap otak bisa memanggil server MCP yang Anda hubungkan, membaca dan menulis B
 - **Chatbot**: tempatkan agent di depan pelanggan Anda lewat bot Telegram, Slack, WhatsApp, atau Zalo-nya sendiri, dengan inbox bersama yang bisa Anda ambil alih.
 
 ### 🔌 Hubungkan apa saja
-- **Toko koneksi MCP** dengan beberapa akun per layanan dan tiga level izin yang **ditegakkan secara ketat** oleh AIVON.
+- **Toko koneksi MCP** dengan beberapa akun per layanan dan tiga level izin yang **ditegakkan secara ketat** oleh Aivon.
 - **Skill dan plugin**: taruh sebuah folder untuk menambahkan pengetahuan (skill) atau tool Python native (plugin) untuk setiap engine.
 - **Pembuatan gambar** memakai paket ChatGPT yang sudah Anda login-kan.
 - **Pelacakan penggunaan**: token dan biaya per hari, per provider, dipisahkan antara yang Anda ketik dan yang berjalan sendiri.
@@ -212,10 +214,10 @@ flowchart LR
     subgraph You
         W[Web dashboard<br>voice + graph]
         T[Telegram]
-        C[AIVON CLI]
+        C[Aivon CLI]
         Z[Zalo / bot channels]
     end
-    subgraph AIVON["AIVON (FastAPI, self-hosted)"]
+    subgraph Aivon["AIVON (FastAPI, self-hosted)"]
         R[Engine router]
         H[MCP Hub<br>shared toolbox]
         B[(Second Brain<br>Memory + Wiki + Sources)]
@@ -242,12 +244,12 @@ flowchart LR
 ## 🚀 Instalasi
 
 > [!IMPORTANT]
-> AIVON menjalankan otak AI dengan **hak penuh** di mesin. Saat berjalan secara publik (Docker, VPS, Hostinger), AIVON **mewajibkan login dengan sendirinya**: membuka aplikasi akan menampilkan layar buat akun atau login, dan tidak ada yang bisa mengendalikannya tanpa password.
+> Aivon menjalankan otak AI dengan **hak penuh** di mesin. Saat berjalan secara publik (Docker, VPS, Hostinger), Aivon **mewajibkan login dengan sendirinya**: membuka aplikasi akan menampilkan layar buat akun atau login, dan tidak ada yang bisa mengendalikannya tanpa password.
 
 <details open>
 <summary><b>Opsi 1: Hostinger Docker Manager (domain + HTTPS, sekali klik)</b></summary>
 
-> 🛒 **Belum punya VPS?** [Sewa VPS Hostinger di sini](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN). Docker Manager sudah tersedia, jadi AIVON terpasang sekali klik. Setelah siap, kembali ke langkah di bawah.
+> 🛒 **Belum punya VPS?** [Sewa VPS Hostinger di sini](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN). Docker Manager sudah tersedia, jadi Aivon terpasang sekali klik. Setelah siap, kembali ke langkah di bawah.
 
 VPS Hostinger → **Docker Manager → Compose → URL** → tempel file Hostinger lalu tekan **Deploy**:
 
@@ -255,7 +257,7 @@ VPS Hostinger → **Docker Manager → Compose → URL** → tempel file Hosting
 https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.hostinger.yml
 ```
 
-Kotak **Environment** hanya butuh tiga field: `DOMAIN_NAME`, `AIVON_ADMIN_USER`, `AIVON_ADMIN_PASSWORD`, ditambah `AIVON_AUTO_UPDATE` yang opsional (isi `true` dan AIVON akan memperbarui dirinya setiap hari).
+Kotak **Environment** hanya butuh tiga field: `DOMAIN_NAME`, `AIVON_ADMIN_USER`, `AIVON_ADMIN_PASSWORD`, ditambah `AIVON_AUTO_UPDATE` yang opsional (isi `true` dan Aivon akan memperbarui dirinya setiap hari).
 
 Isi `DOMAIN_NAME` agar Traefik milik Hostinger menerbitkan HTTPS:
 - **Link gratis** (tanpa beli domain): `DOMAIN_NAME=aivon.<vps-hostname>.hstgr.cloud` (hostname ada di hPanel → VPS, contoh `aivon.srv1562015.hstgr.cloud`).
@@ -328,7 +330,7 @@ Dashboard:                             http://localhost:7979
 </details>
 
 <details>
-<summary><b>Beberapa instance AIVON di satu VPS</b></summary>
+<summary><b>Beberapa instance Aivon di satu VPS</b></summary>
 
 Brain, pengaturan, dan akun tetap terpisah sepenuhnya per instance. Hanya tiga nilai yang berbeda di antara mereka: `AIVON_NAME`, `AIVON_HOST_PORT`, `DOMAIN_NAME`.
 
@@ -342,16 +344,16 @@ Langkah demi langkah: [DEPLOY.en.md](../../../DEPLOY.en.md).
 
 ### 🎬 Menjalankan pertama kali
 
-Buka AIVON dan setup wizard akan memandu Anda, dalam bahasa browser Anda:
+Buka Aivon dan setup wizard akan memandu Anda, dalam bahasa browser Anda:
 
 1. **Akun admin**: wajib saat berjalan secara publik, agar orang asing tidak bisa masuk.
 2. **Pilih otak**: login sekali dengan langganan, atau tempel API key. Kartu Claude Code punya switch **"Runs on"** untuk memilih antara paket yang Anda login-kan dan API key Anthropic.
 3. **Pilih model**: berganti provider nanti tidak menghilangkan fitur apa pun (kecuali perintah shell, yang hanya dimiliki engine CLI).
-4. **Pasang koneksi** (opsional): buka **Connections**, pilih layanan, lalu tempel key atau scan kode QR. Setelah itu AIVON melapor berdasarkan angka nyata dari sana.
+4. **Pasang koneksi** (opsional): buka **Connections**, pilih layanan, lalu tempel key atau scan kode QR. Setelah itu Aivon melapor berdasarkan angka nyata dari sana.
 
 ---
 
-## 📖 Menggunakan AIVON
+## 📖 Menggunakan Aivon
 
 Rail kiri mengelompokkan halaman menjadi **6 grup**. Setiap halaman punya panduan di [docs/en/](../../../docs/en/README.md).
 
@@ -361,18 +363,18 @@ Rail kiri mengelompokkan halaman menjadi **6 grup**. Setiap halaman punya pandua
 | **Code** | Terminal, Coding | [Terminal kode](../../../docs/en/27-code-terminal.md) |
 | **Capabilities** | Partners (agent dan workflow), Chatbot, Skills, Plugins | [Agent dan workflow](../../../docs/en/07-agents-and-workflows.md) · [Chatbot](../../../docs/en/25-chatbots.md) · [Percakapan pelanggan](../../../docs/en/28-customer-conversations.md) · [Skill](../../../docs/en/06-skills.md) · [Plugin](../../../docs/en/20-plugins.md) |
 | **Work** | Tasks, Scheduled | [Tugas (Kanban)](../../../docs/en/21-kanban-work.md) · [Job berulang dan pengingat](../../../docs/en/08-recurring-jobs.md) |
-| **Connections** | Connections, AIVON Store, Channels, Models | [Koneksi dan data bisnis](../../../docs/en/09-connections-and-business-data.md) · [Telegram](../../../docs/en/11-telegram.md) · [Zalo](../../../docs/en/12-zalo-agent-mcp.md) · [Model dan engine](../../../docs/en/10-models-and-engines.md) |
-| **System** | Settings, Share links, Account | [Memulai](../../../docs/en/01-getting-started.md) · [Keamanan dan akun](../../../docs/en/14-security-and-accounts.md) · [Penggunaan dan biaya](../../../docs/en/23-usage-and-cost.md) · [AIVON CLI](../../../docs/en/24-cli.md) |
+| **Connections** | Connections, Aivon Store, Channels, Models | [Koneksi dan data bisnis](../../../docs/en/09-connections-and-business-data.md) · [Telegram](../../../docs/en/11-telegram.md) · [Zalo](../../../docs/en/12-zalo-agent-mcp.md) · [Model dan engine](../../../docs/en/10-models-and-engines.md) |
+| **System** | Settings, Share links, Account | [Memulai](../../../docs/en/01-getting-started.md) · [Keamanan dan akun](../../../docs/en/14-security-and-accounts.md) · [Penggunaan dan biaya](../../../docs/en/23-usage-and-cost.md) · [Aivon CLI](../../../docs/en/24-cli.md) |
 
 Selengkapnya: [Second Brain: memori, Wiki, dan INGEST](../../../docs/en/13-second-brain.md) · [Backup GitHub](../../../docs/en/18-github-backup.md) · [Tasks dan Dataview di catatan](../../../docs/en/19-tasks-and-dataview.md) · [Branding dan domain kustom](../../../docs/en/15-branding-and-domains.md) · [Pemecahan masalah](../../../docs/en/17-troubleshooting.md)
 
 ### Beberapa hal untuk dicoba
 
-- **Minta angka:** *"Bagaimana omzet hari ini dibandingkan kemarin?"* AIVON memanggil koneksi yang tepat dan menjawab dengan angka nyata beserta saran.
-- **Cerna pengetahuan:** taruh sebuah file atau catatan. AIVON meringkasnya, mengambil insight, menuliskannya ke Wiki, dan mengusulkan tugas.
+- **Minta angka:** *"Bagaimana omzet hari ini dibandingkan kemarin?"* Aivon memanggil koneksi yang tepat dan menjawab dengan angka nyata beserta saran.
+- **Cerna pengetahuan:** taruh sebuah file atau catatan. Aivon meringkasnya, mengambil insight, menuliskannya ke Wiki, dan mengusulkan tugas.
 - **Serahkan pekerjaan background:** **Tasks** → **+ Assign goal** → *"rangkum penjualan minggu ini, cari stok yang lambat laku, buat draf tiga caption untuk mendorongnya"*. AI menyusun spesifikasinya, menjalankannya, dan melapor kembali.
 - **Jadwalkan sesuatu:** *"ingatkan saya setiap hari kerja jam 8:30 untuk mengecek budget iklan"*, lewat chat atau di halaman **Scheduled**.
-- **Gunakan suara Anda:** tekan mikrofon (atau aktifkan hands-free), bicara, dan AIVON menjawab dengan suara.
+- **Gunakan suara Anda:** tekan mikrofon (atau aktifkan hands-free), bicara, dan Aivon menjawab dengan suara.
 
 <div align="center">
 <img src="../../../docs/assets/screenshots/mobile.jpg" alt="AIVON di ponsel: knowledge graph di atas, percakapan di bawahnya, dan bar chat di bagian bawah" width="300">
@@ -383,7 +385,7 @@ Selengkapnya: [Second Brain: memori, Wiki, dan INGEST](../../../docs/en/13-secon
 
 ## ⚙️ Konfigurasi (`.env`)
 
-Setiap baris boleh dibiarkan kosong dan AIVON tetap berjalan. Salin `env.example` → `.env` lalu tambahkan yang Anda perlukan. Daftar lengkap beserta penjelasan tiap variabel ada di [docs/en/16-env-configuration.md](../../../docs/en/16-env-configuration.md).
+Setiap baris boleh dibiarkan kosong dan Aivon tetap berjalan. Salin `env.example` → `.env` lalu tambahkan yang Anda perlukan. Daftar lengkap beserta penjelasan tiap variabel ada di [docs/en/16-env-configuration.md](../../../docs/en/16-env-configuration.md).
 
 | Variabel | Arti | Default |
 |---|---|---|
@@ -422,7 +424,7 @@ Di aplikasi: **Settings → Updates → Update now**, dengan progress bar dan to
 
 | Gejala | Yang harus dilakukan |
 |---|---|
-| Halaman Models bilang sebuah CLI belum terinstal, padahal sudah | **Restart AIVON**: proses yang berjalan tetap memakai PATH saat ia dijalankan. |
+| Halaman Models bilang sebuah CLI belum terinstal, padahal sudah | **Restart Aivon**: proses yang berjalan tetap memakai PATH saat ia dijalankan. |
 | Port 7979 terpakai dan build baru tidak mau jalan | Hentikan dulu proses lama (`stop-aivon.bat`, atau kill PID-nya), lalu jalankan lagi. |
 | Hostinger tidak bisa menarik image | Atur package GHCR menjadi **Public** dan tunggu build GitHub Action selesai. |
 | Sebuah otak bilang belum login | **Models** → kartu provider tersebut → login. |
@@ -444,7 +446,7 @@ aivon/
 ├── tests/           # Python + JS test suite (python tests/run.py)
 ├── install.sh · install.ps1 · update.sh
 ├── Dockerfile · docker-compose*.yml
-└── CLAUDE.md        # The system prompt AIVON runs on
+└── CLAUDE.md        # The system prompt Aivon runs on
 ```
 
 ---
@@ -453,7 +455,7 @@ aivon/
 
 | Apa | Bahasa saat ini |
 |---|---|
-| **Balasan AIVON** | Bahasa apa pun: ia menjawab dalam bahasa yang Anda gunakan, atau bahasa yang Anda kunci di Settings |
+| **Balasan Aivon** | Bahasa apa pun: ia menjawab dalam bahasa yang Anda gunakan, atau bahasa yang Anda kunci di Settings |
 | **Dashboard dan pesan server** | 🇬🇧 English · 🇻🇳 Tiếng Việt, per perangkat: setiap browser mendapat bahasanya sendiri sampai Anda memilih |
 | **Toko koneksi, plugin, file awal Brain baru** | 🇬🇧 English · 🇻🇳 Tiếng Việt |
 | **README dan panduan mulai cepat** | 🇬🇧 English · 🇻🇳 Tiếng Việt · 🇨🇳 简体中文 · 🇪🇸 Español · 🇯🇵 日本語 · 🇮🇳 हिन्दी · 🇧🇷 Português · 🇰🇷 한국어 · 🇷🇺 Русский · 🇩🇪 Deutsch · 🇫🇷 Français · 🇮🇩 Bahasa Indonesia |
@@ -472,12 +474,12 @@ Laporan bug, ide, terjemahan, dan pull request semuanya disambut, dalam bahasa I
 | [CONTRIBUTING.md](../../../CONTRIBUTING.md) | Setup, menjalankan test (`python tests/run.py`), konvensi kode |
 | [ARCHITECTURE.md](../../../ARCHITECTURE.md) | Bagaimana bagian-bagiannya saling terhubung, dan peta modul server |
 | [docs/dev/GLOSSARY.md](../../../docs/dev/GLOSSARY.md) | Codebase-nya ditulis dalam bahasa Vietnam: file ini menerjemahkan nama seperti `nhac_hen` (pengingat) |
-| [docs/dev/adding-a-language.md](../../../docs/dev/adding-a-language.md) | Menerjemahkan AIVON ke bahasa Anda, langkah demi langkah |
+| [docs/dev/adding-a-language.md](../../../docs/dev/adding-a-language.md) | Menerjemahkan Aivon ke bahasa Anda, langkah demi langkah |
 | [Template issue](https://github.com/kenwingroup/aivon/issues/new/choose) | Laporan bug, permintaan fitur, tawaran terjemahan |
 
 Mohon ikuti [Code of Conduct](../../../CODE_OF_CONDUCT.md), dan laporkan masalah keamanan secara privat seperti dijelaskan di [SECURITY.md](../../../SECURITY.md).
 
-Jika AIVON bermanfaat bagi Anda, satu ⭐ di repo ini membantu orang lain menemukannya.
+Jika Aivon bermanfaat bagi Anda, satu ⭐ di repo ini membantu orang lain menemukannya.
 
 [![Star History Chart](https://api.star-history.com/svg?repos=kenwingroup/aivon&type=Date)](https://star-history.com/#kenwingroup/aivon&Date)
 
@@ -486,7 +488,7 @@ Jika AIVON bermanfaat bagi Anda, satu ⭐ di repo ini membantu orang lain menemu
 ## 🙏 Kredit
 
 - **Otak:** [Claude Code](https://claude.com/claude-code) dan [Claude Agent SDK](https://docs.claude.com/en/api/agent-sdk/overview) (Anthropic), [Codex CLI](https://developers.openai.com/codex/cli) (OpenAI), [Grok Build](https://x.ai) (xAI), [Antigravity](https://antigravity.google) (Google), ditambah API dari [OpenRouter](https://openrouter.ai), OpenAI, [Google Gemini](https://ai.google.dev), Anthropic, [Groq](https://groq.com) dan [Ollama](https://ollama.com).
-- **Standar tool:** [Model Context Protocol](https://modelcontextprotocol.io). Seluruh toko koneksi AIVON berjalan di atasnya.
+- **Standar tool:** [Model Context Protocol](https://modelcontextprotocol.io). Seluruh toko koneksi Aivon berjalan di atasnya.
 - Pola Second Brain dan Bullet Journal digital.
 
 ## 📄 Lisensi
@@ -495,15 +497,21 @@ Open source di bawah **MIT License**: bebas digunakan, dimodifikasi, dan didistr
 
 ---
 
-## 📞 Contact & Support AIVON
+## ☕ Dukung AIVON
 
-**AIVON — Intelligence · Vision · Always On**
+AIVON gratis dan open source, dan masih satu orang yang menulis kodenya sekaligus membayar server uji coba. Jika Aivon membantu pekerjaan atau hidup Anda, donasi kecil memberi lebih banyak waktu untuk perbaikan bug dan fitur baru.
 
-- 👤 **Author / Owner**: **Minh Vũ**
-- 📞 **Hotline / Zalo**: `0989811931`
-- 🌐 **GitHub Repository**: [https://github.com/kenwingroup/aivon](https://github.com/kenwingroup/aivon)
+- 🌍 **PayPal**: [paypal.me/minhvu](https://paypal.me/minhvu)
+- 🏦 **MB Bank** (Vietnam): `6636966369`
+- 📱 **Dompet MoMo** (Vietnam): `0372752740`
+
+Tidak bisa berdonasi? Menggunakan Aivon, mengirim masukan, atau membuka pull request juga termasuk dukungan.
 
 <div align="center">
 <br>
-Developed in Vietnam by <b>Minh Vũ · Hotline: 0989811931</b> · <a href="https://github.com/kenwingroup/aivon">AIVON</a>
+<b><a href="https://aivon.vn">aivon.vn</a></b><br>
+Dibuat dengan ☕ di Vietnam oleh <b><a href="https://minhvu.vn">Minh Vũ</a></b>
 </div>
+
+---
+**Phát triển bởi Minh Vũ** — Hotline hỗ trợ: **0989811931** | GitHub: [kenwingroup/aivon](https://github.com/kenwingroup/aivon)

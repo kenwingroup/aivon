@@ -7,9 +7,22 @@
 
 Jalankan AIVON dalam beberapa menit. Panduan lengkap: [docs/en/](../../../docs/en/README.md).
 
+## Komputer pribadi (Windows, macOS) - unduh penginstal
+
+Pasang Aivon seperti aplikasi biasa: unduh satu file, buka, lalu Anda punya ikon AIVON untuk diklik setiap hari. Penginstal memeriksa apa yang belum ada di komputer (Git, Python, Node, otak AI) dan hanya memasang itu.
+
+- **Windows 10/11:** unduh [AivonOS-Setup.exe](https://github.com/kenwingroup/aivon/releases/download/desktop/AivonOS-Setup.exe), klik dua kali, lalu tekan Next sampai selesai. Jendela hitam menampilkan kemajuan pemasangan (beberapa menit). Setelah selesai ada ikon AIVON di Desktop dan menu Start.
+- **macOS 11 atau lebih baru:** unduh [AivonOS-macOS.dmg](https://github.com/kenwingroup/aivon/releases/download/desktop/AivonOS-macOS.dmg), buka, seret **AIVON** ke **Applications**, lalu buka dari Launchpad. Pertama kali, Terminal terbuka untuk memasang (mungkin meminta Anda membuat akun admin Aivon dan kata sandi Mac sekali).
+
+Mengklik ikon membuka Aivon di jendelanya sendiri (tanpa bilah alamat), Aivon berjalan bersama komputer, dan tombol **Update** di aplikasi berfungsi seperti biasa. Data Anda ada di folder `AivonOS` dalam folder pengguna; mencopot aplikasi tetap menyimpan folder itu.
+
+Kedua penginstal belum ditandatangani kode, jadi komputer akan bertanya sekali:
+- Windows menampilkan "Windows protected your PC": klik **More info**, lalu **Run anyway**.
+- macOS bilang tidak bisa membuka aplikasi: buka **System Settings → Privacy & Security**, gulir ke bawah, klik **Open Anyway**, lalu buka AIVON lagi.
+
 ## Opsi 1 - VPS Hostinger (Docker Manager, sekali klik)
 
-> 🛒 **Belum punya VPS?** [Sewa VPS Hostinger di sini](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN). Docker Manager sudah tersedia, jadi AIVON terpasang sekali klik. Setelah siap, kembali ke langkah di bawah.
+> 🛒 **Belum punya VPS?** [Sewa VPS Hostinger di sini](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN). Docker Manager sudah tersedia, jadi Aivon terpasang sekali klik. Setelah siap, kembali ke langkah di bawah.
 
 1. hPanel → VPS → **Docker Manager** → **Compose** → **Compose from URL**.
 2. Tempel URL ini:

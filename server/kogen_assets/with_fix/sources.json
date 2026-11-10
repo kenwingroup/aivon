@@ -1,0 +1,27 @@
+{
+  "confirmed_date": "2026-10-31",
+  "condition": "has_fix=true",
+  "products": {
+    "2ray_standard_4": {
+      "file": "2ray_standard_4.png",
+      "original_attachment": "codex-clipboard-2464005e-b97c-4d67-83e2-2f3e015683e0.png",
+      "sha256": "0b53ece5a99834927115a3be95d512d43442545dca3160777e65bc88a15935c7"
+    },
+    "2ray_slim_2": {
+      "file": "2ray_slim_2.png",
+      "original_attachment": "codex-clipboard-264ec9eb-7def-4c43-8266-9218e470c1ba.png",
+      "sha256": "064a2b513d59fc6b678662b850a6dfe9fd72b5e00a8caef17cf07b2181b52a9d"
+    },
+    "2ray_standard_2": {
+      "file": "2ray_standard_2.png",
+      "original_attachment": "codex-clipboard-47ca845c-d156-43c2-9a82-8439dc149d20.png",
+      "sha256": "ecf79cee000fd10912dba076b24d10010c48b5ce2ebe905900973b45a41663c5"
+    },
+    "2ray_slim_4": {
+      "file": "2ray_slim_4.png",
+      "original_attachment": "codex-clipboard-2f3ca51c-dce5-4824-a0cc-0b8b51f69037.png",
+      "sha256": "7708333105fb5642da51c4bb50102be66345dba77cdcaa5c9c90d84ac2ff2b14"
+    }
+  },
+  "fallback": "Use final_workbook original image for 3/6 leaves and every no-fix quote."
+}

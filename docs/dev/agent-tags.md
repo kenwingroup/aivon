@@ -67,7 +67,7 @@ Số đo trong test là I/O giả lập (ghi chậm 80 ms, barrier giữ worker)
 
 - **Xuất** chép nguyên file agent: gói mới mang `tags`.
 - **Nhập** ghi nguyên file: gói mới giữ đủ tag; gói cũ chỉ có `group` thì được đọc thành đúng một tag theo luật file cũ, và thành dạng chuẩn ở lần lưu đầu.
-- **Chỉ mục** `AIVON/index.md`: agent liệt kê một lần mỗi agent, kèm "tags: A, B"; workflow và skill vẫn chia theo nhóm.
+- **Chỉ mục** `Aivon/index.md`: agent liệt kê một lần mỗi agent, kèm "tags: A, B"; workflow và skill vẫn chia theo nhóm.
 - **Tạo agent từ chat** (`aivon-builder`, `CLAUDE.md`): mẫu agent dùng `tags:` (danh sách), đọc các tag đang dùng trong `agents/*.md` trước khi chọn.
 
 ## Quay về

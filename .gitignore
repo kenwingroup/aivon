@@ -1,19 +1,17 @@
-# Python / Portable Runtime & Tools
+# Python
 .venv/
-.runtime/
-.tools/
 __pycache__/
 *.pyc
 *.pyo
 
-# Environment (cáº¥u hÃ¬nh local; env.example lÃ  báº£n máº«u)
+# Environment (cấu hình local; env.example là bản mẫu)
 .env
 
 # Runtime / temp
 .staging/
 server/*.pid
 *.mp3
-# Máº«u nghe thá»­ 9 giá»ng ChatGPT Live Ä‘i kÃ¨m app (0.65.17), khÃ´ng pháº£i file táº¡m.
+# Mẫu nghe thử 9 giọng ChatGPT Live đi kèm app (0.65.17), không phải file tạm.
 !dashboard/voices/*.mp3
 test_output*.mp3
 server/*.log
@@ -24,6 +22,8 @@ server/usage-events.jsonl*
 server/usage_index.db*
 server/session_brain.db*
 server/metrics_cache.json
+server/stt_models.json
+server/stt_gate/
 server/settings.json
 server/plugins.json
 server/plugins/
@@ -35,40 +35,47 @@ server/.mcp_config.json
 server/.mcp_hub_*.json
 server/.secret_key
 server/.hub_token
-# TÃ n dÆ° tá»« báº£n cÅ© (trÆ°á»›c 0.64.47, tÃ­nh nÄƒng Ä‘Ã£ bá»; server tá»± xoÃ¡ file nÃ y lÃºc boot).
-# Giá»¯ dÃ²ng ignore Ä‘á»ƒ file sÃ³t láº¡i trÃªn mÃ¡y cÅ© khÃ´ng lá»t vÃ o `git add -A`.
+# Tàn dư từ bản cũ (trước 0.64.47, tính năng đã bỏ; server tự xoá file này lúc boot).
+# Giữ dòng ignore để file sót lại trên máy cũ không lọt vào `git add -A`.
 server/.setup_token
-# Token API cá»§a CLI: file chá»©a báº£n BÄ‚M + tÃªn token, váº«n lÃ  bÃ­ máº­t váº­n hÃ nh, khÃ´ng vÃ o repo.
+# Token API của CLI: file chứa bản BĂM + tên token, vẫn là bí mật vận hành, không vào repo.
 server/.api_tokens.json
 server/auth_audit.jsonl*
+# Account security state (2026-11-09): sign-in metadata, the account-block fingerprint that spots an outside edit of
+# settings.json, the security log and the networks seen at sign-in. secret_guard.py refuses the AI these same names.
+server/.sessions_meta.json
+server/.auth_stamp.json
+server/security_log*.jsonl
+server/.login_networks.json
 server/.oauth_mcp.json
 server/mcp_audit.jsonl*
-# ThÆ° má»¥c CHá»¨A CREDENTIAL do káº¿t ná»‘i sinh ra lÃºc cháº¡y. connector-cred lÃ  kho token mÃ  má»™t sá»‘
-# connector tá»± giá»¯ (workspace-mcp); purge-trash giá»¯ táº¡m chÃ­nh nhá»¯ng thÆ° má»¥c Ä‘Ã³ 30 ngÃ y sau khi
-# ngÆ°á»i dÃ¹ng xoÃ¡ káº¿t ná»‘i, Ä‘á»ƒ báº¥m nháº§m cÃ²n láº¥y láº¡i Ä‘Æ°á»£c. Cáº£ hai TUYá»†T Äá»I khÃ´ng lÃªn repo.
+# Thư mục CHỨA CREDENTIAL do kết nối sinh ra lúc chạy. connector-cred là kho token mà một số
+# connector tự giữ (workspace-mcp); purge-trash giữ tạm chính những thư mục đó 30 ngày sau khi
+# người dùng xoá kết nối, để bấm nhầm còn lấy lại được. Cả hai TUYỆT ĐỐI không lên repo.
 server/connector-home/
 server/connector-files/
 server/connector-cred/
 server/purge-trash/
-# CÃ´ng cá»¥ Aivon tá»± cÃ i ngáº§m lÃºc cháº¡y (báº£n ghim cá»§a CLI Zalo aivon-zalo, cháº¡y tháº³ng báº±ng Node). Sinh ra lÃºc cháº¡y, cÃ³ node_modules náº·ng.
+# Công cụ Aivon tự cài ngầm lúc chạy (bản ghim của CLI Zalo aivon-zalo, chạy thẳng bằng Node). Sinh ra lúc chạy, có node_modules nặng.
 server/tools/
 # cloudflared that Remote access downloads on first use (remote_tunnel.py, 0.242.0): a 40 MB binary per machine.
 server/bin/
-# Lá»±a chá»n Gá»  nÄƒng lá»±c máº·c Ä‘á»‹nh (connector lÃµi...). Dá»¯ liá»‡u ngÆ°á»i dÃ¹ng, má»—i mÃ¡y má»™t kiá»ƒu.
+# Lựa chọn GỠ năng lực mặc định (connector lõi...). Dữ liệu người dùng, mỗi máy một kiểu.
 server/core-off.json
-# GÃ³i má»Ÿ rá»™ng ngÆ°á»i dÃ¹ng cÃ i (connector/plugin tháº£ vÃ o lÃºc cháº¡y). Dá»¯ liá»‡u ngÆ°á»i dÃ¹ng.
+# Gói mở rộng người dùng cài (connector/plugin thả vào lúc chạy). Dữ liệu người dùng.
 server/packs/
 server/packs.json*
 server/packs-state/
 server/packs-staging/
 server/packs-store-cache.json
-# Artifact cháº¡y cá»§a cÃ¡c báº£n 0.5x: tráº¡ng thÃ¡i há»™i thoáº¡i, chá»‰ má»¥c bá»™ nhá»›, vÃ  prompt Antigravity
-# ghi ra Ä‘á»ƒ gá»¡ lá»—i. Sinh ra lÃºc cháº¡y nÃªn khÃ´ng thuá»™c vá» repo láº«n image.
+server/plan-names-cache.json
+# Artifact chạy của các bản 0.5x: trạng thái hội thoại, chỉ mục bộ nhớ, và prompt Antigravity
+# ghi ra để gỡ lỗi. Sinh ra lúc chạy nên không thuộc về repo lẫn image.
 server/conversation_state.db*
 server/memory_index.db*
-# Báº£n nhá»› Ä‘Æ°á»ng dáº«n binary CLI (claude_cli.tim_binary). State cháº¡y theo tá»«ng MÃY:
-# STATE_DIR máº·c Ä‘á»‹nh lÃ  chÃ­nh thÆ° má»¥c server/, nÃªn khÃ´ng che thÃ¬ má»—i láº§n cháº¡y app lÃ 
-# cÃ¢y git báº©n thÃªm má»™t file, vÃ  `git add -A` commit Ä‘Æ°á»ng dáº«n mÃ¡y ngÆ°á»i khÃ¡c.
+# Bản nhớ đường dẫn binary CLI (claude_cli.tim_binary). State chạy theo từng MÁY:
+# STATE_DIR mặc định là chính thư mục server/, nên không che thì mỗi lần chạy app là
+# cây git bẩn thêm một file, và `git add -A` commit đường dẫn máy người khác.
 server/bin_paths.json
 server/claude-update.json
 server/agy-update.json
@@ -76,15 +83,15 @@ server/antigravity-duong-prompt.json
 server/usage-marks.jsonl*
 server/conversations.db
 server/conversations.db.bak-*
-# Snapshot lÃºc nÃ¢ng nhÃ³m chat team (0.140.0) vÃ  báº£n giá»¯ láº¡i khi khÃ´i phá»¥c: chá»©a toÃ n bá»™ chat cá»§a ngÆ°á»i dÃ¹ng.
+# Snapshot lúc nâng nhóm chat team (0.140.0) và bản giữ lại khi khôi phục: chứa toàn bộ chat của người dùng.
 server/conversations.db.pre-*
 server/conversations.db.post-*
-# Sá»• PID tiáº¿n trÃ¬nh MCP stdio (dá»n tiáº¿n trÃ¬nh má»“ cÃ´i, 0.114.0): dá»¯ liá»‡u cháº¡y, ghi vÃ o thÆ° má»¥c state máº·c Ä‘á»‹nh server/.
+# Sổ PID tiến trình MCP stdio (dọn tiến trình mồ côi, 0.114.0): dữ liệu chạy, ghi vào thư mục state mặc định server/.
 server/mcp-stdio-pids.json
 server/md_hong_da_soi.json
 server/conversations.db-wal
 server/conversations.db-shm
-# Kho há»™i thoáº¡i khÃ¡ch (Há»™p thÆ° bot). Dá»¯ liá»‡u cá»§a ngÆ°á»i dÃ¹ng, khÃ´ng bao giá» lÃªn git.
+# Kho hội thoại khách (Hộp thư bot). Dữ liệu của người dùng, không bao giờ lên git.
 server/customer_conversations.sqlite3*
 server/runtime.db
 server/runtime.db-wal
@@ -93,21 +100,23 @@ server/capability_registry.db
 server/capability_registry.db-wal
 server/capability_registry.db-shm
 server/capability_registry.db*.corrupt-*
-# Bá»• sung 0.9.241: 6 artifact dÆ°á»›i Ä‘Ã¢y vá»«a KHÃ”NG track vá»«a KHÃ”NG ignore, nÃªn má»™t cÃº
-# `git add -A` lÃ  commit tháº³ng dá»¯ liá»‡u cháº¡y + tráº¡ng thÃ¡i deploy vÃ o repo.
+# Bổ sung 0.9.241: 6 artifact dưới đây vừa KHÔNG track vừa KHÔNG ignore, nên một cú
+# `git add -A` là commit thẳng dữ liệu chạy + trạng thái deploy vào repo.
 server/kanban.sqlite3*
-# once_ledger.sqlite3 (0.238.0): sá»• thao tÃ¡c ra ngoÃ i cá»§a viá»‡c ná»n, náº±m cáº¡nh kanban.sqlite3.
+# once_ledger.sqlite3 (0.238.0): sổ thao tác ra ngoài của việc nền, nằm cạnh kanban.sqlite3.
 server/once_ledger.sqlite3*
-# web_watch.sqlite3 (0.239.0): cÃ¡c trang Ä‘ang theo dÃµi, cÃ¹ng lá»›p vá»›i kanban.sqlite3.
+# web_watch.sqlite3 (0.239.0): các trang đang theo dõi, cùng lớp với kanban.sqlite3.
 server/web_watch.sqlite3*
+# improvement/ (0.333.0, 0.337.0): self-learning runs, automatic learning from chat, their backups.
+server/improvement/
 # login_vault.sqlite3 (0.251.0): the owner's encrypted sign-ins. Never commit it.
 server/login_vault.sqlite3*
-# workflow_runs.sqlite3: kho lá»‹ch sá»­ cháº¡y quy trÃ¬nh (Task 2 Cá»™ng sá»±), cÃ¹ng lá»›p vá»›i
-# kanban.sqlite3* trÃªn - test khÃ´ng Ä‘áº·t AIVON_STATE_DIR sáº½ ghi rÆ¡i vÃ o server/ vÃ¬
-# execute_workflow giá» luÃ´n cháº¡m workflow_runs.get_store().
+# workflow_runs.sqlite3: kho lịch sử chạy quy trình (Task 2 Cộng sự), cùng lớp với
+# kanban.sqlite3* trên - test không đặt AIVON_STATE_DIR sẽ ghi rơi vào server/ vì
+# execute_workflow giờ luôn chạm workflow_runs.get_store().
 server/workflow_runs.sqlite3*
-# Kho Cá»™ng hÆ°á»Ÿng (má»¥c tiÃªu, sá»• danh tÃ­nh agent) vÃ  kho nhÃ³m chat team: dá»¯ liá»‡u cháº¡y, cÃ¹ng lá»›p vá»›i kanban.sqlite3*.
-# Server cháº¡y tá»« worktree mÃ  khÃ´ng Ä‘áº·t AIVON_STATE_DIR sáº½ ghi vÃ o server/.
+# Kho Cộng hưởng (mục tiêu, sổ danh tính agent) và kho nhóm chat team: dữ liệu chạy, cùng lớp với kanban.sqlite3*.
+# Server chạy từ worktree mà không đặt AIVON_STATE_DIR sẽ ghi vào server/.
 server/resonance.sqlite3*
 server/team.sqlite3*
 server/tg_brain.json
@@ -116,68 +125,68 @@ server/logs/
 server/brain-trash/
 server/tmp/
 server/_selfupdate.bat
-# Bá»• sung 0.12.4: kho bot Telegram cá»§a trang Chatbot (0.19.0) vÃ  nháº­t kÃ½ há»™i thoáº¡i cá»§a
-# chÃºng. Cáº£ hai lÃ  dá»¯ liá»‡u cháº¡y trong STATE_DIR (chatbot_store.py, chatbot_log.py) vÃ 
-# chatbots.json cÃ²n chá»©a token bot.
+# Bổ sung 0.12.4: kho bot Telegram của trang Chatbot (0.19.0) và nhật ký hội thoại của
+# chúng. Cả hai là dữ liệu chạy trong STATE_DIR (chatbot_store.py, chatbot_log.py) và
+# chatbots.json còn chứa token bot.
 server/chatbots.json
-# HÃ²m thÆ° + Web Push: state cháº¡y tháº­t (STATE_DIR máº·c Ä‘á»‹nh lÃ  chÃ­nh server/ khi chÆ°a
-# Ä‘áº·t AIVON_STATE_DIR). vapid.json chá»©a KHOÃ RIÃŠNG - lá»t vÃ o repo lÃ  ai cÅ©ng Ä‘áº©y Ä‘Æ°á»£c
-# thÃ´ng bÃ¡o giáº£ tá»›i trÃ¬nh duyá»‡t Ä‘Ã£ Ä‘Äƒng kÃ½.
+# Hòm thư + Web Push: state chạy thật (STATE_DIR mặc định là chính server/ khi chưa
+# đặt AIVON_STATE_DIR). vapid.json chứa KHOÁ RIÊNG - lọt vào repo là ai cũng đẩy được
+# thông báo giả tới trình duyệt đã đăng ký.
 server/inbox.json
 server/vapid.json
 server/push_subs.json
 server/chatbot-logs/
-# Video lÃ m báº±ng HyperFrames (ráº¥t náº·ng, khÃ´ng thuá»™c mÃ£ nguá»“n)
+# Video làm bằng HyperFrames (rất nặng, không thuộc mã nguồn)
 videos/
 
-# Vault máº·c Ä‘á»‹nh in-repo (dá»¯ liá»‡u cÃ¡ nhÃ¢n, khÃ´ng version)
+# Vault mặc định in-repo (dữ liệu cá nhân, không version)
 vault/
 
-# Bá»™ nhá»› cÃ¡ nhÃ¢n cá»§a project brain (thay Ä‘á»•i má»—i phiÃªn, khÃ´ng cáº§n version)
+# Bộ nhớ cá nhân của project brain (thay đổi mỗi phiên, không cần version)
 brain/Memory/
 
-# Dev artifact - repo ngoÃ i clone vá» Ä‘á»ƒ tham kháº£o (ráº¥t náº·ng, cÃ³ .git riÃªng)
+# Dev artifact - repo ngoài clone về để tham khảo (rất nặng, có .git riêng)
 .learn/
 
-# Cache/artifact cá»§a cÃ´ng cá»¥ dev. CÃ¡c thÆ° má»¥c nÃ y pháº£i Ä‘Æ°á»£c bá» qua trong má»i clone.
-# .git/info/exclude trÃªn mÃ¡y má»™t ngÆ°á»i - mÃ  file Ä‘Ã³ KHÃ”NG Ä‘Æ°á»£c commit. NghÄ©a lÃ  báº¥t ká»³ ai
-# clone má»›i hay fork dá»± Ã¡n Ä‘á»u tháº¥y chÃºng hiá»‡n ra untracked, vÃ  106MB index cá»§a GitNexus
-# commit Ä‘Æ°á»£c. test_ignore_files.py báº¯t Ä‘Æ°á»£c Ä‘Ãºng chá»— nÃ y khi cháº¡y trÃªn CI.
+# Cache/artifact của công cụ dev. Các thư mục này phải được bỏ qua trong mọi clone.
+# .git/info/exclude trên máy một người - mà file đó KHÔNG được commit. Nghĩa là bất kỳ ai
+# clone mới hay fork dự án đều thấy chúng hiện ra untracked, và 106MB index của GitNexus
+# commit được. test_ignore_files.py bắt được đúng chỗ này khi chạy trên CI.
 .gitnexus/
 .superpowers/
 .claude/worktrees/
 .codex-tmp/
 
-# Cáº¥u hÃ¬nh cháº¡y dev preview cá»¥c bá»™ (Ä‘Æ°á»ng dáº«n theo mÃ¡y, khÃ´ng thuá»™c sáº£n pháº©m)
+# Cấu hình chạy dev preview cục bộ (đường dẫn theo máy, không thuộc sản phẩm)
 .claude/launch.json
 
-# ThÆ° má»¥c CHA chá»©a Má»ŒI second brain (mÃ´ hÃ¬nh má»›i) - Dá»® LIá»†U CÃ NHÃ‚N, khÃ´ng Ä‘áº©y vÃ o repo code.
-# Backup riÃªng lÃªn git repo khÃ¡c (xem comment bind-mount trong docker-compose.yml).
+# Thư mục CHA chứa MỌI second brain (mô hình mới) - DỮ LIỆU CÁ NHÂN, không đẩy vào repo code.
+# Backup riêng lên git repo khác (xem comment bind-mount trong docker-compose.yml).
 brains/
-# Báº£n backup brain do server tá»± táº¡o (Dá»® LIá»†U CÃ NHÃ‚N) - tuyá»‡t Ä‘á»‘i khÃ´ng version.
+# Bản backup brain do server tự tạo (DỮ LIỆU CÁ NHÂN) - tuyệt đối không version.
 brains-backup/
 
-# Dá»¯ liá»‡u CÃ NHÃ‚N trong brain máº·c Ä‘á»‹nh CÅ¨ (khÃ´ng version): bá»™ nhá»›, cache sá»‘ liá»‡u KD,
-# automations (chá»©a chat_id). Cáº¥u trÃºc thÆ° má»¥c + agent/workflow máº«u váº«n Ä‘Æ°á»£c version.
+# Dữ liệu CÁ NHÂN trong brain mặc định CŨ (không version): bộ nhớ, cache số liệu KD,
+# automations (chứa chat_id). Cấu trúc thư mục + agent/workflow mẫu vẫn được version.
 Brain Default/Memory/
 Brain Default/05 - Data Cache/
 Brain Default/Attachments/
 Brain Default/Aivon/automations.json
 
-# Brain Default máº«u sau khi gom vÃ o brain/ - chá»‰ commit cáº¥u trÃºc + agent/workflow máº«u,
-# KHÃ”NG commit dá»¯ liá»‡u cÃ¡ nhÃ¢n (bá»™ nhá»›, cache sá»‘ liá»‡u KD, attachments, automations chá»©a chat_id).
+# Brain Default mẫu sau khi gom vào brain/ - chỉ commit cấu trúc + agent/workflow mẫu,
+# KHÔNG commit dữ liệu cá nhân (bộ nhớ, cache số liệu KD, attachments, automations chứa chat_id).
 brain/Brain Default/Memory/
 brain/Brain Default/05 - Data Cache/
 brain/Brain Default/Attachments/
 brain/Brain Default/Aivon/automations.json
 
-# Skill bá»‹ táº¯t (chuyá»ƒn vÃ o .disabled khi táº¯t) - tráº¡ng thÃ¡i cá»¥c bá»™, khÃ´ng version
+# Skill bị tắt (chuyển vào .disabled khi tắt) - trạng thái cục bộ, không version
 **/.claude/skills/.disabled/
 
-# File rÃ¡c / script cÃ¡ nhÃ¢n á»Ÿ gá»‘c (khÃ´ng thuá»™c sáº£n pháº©m public)
-# ÄÃ£ gá»¡ hai dÃ²ng /agents vÃ  /workflows á»Ÿ 0.9.241: chÃºng sinh ra Ä‘á»ƒ che hai file rÃ¡c 28 byte
-# (máº£nh log "- Move: Aivon\agents -" do má»™t lá»‡nh redirect há»ng), nhÆ°ng há»‡ quáº£ lÃ  cháº·n vÄ©nh
-# viá»…n viá»‡c táº¡o thÆ° má»¥c agents/ hay workflows/ THáº¬T á»Ÿ gá»‘c. Hai file rÃ¡c Ä‘Ã£ xoÃ¡ háº³n.
+# File rác / script cá nhân ở gốc (không thuộc sản phẩm public)
+# Đã gỡ hai dòng /agents và /workflows ở 0.9.241: chúng sinh ra để che hai file rác 28 byte
+# (mảnh log "- Move: Aivon\agents -" do một lệnh redirect hỏng), nhưng hệ quả là chặn vĩnh
+# viễn việc tạo thư mục agents/ hay workflows/ THẬT ở gốc. Hai file rác đã xoá hẳn.
 parse_ads*.ps1
 
 # OS
@@ -186,19 +195,19 @@ Thumbs.db
 desktop.ini
 server/stop-last.log
 
-# Playwright MCP ghi snapshot/console vÃ o cwd khi kiá»ƒm tra dashboard
+# Playwright MCP ghi snapshot/console vào cwd khi kiểm tra dashboard
 .playwright-mcp/
 server/.mcp_agy_*.json
 server/settings.json.bak*
-# File ngá»¯ cáº£nh Antigravity CLI sinh ra má»—i lÆ°á»£t cháº¡y (rÃ¡c cá»§a mÃ¡y Ä‘ang cháº¡y, khÃ´ng pháº£i mÃ£)
+# File ngữ cảnh Antigravity CLI sinh ra mỗi lượt chạy (rác của máy đang chạy, không phải mã)
 server/.aivon-agy/
-# Bá»™ phÃ¡n xá»­ há»™i thoáº¡i nhÃ³m (0.65.0): kho quyáº¿t Ä‘á»‹nh + ca Ä‘Ã£ há»c chá»©a CHá»® CHAT Cá»¦A KHÃCH, khÃ´ng bao giá» lÃªn git.
+# Bộ phán xử hội thoại nhóm (0.65.0): kho quyết định + ca đã học chứa CHỮ CHAT CỦA KHÁCH, không bao giờ lên git.
 server/chatbot_reply_policy.sqlite3*
 server/reply_policy_cwd/
-# TÃ i khoáº£n kÃªnh cá»§a bot (token Ä‘Ã£ mÃ£ hoÃ¡) lÃ  dá»¯ liá»‡u cháº¡y, khÃ´ng pháº£i mÃ£ nguá»“n.
+# Tài khoản kênh của bot (token đã mã hoá) là dữ liệu chạy, không phải mã nguồn.
 server/channel_accounts.json
 
-# Bá»™ Ä‘o tai nghe (tools/stt_bench): clip Ã¢m thanh vÃ  káº¿t quáº£, khÃ´ng lÃªn git
+# Bộ đo tai nghe (tools/stt_bench): clip âm thanh và kết quả, không lên git
 server/stt_bench/
 # Loop watchdog heartbeat and restart log (server/loop_watch.py): runtime state written to the default state dir server/.
 server/loop_beat.json
@@ -219,3 +228,16 @@ server/dealer_directory_cache.json
 server/dealer_directory_cache.tmp
 server/dealer_directory_config.json
 server/dealer_directory_sources/
+
+# 0.402.0 / 0.403.0: Aivon Core's notice rules and the engine-down notice state (STATE_DIR defaults to server/).
+server/notify_policy.json
+server/engine_down_notified.json
+server/client_errors.json
+server/client_errors.tmp
+
+# Desktop installers built by packaging/ (CI publishes them on the "desktop" release)
+/dist/
+packaging/windows/Vietnamese.isl
+.runtime/
+.tools/
+server/cache/

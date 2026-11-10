@@ -1,17 +1,19 @@
 <!-- translated-from: README.md sha256:2e10ad3d2a86 -->
 <div align="center">
 
-<img src="../../../dashboard/logo.png" width="96" alt="AIVON 로고">
+<a href="https://aivon.vn"><img src="../../assets/social-preview.png" width="100%" alt="AIVON: Your AI Workforce. Never miss the best AI."></a>
 
 # AIVON
 
-### 교체 가능한 브레인을 갖춘 셀프 호스팅 AI 에이전트, 그리고 날마다 더 똑똑해지는 Second Brain.
+### 당신의 AI 팀. 최고의 AI를 놓치지 마세요.
 
-노트북이나 작은 VPS에서 실행합니다. 음성으로 대화합니다. Claude, ChatGPT, Grok, Gemini 등 12개 제공자 중 무엇이든 연결하고, 바꿔도 모든 도구는 그대로 유지되며, 잠자는 동안에도 백그라운드에서 일하게 할 수 있습니다.
+Aivon OS는 **Claude, ChatGPT, Gemini, Grok** 그리고 직접 고른 모델을 내 컴퓨터나 서버에서 24시간 일하는 팀으로 만듭니다. 동료마다 역할이 있고, 같은 기억과 도구를 공유하며, 백그라운드에서 계속 일합니다. 더 좋은 모델이 나오면 바꾸기만 하면 되고, 팀이 배운 것은 모두 그대로 남습니다.
+
+**🌐 웹사이트: [aivon.vn](https://aivon.vn)** · 오픈 소스 · 셀프 호스팅 · 14개 AI 제공자
 
 [![GitHub stars](https://img.shields.io/github/stars/kenwingroup/aivon?style=flat&logo=github&label=stars)](https://github.com/kenwingroup/aivon/stargazers)
 [![License: MIT](https://img.shields.io/badge/license-MIT-22c55e)](../../../LICENSE)
-[![Last commit](https://img.shields.io/github/last-commit/kenwingroup/aivon?color=38bdf8)](https://github.com/kenwingroup/aivon/commits/main)
+[![Last commit](https://img.shields.io/github/last-commit/kenwingroup/aivon?color=f97316)](https://github.com/kenwingroup/aivon/commits/main)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-3776ab?logo=python&logoColor=white)](../../../requirements.txt)
 [![Docker](https://img.shields.io/badge/docker-ghcr.io-2496ed?logo=docker&logoColor=white)](https://github.com/kenwingroup/aivon/pkgs/container/aivon)
 [![MCP](https://img.shields.io/badge/tools-Model%20Context%20Protocol-8b5cf6)](https://modelcontextprotocol.io)
@@ -71,7 +73,7 @@
 
 ## 🤔 왜 Aivon인가요?
 
-AIVON OS는 챗봇이 **아닙니다**. 사용자의 컴퓨터나 VPS에서 실행되는 **셀프 호스팅 에이전틱 AI** 입니다. 파일을 읽고 쓰고, MCP로 도구를 호출하고, Skill을 실행하고, 백그라운드 작업을 대기열에 넣고, 스스로 일정을 잡습니다. 이 모든 것이 **음성으로 조작하는 대시보드** 와 시간이 지날수록 지식이 쌓이는 **Second Brain**(메모리 + 위키) 위에서 동작합니다.
+Aivon OS는 챗봇이 **아닙니다**. 사용자의 컴퓨터나 VPS에서 실행되는 **셀프 호스팅 에이전틱 AI** 입니다. 파일을 읽고 쓰고, MCP로 도구를 호출하고, Skill을 실행하고, 백그라운드 작업을 대기열에 넣고, 스스로 일정을 잡습니다. 이 모든 것이 **음성으로 조작하는 대시보드** 와 시간이 지날수록 지식이 쌓이는 **Second Brain**(메모리 + 위키) 위에서 동작합니다.
 
 ### 아무도 경고해 주지 않는 종속
 
@@ -97,17 +99,17 @@ Aivon에서 모델은 교체할 수 있는 부품입니다. 쌓아 온 모든 �
 | **지식** | Brain의 Wiki 폴더와 Sources 폴더 | 마크다운, Obsidian 호환 |
 | **Skill** | `skills/<name>/SKILL.md` | 마크다운 |
 | **Agent와 Workflow** | `agents/*.md`, `workflows/*.md` | 프런트매터가 있는 마크다운 |
-| **Loop와 리마인더** | `AIVON/loops/*.md`, `AIVON/reminders.json` | 마크다운, JSON |
+| **Loop와 리마인더** | `Aivon/loops/*.md`, `Aivon/reminders.json` | 마크다운, JSON |
 
 이것이 가져다주는 것:
 
 - **새 모델이 나왔나요? Models 페이지에서 바꾸고 그대로 이어 가세요.** 같은 메모리를 읽고, 같은 Skill, Agent, Workflow를 실행하고, MCP Hub를 통해 같은 연결을 호출합니다. 옮길 것도, 다시 만들 것도 없습니다.
 - **여러 브레인을 동시에 쓰세요.** 대화에는 강력한 모델, 백그라운드 작업에는 더 저렴한 모델, 개인 노트에는 로컬 Ollama 모델을 쓰면서 모두 같은 Brain 위에서 일하게 할 수 있습니다.
-- **AIVON 없이도 읽을 수 있습니다.** Brain은 마크다운 폴더입니다. Obsidian이나 어떤 편집기로든 열어 보세요. 내일 Aivon가 사라지더라도 지식은 일반 텍스트로 그대로 남아 있습니다.
+- **Aivon 없이도 읽을 수 있습니다.** Brain은 마크다운 폴더입니다. Obsidian이나 어떤 편집기로든 열어 보세요. 내일 Aivon가 사라지더라도 지식은 일반 텍스트로 그대로 남아 있습니다.
 - **버전 관리와 이식성.** 학습 한 번이 git 커밋 하나이므로 한 번의 탭으로 되돌릴 수 있고, Brain 전체를 내 비공개 GitHub 저장소와 동기화해 노트북과 VPS가 함께 쓸 수 있습니다.
-- **데이터는 내 하드웨어에 머뭅니다.** 중간에 AIVON 클라우드는 없습니다. 요청은 그 작업에 고른 모델 제공자에게만 전달되고, 로컬 Ollama 모델을 쓰면 아예 컴퓨터 밖으로 나가지 않습니다.
+- **데이터는 내 하드웨어에 머뭅니다.** 중간에 Aivon 클라우드는 없습니다. 요청은 그 작업에 고른 모델 제공자에게만 전달되고, 로컬 Ollama 모델을 쓰면 아예 컴퓨터 밖으로 나가지 않습니다.
 
-### 일반 챗봇과 나란히 놓고 본 AIVON
+### 일반 챗봇과 나란히 놓고 본 Aivon
 
 | | 일반 챗봇 | **AIVON** |
 |---|---|---|
@@ -132,7 +134,7 @@ Aivon에서 모델은 교체할 수 있는 부품입니다. 쌓아 온 모든 �
 **Models** 페이지에서 브레인을 고르고 언제든 바꿀 수 있습니다. Aivon는 현재 **12개 제공자** 를 지원합니다.
 
 <p align="center">
-<img src="../../../docs/assets/diagrams/swappable-brain.svg" width="100%" alt="애니메이션 다이어그램: 가운데의 AIVON 코어를 툴킷(MCP Hub, Skills, Second Brain, Tasks, Schedules, Plugins)이 둘러싸고 있고, 12개 브레인이 번갈아 연결되는 동안에도 모든 도구가 계속 켜져 있습니다">
+<img src="../../../docs/assets/diagrams/swappable-brain.svg" width="100%" alt="애니메이션 다이어그램: 가운데의 Aivon 코어를 툴킷(MCP Hub, Skills, Second Brain, Tasks, Schedules, Plugins)이 둘러싸고 있고, 12개 브레인이 번갈아 연결되는 동안에도 모든 도구가 계속 켜져 있습니다">
 </p>
 
 | 브레인 | 결제 방식 | 셸, 웹, 서브 에이전트 |
@@ -141,15 +143,15 @@ Aivon에서 모델은 교체할 수 있는 부품입니다. 쌓아 온 모든 �
 | **ChatGPT** (Codex 경유) | ChatGPT 요금제 | ✅ |
 | **Grok Build** | SuperGrok 또는 X Premium+ 요금제 | ✅ |
 | **Antigravity CLI** | Google 요금제(Antigravity IDE와 같은 모델 라인업, Claude 포함) | 셸 ✅ |
-| **OpenRouter** | API 키(키 하나로 수백 개 모델) | AIVON 도구로 |
-| **OpenAI API** · **Anthropic API** · **Google Gemini** · **Groq** | API 키 | AIVON 도구로 |
-| **Ollama Cloud** · **이 컴퓨터의 Ollama** | API 키, 또는 내 하드웨어에서 무료 | AIVON 도구로 |
-| **OpenAI 호환 엔드포인트 전부** | 해당 엔드포인트가 요구하는 것 | AIVON 도구로 |
+| **OpenRouter** | API 키(키 하나로 수백 개 모델) | Aivon 도구로 |
+| **OpenAI API** · **Anthropic API** · **Google Gemini** · **Groq** | API 키 | Aivon 도구로 |
+| **Ollama Cloud** · **이 컴퓨터의 Ollama** | API 키, 또는 내 하드웨어에서 무료 | Aivon 도구로 |
+| **OpenAI 호환 엔드포인트 전부** | 해당 엔드포인트가 요구하는 것 | Aivon 도구로 |
 
 모든 브레인은 연결된 MCP 서버를 호출하고, Brain을 읽고 쓰고, Skill을 실행하고, Kanban 작업을 대기열에 넣고, Agent, Workflow, Loop, 리마인더를 만들 수 있습니다. CLI 엔진은 여기에 더해 **셸 명령 실행**, **웹 가져오기와 검색**, **병렬 서브 에이전트 생성** 도 할 수 있습니다.
 
 > [!WARNING]
-> **구독 요금제로 백그라운드 작업을 돌리기 전에 꼭 읽어 주세요.** Anthropic은 Claude Pro/Max를 Claude Code의 **일반적인 개인 사용** 으로 한정합니다. 지속적인 백그라운드 실행(Loop, 리마인더, Kanban 작업, 챗봇), VPS에서의 실행, 여러 사람이 한 계정을 함께 쓰는 경우는 모두 이 범위를 벗어나며, 실제로 이 때문에 **계정이 정지된 사례가 있습니다**. Aivon는 로그인 토큰을 절대 읽지 않고 실제 `claude` 바이너리를 실행하지만, 그렇다고 24시간 백그라운드 사용이 정당해지는 것은 아닙니다. 안전하게 쓰려면 Models 페이지에서 Claude Code를 **API 키** 로 실행하도록 설정하거나, **백그라운드 작업용 모델** 을 다른 제공자로 지정하세요. xAI 요금제에도 같은 주의가 적용됩니다. `server/claude_auth.py` 를 참고하세요.
+> **구독 요금제로 백그라운드 작업을 돌리기 전에 참고하세요.** Anthropic은 Claude Pro/Max를 Claude Code의 **일반적인 개인 사용** 으로 한정합니다. 지속적인 백그라운드 실행(Loop, 리마인더, Kanban 작업, 챗봇), VPS에서의 실행, 여러 사람이 한 계정을 함께 쓰는 경우는 모두 이 범위를 벗어나므로 **계정이 잠길** 위험이 있습니다. 다만 지금까지 Aivon에서 확인된 사례는 없습니다. 혹시 겪으신다면 [Issues](https://github.com/kenwingroup/aivon/issues/new/choose)로 개발자에게 알려 주세요. Aivon는 로그인 토큰을 절대 읽지 않고 실제 `claude` 바이너리를 실행하지만, 그렇다고 24시간 백그라운드 사용이 정당해지는 것은 아닙니다. 안전하게 쓰려면 Models 페이지에서 Claude Code를 **API 키** 로 실행하도록 설정하거나, **백그라운드 작업용 모델** 을 다른 제공자로 지정하세요. xAI 요금제에도 같은 주의가 적용됩니다. `server/claude_auth.py` 를 참고하세요.
 
 ---
 
@@ -212,10 +214,10 @@ flowchart LR
     subgraph You
         W[Web dashboard<br>voice + graph]
         T[Telegram]
-        C[AIVON CLI]
+        C[Aivon CLI]
         Z[Zalo / bot channels]
     end
-    subgraph AIVON["AIVON (FastAPI, self-hosted)"]
+    subgraph Aivon["AIVON (FastAPI, self-hosted)"]
         R[Engine router]
         H[MCP Hub<br>shared toolbox]
         B[(Second Brain<br>Memory + Wiki + Sources)]
@@ -328,7 +330,7 @@ Dashboard:                             http://localhost:7979
 </details>
 
 <details>
-<summary><b>VPS 하나에 AIVON 여러 개 실행하기</b></summary>
+<summary><b>VPS 하나에 Aivon 여러 개 실행하기</b></summary>
 
 Brain, 설정, 계정은 인스턴스마다 완전히 분리됩니다. 인스턴스끼리 다른 값은 `AIVON_NAME`, `AIVON_HOST_PORT`, `DOMAIN_NAME` 세 가지뿐입니다.
 
@@ -351,7 +353,7 @@ Aivon를 열면 설정 마법사가 브라우저 언어로 차근차근 안내�
 
 ---
 
-## 📖 AIVON 사용하기
+## 📖 Aivon 사용하기
 
 왼쪽 레일은 페이지를 **6개 그룹** 으로 묶습니다. 모든 페이지에는 [docs/en/](../../../docs/en/README.md) 에 안내서가 있습니다.
 
@@ -361,8 +363,8 @@ Aivon를 열면 설정 마법사가 브라우저 언어로 차근차근 안내�
 | **Code** | Terminal, Coding | [코드 터미널](../../../docs/en/27-code-terminal.md) |
 | **Capabilities** | Partners (Agent와 Workflow), Chatbot, Skills, Plugins | [Agent와 Workflow](../../../docs/en/07-agents-and-workflows.md) · [챗봇](../../../docs/en/25-chatbots.md) · [고객 대화](../../../docs/en/28-customer-conversations.md) · [Skill](../../../docs/en/06-skills.md) · [Plugin](../../../docs/en/20-plugins.md) |
 | **Work** | Tasks, Scheduled | [Tasks (Kanban)](../../../docs/en/21-kanban-work.md) · [반복 작업과 리마인더](../../../docs/en/08-recurring-jobs.md) |
-| **Connections** | Connections, AIVON Store, Channels, Models | [연결과 비즈니스 데이터](../../../docs/en/09-connections-and-business-data.md) · [Telegram](../../../docs/en/11-telegram.md) · [Zalo](../../../docs/en/12-zalo-agent-mcp.md) · [모델과 엔진](../../../docs/en/10-models-and-engines.md) |
-| **System** | Settings, Share links, Account | [시작하기](../../../docs/en/01-getting-started.md) · [보안과 계정](../../../docs/en/14-security-and-accounts.md) · [사용량과 비용](../../../docs/en/23-usage-and-cost.md) · [AIVON CLI](../../../docs/en/24-cli.md) |
+| **Connections** | Connections, Aivon Store, Channels, Models | [연결과 비즈니스 데이터](../../../docs/en/09-connections-and-business-data.md) · [Telegram](../../../docs/en/11-telegram.md) · [Zalo](../../../docs/en/12-zalo-agent-mcp.md) · [모델과 엔진](../../../docs/en/10-models-and-engines.md) |
+| **System** | Settings, Share links, Account | [시작하기](../../../docs/en/01-getting-started.md) · [보안과 계정](../../../docs/en/14-security-and-accounts.md) · [사용량과 비용](../../../docs/en/23-usage-and-cost.md) · [Aivon CLI](../../../docs/en/24-cli.md) |
 
 더 보기: [Second Brain: 메모리, Wiki, INGEST](../../../docs/en/13-second-brain.md) · [GitHub 백업](../../../docs/en/18-github-backup.md) · [노트 속 Tasks와 Dataview](../../../docs/en/19-tasks-and-dataview.md) · [브랜딩과 사용자 지정 도메인](../../../docs/en/15-branding-and-domains.md) · [문제 해결](../../../docs/en/17-troubleshooting.md)
 
@@ -444,7 +446,7 @@ aivon/
 ├── tests/           # Python + JS test suite (python tests/run.py)
 ├── install.sh · install.ps1 · update.sh
 ├── Dockerfile · docker-compose*.yml
-└── CLAUDE.md        # The system prompt AIVON runs on
+└── CLAUDE.md        # The system prompt Aivon runs on
 ```
 
 ---
@@ -486,7 +488,7 @@ Aivon가 유용하다면 저장소에 ⭐ 를 눌러 주세요. 다른 사람들
 ## 🙏 크레딧
 
 - **브레인:** [Claude Code](https://claude.com/claude-code) 와 [Claude Agent SDK](https://docs.claude.com/en/api/agent-sdk/overview)(Anthropic), [Codex CLI](https://developers.openai.com/codex/cli)(OpenAI), [Grok Build](https://x.ai)(xAI), [Antigravity](https://antigravity.google)(Google), 그리고 [OpenRouter](https://openrouter.ai), OpenAI, [Google Gemini](https://ai.google.dev), Anthropic, [Groq](https://groq.com), [Ollama](https://ollama.com) 의 API.
-- **도구 표준:** [Model Context Protocol](https://modelcontextprotocol.io). AIVON 연결 스토어 전체가 이 표준 위에서 동작합니다.
+- **도구 표준:** [Model Context Protocol](https://modelcontextprotocol.io). Aivon 연결 스토어 전체가 이 표준 위에서 동작합니다.
 - Second Brain과 디지털 Bullet Journal 패턴.
 
 ## 📄 라이선스
@@ -495,15 +497,21 @@ Aivon가 유용하다면 저장소에 ⭐ 를 눌러 주세요. 다른 사람들
 
 ---
 
-## 📞 Contact & Support AIVON
+## ☕ AIVON 후원하기
 
-**AIVON — Intelligence · Vision · Always On**
+Aivon OS는 무료 오픈 소스이며, 아직 한 사람이 코드를 쓰고 테스트 서버 비용을 내고 있습니다. Aivon가 일이나 생활에 도움이 된다면, 작은 후원이 버그 수정과 새 기능에 쓸 시간을 더 만들어 줍니다.
 
-- 👤 **Author / Owner**: **Minh Vũ**
-- 📞 **Hotline / Zalo**: `0989811931`
-- 🌐 **GitHub Repository**: [https://github.com/kenwingroup/aivon](https://github.com/kenwingroup/aivon)
+- 🌍 **PayPal**: [paypal.me/minhvu](https://paypal.me/minhvu)
+- 🏦 **MB Bank** (베트남): `6636966369`
+- 📱 **MoMo 지갑** (베트남): `0372752740`
+
+후원이 어렵다면 Aivon를 쓰고, 피드백을 보내고, 풀 리퀘스트를 여는 것도 모두 큰 후원입니다.
 
 <div align="center">
 <br>
-Developed in Vietnam by <b>Minh Vũ · Hotline: 0989811931</b> · <a href="https://github.com/kenwingroup/aivon">AIVON</a>
+<b><a href="https://aivon.vn">aivon.vn</a></b><br>
+베트남에서 ☕ 와 함께 <b><a href="https://minhvu.vn">Minh Vũ</a></b> 가 만들었습니다
 </div>
+
+---
+**Phát triển bởi Minh Vũ** — Hotline hỗ trợ: **0989811931** | GitHub: [kenwingroup/aivon](https://github.com/kenwingroup/aivon)

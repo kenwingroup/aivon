@@ -65,11 +65,13 @@ check("chọn tay groq có key -> groq, lý do chosen", r["provider"] == "groq" 
 _goc_mcp = voice_ear._mcp_labels
 voice_ear._mcp_labels = lambda: ["Pancake POS", "Gmail", "aivon"]
 tv = voice_ear.vocab({"voice": {"hotwords": "Webcake"}})
+# 2026-11-06: the connections go first and the assistant's name plus the owner's words LAST, next to the audio
+# (Whisper keeps only the end of its prompt).
 check("từ mồi có tên trợ lý, từ người dùng khai và tên kết nối MCP",
-      tv[:2] == ["Aivon", "Webcake"] and "Pancake POS" in tv and "Gmail" in tv)
+      tv[-2:] == ["Aivon", "Webcake"] and "Pancake POS" in tv and "Gmail" in tv)
 check("từ mồi không lặp tên trợ lý khi kết nối trùng tên", [t.lower() for t in tv].count("aivon") == 1)
-check("lớp sửa mờ nghe_sua.tu_vung KHÔNG nhận tên MCP",
-      "Pancake POS" not in nghe_sua.tu_vung({"voice": {"hotwords": "Webcake"}}))
+check("lớp sửa mờ nghe_sua.vocabulary KHÔNG nhận tên MCP",
+      "Pancake POS" not in nghe_sua.vocabulary({"voice": {"hotwords": "Webcake"}}))
 voice_ear._mcp_labels = _goc_mcp
 
 # ---- routes ----
@@ -118,8 +120,12 @@ OKEY = {"openai_api_key": "sk-test"}
 r = voice_ear.select_ear({"model": dict(OKEY), "voice": {}}, "anthropic-cli")
 check("auto, only an OpenAI key -> OpenAI ear, upload kind", r["provider"] == "openai" and r["kind"] == "upload"
       and r["reason"] == voice_ear.REASON_BEST)
-r = voice_ear.select_ear({"model": dict(KEY, **OKEY), "voice": {}}, "openai")
+r = voice_ear.select_ear({"model": dict(KEY, **OKEY), "voice": {}}, "anthropic-cli")
 check("auto with both keys keeps Groq first (the measured ear)", r["provider"] == "groq")
+# 2026-11-08, owner: the ear follows the main brain's vendor, so an OpenAI brain hears with OpenAI's own ear.
+r = voice_ear.select_ear({"model": dict(KEY, **OKEY), "voice": {}}, "openai")
+check("auto, OpenAI brain -> OpenAI ear (same vendor), Groq stays as the fallback",
+      r["provider"] == "openai" and r["reason"] == voice_ear.REASON_SAME_VENDOR and r["fallbacks"] == ["groq"])
 r = voice_ear.select_ear({"model": dict(KEY, **OKEY), "voice": {"ear": "openai"}})
 check("openai can be chosen by hand", r["provider"] == "openai" and r["reason"] == voice_ear.REASON_CHOSEN)
 

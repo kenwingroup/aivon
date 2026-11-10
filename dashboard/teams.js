@@ -59,12 +59,12 @@
   var CAP_KEY = { task_turns: "teams.cap.task_turns", task_steps: "teams.cap.task_steps", daily_turns: "teams.cap.daily_turns",
     mentions: "teams.cap.mentions", help_depth: "teams.cap.help_depth", busy_wait_s: "teams.cap.busy_wait_s",
     judge_daily: "teams.cap.judge_daily", volunteer_k: "teams.cap.volunteer_k", judge_off_batch: "teams.cap.judge_off_batch",
-    reply_parallel: "teams.cap.reply_parallel" };
+    reply_parallel: "teams.cap.reply_parallel", auto_jobs: "teams.cap.auto_jobs" };
   var TAB_KEY = { info: "teams.tab_info", jobs: "teams.tab_jobs", team: "teams.tab_team" };
   var LATE = ["late_cancelled", "late", "old_revision", "member_left", "leader_changed", "lease_lost"];
   // Trần chủ nhóm chỉnh được (team_store.OWNER_CAPS). Bốn trần đầu có "Không giới hạn" (lưu null, GOAL T1 mục 9).
   var CAP_FIELDS = ["task_turns", "task_steps", "help_depth", "daily_turns", "mentions", "busy_wait_s", "judge_daily",
-    "volunteer_k"];
+    "volunteer_k", "auto_jobs"];
   var OWNER_UNL = ["task_turns", "task_steps", "help_depth", "daily_turns", "judge_daily"];
   // Ô chọn chế độ (T3 phần J): phán xử khi Cộng hưởng của trợ lý tắt, 1 = lọc code + lô, 0 = chỉ lọc code. Chỉ chủ chỉnh.
   // 0.260.0: reply_parallel, 1 = mọi người được @ trả lời cùng lúc, 0 = lần lượt theo thứ tự @.
@@ -236,14 +236,15 @@
     var text = String(m.content == null ? "" : m.content);
     if (mine) {
       var Q = quoteApi();
-      var t = Q ? Q.tach(text) : { quote: "", rest: text };
+      var sk = skillSplit(text);
+      var t = Q ? Q.tach(sk.rest) : { quote: "", rest: sk.rest };
       // 0.191.0: files sent with the message show as chips; the paperclip names line stored for the team turns is not repeated.
       var files = ((m.meta || {}).files || []).filter(function (f) { return f && f.path; });
       var rest = files.length ? t.rest.replace(/(?:\n\n)?\uD83D\uDCCE [^\n]*$/, "") : t.rest;
       // A long message collapses to ten lines with "Show more", like the main chat (chat-acts.js).
       var A = actsApi();
       var long = !!(A && A.isLongText && A.isLongText(rest));
-      return (t.quote ? quoteHtml(t.quote) : "") + (rest ? '<div class="tm-text utext' + (long && !open ? " clamped" : "") + '">' +
+      return skillChipHtml(sk.slug) + (t.quote ? quoteHtml(t.quote) : "") + (rest ? '<div class="tm-text utext' + (long && !open ? " clamped" : "") + '">' +
         esc(rest).replace(/\n/g, "<br>") + "</div>" + (long ? A.clampButtonHtml(!!open) : "") : "") +
         (files.length ? '<div class="tm-files">' + files.map(function (f) { return fileChipHtml(f, m.ts); }).join("") + "</div>" : "");
     }
@@ -279,9 +280,37 @@
   }
 
   // One-line plain preview of a message for the reply bar and the quote: markdown marks and an earlier quote dropped.
+  // 0.449.0: /skill in the team composer. The message carries the main chat's block (chat-slash.js buildSkillInvocation):
+  // "[SKILL: slug\n...]\n\n" before the owner's words. The server reads the skill into every member turn of that message
+  // or job (team_runner._skills); the chat shows the owner's own words and a small "/slug" chip.
+  var SKILL_HEAD = /^\[SKILL: ([A-Za-z0-9_-]+)\n[^\]]*\]\n\n/;
+  function skillSplit(text) {
+    var s = String(text == null ? "" : text), m = s.match(SKILL_HEAD);
+    return m ? { slug: m[1], rest: s.slice(m[0].length) } : { slug: "", rest: s };
+  }
+  // The skill a typed message calls: "/slug words" at the start, or a known "/slug" inside the sentence (the last one,
+  // like the main chat). `known` is the brain's skill slugs. Returns {cmd, rest, mid} or null. Inside a sentence the name
+  // stays in the words ("make /viet-email the main skill" still reads right); at the start it is an address and goes.
+  function skillCall(typed, known) {
+    var list = (known || []).map(function (x) { return String(x || "").toLowerCase(); });
+    var t = String(typed || "");
+    var head = t.match(/^\/([a-zA-Z0-9_-]+)(?:\s+([\s\S]*))?$/);
+    if (head && list.indexOf(head[1].toLowerCase()) >= 0) return { cmd: head[1].toLowerCase(), rest: (head[2] || "").trim(), mid: false };
+    var re = /(^|\s)\/([a-zA-Z0-9_-]+)(?=\s|$)/g, m, hit = null;
+    while ((m = re.exec(t)) !== null) { if (list.indexOf(m[2].toLowerCase()) >= 0) hit = m; }
+    if (!hit) return null;
+    var start = hit.index + hit[1].length;
+    var rest = (t.slice(0, start) + hit[2] + t.slice(start + 1 + hit[2].length)).trim().replace(/\s{2,}/g, " ");
+    return { cmd: hit[2].toLowerCase(), rest: rest, mid: true };
+  }
+  function skillChipHtml(slug) {
+    return slug ? '<span class="tm-skill-chip" title="' + esc(tw("teams.skill_used", { name: slug })) + '">' + ic("sparkles") +
+      "<span>/" + esc(slug) + "</span></span>" : "";
+  }
+
   function plainPreview(text, n) {
     var Q = quoteApi();
-    var s = String(text == null ? "" : text);
+    var s = skillSplit(text).rest;
     if (Q) s = Q.tach(s).rest;
     // Hidden blocks (AIVON_CARD, AIVON_ASK... are HTML comments) never show in a preview or a quote.
     s = s.replace(/<!--[\s\S]*?-->/g, " ").replace(/<!--[\s\S]*$/, " ");
@@ -457,7 +486,18 @@
         seen[k].n++;
       });
     });
-    return out.sort(function (a, b) { return a.ten.localeCompare(b.ten, "vi"); });
+    return tagOrder(out);
+  }
+  // 0.454.0: the owner's own tag order (reorder-dialog.js, saved per page), else by name.
+  function tagOrder(list) {
+    var R = typeof window !== "undefined" && window.AivonReorder;
+    return R ? R.sortTags(list, "tags_teams", function (g) { return g.key; }, function (g) { return g.ten; })
+      : list.sort(function (a, b) { return a.ten.localeCompare(b.ten, "vi"); });
+  }
+  function reorderTags(tags) {
+    var R = window.AivonReorder;
+    R.open({ title: tw("reorder.title_tags"), items: tags.map(function (g) { return { id: g.key, label: g.ten, icon: "tag" }; }),
+      save: function (keys) { return R.saveTags("tags_teams", keys); } });
   }
 
   function hasTag(t, key) {
@@ -497,6 +537,10 @@
     tags.forEach(function (g) {
       rows.push({ label: g.ten, icon: "tag", right: String(g.n), on: key === g.key, run: function () { pick(g.key); } });
     });
+    if (tags.length > 1 && typeof window !== "undefined" && window.AivonReorder) {
+      rows.push({ sep: true });
+      rows.push({ label: tw("reorder.menu_tags"), icon: "arrow-up-down", run: function () { reorderTags(tags); } });
+    }
     return rows;
   }
 
@@ -507,7 +551,7 @@
     var seen = {};
     allTags(teams).forEach(function (g) { seen[g.key] = 1; out.push({ ten: g.ten, key: g.key, on: !!mine[g.key] }); });
     Object.keys(mine).forEach(function (k) { if (!seen[k]) out.push({ ten: mine[k], key: k, on: true }); });
-    return out.sort(function (a, b) { return a.ten.localeCompare(b.ten, "vi"); });
+    return tagOrder(out);
   }
 
   function tagPicker() {
@@ -684,6 +728,8 @@
     } else if (mine && meta.as_job) {
       head.push('<span class="tm-tag tm-tag-new">' + ic("list-todo") + esc(tw("teams.as_job")) + "</span>");
     }
+    // 0.357.0: a job Aivon Core gave the team on the owner's behalf (aivon_team op=dispatch, issue #826).
+    if (mine && meta.via_core) head.push('<span class="tm-role">' + esc(tw("teams.via_core")) + "</span>");
     if (meta.job_result) head.push('<span class="tm-result">' + esc(tw("teams.job_result")) + "</span>");
     var late = !mine && LATE.indexOf(meta.status) >= 0;
     var body = bodyHtml(m, mine, !!(ctx.unclamped && ctx.unclamped[m.id]));
@@ -746,7 +792,8 @@
   // lỗi hay không làm ra gì mới thì Thử lại, bị dừng giữa chừng thì Làm tiếp, chưa có trưởng nhóm thì mở chỗ chọn.
   function blockedAction(kind) {
     if (kind === "cap_reached") return { act: "extend", key: "teams.act.extend" };
-    if (kind === "failed" || kind === "no_progress") return { act: "retry", key: "teams.act.retry" };
+    // 0.436.0: auto_retry waits for its own retry time; the same button runs it now.
+    if (kind === "failed" || kind === "no_progress" || kind === "auto_retry") return { act: "retry", key: "teams.act.retry" };
     if (kind === "interrupted") return { act: "retry", key: "teams.act.continue" };
     if (kind === "no_leader") return { act: "leader", key: "teams.pick_leader" };
     if (kind === "agent_busy_long") return { act: "resume", key: "teams.resume" };
@@ -807,6 +854,7 @@
       else if (k === "contains" && parts[0]) out.push({ kind: "file_contains", path: parts[0], min_chars: Number(parts[1]) || 0, must_contain: list(parts[2]) });
       else if (k === "json" && parts[0]) out.push({ kind: "json_keys", path: parts[0], keys: list(parts[1]) });
       else if (k === "cmd" && parts[0]) out.push({ kind: "command_ok", command: l.slice(i + 1).trim() });
+      else if (k === "confirm-message") out.push({ kind: "owner_confirm", target: "message" });
       else if (k === "confirm") out.push(parts[0] ? { kind: "owner_confirm", path: parts[0] } : { kind: "owner_confirm" });
       else bad.push(l);
     });
@@ -842,11 +890,113 @@
       ic("check") + "<b>" + esc(tw("teams.acc.title")) + "</b></div>" + '<ul class="tm-ap-calls">' + rows + "</ul>" +
       ((a.stale || []).length ? '<div class="tm-note-line">' + esc(tw("teams.acc.stale")) + "</div>" : "") +
       (waiting ? '<div class="tm-actions"><button type="button" class="ws-btn tm-primary" data-acc-decide="accept" data-acc="' +
-        esc(a.task_id) + '" data-acc-rev="' + esc(a.revision) + '" data-acc-round="' + esc(a.rounds) + '">' + esc(tw("teams.acc.accept")) +
+        esc(a.task_id) + '" data-acc-rev="' + esc(a.revision) + '" data-acc-round="' + esc(a.rounds) +
+        '" data-acc-contract="' + esc(a.contract_version || "") + '" data-acc-manifest="' + esc(a.output_manifest_hash || "") + '">' + esc(tw("teams.acc.accept")) +
         '</button><button type="button" class="ws-btn" data-acc-decide="reject" data-acc="' + esc(a.task_id) + '" data-acc-rev="' +
-        esc(a.revision) + '" data-acc-round="' + esc(a.rounds) + '">' + esc(tw("teams.acc.reject")) + "</button></div>" :
+        esc(a.revision) + '" data-acc-round="' + esc(a.rounds) + '" data-acc-contract="' + esc(a.contract_version || "") +
+        '" data-acc-manifest="' + esc(a.output_manifest_hash || "") + '">' + esc(tw("teams.acc.reject")) + "</button></div>" :
         '<div class="tm-ap-state">' + esc(tw(a.status === "accepted" ? "teams.acc.st.accepted" : "teams.acc.st.closed")) + "</div>") +
       "</div>";
+  }
+
+  function acceptanceDecisionPayload(dataset, decision, note) {
+    var body = { decision: decision, note: note || "", revision: Number(dataset.accRev) || null,
+      round: Number(dataset.accRound) || null, contract_version: Number(dataset.accContract) || null,
+      output_manifest_hash: dataset.accManifest || "" };
+    var signature = JSON.stringify(body);
+    if (!dataset.accDecisionKey || dataset.accDecisionBody !== signature) {
+      dataset.accDecisionKey = newClientId();
+      dataset.accDecisionBody = signature;
+    }
+    body.decision_key = dataset.accDecisionKey;
+    return body;
+  }
+
+  function qualityPolicyPayload(input) {
+    var mode = input.limit_migration || "";
+    var value = input.reference_usd;
+    var empty = value === "" || value === null || value === undefined;
+    var amount = empty ? null : Number(value);
+    if ((input.enabled && mode !== "observe" && mode !== "retain") ||
+        typeof value === "boolean" || (!empty && (!Number.isFinite(amount) || amount < 0))) return { ok: false };
+    var body = { enabled: !!input.enabled, reference_usd: amount };
+    if (mode) body.limit_migration = mode;
+    return { ok: true, body: body };
+  }
+
+  function qualityTemplatePayload(template, version, criteria) {
+    template = template || {};
+    return { expected_version: Number(version), criteria: criteria,
+      expected_outputs: template.expected_outputs || [], source_refs: template.source_refs || [],
+      fix_rounds: template.fix_rounds === undefined ? 2 : template.fix_rounds };
+  }
+
+  function qualityPolicyHtml(team) {
+    var p = team.quality_policy || {};
+    var template = team.acceptance_template;
+    var lines = template ? (template.criteria || []).map(function (c) {
+      if (c.kind === "owner_confirm") return c.target === "message" ? "confirm-message:" : "confirm: " + (c.path || "");
+      if (c.kind === "file_exists") return "file: " + c.path;
+      if (c.kind === "file_contains") return "contains: " + c.path + " | " + (c.min_chars || 0) + " | " + (c.must_contain || []).join(", ");
+      if (c.kind === "json_keys") return "json: " + c.path + " | " + (c.keys || []).join(", ");
+      if (c.kind === "command_ok") return "cmd: " + c.command;
+      return "";
+    }).join("\n") : "confirm-message:";
+    return '<section class="tm-sec"><div class="tm-qhead">' + esc(tw("teams.quality.title")) + infoBtn() + "</div>" +
+      infoBody(esc(tw("teams.quality.explain"))) +
+      '<form class="tm-form tm-quality-form" onsubmit="return false"><label class="tm-radio"><input type="checkbox" class="tm-quality-enabled"' +
+      (p.enabled ? " checked" : "") + "><span>" + esc(tw("teams.quality.enable")) + "</span></label>" +
+      '<label class="tm-field"><span>' + esc(tw("teams.quality.limit_choice")) + '</span><select class="tm-quality-migration">' +
+      [["", "teams.quality.choose"], ["observe", "teams.quality.observe"], ["retain", "teams.quality.retain"]].map(function (r) {
+        var selected = p.limit_migration_selected ? p.limit_migration : "";
+        return '<option value="' + r[0] + '"' + (selected === r[0] ? " selected" : "") + ">" + esc(tw(r[1])) + "</option>";
+      }).join("") + "</select></label>" +
+      '<label class="tm-field"><span>' + esc(tw("teams.quality.reference")) + '</span><input class="tm-quality-reference" type="number" min="0" step="any" value="' +
+      esc(p.reference_usd == null ? "" : p.reference_usd) + '"></label><button type="button" class="ws-btn tm-quality-save">' +
+      esc(tw("teams.save")) + "</button></form>" +
+      '<details><summary>' + esc(tw("teams.quality.template")) + '</summary><form class="tm-form tm-template-form" data-template-version="' +
+      esc(template ? template.version : 0) + '" onsubmit="return false"><label class="tm-field"><span>' +
+      esc(tw("teams.quality.criteria")) + infoBtn() + "</span>" + infoBody(esc(tw("teams.acc.help"))) +
+      '<textarea class="tm-template-criteria" rows="5">' + esc(lines) + '</textarea></label><button type="button" class="ws-btn tm-template-save">' +
+      esc(tw("teams.save")) + "</button></form></details></section>";
+  }
+
+  function qualityUsageHtml(u, reference) {
+    if (!u) return "";
+    var money = u.money || {}, coverage = u.coverage || {};
+    var known = function (v) { return v !== null && v !== undefined && Number.isFinite(Number(v)); };
+    var val = function (v) { return known(v) ? esc(v) : esc(tw("teams.quality.unknown")); };
+    var rows = [["teams.quality.reported", money.reported_usd], ["teams.quality.estimated", money.estimated_usd],
+      ["teams.quality.subscription", money.subscription_equivalent_usd]];
+    var h = '<section class="tm-sec"><div class="tm-qhead">' + esc(tw("teams.quality.usage")) + infoBtn() + "</div>" +
+      infoBody(esc(tw("teams.quality.usage_explain"))) +
+      "<div>" + esc(tw("teams.quality.attempts")) + ": " + val(u.attempts) + " · " + esc(tw("teams.quality.requests")) + ": " + val(u.requests) + "</div>" +
+      "<div>" + esc(tw("teams.quality.tokens")) + ": " + val(u.tokens_in) + " / " + val(u.tokens_out) + "</div>";
+    rows.forEach(function (r) { h += "<div>" + esc(tw(r[0])) + ": " + (known(r[1]) ? esc(Number(r[1]).toFixed(4)) + " USD" : val(null)) + "</div>"; });
+    if (coverage.status !== "observed") h += '<div class="tm-note-line">' + esc(tw("teams.quality.partial")) + "</div>";
+    var measured = (known(money.reported_usd) ? Number(money.reported_usd) : 0) +
+      (known(money.estimated_usd) ? Number(money.estimated_usd) : 0);
+    if (known(reference) && measured > Number(reference)) h += '<div class="tm-note-line">' + esc(tw("teams.quality.above_reference")) + "</div>";
+    var roles = u.roles || {};
+    if (Object.keys(roles).length) h += '<details><summary>' + esc(tw("teams.quality.roles")) + "</summary>" +
+      Object.keys(roles).map(function (role) {
+        var r = roles[role];
+        return "<div>" + esc(tw(TURN_ROLE_KEY[role] || "teams.quality.shared")) + ": " + val(r.attempts) + " · " +
+          val(r.tokens_in) + " / " + val(r.tokens_out) + "</div>";
+      }).join("") + "</details>";
+    return h + "</section>";
+  }
+
+  function taskQualityHtml(detail) {
+    if (!detail) return "";
+    var acceptance = detail.acceptance || {};
+    var stale = (acceptance.status === "passed" || acceptance.status === "accepted") && acceptance.completion_valid === false;
+    var unverified = detail.task && detail.task.status === "done" &&
+      (!detail.acceptance || acceptance.verification === "legacy_unverified");
+    return '<details class="tm-task-quality"><summary>' + esc(tw("teams.quality.task_usage")) + "</summary>" +
+      (unverified ? '<div class="tm-note-line">' + esc(tw("teams.quality.unverified")) + "</div>" : "") +
+      (stale ? '<div class="tm-note-line">' + esc(tw("teams.quality.stale")) + "</div>" : "") +
+      qualityUsageHtml(detail.usage) + "</details>";
   }
 
   // Dải việc ở đầu khung chat: việc đang làm (một dòng) và việc đang chờ chủ (thẻ có nút giải quyết).
@@ -1299,6 +1449,9 @@
         "</select></label>";
     }).join("");
     return '<form class="tm-form tm-caps-form" onsubmit="return false"><div class="tm-qhead">' + esc(tw("teams.caps")) + "</div>" +
+      (team.quality_policy && team.quality_policy.enabled && team.quality_policy.limit_migration === "observe" ?
+        '<div class="tm-qhead">' + esc(tw("teams.quality.observe")) + infoBtn() + '</div>' +
+        infoBody(esc(tw("teams.quality.caps_explain"))) : "") +
       // Trưởng nhóm đang được tự quyết: số trong hộp quyền đè số ở đây; nói rõ thay vì để "Đã lưu" mà không đổi gì.
       (team.authority && team.authority.authority ? '<div class="tm-note-line">' + esc(tw("teams.caps_full_note")) + "</div>" : "") +
       capRows + '<button type="button" class="ws-btn tm-caps-save">' + esc(tw("teams.save")) + "</button></form>";
@@ -1398,10 +1551,9 @@
         '<div class="tm-note-line">' + esc(tw("teams.auth.need_leader")) + "</div></section>";
     }
     return '<section class="tm-auth" aria-label="' + esc(tw("teams.auth.title")) + '"><div class="tm-qhead">' +
-      esc(tw("teams.auth.title")) + "</div>" +
+      esc(tw("teams.auth.title")) + infoBtn() + "</div>" + infoBody(esc(tw("teams.auth.scope"))) +
       '<div class="tm-auth-status' + (auth ? " tm-auth-on" : "") + '">' + esc(status) + "</div>" +
       '<div class="tm-react-sub">' + esc(tw("teams.auth.now", { caps: now })) + "</div>" +
-      '<div class="tm-react-sub">' + esc(tw("teams.auth.scope")) + "</div>" +
       '<div class="tm-react-sub">' + esc(managed.length ? tw("teams.auth.managed", { names: managed.join(", ") })
         : tw("teams.auth.managed_none")) + "</div>" +
       '<div class="tm-qhead">' + esc(tw("teams.auth.caps_head")) + "</div>" + rows +
@@ -1471,10 +1623,10 @@
     var list = function (obj, label) {
       return Object.keys(obj).map(function (k) { return esc(label(k)) + " " + obj[k]; }).join(" · ");
     };
-    return '<div class="tm-turns"><div class="tm-qhead">' + esc(tw("teams.turns_today", { n: today, cap: capText((team.caps || {}).daily_turns) })) + "</div>" +
+    return '<div class="tm-turns"><div class="tm-qhead">' + esc(tw("teams.turns_today", { n: today, cap: capText((team.caps || {}).daily_turns) })) +
+      infoBtn() + "</div>" + infoBody(esc(tw("teams.turns_note"))) +
       "<div>" + esc(tw("teams.turns_by_agent")) + ": " + list(byAgent, function (k) { return nameOf(team.members, k); }) + "</div>" +
-      "<div>" + esc(tw("teams.turns_by_role")) + ": " + list(byRole, function (k) { return tw(k); }) + "</div>" +
-      '<div class="tm-sub">' + esc(tw("teams.turns_note")) + "</div></div>";
+      "<div>" + esc(tw("teams.turns_by_role")) + ": " + list(byRole, function (k) { return tw(k); }) + "</div></div>";
   }
 
   // 0.208.0: department mandate (team_mandate.py). Kinds, levels and states with literal keys for test_i18n.
@@ -1502,9 +1654,12 @@
   function mandateFormHtml(m) {
     m = m || {};
     var b = m.budget || {};
-    var area = function (name, key, val, rows) {
-      return '<label class="tm-field"><span>' + esc(tw(key)) + '</span><textarea name="' + name + '" rows="' + (rows || 2) +
-        '">' + esc(val || "") + "</textarea></label>";
+    // `help`: an explanation folded into an (i) beside the label. The label's for= keeps the textarea as its control, so the
+    // (i) button inside the label does not steal the click target.
+    var area = function (name, key, val, rows, help) {
+      return '<label class="tm-field" for="' + name + '"><span>' + esc(tw(key)) + (help ? infoBtn() : "") + '</span><textarea id="' +
+        name + '" name="' + name + '" rows="' + (rows || 2) + '">' + esc(val || "") + "</textarea></label>" +
+        (help ? infoBody(esc(tw(help))) : "");
     };
     var num = function (name, key, val) {
       return '<label class="tm-field tm-cap"><span>' + esc(tw(key)) + '</span><input type="number" min="0" name="' + name +
@@ -1520,8 +1675,7 @@
     return '<form class="tm-form tm-md-form" onsubmit="return false">' +
       area("tm-md-outcome", "teams.md.outcome", m.outcome, 2) +
       area("tm-md-metrics", "teams.md.metrics", (m.metrics || []).join("\n"), 3) +
-      area("tm-md-sources", "teams.md.sources", (m.sources || []).join("\n"), 3) +
-      '<div class="tm-sub">' + esc(tw("teams.md.sources_help")) + "</div>" +
+      area("tm-md-sources", "teams.md.sources", (m.sources || []).join("\n"), 3, "teams.md.sources_help") +
       area("tm-md-scope", "teams.md.scope", m.scope, 2) +
       num("tm-md-cadence", "teams.md.cadence", m.cadence_min || 60) +
       num("tm-md-obs", "teams.md.observe_per_day", b.observe_per_day == null ? 48 : b.observe_per_day) +
@@ -1674,12 +1828,15 @@
       esc(tw("teams.head_people", { n: nAct })) + "</div>" +
       membersHtml(team, agents, ui.openMember) + "</section>" +
       '<section class="tm-sec">' + levelsHtml(team) + usageHtml(team) + "</section>" +
-      workModeHtml(team) + mandateHtml(team, ui.mandateEdit) +
+      workModeHtml(team) + qualityPolicyHtml(team) + qualityUsageHtml(team.quality_usage, (team.quality_policy || {}).reference_usd) +
+      mandateHtml(team, ui.mandateEdit) +
       '<section class="tm-sec"><div class="tm-qhead">' + esc(tw("teams.tab_team")) + "</div>" +
       '<label class="tm-rs tm-pin-row"><input type="checkbox" class="tm-pin-toggle"' + (team.pinned_at ? " checked" : "") +
       "><span>" + esc(tw("teams.pin_top")) + "</span></label>" + settingsFormHtml(team) + "</section>" +
       '<details class="tm-adv"' + (ui.advOpen ? " open" : "") + '><summary class="tm-adv-sum">' + esc(tw("teams.advanced")) +
-      '</summary><div class="tm-sub">' + esc(tw("teams.advanced_note")) + "</div>" + capsFormHtml(team) + authorityHtml(team) +
+      // The (i) may sit inside <summary>: info-tip.js cancels the click's default action, so it opens the note without
+      // folding or unfolding the section.
+      infoBtn() + "</summary>" + infoBody(esc(tw("teams.advanced_note"))) + capsFormHtml(team) + authorityHtml(team) +
       limitsHtml(team) + turnsHtml(ui.turns || [], team) + "</details>";
   }
 
@@ -1764,8 +1921,8 @@
       focusPicker: false, focusBack: null, searchOpen: false, searchResults: null, searchQuery: "", jumped: null,
       openMember: null, advOpen: false, turns: [], sideOpener: null, rowMenu: null, focusRowMenu: false, swallowClick: false,
       picked: [], retrying: {}, pickSt: null, pickOpener: null, pickHost: null, roster: [],
-      renaming: "", renamingHead: false, replyTo: null, plusOpen: false, dict: null, dictBase: "", dictState: "idle",
-      atts: [], folder: null, info: null, typing: [], pinned: [], pinsOpen: false, tagFilter: readTagFilter(),
+      renaming: "", renamingHead: false, replyTo: null, plusOpen: false, dict: null, dictBase: "", dictState: "idle", dictSend: false,
+      atts: [], folder: null, repos: [], ghIcon: null, skills: null, skillsBrain: "", info: null, typing: [], pinned: [], pinsOpen: false, tagFilter: readTagFilter(),
       autoOpened: false, unclamped: {}, outbox: [] };
   }
 
@@ -1828,7 +1985,8 @@
     }
     var shown = filterTeams(S.teams, S.tagFilter);
     if (box) box.innerHTML = S.loaded || S.teams.length ? (S.tagFilter && !shown.length ? '<p class="tm-empty">' +
-      esc(tw("teams.tags_none")) + "</p>" : teamListHtml(shown, S.activeId, undefined, S.rowMenu, S.renaming, S.tagMenu)) : "";
+      esc(tw("teams.tags_none")) + "</p>" : teamListHtml(shown, S.activeId, undefined, S.rowMenu, S.renaming, S.tagMenu))
+      : loadingHtml("teams.loading_list");
     bindTagPicker(box);
     if (S.renaming) focusRename(box, rd);
     if (box && S.rowMenu && S.focusRowMenu) {
@@ -1905,7 +2063,8 @@
     if (!bar) return;
     bar.hidden = !S.filterTask || !S.team;
     bar.innerHTML = bar.hidden ? "" : "<span>" + esc(tw("teams.filter_on", { title: S.taskTitles[S.filterTask] || S.filterTask })) +
-      '</span><button type="button" class="ws-btn tm-filter-clear">' + esc(tw("teams.filter_clear")) + "</button>";
+      '</span><button type="button" class="ws-btn tm-filter-clear">' + esc(tw("teams.filter_clear")) + "</button>" +
+      (S.taskDetail && S.taskDetail.task && S.taskDetail.task.id === S.filterTask ? taskQualityHtml(S.taskDetail) : "");
   }
 
   function runSearch() {
@@ -2035,6 +2194,11 @@
     return items;
   }
 
+  // A small "Loading..." line with a spinner (.pg-loading in console.css), the same as on the Partners page.
+  function loadingHtml(key) {
+    return '<div class="pg-loading" role="status" aria-live="polite">' + esc(tw(key)) + "</div>";
+  }
+
   function htmlNodes(html) {
     if (!html) return [];
     var t = document.createElement("template");
@@ -2052,7 +2216,9 @@
       { key: "jumped", html: S.jumped !== null && S.jumped !== undefined ? '<div class="tm-jumped">' + esc(tw("teams.search_viewing")) +
         ' <button type="button" class="ws-btn tm-jump-back">' + ic("chevrons-down") + esc(tw("teams.search_back")) + "</button></div>" : "" },
       { key: "older", html: S.hasMore ? '<button type="button" class="ws-btn tm-older">' + esc(tw("teams.older")) + "</button>" : "" },
-      { key: "empty", html: !list.length && !S.hasMore ? '<div class="tm-empty tm-empty-chat">' + esc(tw("teams.chat_empty")) + "</div>" : "" }];
+      // Messages of this team not loaded yet: say so, rather than "no message yet" (2026-11-09, owner).
+      { key: "empty", html: !list.length && !S.hasMore ? (S.msgsFor !== S.activeId ? loadingHtml("teams.loading_chat")
+        : '<div class="tm-empty tm-empty-chat">' + esc(tw("teams.chat_empty")) + "</div>") : "" }];
     list.forEach(function (m) {
       var mm = m;
       if (S.skipped["p" + m.id] && m.meta && m.meta.proposal) mm = Object.assign({}, m, { meta: Object.assign({}, m.meta, { proposal: null }) });
@@ -2077,12 +2243,20 @@
     if (S.team) box.setAttribute("data-seen-team", S.team.team_id); else box.removeAttribute("data-seen-team");
     if (!S.team) {
       S.listCache = null;
-      box.innerHTML = S.teams.length ? '<div class="tm-empty tm-empty-chat">' + esc(tw("teams.pick_team")) + "</div>" : "";
+      // A team being opened, or the list itself still on its way: "Loading", not "pick a team" (2026-11-09, owner).
+      box.innerHTML = S.activeId || !S.loaded ? loadingHtml(S.activeId ? "teams.loading_chat" : "teams.loading_list")
+        : S.teams.length ? '<div class="tm-empty tm-empty-chat">' + esc(tw("teams.pick_team")) + "</div>" : "";
       return;
     }
     var built = listItems();
     var prev = S.listCache && S.listCache.team === S.team.team_id && S.listCache.box === box ? S.listCache.items : null;
-    S.listCache = { team: S.team.team_id, box: box, items: listSync(box, built.items, prev, htmlNodes) };
+    // Performance (2026-11-05): Alpine walks every node added anywhere on the page looking for x- directives; message
+    // nodes never carry one. Same two steps as the main chat (app.js chatAppend): the list itself is flagged, and the
+    // sync runs inside Alpine.mutateDom so what is written into a message is not walked either.
+    box._x_ignoreMutationObserver = true;
+    var A = typeof window !== "undefined" && window.Alpine;
+    var sync = function () { return listSync(box, built.items, prev, htmlNodes); };
+    S.listCache = { team: S.team.team_id, box: box, items: A && typeof A.mutateDom === "function" ? A.mutateDom(sync) : sync() };
     // The latest assistant message keeps its Like button visible (like Zalo); older ones show it on hover.
     var lastAgent = null;
     for (var li = built.list.length - 1; li >= 0; li--) if (built.list[li].author_kind === "agent") { lastAgent = built.list[li].id; break; }
@@ -2156,6 +2330,7 @@
     grow(box.querySelector(".tm-input"));
     drawHint();
     drawTyping();
+    if (teamSuggest) teamSuggest.refresh();
     if (S.focusComposer && !off) {
       S.focusComposer = false;
       var inp = box.querySelector(".tm-input");
@@ -2183,15 +2358,24 @@
 
   // The "+" menu of the composer: Assign as a job (on/off), Mention an assistant, Search this team. Room for more later
   // without growing the composer row (the old always-visible "Assign job" pill took a third of a phone's width).
+  // The GitHub mark of the main chat (github-connect.js), so a team chat's repo looks the same (owner, 2026-11-06).
+  // The branch icon only when that file is missing.
+  function ghLogo() {
+    var G = typeof window !== "undefined" && window.AivonGithubRepos;
+    return G && G.logo ? G.logo : ic("git-branch");
+  }
+
   function plusMenuHtml(off) {
     if (!S.plusOpen || off) return "";
+    // `icon` is an icon name, or ready markup when it starts with "<" (the GitHub logo).
     var item = function (attr, icon, label, checked) {
-      return '<button type="button" ' + attr + ">" + ic(icon) + "<span>" + esc(label) + "</span>" +
+      return '<button type="button" ' + attr + ">" + (icon.charAt(0) === "<" ? icon : ic(icon)) + "<span>" + esc(label) + "</span>" +
         (checked ? '<span class="tm-plus-on">' + ic("check") + "</span>" : "") + "</button>";
     };
     return '<div class="tm-plus-menu" role="menu" aria-label="' + esc(tw("teams.plus")) + '">' +
       item('role="menuitem" data-plus-attach="1"', "paperclip", tw("teams.attach")) +
       item('role="menuitem" data-plus-folder="1"', "folder", tw("cp.pin_folder")) +
+      item('role="menuitem" data-plus-github="1"', ghLogo(), tw("gh.menu")) +
       item('role="menuitemcheckbox" aria-checked="' + (S.asJob ? "true" : "false") + '" class="tm-asjob" title="' +
         esc(tw("teams.as_job_title")) + '"', "list-todo", tw("teams.as_job"), S.asJob) +
       item('role="menuitem" data-insert-at="1"', "at-sign", tw("teams.mention_insert")) +
@@ -2210,6 +2394,13 @@
 
   // ───────────── mic: speak, the words land in the input (dictate.js) ─────────────
 
+  // The last messages of the open team, for the rewrite at the end of a dictation (dictate.js polish).
+  function dictContext() {
+    var D = typeof window !== "undefined" && window.AivonDictate;
+    var box = S.el && S.el.querySelector(".tm-msgs");
+    return D && D.recentMessages ? D.recentMessages(box, ".tm-msg .tm-text", 4) : [];
+  }
+
   function toggleMic() {
     var D = typeof window !== "undefined" && window.AivonDictate;
     if (!D) { setNote(tw("teams.mic_unsupported")); return; }
@@ -2217,19 +2408,35 @@
     if (S.dictState === "transcribing") return;
     var input = S.el.querySelector(".tm-input");
     S.dictBase = input ? input.value : "";
-    var forTeam = S.activeId;
+    S.dictSend = false;
+    var forTeam = S.activeId, heard = "";
+    // A computer shows the words in the box while speaking (owner, 2026-11-06: in the chat box, not a bubble above); a
+    // phone keeps them for the end. When the recording ends the main brain rewrites the sentence in context and that is
+    // what lands, or is sent (see composer-dictate.js).
+    var live = !(D.isPhoneUA && D.isPhoneUA());
     S.dict = D.create({
-      onText: function (text) {
-        var inp = S.el.querySelector(".tm-input");
-        if (!inp || S.activeId !== forTeam) return;
-        inp.value = D.joinText(S.dictBase, text);
-        S.pending = null;
-        grow(inp);
-        drawHint();
+      context: dictContext,
+      onText: function (text, final) {
+        heard = String(text || "");
+        if (final || !live || S.dictState !== "listening" || S.activeId !== forTeam) return;
+        var box = S.el.querySelector(".tm-input");
+        if (box) { box.value = D.joinText(S.dictBase, heard); grow(box); box.scrollTop = box.scrollHeight; }
       },
       onState: function (st) {
+        var was = S.dictState;
         S.dictState = st;
+        // Send pressed while recording (button or Enter): it waited for the rewritten words, now it goes.
+        var sendNow = st === "idle" && was !== "idle" && S.dictSend;
+        if (st === "idle") S.dictSend = false;
         if (S.activeId !== forTeam) return;
+        var inp0 = st === "idle" && heard ? S.el.querySelector(".tm-input") : null;
+        if (inp0) {
+          inp0.value = D.joinText(S.dictBase, heard);
+          heard = "";
+          S.pending = null;
+          grow(inp0);
+          drawHint();
+        }
         var btn = S.el.querySelector(".tm-mic");
         if (!btn) return;
         btn.classList.toggle("is-rec", st !== "idle");
@@ -2237,10 +2444,15 @@
         var lab = tw(st === "idle" ? "teams.mic" : st === "transcribing" ? "teams.mic_busy" : "teams.mic_stop");
         btn.setAttribute("aria-label", lab); btn.title = lab;
         btn.innerHTML = ic(st === "idle" ? "mic" : st === "transcribing" ? "loader" : "square");
+        if (sendNow) { send(); return; }
         if (st === "idle") { var inp = S.el.querySelector(".tm-input"); if (inp) inp.focus(); }
       },
       onError: function (code) {
-        setNote(tw(code === "denied" ? "teams.mic_denied" : code === "unsupported" ? "teams.mic_unsupported" : "teams.mic_failed"));
+        // 0.419.0: the phone's own speech service switched off (iOS Dictation) gets the note that says where to turn it on.
+        var ios = D.isIOS && D.isIOS();
+        setNote(tw(code === "denied" ? (ios ? "dict.denied_ios" : "teams.mic_denied")
+          : code === "service" ? (ios ? "dict.service_ios" : "dict.service") : code === "unsupported" ? "teams.mic_unsupported"
+          : code === "nothing" ? "dict.nothing" : "teams.mic_failed"));
       }
     });
     S.dict.start();
@@ -2314,7 +2526,8 @@
     var text = String(m.content == null ? "" : m.content);
     if (m.author_kind === "owner") {
       var Q = quoteApi();
-      return Q ? Q.tach(text).rest : text;
+      var sk = skillSplit(text);
+      return Q ? Q.tach(sk.rest).rest : sk.rest;
     }
     var vm = typeof window !== "undefined" && window.AivonVisibleMarkdown;
     return vm ? vm(text) : text;
@@ -2636,6 +2849,7 @@
       : opener.matches(".tm-gear") ? ".tm-gear" : opener.matches(".tm-ava-btn") ? ".tm-ava-btn" : null;
     S.side = true;
     S.tab = tab;
+    rememberSide(true);
     drawSide(true);
     drawHead();
     if (tab === "team") loadAgents().then(function () { if (S.side && S.tab === "team") drawSide(); });
@@ -2664,6 +2878,7 @@
 
   function closeSide() {
     S.side = false;
+    rememberSide(false);
     drawSide(true);
     drawHead();
     var back = S.el.querySelector(S.sideOpener || ".tm-gear") || S.el.querySelector(".tm-gear");
@@ -2679,7 +2894,12 @@
 
   function loadTeams(append) {
     var url = "/teams" + (append && S.next ? "?before=" + q(S.next) : "");
+    var mine = S, forBrain = brain();
     return call("GET", url).then(function (r) {
+      // A list asked by an earlier draw of this page, or for another brain (the picker changed meanwhile, which redraws
+      // the page), must not replace the current one: an answer arriving late showed another brain's teams here, and a
+      // team opened from it was "not found" (user report, 08/11/2026).
+      if (S !== mine || brain() !== forBrain) return;
       if (r.code !== 200) return fail(r);
       S.teams = append ? S.teams.concat(r.j.teams || []) : (r.j.teams || []);
       S.next = r.j.next || null;
@@ -2767,18 +2987,30 @@
     var url = S.filterTask ? teamUrl("/tasks/" + q(S.filterTask)) : teamUrl("/messages");
     if (older && S.msgs.length && !S.filterTask) url += "?before_ts=" + q(S.msgs[0].ts) + "&before_id=" + q(S.msgs[0].id);
     var forTeam = S.activeId;
+    var forTask = S.filterTask;
+    // 0.358.0 (owner: "gửi xong không thấy hiện câu của mình"): only the LATEST load of the newest page may replace the
+    // list. An older load that answers late (the phone waking up, a reconnect) carries a list taken before the message
+    // was stored, and used to wipe it off the screen.
+    var seq = older ? S.msgsSeq : (S.msgsSeq = (S.msgsSeq || 0) + 1);
     return call("GET", url).then(function (r) {
-      if (S.activeId !== forTeam) return;
+      if (S.activeId !== forTeam || S.filterTask !== forTask || seq !== S.msgsSeq) return;
       if (r.code !== 200) return fail(r);
       var got = r.j.messages || [];
+      if (!older && !forTask && got.length) {
+        // Messages the socket brought while this load was on its way are newer than the page: keep them.
+        var last = Number(got[got.length - 1].id);
+        got = got.concat(S.msgs.filter(function (m) { return Number(m.id) > last; }));
+      }
       // Lọc theo một việc đã xong (mở từ tab Công việc): việc không còn trong hàng đợi, học tên từ chính bản ghi việc để
       // thanh lọc và nhãn tin hiện tên việc thay vì mã (0.142.0).
       if (S.filterTask && r.j.task && r.j.task.id) {
+        S.taskDetail = r.j;
         S.taskTitles[r.j.task.id] = r.j.task.title || S.taskTitles[r.j.task.id] || "";
         got.forEach(function (m) { if (m.task_id === r.j.task.id && !m.task_title) m.task_title = r.j.task.title || ""; });
         drawFilterbar();
       }
       S.msgs = older ? got.concat(S.msgs) : got;
+      S.msgsFor = forTeam;
       S.hasMore = !S.filterTask && !!r.j.has_more;
       // Older messages go in above what the owner is reading: keep them on the same message (the main chat does too).
       if (older && S.scroll) S.scroll.keep(function () { drawMsgs(false); });
@@ -2795,21 +3027,73 @@
     });
   }
 
+  // 2026-11-05: the last state of the teams opened lately (the record, the queue, the newest page of messages). Opening
+  // one of them again draws it at once from here while the same three requests refresh it behind; before, every
+  // switch showed an empty chat until the slowest of them answered. Lives outside S, which each visit rebuilds.
+  var TEAM_CACHE = {}, TEAM_CACHE_MAX = 12, TEAM_CACHE_MS = 5 * 60 * 1000;
+  function keepTeam() {
+    if (!S || !S.activeId || !S.team || S.filterTask || (S.jumped !== null && S.jumped !== undefined)) return;
+    TEAM_CACHE[S.activeId] = { at: Date.now(), team: S.team, queue: S.queue, msgs: S.msgs.slice(-60), hasMore: S.hasMore || S.msgs.length > 60,
+      pinned: S.pinned || [], taskTitles: Object.assign({}, S.taskTitles) };
+    var ids = Object.keys(TEAM_CACHE);
+    if (ids.length > TEAM_CACHE_MAX) {
+      ids.sort(function (a, b) { return TEAM_CACHE[a].at - TEAM_CACHE[b].at; });
+      ids.slice(0, ids.length - TEAM_CACHE_MAX).forEach(function (k) { delete TEAM_CACHE[k]; });
+    }
+  }
+  function useTeam(id) {
+    var c = TEAM_CACHE[id];
+    if (!c || S.filterTask) return false;
+    if (Date.now() - c.at > TEAM_CACHE_MS) { delete TEAM_CACHE[id]; return false; }
+    S.team = c.team; S.queue = c.queue; S.msgs = c.msgs.slice(); S.hasMore = c.hasMore; S.pinned = c.pinned; S.msgsFor = id;
+    S.taskTitles = Object.assign({}, c.taskTitles);
+    return true;
+  }
+
   function openTeam(id, taskId) {
+    keepTeam();
+    dropNextSug();
     S.jumped = null; S.searchResults = null; S.searchQuery = ""; S.searchOpen = false;
     S.activeId = id; S.view = "chat"; S.asJob = false; S.pending = null; S.filterTask = String(taskId || "");
-    S.team = null; S.queue = null; S.msgs = []; S.taskTitles = {}; S.side = false; S.openMember = null; S.turns = [];
+    S.team = null; S.queue = null; S.msgs = []; S.msgsFor = ""; S.taskTitles = {}; S.openMember = null; S.turns = [];
+    // 2026-11-09 (owner): a team opens with its Info tab showing on a wide screen, unless the owner closed the panel
+    // last time (remembered per device). A phone keeps the panel as a drawer that opens on demand.
+    S.side = sideByDefault();
+    if (S.side) S.tab = "info";
     S.picker = null; S.draft = null; S.picked = []; S.retrying = {};
-    S.replyTo = null; S.plusOpen = false; S.renamingHead = false; forgetAtts(S.atts); S.atts = []; S.folder = null; S.info = null;
+    S.replyTo = null; S.plusOpen = false; S.renamingHead = false; forgetAtts(S.atts); S.atts = []; S.folder = null; S.repos = []; S.ghIcon = null; S.info = null;
     S.typing = []; S.pinned = []; S.pinsOpen = false; S.unclamped = {}; S.listCache = null; S.outbox = []; stopReveal();
     closeFolderPanel();
+    closeGithubPanel();
     stopMic();
     var input = S.el.querySelector(".tm-input");
     if (input) input.value = "";
     setNote("");
+    useTeam(id);
+    // Performance (2026-11-05): ask the server FIRST, then draw. Drawing the whole page (header, cached messages,
+    // composer) took 150-300 ms on a 4x slowed CPU, and the three requests only left after it: every switch waited
+    // for that drawing plus the round trip. Now the round trip runs while the page draws.
+    var loads = Promise.all([loadTeam(), loadQueue(), loadMsgs(false)]);
     drawAll(true);
-    Promise.all([loadTeam(), loadQueue(), loadMsgs(false)]).then(function () { if (S.activeId === id) { drawAll(true); loadFolder(); } });
+    loads.then(function () {
+      if (S.activeId !== id) return;
+      // Drawn from the cache, the chat was already on screen: this redraw reuses the unchanged message nodes.
+      drawAll(true);
+      keepTeam(); loadFolder(); loadSkills();
+      if (S.side && S.tab === "info") loadInfo();
+    });
     markOpened(id);
+  }
+
+  // The side panel's open/closed choice on a wide screen, per device (localStorage). Never stored: open.
+  var SIDE_CLOSED_KEY = "aivon.teams.sideClosed";
+  function sideByDefault() {
+    var wide = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(min-width: 1061px)").matches;
+    if (!wide) return false;
+    try { return localStorage.getItem(SIDE_CLOSED_KEY) !== "1"; } catch (e) { return true; }
+  }
+  function rememberSide(open) {
+    try { localStorage.setItem(SIDE_CLOSED_KEY, open ? "0" : "1"); } catch (e) { /* a blocked storage only forgets it */ }
   }
 
   // 0.195.0: the owner works in this team now, so next visit (any device) opens it. Best effort: a failure changes nothing.
@@ -2981,7 +3265,7 @@
   // Owner, 16/10/2026: "không copy và dán ảnh vào khung chat của team được". The main chat's paste and drop listeners sit on
   // the whole document and sent a picture pasted here to the hidden main chat. The team page answers first (its own
   // listeners, propagation stopped) and the page is marked data-localdrop so the main chat's drop leaves it alone.
-  var PASTE_TXT_CHARS = 1500, PASTE_TXT_LINES = 25;   // same thresholds as the main chat (app.js)
+  // Long-paste limits and the preview dialog are shared with the main chat (chat-paste.js).
   // Copy the bytes while the event is still running: a phone only lets a page read a pasted or dropped file then.
   function grabFile(f) {
     var read;
@@ -3008,15 +3292,20 @@
       attachGrabbed(files);
       return;
     }
-    // A very long text pasted into the team input becomes a .txt document instead of a wall in the box.
-    if (!(e.target && e.target.classList && e.target.classList.contains("tm-input"))) return;
+    // Text up to the shared limit pastes normally. Past it, show the whole text and let the owner choose
+    // paste inline / attach .txt / cancel, like the main chat (chat-paste.js, 0.430.1).
+    var input = e.target;
+    if (!(input && input.classList && input.classList.contains("tm-input"))) return;
+    var paste = typeof window !== "undefined" ? window.AivonPaste : null;
     var txt = (cd && cd.getData("text/plain")) || "";
-    if (txt.length > PASTE_TXT_CHARS || txt.split("\n").length > PASTE_TXT_LINES) {
-      e.preventDefault(); e.stopPropagation();
-      var d = new Date(), p2 = function (n) { return String(n).padStart(2, "0"); };
-      var name = "van-ban-dan-" + p2(d.getHours()) + p2(d.getMinutes()) + p2(d.getSeconds()) + ".txt";
-      attachFiles([new File([new Blob([txt], { type: "text/plain" })], name, { type: "text/plain" })]);
-    }
+    if (!paste || !paste.isLong(txt)) return;
+    e.preventDefault(); e.stopPropagation();
+    var range = { start: input.selectionStart, end: input.selectionEnd };
+    paste.offer(txt, function (value) {
+      if (canAttach()) paste.insertAt(input, range, value);
+    }, function (value) {
+      if (canAttach()) attachFiles([paste.textFile(value)]);
+    });
   }
   var dropDepth = 0;
   function hasFiles(e) {
@@ -3048,6 +3337,14 @@
         '<button type="button" class="tm-chip-x" data-folder-unpin="1" aria-label="' + esc(tw("cp.pin_unpin")) + '" title="' +
         esc(tw("cp.pin_unpin")) + '">' + ic("x") + "</button></span>";
     }
+    if (S.repos.length) {
+      // 0.449.0: the GitHub repos of the team chat. The name opens the picker; the status (once pushed) opens the detail.
+      var G = window.AivonTeamGithub, names = S.repos.map(function (r) { return r.full_name; });
+      var stKey = S.ghIcon && S.ghIcon.state ? "gh.st_" + S.ghIcon.state : "";
+      h += '<span class="tm-chip tm-chip-gh" title="' + esc(tw("gh.chip_label", { names: names.join(", ") })) + '">' + ghLogo() +
+        '<button type="button" class="tm-chip-name" data-gh-open="1">' + esc(G ? G.chipText(names, 18) : names[0]) + "</button>" +
+        (stKey ? '<button type="button" class="tm-chip-st tm-gh-st" data-gh-status="1">' + esc(tw(stKey)) + "</button>" : "") + "</span>";
+    }
     S.atts.forEach(function (a, i) {
       h += '<span class="tm-chip' + (a.err ? " is-err" : "") + (a.url ? " has-thumb" : "") + '" data-att="' + i + '">' +
         (a.url ? '<img class="tm-chip-thumb" src="' + esc(a.url) + '" alt="">' : ic(a.kind === "image" ? "image" : "paperclip")) +
@@ -3073,7 +3370,59 @@
         S.folder = (d && d.folder) || null;
         drawComposer();
         if (S.side && S.tab === "info") drawSide(true);
-      }).catch(function () {});
+      }).catch(function () {}).then(loadRepos);
+  }
+
+  // 0.449.0: GitHub repos attached to the team chat (team-github.js). Work/Help steps edit them and Aivon pushes once a
+  // job is done, like a private chat.
+  function loadRepos() {
+    var sid = sessionId(), G = window.AivonTeamGithub;
+    if (!sid || !G) return Promise.resolve();
+    return G.load(sid, brain()).then(function (d) {
+      if (!d || sessionId() !== sid) return;
+      setRepos(d);
+    });
+  }
+  function setRepos(d) {
+    S.repos = (d && d.repos) || [];
+    S.ghIcon = d && d.icon && d.icon.state ? d.icon : null;
+    drawComposer();
+    if (S.side && S.tab === "info") drawSide(true);
+  }
+  function closeGithubPanel() {
+    var pop = document.querySelector(".tm-gh-pop");
+    if (pop) pop.remove();
+    document.removeEventListener("mousedown", githubOutside, true);
+    document.removeEventListener("keydown", githubEsc, true);
+  }
+  // The (i) explanation opens in its own pop-up (info-tip.js); reading it must not close the picker.
+  function githubOutside(e) { if (!(e.target.closest && e.target.closest(".tm-gh-pop, .info-pop, .info-pop-bg"))) closeGithubPanel(); }
+  function githubEsc(e) { if (e.key === "Escape") closeGithubPanel(); }
+  function openGithubPanel() {
+    var G = window.AivonTeamGithub;
+    var comp = S.el.querySelector(".tm-composer");
+    if (!G || !comp || !S.team || !sessionId()) return;
+    closeGithubPanel();
+    closeFolderPanel();
+    var r = comp.getBoundingClientRect();
+    var pop = document.createElement("div");
+    pop.className = "cp-menu tm-folder-pop tm-gh-pop";
+    pop.style.left = Math.max(8, r.left + 8) + "px";
+    pop.style.bottom = Math.max(8, window.innerHeight - r.top + 6) + "px";
+    pop.innerHTML = '<div class="cp-mi cp-back">' + esc(tw("gh.menu")) + infoBtn() + "</div>" +
+      infoBody(esc(tw("teams.gh_how"))) + '<div class="cp-sep"></div><div class="tm-gh-body"></div>';
+    document.body.appendChild(pop);
+    var sid = sessionId();
+    G.panel(pop.querySelector(".tm-gh-body"), {
+      sid: function () { return sessionId() === sid ? sid : ""; }, brain: brain,
+      current: function () { return S.repos.map(function (x) { return x.full_name; }); },
+      changed: function (d) { if (sessionId() === sid) setRepos(d); },
+      close: closeGithubPanel,
+      connections: function () { try { window.Alpine.store("nav").go("mcp"); } catch (e) { location.hash = "#mcp"; } } });
+    setTimeout(function () {
+      document.addEventListener("mousedown", githubOutside, true);
+      document.addEventListener("keydown", githubEsc, true);
+    }, 0);
   }
 
   function pinTeamFolder(p) {
@@ -3170,8 +3519,10 @@
     if (!t) return "";
     var I = S.info;
     var members = (t.members || []).filter(function (m) { return m.status !== "left"; });
-    var h = '<div class="tm-info-head">' + teamAvatarHtml(t, 64) + '<div class="tm-info-name"><strong>' + esc(t.name) + "</strong>" +
-      (t.description ? '<span class="tm-sub">' + esc(t.description) + "</span>" : "") + "</div></div>";
+    // 2026-11-07 (owner): the description sits in the (i) beside the name instead of a line under it, to keep the head short.
+    var h = '<div class="tm-info-head">' + teamAvatarHtml(t, 64) + '<div class="tm-info-name"><span class="tm-info-title"><strong>' +
+      esc(t.name) + "</strong>" + (t.description ? infoBtn() : "") + "</span>" +
+      (t.description ? infoBody(esc(t.description).replace(/\n/g, "<br>")) : "") + "</div></div>";
     h += '<section class="tm-info-sec"><h4>' + esc(tw("teams.info_members", { n: members.length + 1 })) + '</h4><ul class="tm-info-members">' +
       '<li>' + avaHtml(tw("teams.you")) + "<span>" + esc(tw("teams.you")) + "</span></li>" +
       members.map(function (m) {
@@ -3184,7 +3535,13 @@
       ? '<div class="tm-info-row">' + ic("folder") + '<span class="tm-info-grow" title="' + esc(S.folder.path) + '">' + esc(S.folder.name) +
         '</span><button type="button" class="ws-btn" data-folder-open="1">' + esc(tw("teams.change")) + "</button></div>"
       : '<button type="button" class="ws-btn" data-folder-open="1">' + ic("folder") + " " + esc(tw("cp.pin_folder")) + "</button>") + "</section>";
-    if (!I) return h + '<p class="tm-sub">' + esc(tw("common.loading")) + "</p>";
+    h += '<section class="tm-info-sec"><h4>' + esc(tw("gh.menu")) + "</h4>" + (S.repos.length
+      ? S.repos.map(function (r) {
+        return '<div class="tm-info-row">' + ghLogo() + '<span class="tm-info-grow" title="' + esc(r.worktree || r.full_name) + '">' +
+          esc(r.full_name) + (r.branch ? ' <span class="tm-sub">' + esc(r.branch) + "</span>" : "") + "</span></div>";
+      }).join("") + '<button type="button" class="ws-btn" data-gh-open="1">' + esc(tw("teams.change")) + "</button>"
+      : '<button type="button" class="ws-btn" data-gh-open="1">' + ghLogo() + " " + esc(tw("teams.gh_attach")) + "</button>") + "</section>";
+    if (!I) return h + '<p class="tm-sub pg-loading">' + esc(tw("common.loading")) + "</p>";
     var imgs = I.files.filter(function (f) { return f.image; });
     var docs = I.files.filter(function (f) { return !f.image; });
     if (imgs.length) {
@@ -3195,14 +3552,17 @@
             esc(rawUrl(f.brain_path || f.path)) + '" alt="" loading="lazy" onerror="jvImgGone(this)"></a>';
         }).join("") + "</div></section>";
     }
-    h += '<section class="tm-info-sec"><div class="tm-info-sechead"><h4>' + esc(tw("teams.info_files", { n: docs.length })) + "</h4>" +
+    // 2026-11-07: who can read files and where links come from sit in the (i) by each heading; the empty line stays short.
+    h += '<section class="tm-info-sec"><div class="tm-info-sechead"><h4>' + esc(tw("teams.info_files", { n: docs.length })) + infoBtn() + "</h4>" +
       '<button type="button" class="ws-btn" data-info-add-file="1">' + ic("plus") + " " + esc(tw("teams.info_add_file")) + "</button></div>" +
+      infoBody(esc(tw("teams.info_files_help"))) +
       (docs.length ? '<ul class="tm-info-list">' + docs.map(function (f) {
         return '<li><a href="' + esc(rawUrl(f.brain_path || f.path)) + '" target="_blank" rel="noopener">' + ic("file-text") + "<span>" +
           esc(f.label || f.name) + "</span></a>" + (f.manual && f.id ? '<button type="button" class="tm-chip-x" data-info-del-file="' + esc(f.id) +
           '" aria-label="' + esc(tw("teams.info_remove")) + '" title="' + esc(tw("teams.info_remove")) + '">' + ic("x") + "</button>" : "") + "</li>";
       }).join("") + "</ul>" : '<p class="tm-sub">' + esc(tw("teams.info_no_files")) + "</p>") + "</section>";
-    h += '<section class="tm-info-sec"><h4>' + esc(tw("teams.info_links", { n: I.links.length })) + "</h4>" +
+    h += '<section class="tm-info-sec"><h4>' + esc(tw("teams.info_links", { n: I.links.length })) + infoBtn() + "</h4>" +
+      infoBody(esc(tw("teams.info_links_help"))) +
       '<div class="tm-info-addlink"><input type="url" class="tm-info-link" placeholder="' + esc(tw("teams.info_link_ph")) + '">' +
       '<button type="button" class="ws-btn" data-info-add-link="1">' + esc(tw("teams.info_add")) + "</button></div>" +
       (I.links.length ? '<ul class="tm-info-list">' + I.links.map(function (l) {
@@ -3217,6 +3577,12 @@
   function send() {
     var input = S.el.querySelector(".tm-input");
     if (!input || !S.team) return;
+    // Recording: stop, wait for the final words, then send them (owner 2026-11-05: Enter sends, no stop press first).
+    if (S.dict && S.dictState !== "idle") {
+      S.dictSend = true;
+      if (S.dict.active()) S.dict.stop();
+      return;
+    }
     var typed = input.value.trim();
     if (S.atts.some(function (a) { return a.busy; })) { setNote(tw("teams.attach_wait")); return; }
     // A file that failed to upload is not dropped silently: remove it or send it again first (main chat wording).
@@ -3224,13 +3590,19 @@
     var atts = S.atts.filter(function (a) { return a.path && !a.err; });
     if (!typed && !atts.length) return;
     stopMic();
+    dropNextSug();
     var scan = mentionScan(typed, S.team.members, S.picked);
     if (scan.ambiguous.length) { drawHint(); return; }
     var mentions = scan.keys;
     // A reply carries the quoted message as a markdown quote on top (the same convention as the main chat, so every
     // engine reads it and history shows it), and calls the assistant being replied to when nobody is @-mentioned.
     var Q = quoteApi();
-    var text = S.replyTo && Q ? Q.ghep(S.replyTo.quote, typed) : typed;
+    // 0.449.0: a /skill call goes first as the main chat's skill block; the quote and the owner's words follow it.
+    var X = window.AivonSlash;
+    var call = X && X.buildSkillInvocation ? skillCall(typed, (S.skills || []).map(function (k) { return k.slug; })) : null;
+    var words = call ? call.rest : typed;
+    var text = S.replyTo && Q ? Q.ghep(S.replyTo.quote, words) : words;
+    if (call) text = X.buildSkillInvocation(call.cmd, text, call.mid);
     if (S.replyTo && S.replyTo.key && !mentions.length) mentions = [S.replyTo.key];
     // The message shows at once as a pending bubble keyed by its client id; the server's copy replaces it when it
     // arrives. A retry after a dropped connection sends the SAME client id, so the server returns the message it may
@@ -3241,6 +3613,9 @@
     if (scan.all) body.mention_all = true;
     if (atts.length) body.attachments = atts.map(function (a) { return { path: a.path, name: a.name, kind: a.kind }; });
     entry.body = body;
+    // Sent while the chat shows one job only: the message belongs to the whole chat, so go back to it (like any
+    // messaging app) instead of a filtered list that would never show it.
+    if (S.filterTask) { S.filterTask = ""; S.taskDetail = null; drawFilterbar(); }
     S.outbox.push(entry);
     // The composer is free again right away, like any messaging app.
     S.pending = null; S.asJob = false; S.picked = []; S.replyTo = null; S.plusOpen = false; input.value = ""; S.atts = [];
@@ -3270,7 +3645,9 @@
         if (entry.atts.length && S.side && S.tab === "info") loadInfo();
         setNote(r.j.notes && r.j.notes.length ? r.j.notes.filter(function (n) { return !/^[a-z_]+$/.test(n); }).join(" · ") : "");
         if ((r.j.notes || []).indexOf("daily_cap") >= 0) setNote(tw("teams.daily_cap"));
-        loadMsgs(false).then(function () { dropEntry(entry, true); drawMsgs(false); });
+        // The bubble goes only once the server's copy is on screen (`pendingEntries` hides it then); a load that failed
+        // or answered late no longer takes the owner's message away with it.
+        loadMsgs(false).then(function () { pruneOutbox(); drawMsgs(false); });
         loadQueue();
         return;
       }
@@ -3292,6 +3669,15 @@
     var i = S.outbox.indexOf(entry);
     if (i >= 0) S.outbox.splice(i, 1);
     if (done) forgetAtts(entry.atts);
+  }
+
+  // Delivered messages whose server copy is now in the list leave the outbox (their picture previews are released).
+  function pruneOutbox() {
+    var have = {}, ids = {};
+    S.msgs.forEach(function (m) { if (m.client_msg_id) have[m.client_msg_id] = true; ids[Number(m.id)] = true; });
+    S.outbox.slice().forEach(function (p) {
+      if (p.state === "sent" && (have[p.cid] || (p.mid && ids[Number(p.mid)]))) dropEntry(p, true);
+    });
   }
 
   // Outbox messages the server's copy has not replaced yet (it can arrive over the socket before the POST answers).
@@ -3316,7 +3702,8 @@
         '<button type="button" class="ws-btn tm-pending-retry" data-out-retry="' + esc(p.cid) + '">' + esc(tw("teams.retry_action")) +
         '</button><button type="button" class="tm-bar-x" data-out-drop="' + esc(p.cid) + '" aria-label="' + esc(tw("teams.send_remove")) +
         '" title="' + esc(tw("teams.send_remove")) + '">' + ic("x") + "</button>"
-      : "<span>" + esc(tw("app.sending")) + "</span>";
+      // Delivered but its server copy not on screen yet (a load failed or is late): say so, never "Sending..." forever.
+      : "<span>" + esc(tw(p.state === "sent" ? "teams.sent_ok" : "app.sending")) + "</span>";
     return '<div class="tm-msg tm-msg-owner tm-msg-pending' + (failed ? " is-failed" : "") + '" data-cid="' + esc(p.cid) + '">' +
       '<div class="tm-col"><div class="tm-bubble">' + bodyHtml(fake, true) + (files ? '<div class="tm-files">' + files + "</div>" : "") +
       '</div><div class="tm-pending-st" role="status">' + st + "</div></div></div>";
@@ -3336,10 +3723,63 @@
     return m[1];
   }
 
+  // 0.449.0: "/" lists the brain's skills, in the same suggestion box as "@". Only skills: the main chat's session and
+  // system commands (/new, /model...) act on a private chat, not on a team.
+  function loadSkills() {
+    var b = brain();
+    if (S.skills && S.skillsBrain === b) return Promise.resolve(S.skills);
+    return fetch("/skills?brain=" + q(b), { credentials: "same-origin" })
+      .then(function (r) { return r.json().catch(function () { return {}; }); })
+      .catch(function () { return {}; })
+      .then(function (d) { S.skills = (d && d.skills) || []; S.skillsBrain = b; return S.skills; });
+  }
+  function skillSuggest(input, box, tok) {
+    if (!S.skills || S.skillsBrain !== brain()) {
+      hideSug();
+      loadSkills().then(function () { if (S && S.el && S.el.isConnected && S.skills) suggest(); });
+      return;
+    }
+    var X = window.AivonSlash;
+    var items = S.skills.filter(function (k) { return k && k.slug; }).map(function (k) {
+      return { kind: "skill", cmd: k.slug, name: k.name || k.slug, group: k.group || "", desc: k.description || "" };
+    });
+    var list = (X && X.filterItems ? X.filterItems(items, tok.query) : items).slice(0, 8);
+    S.sugKeys = list.map(function (k) { return "/" + k.cmd; });
+    if (S.sugIdx == null || S.sugIdx >= list.length) S.sugIdx = 0;
+    box.hidden = !list.length;
+    input.setAttribute("aria-expanded", list.length ? "true" : "false");
+    box.innerHTML = list.map(function (k, i) {
+      var on = i === S.sugIdx;
+      return '<button type="button" class="tm-sug-item tm-sug-skill' + (on ? " is-active" : "") + '" role="option" id="tm-sug-' + i +
+        '" aria-selected="' + (on ? "true" : "false") + '" data-skill="' + esc(k.cmd) + '">' +
+        '<span class="tm-sug-all" aria-hidden="true">' + ic("sparkles") + "</span>" +
+        '<span class="tm-sug-text"><span class="tm-sug-name">/' + esc(k.cmd) + (k.name !== k.cmd ? ' <span class="tm-sug-slug">' + esc(k.name) + "</span>" : "") +
+        "</span>" + (k.desc ? '<span class="tm-sug-role">' + esc(k.desc) + "</span>" : "") + "</span></button>";
+    }).join("");
+    if (list.length) input.setAttribute("aria-activedescendant", "tm-sug-" + S.sugIdx);
+    else input.removeAttribute("aria-activedescendant");
+  }
+  function pickSkill(slug) {
+    var input = S.el.querySelector(".tm-input");
+    if (!input || !slug) return;
+    var pos = input.selectionStart || input.value.length;
+    var before = input.value.slice(0, pos).replace(/\/([\p{L}\p{M}0-9_-]*)$/u, "/" + slug + " ");
+    input.value = before + input.value.slice(pos);
+    try { input.setSelectionRange(before.length, before.length); } catch (e) {}
+    input.focus();
+    grow(input);
+    S.pending = null;
+    hideSug();
+    drawHint();
+  }
+
   function suggest() {
     var input = S.el.querySelector(".tm-input");
     var box = S.el.querySelector(".tm-sug");
     if (!input || !box || !S.team) return;
+    var X = window.AivonSlash;
+    var tok = X && X.tokenAtCaret ? X.tokenAtCaret(input.value, input.selectionStart || 0) : null;
+    if (tok) return skillSuggest(input, box, tok);
     var query = suggestQuery(input);
     if (query === null) { hideSug(); return; }
     var list = mentionMatches(S.team.members, query, mentionsFromText(input.value, S.team.members, S.picked));
@@ -3405,6 +3845,7 @@
   }
 
   function pickMention(key) {
+    if (String(key || "").charAt(0) === "/") return pickSkill(String(key).slice(1));
     var input = S.el.querySelector(".tm-input");
     if (input && key === "*all") {
       // @all is read from the text itself (mentionScan), so it needs no picked entry.
@@ -3788,6 +4229,8 @@
     if (d.plusAttach) { setPlus(false); return pickFiles(attachFiles); }
     if (d.plusFolder || d.folderOpen) { setPlus(false); return openFolderPanel(); }
     if (d.folderUnpin) return pinTeamFolder("");
+    if (d.plusGithub || d.ghOpen) { setPlus(false); return openGithubPanel(); }
+    if (d.ghStatus) { var gs = sessionId(); if (gs && window.AivonTeamGithub) window.AivonTeamGithub.openStatus(gs); return; }
     if (d.attX !== undefined) { forgetAtts(S.atts.splice(+d.attX, 1)); drawComposer(); return; }
     if (d.outRetry) {
       var oe = S.outbox.filter(function (p) { return p.cid === d.outRetry; })[0];
@@ -3916,6 +4359,7 @@
     if (t.classList.contains("tm-send")) return send();
     if (t.classList.contains("tm-older")) return loadMsgs(true);
     if (d.mention) return pickMention(d.mention);
+    if (d.skill) return pickSkill(d.skill);
     if (d.unmention) return unMention(d.unmention);
     if (t.classList.contains("tm-search-btn")) {
       S.searchOpen = !S.searchOpen;
@@ -4029,10 +4473,35 @@
       t.disabled = true;
       // The card's own revision and round: a click on an older card is refused by the server (never accepts a newer
       // product the owner did not see).
-      return call("POST", teamUrl("/tasks/" + q(d.acc) + "/acceptance/decide"), { decision: d.accDecide, note: anote,
-        revision: d.accRev ? Number(d.accRev) : null, round: d.accRound ? Number(d.accRound) : null }).then(function (r) {
+      return call("POST", teamUrl("/tasks/" + q(d.acc) + "/acceptance/decide"),
+        acceptanceDecisionPayload(d, d.accDecide, anote)).then(function (r) {
         if (r.code !== 200) { t.disabled = false; fail(r); }
         loadMsgs(false); loadQueue();
+      }).catch(function () { t.disabled = false; setNote(tw("teams.err_network")); });
+    }
+    if (t.classList.contains("tm-quality-save")) {
+      var qform = t.closest(".tm-quality-form");
+      var qp = qualityPolicyPayload({ enabled: qform.querySelector(".tm-quality-enabled").checked,
+        limit_migration: qform.querySelector(".tm-quality-migration").value,
+        reference_usd: qform.querySelector(".tm-quality-reference").value });
+      if (!qp.ok) return setNote(tw("teams.quality.invalid"));
+      t.disabled = true;
+      return call("PUT", teamUrl("/quality-policy"), qp.body).then(function (r) {
+        if (r.code !== 200) { t.disabled = false; return fail(r); }
+        setNote(tw("teams.saved"));
+        loadTeam();
+      }).catch(function () { t.disabled = false; setNote(tw("teams.err_network")); });
+    }
+    if (t.classList.contains("tm-template-save")) {
+      var tform = t.closest(".tm-template-form");
+      var parsed = parseCriteria(tform.querySelector(".tm-template-criteria").value);
+      if (parsed.bad.length || !parsed.criteria.length) return setNote(tw("teams.acc.bad"));
+      t.disabled = true;
+      return call("PUT", teamUrl("/acceptance-template"), qualityTemplatePayload(S.team.acceptance_template,
+        tform.dataset.templateVersion, parsed.criteria)).then(function (r) {
+        if (r.code !== 200) { t.disabled = false; return fail(r); }
+        setNote(tw("teams.saved"));
+        loadTeam();
       }).catch(function () { t.disabled = false; setNote(tw("teams.err_network")); });
     }
     if (t.classList.contains("tm-md-save")) {
@@ -4287,6 +4756,43 @@
     }
   }
 
+  // 2026-11-07: the likely next message, grey in the empty box once an assistant answers; Tab or the Tab chip fills
+  // it in. The same module as the main chat (chat-suggest.js), one controller for the page.
+  var teamSuggest = null, sugTimer = null, sugFor = 0;
+  function nextSug() {
+    if (!teamSuggest && typeof window !== "undefined" && window.AivonSuggest) {
+      teamSuggest = window.AivonSuggest.attach({
+        input: function () { return S && S.el ? S.el.querySelector(".tm-input") : null; },
+        chipHost: function () {
+          var row = S && S.el && S.el.querySelector(".tm-row");
+          return row ? [row, row.querySelector(".tm-mic")] : null;
+        },
+        composing: function () { return !!(S && S.composing && S.composing()); },
+      });
+    }
+    return teamSuggest;
+  }
+  function dropNextSug() { clearTimeout(sugTimer); sugFor = 0; if (teamSuggest) teamSuggest.clear(); }
+  // Asked a moment after the last assistant message, so a team answering in turns gets one suggestion at the end.
+  function queueNextSug(mid) {
+    clearTimeout(sugTimer);
+    sugTimer = setTimeout(function () {
+      var sg = nextSug();
+      if (!sg || !S || !S.team || (S.typing || []).length || S.filterTask) return;
+      var last = S.msgs[S.msgs.length - 1];
+      if (!last || Number(last.id) !== Number(mid) || last.author_kind !== "agent" || sugFor === Number(mid)) return;
+      sugFor = Number(mid);
+      var team = S.activeId;
+      var ctx = S.msgs.slice(-6).filter(function (m) { return m.author_kind === "owner" || m.author_kind === "agent"; })
+        .map(function (m) {
+          var name = m.author_kind === "agent" ? nameOf(S.team.members, m.author_ref) : "";
+          return { role: m.author_kind === "owner" ? "user" : "assistant",
+                   text: (name ? name + ": " : "") + String(m.content == null ? "" : m.content) };
+        });
+      sg.request(ctx).then(function () { if (!S || S.activeId !== team) dropNextSug(); });
+    }, 2500);
+  }
+
   function onKey(e) {
     if (e.target.classList && e.target.classList.contains("tm-search-input") && e.key === "Enter") {
       e.preventDefault();
@@ -4295,6 +4801,7 @@
     }
     if (e.key === "Escape" && S.pickSt) { closePicker(); return; }
     if (e.target.classList && e.target.classList.contains("tm-input") && sugKey(e)) return;
+    if (e.target.classList && e.target.classList.contains("tm-input") && teamSuggest && teamSuggest.onKeydown(e)) return;
     if (e.target.classList && e.target.classList.contains("tmp-name-input") && e.key === "Enter") {
       e.preventDefault();
       var srch = S.pickHost && S.pickHost.querySelector(".tmp-search-input");
@@ -4324,7 +4831,9 @@
     // Same Enter rules as the main chat (chat-acts.js): never while an IME is composing, and a touch screen keeps Enter
     // as a new line (the Send button sends).
     var A = actsApi();
-    if (e.target.classList && e.target.classList.contains("tm-input") && A && A.enterSends(e, S.composing && S.composing())) {
+    // While recording the focus usually sits on the mic just pressed: Enter there sends too, instead of only stopping.
+    var onMic = S.dictState !== "idle" && e.target.classList && e.target.classList.contains("tm-mic");
+    if (e.target.classList && (onMic || e.target.classList.contains("tm-input")) && A && A.enterSends(e, S.composing && S.composing())) {
       e.preventDefault();
       send();
     }
@@ -4343,10 +4852,11 @@
       grow(e.target);
       suggest();
       drawHint();
+      if (teamSuggest) teamSuggest.onInput();
     }
   }
 
-  var refreshTimer = null;
+  var refreshTimer = null, refreshOpen = "";
   function onTeamEvent(ev) {
     if (!S || !S.el || !S.el.isConnected) return;
     var d = (ev && ev.detail) || {};
@@ -4392,16 +4902,24 @@
       if (i >= 0 || !S.filterTask) drawMsgs(false);
       // A new message while the owner reads higher up: the jump button becomes "New messages" (at the end it follows).
       if (i < 0 && S.scroll && !S.scroll.stuck()) toLatest(false);
+      if (i < 0 && nm.author_kind === "agent") queueNextSug(nm.id);
     }
+    // 2026-11-05: "the owner read this team" only changes the unread badge on the team list. It used to refetch the open
+    // team and its queue too, the heaviest reads of the page, after every team switch and every agent message.
+    // Events merged into one refresh keep the open team's refetch if any of them asked for it.
+    if (d.type !== "team_read" && d.team_id === S.activeId) refreshOpen = d.team_id;
     clearTimeout(refreshTimer);
     refreshTimer = setTimeout(function () {
+      var full = !!refreshOpen && !!S && refreshOpen === S.activeId;
+      refreshOpen = "";
       loadTeams(false);
-      if (d.team_id === S.activeId) { loadQueue(); loadTeam(); }
+      if (full) { loadQueue(); loadTeam(); }
     }, 300);
   }
 
   // Rời trang (console.js gọi qua _pageLeave): đóng ngăn, bỏ hẹn giờ; trang dựng lại từ đầu lần ghé sau.
   function leave() {
+    keepTeam();
     clearTimeout(refreshTimer);
     if (colResize()) colResize().miniTip.hide();
     if (S && S.pickSt) closePicker();
@@ -4604,6 +5122,10 @@
     // 0.197.0: back to this tab with a team open: what arrived while away is read now.
     if (typeof document !== "undefined" && document.addEventListener) document.addEventListener("visibilitychange", onVisible);
     // Auto bật/tắt ở trang Cộng sự hay tab khác (0.142.0): danh sách thành viên của nhóm đang mở đọc lại trạng thái.
+    // 0.454.0: the tag order changed (here or on another tab of this page): the list and its tag bar follow.
+    window.addEventListener("aivon:order-changed", function () {
+      if (S && S.el && S.el.isConnected) drawList();
+    });
     window.addEventListener("aivon:resonance-agents-changed", function () {
       if (!S || !S.el || !S.el.isConnected || !S.activeId) return;
       loadTeam();
@@ -4614,14 +5136,17 @@
   var api = { render: render, leave: leave, open: open, teamListHtml: teamListHtml, messageHtml: messageHtml, queueHtml: queueHtml,
     jobStripHtml: jobStripHtml, blockedAction: blockedAction, approvalCardHtml: approvalCardHtml, workModeHtml: workModeHtml,
     mandateHtml: mandateHtml, opportunityCardHtml: opportunityCardHtml, readMandateForm: readMandateForm,
-    parseCriteria: parseCriteria, acceptanceCardHtml: acceptanceCardHtml,
+    parseCriteria: parseCriteria, acceptanceCardHtml: acceptanceCardHtml, acceptanceDecisionPayload: acceptanceDecisionPayload,
+    qualityPolicyHtml: qualityPolicyHtml, qualityPolicyPayload: qualityPolicyPayload, qualityTemplatePayload: qualityTemplatePayload,
+    qualityUsageHtml: qualityUsageHtml,
+    taskQualityHtml: taskQualityHtml,
     jobsChip: jobsChip, jobsChipHtml: jobsChipHtml, timeShort: timeShort,
     mentionMatches: mentionMatches, mentionsFromText: mentionsFromText, mentionScan: mentionScan, removeMention: removeMention,
     callsHtml: callsHtml, foldName: foldName, emailBefore: emailBefore, composerHint: composerHint, newClientId: newClientId,
     membersHtml: membersHtml, settingsFormHtml: settingsFormHtml, capsFormHtml: capsFormHtml, capsPayload: capsPayload, saveCapsFlow: saveCapsFlow, teamTabHtml: teamTabHtml, limitsHtml: limitsHtml,
     levelOf: levelOf, grantFor: grantFor, teamAvatarHtml: teamAvatarHtml, savePin: savePin, pinTeamWith: pinTeamWith, noteHtml: noteHtml, levelsHtml: levelsHtml, turnsHtml: turnsHtml,
     bannersHtml: bannersHtml, reactCornerHtml: reactCornerHtml, reactBarHtml: reactBarHtml, sheetHtml: sheetHtml,
-    hoverActsHtml: hoverActsHtml, bodyHtml: bodyHtml, listSync: listSync, pendingHtml: pendingHtml, copyTextOf: copyTextOf, fileChipHtml: fileChipHtml, uploadError: uploadError, plainPreview: plainPreview, previewText: previewText,
+    hoverActsHtml: hoverActsHtml, bodyHtml: bodyHtml, skillSplit: skillSplit, skillCall: skillCall, listSync: listSync, pendingHtml: pendingHtml, copyTextOf: copyTextOf, fileChipHtml: fileChipHtml, uploadError: uploadError, plainPreview: plainPreview, previewText: previewText,
     nextReaction: nextReaction, REACTIONS: REACTIONS, authorityHtml: authorityHtml, readGrant: readGrant,
     searchResultsHtml: searchResultsHtml, replyStatusHtml: replyStatusHtml, headLine: headLine,
     typingHtml: typingHtml, pinsHtml: pinsHtml, markMentions: markMentions, replyRefHtml: replyRefHtml,

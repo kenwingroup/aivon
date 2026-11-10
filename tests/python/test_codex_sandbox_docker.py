@@ -25,10 +25,10 @@ import os
 import sys
 import tempfile
 
+from _paths import ROOT, SERVER  # noqa: E402,F401
+
 os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="aivon-codexsb-"))
 os.environ.pop("AIVON_CODEX_SANDBOX", None)     # test tự đặt, đừng để môi trường máy chen vào
-
-from _paths import ROOT, SERVER  # noqa: E402,F401
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")

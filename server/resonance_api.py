@@ -303,8 +303,11 @@ def register_agents(app, deps: ResonanceApiDeps):
                 "enabled": bool(rv.get("enabled")), "pair_version": pr.get("config_version")}
 
 
+    # Plain `def` (2026-11-09): this read opens SQLite several times per assistant and reads every assistant file. As
+    # `async def` it ran on the event loop, so on the owner's VPS the whole Partners page (and every static file) waited
+    # behind it; FastAPI runs a `def` route on a worker thread.
     @app.get("/resonance/agents")
-    async def resonance_agents(brain: str = "brain", slug: str = "", session_id: str = ""):
+    def resonance_agents(brain: str = "brain", slug: str = "", session_id: str = ""):
         """Trợ lý của brain kèm trạng thái Cộng hưởng. Đọc không tạo kho: chưa có kho thì mọi trợ lý đều chưa đăng ký.
 
         Có `slug` và `session_id` (phiên đang mở ở trang Cộng sự) thì trả thêm `session`: ready, needs_new_session
@@ -363,10 +366,10 @@ def register_agents(app, deps: ResonanceApiDeps):
         on = str(body.get("enabled", "")).strip().lower() in ("1", "true", "on", "yes")
         if not slug:
             return _err(400, "Thiếu trợ lý", "Missing assistant")
-        if slug.lower() == "aivon-core":
-            # Aivon Core (0.185.0) is the system assistant: it is not an Auto assistant and cannot be switched.
-            return _err(403, "Aivon Core là trợ lý hệ thống, không bật hay tắt Auto được",
-                        "Aivon Core is the system assistant; Auto cannot be switched for it")
+        if slug.lower() == "aivon-core" and not on:
+            # Aivon Core (owner, 05/11/2026): Auto is always on for the system assistant and cannot be switched off.
+            return _err(403, "Aivon Core luôn bật Auto, không tắt được",
+                        "Auto is always on for Aivon Core and cannot be switched off")
         if on and deps.agent_file(root, slug) is None:
             store = deps.store() if _store_exists() else None
             live = store.agent(root, slug) if store else None

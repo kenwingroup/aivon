@@ -2,8 +2,8 @@
 
 *[Tiếng Việt](../12-zalo.md) · **English***
 
-> **AIVON touches Zalo in THREE places, do not mix them up.** This page covers the first:
-> signing in with **your own Zalo account** so AIVON can act on your behalf. The other two
+> **Aivon touches Zalo in THREE places, do not mix them up.** This page covers the first:
+> signing in with **your own Zalo account** so Aivon can act on your behalf. The other two
 > use the official API, which is safe, but they only see what people send directly to the bot.
 >
 > | | Zalo Agent MCP (this page) | [Zalo Bot channel](26-zalo-bot-channel.md) | [Chatbot](25-chatbots.md) |
@@ -13,12 +13,12 @@
 > | Risk of account lockout | Yes | No | No |
 > | Can read old conversations | Yes | Only messages sent to the bot | Only messages sent to the bot |
 > | Can message someone who never contacted the bot | Yes | No | No |
-> | Used for | AIVON working on your behalf | **You** messaging AIVON | **Customers** messaging AIVON |
+> | Used for | Aivon working on your behalf | **You** messaging Aivon | **Customers** messaging Aivon |
 >
 > Running all three at once is fine, they do not collide.
 
-AIVON connects a personal Zalo account through the MCP of
-[`aivon-zalo`](https://github.com/kenwingroup/aivon-zalo), AIVON's own Zalo CLI. There is a single
+Aivon connects a personal Zalo account through the MCP of
+[`aivon-zalo`](https://github.com/kenwingroup/aivon-zalo), Aivon's own Zalo CLI. There is a single
 MCP process: sign in by QR, read or search conversations and send messages through its tools.
 
 > `aivon-zalo` uses the unofficial Zalo API via `zca-js`. Zalo does not support this way
@@ -27,13 +27,13 @@ MCP process: sign in by QR, read or search conversations and send messages throu
 
 ## What you need
 
-- Node.js 20 or newer on the machine or VPS running AIVON, able to download from GitHub (first run).
+- Node.js 20 or newer on the machine or VPS running Aivon, able to download from GitHub (first run).
 - A phone already signed in to the Zalo account you want to connect.
-- AIVON started and you able to sign in to the dashboard.
+- Aivon started and you able to sign in to the dashboard.
 
-AIVON pins `aivon-zalo` to a release tag (currently `v1.2.0`) and installs it straight from that
+Aivon pins `aivon-zalo` to a release tag (currently `v1.2.0`) and installs it straight from that
 tag's tarball on GitHub, with no npm account or Git needed. Only the `zca-js` library underneath
-follows its official npm releases. Since 0.83.0 AIVON runs this build instead of the third-party
+follows its official npm releases. Since 0.83.0 Aivon runs this build instead of the third-party
 `zalo-agent-cli` 1.6.2; connections signed in earlier switch over without a new QR scan.
 
 ## Connecting by QR
@@ -51,11 +51,11 @@ The **Guide on GitHub** button in the Zalo card always opens this documentation 
 
 ## Importing old messages into the Inbox (since 0.174.0)
 
-Right after you sign Zalo in to AIVON, the Inbox only holds messages from the moment **Record conversations** was switched on. To bring in older ones, press **Import old messages** on the Zalo account card on the Chatbot page, Bots tab, under Channels without a bot. If Zalo already has a bot, press the Zalo chip on that bot's card.
+Right after you sign Zalo in to Aivon, the Inbox only holds messages from the moment **Record conversations** was switched on. To bring in older ones, press **Import old messages** on the Zalo account card on the Chatbot page, Bots tab, under Channels without a bot. If Zalo already has a bot, press the Zalo chip on that bot's card.
 
-- AIVON takes the messages aivon-zalo pulls in on every connect: about the last **2 weeks**, since Zalo does not allow going further back. At most 5,000 messages per run.
-- Only chats with **no message yet** in the Inbox are filled. Chats that already have messages are skipped, since old messages added later would show in the wrong order.
-- The bot **does not answer** these messages, they are **not counted as unread**, and groups still keep only their latest 100 messages as usual.
+- Aivon takes the messages aivon-zalo pulls in on every connect: about the last **2 weeks**, since Zalo does not allow going further back. At most 5,000 messages per run.
+- A chat with **no message yet** gets everything. A chat that **already has messages** gets only those **older than its first message**, placed above it in time order (before this release such chats were skipped).
+- The bot **does not answer** these messages, they are **not counted as unread**, and groups still keep only their latest 1,000 messages as usual.
 - Right after scanning the QR code, wait a few minutes for Zalo to finish loading old messages before pressing it. Pressing again never duplicates anything.
 
 ## The MCP tools
@@ -70,6 +70,7 @@ Right after you sign Zalo in to AIVON, the Inbox only holds messages from the mo
 | `zalo_review_join_requests` | Approve or reject people waiting to join | Dangerous |
 | `zalo_list_threads` | List the chats currently in the buffer | Read |
 | `zalo_search_threads` | Find a group or person by name | Read |
+| `zalo_get_labels` | The tags (labels) the owner set on chats in the Zalo app, for one chat or all (aivon-zalo 1.6.0 and later) | Read |
 | `zalo_view_media` | Download/open an image, audio or video on the server (the brain does not see it, see `zalo_read_images` below) | Read |
 | `zalo_mark_read` | Mark as handled up to a cursor | Write |
 | `zalo_send_message` | Send a message to a person or group | Dangerous |
@@ -83,33 +84,33 @@ available through any API.
 
 The three read tools only read what aivon-zalo captured itself: messages that arrive while it is
 connected, plus Zalo's replay each time it connects. There is no way to ask Zalo for a DM's history
-later. So a message that arrives during an outage (a AIVON restart or update, a dropped network,
+later. So a message that arrives during an outage (a Aivon restart or update, a dropped network,
 another Zalo Web session holding the connection) is only seen if the replay brings it back.
 
 - History is now **kept on disk** (30 days) in the account's session folder, so a restart no longer
   wipes it.
 - Every read result carries `sync`. `sync.complete: false` means the connection was down during
   part of that period and the replay did not cover it (`sync.gaps` says when): a message may be
-  missing, which is **not** the same as the contact not replying. AIVON then keeps the waiting step
+  missing, which is **not** the same as the contact not replying. Aivon then keeps the waiting step
   (approval, publishing) on hold and tells the owner.
 - Messages from an outage that the replay brings back go to the live feed, flagged
   `recovered: true`, so the Inbox has them too.
 
 ## Approving join requests
 
-Since AIVON 0.84.7 (aivon-zalo 1.2.0), for groups that require approval:
+Since Aivon 0.84.7 (aivon-zalo 1.2.0), for groups that require approval:
 
-- **AIVON tells you when someone asks to join**, through the inbox bell and your Telegram: one message per group,
+- **Aivon tells you when someone asks to join**, through the inbox bell and your Telegram: one message per group,
   with the applicants' names and the group name.
-- **You decide, AIVON acts.** Ask "who is waiting to join Zoom | AIVON?" and AIVON lists them; say "approve
-  everyone" or "approve Lan, reject Minh" and AIVON does it and reports the outcome for each person.
+- **You decide, Aivon acts.** Ask "who is waiting to join Zoom | AIVON?" and Aivon lists them; say "approve
+  everyone" or "approve Lan, reject Minh" and Aivon does it and reports the outcome for each person.
 - **A dedicated bot never approves on its own.** Join requests do not reach bots.
 - The Zalo account you scanned must be the group's **owner or a deputy**, or Zalo refuses. Approving is a dangerous
   action (it changes who is in the group), so the Zalo connection must be at Full access.
 
 ## New members joining a group
 
-Since AIVON 0.84.2 (aivon-zalo 1.1.0), AIVON knows who just joined a group and **when**,
+Since Aivon 0.84.2 (aivon-zalo 1.1.0), Aivon knows who just joined a group and **when**,
 including people your own account added:
 
 - **You can ask.** "Who joined Zoom | AIVON this week?" makes the brain call
@@ -119,25 +120,25 @@ including people your own account added:
 - **A dedicated bot receives the event.** In a group the bot is allowed in, each newcomer is an
   event sent to the bot's Agent, whatever the "reply when" setting says. The Agent follows its own
   instructions (for example a welcome and a question), and what it sends tags the newcomer.
-  AIVON has **no greeting of its own**: if the Agent's instructions say nothing about newcomers,
+  Aivon has **no greeting of its own**: if the Agent's instructions say nothing about newcomers,
   the bot stays silent. When many people join at once and the bot has hit its rate limit, it also
   stays silent instead of saying "you are typing too fast".
 - **Limits.** Zalo only reports this while connected, and the member list carries no join date.
-  People who joined before this feature, or while the machine running AIVON was off, are not in
+  People who joined before this feature, or while the machine running Aivon was off, are not in
   the log.
 
-## The Zalo extras pack (AIVON Store)
+## The Zalo extras pack (Aivon Store)
 
 The three groups of tools below (reading images, sending images and files, tagging people plus
 notes, reminders and polls) fill exactly what the standard MCP lacks. Since 0.73.0 they live in
-the **`aivon.zalo`** pack on AIVON Store instead of shipping inside the app, so people who do not
+the **`aivon.zalo`** pack on Aivon Store instead of shipping inside the app, so people who do not
 use Zalo do not carry them:
 
-- **Right after you scan the Zalo QR, AIVON offers the pack** through the store's own consent
+- **Right after you scan the Zalo QR, Aivon offers the pack** through the store's own consent
   screen: it lists every code file, with the "run now" switch on because you just connected
   Zalo yourself. Press Install and every tool is there.
 - **On a machine that connected Zalo earlier**, the Connections page shows a reminder with an
-  **Install companion pack** button. AIVON never installs a code pack without asking.
+  **Install companion pack** button. Aivon never installs a code pack without asking.
 - The Zalo connection, the Inbox and the Zalo chatbot stay in the app and keep working without
   the pack. Without it you only miss the extra tools.
 
@@ -153,7 +154,7 @@ brain. So the `aivon.zalo` pack has the `zalo_read_images` tool:
 
 Just ask in chat, for example "look at the receipt Lan just posted in the Sales group".
 
-- **Images come straight from Zalo**, not from the MCP's 2-hour buffer: AIVON asks Zalo for the
+- **Images come straight from Zalo**, not from the MCP's 2-hour buffer: Aivon asks Zalo for the
   group's recent messages (30 by default, at most 100) and takes up to the 8 newest images. For a
   private chat, only images still in the MCP buffer can be fetched.
 - **Images are saved to `attachments/zalo/<group id>/`** in the brain, so they show right in chat.
@@ -168,7 +169,7 @@ Zalo pack.
 
 ## Sending images and files
 
-`zalo_send_message` above **only sends text**. To send an image (say one AIVON just generated)
+`zalo_send_message` above **only sends text**. To send an image (say one Aivon just generated)
 or a file (a PDF report, a spreadsheet), use the `zalo_send_image` tool from the `aivon.zalo`
 pack. It uses exactly the Zalo account you scanned the QR with.
 
@@ -182,20 +183,20 @@ to Nam over Zalo".
 Three things worth knowing:
 
 - **Only files inside the brain in use can be sent.** This is a deliberate safety rail: without
-  it, one cleverly worded chat message could make AIVON send any file on the server outside, and
+  it, one cleverly worded chat message could make Aivon send any file on the server outside, and
   a Zalo message cannot be recalled.
 - **One send carries one kind**, either all images or all files, up to 10 files. Mixing them
-  makes Zalo display the wrong type, so AIVON reports back instead of guessing.
-- **With several Zalo accounts attached, AIVON asks** which one to send from. Sending from the
+  makes Zalo display the wrong type, so Aivon reports back instead of guessing.
+- **With several Zalo accounts attached, Aivon asks** which one to send from. Sending from the
   wrong account means sending under someone else's identity, so this is not a place to guess.
 
-Node.js 20+ is required on the machine running AIVON, same as for the Zalo connection itself.
+Node.js 20+ is required on the machine running Aivon, same as for the Zalo connection itself.
 
 ### Why files take a different path from images (since 0.139.0)
 
 An image uploaded to Zalo gets its link right away. A file (Excel, PDF, Word, zip, video, even a
 `.bmp` image) does not: Zalo reports "uploaded" only over the account's **live connection**.
-Before 0.139.0 AIVON sent files with a one-shot command that never opens that connection, so the
+Before 0.139.0 Aivon sent files with a one-shot command that never opens that connection, so the
 command waited until it was cut at 120 seconds and the file never arrived. Opening an extra
 connection does not work either: Zalo keeps one Web connection per account and would evict the
 one serving the inbox.
@@ -203,15 +204,15 @@ one serving the inbox.
 Since 0.139.0 files go through the `zalo_send_file` tool of the MCP process that holds the
 connection:
 
-- AIVON copies the file into the Zalo session outbox (`.zalo-agent-cli/outbox/` in the session
+- Aivon copies the file into the Zalo session outbox (`.zalo-agent-cli/outbox/` in the session
   folder), calls the tool, then deletes the copy. The tool accepts only files in that outbox, so
   a model calling it directly cannot send any other file on the server.
 - **If Zalo does not confirm within 60 seconds, you get a clear error and NOTHING is sent**, even
   if the confirmation arrives later. Retrying is safe. A dropped live connection is reported at
   once, without waiting.
 - Images (jpg, png, webp, gif) keep the old path.
-- If the Zalo connection still runs an older `aivon-zalo` without this tool, AIVON says to update
-  AIVON and switch the Zalo connection off and on again (no new QR scan).
+- If the Zalo connection still runs an older `aivon-zalo` without this tool, Aivon says to update
+  Aivon and switch the Zalo connection off and on again (no new QR scan).
 
 The command-line `aivon-zalo msg send-file` fails at once when no live connection is open.
 `--listen` makes it open one for that send, but only use it on a machine NOT running the Zalo
@@ -230,17 +231,26 @@ MCP, since the new connection evicts it.
 | `zalo_create_reminder` | A reminder shown inside Zalo, with a time and repeat (daily, weekly, monthly) | Dangerous (Full power level) |
 | `zalo_create_poll` | A poll for the group: multiple answers, anonymous, closing time | Dangerous (Full power level) |
 
-Just say it in chat, for example "message the Sales group and tag @kenwingroup: meeting at 9am" or "create a poll in the AIVON class group: what for lunch".
+Just say it in chat, for example "message the Sales group and tag @minhvu: meeting at 9am" or "create a poll in the Aivon class group: what for lunch".
 
 Four things worth knowing:
 
-- **You only need to say a name to tag.** "@kenwingroup" or "Minh Vũ" both work, ignoring case and accents. AIVON looks up the real Zalo
-  id among the people who already spoke in that group first, then in Zalo's member list. **If a name is ambiguous or not found, AIVON
+- **You only need to say a name to tag.** "@minhvu" or "Minh Vũ" both work, ignoring case and accents. Aivon looks up the real Zalo
+  id among the people who already spoke in that group first, then in Zalo's member list. **If a name is ambiguous or not found, Aivon
   asks back with the candidates** instead of guessing, because a wrong tag cannot be undone. `@All` only when you ask for it explicitly.
-- **This reminder is not AIVON's own reminder** (`aivon_schedule`): it shows up inside Zalo, so the whole group sees it. Times use AIVON's timezone.
-- **If the group locks note or poll creation for members**, Zalo refuses and AIVON reports that reason as is. If a command times out,
-  AIVON says it is **not sure whether it was created** and asks you to check the group before trying again, so you do not get two polls.
-- **With several Zalo accounts attached, AIVON asks** which one to use, same as for sending images.
+- **This reminder is not Aivon's own reminder** (`aivon_schedule`): it shows up inside Zalo, so the whole group sees it. Times use Aivon's timezone.
+- **If the group locks note or poll creation for members**, Zalo refuses and Aivon reports that reason as is. If a command times out,
+  Aivon says it is **not sure whether it was created** and asks you to check the group before trying again, so you do not get two polls.
+- **With several Zalo accounts attached, Aivon asks** which one to use, same as for sending images.
+
+## Bold, coloured text and "typing..." (since 0.413.0)
+
+A bot answering on personal Zalo now writes more like a person:
+
+- **Bold, italic, strikethrough and coloured text.** When the bot writes `**85.000đ**`, the customer sees bold text, not the stars. Colours are written `{red:50% off}`, with `red`, `orange`, `yellow`, `green`, plus `{big:...}` and `{small:...}` for the size. A `- ` line becomes `•`, a heading becomes a bold line. The bot is told to stress only one or two things, as a person texting would.
+- **"Typing...".** In private chats the customer sees the typing indicator while the bot writes its reply. This needs aivon-zalo 1.9.0 or later; with an older one the bot answers as usual, only without the indicator. Groups never show it, since the bot chooses to stay silent on many messages there.
+
+Formatted messages go through `aivon-zalo msg send --style`. If that command fails, the message still goes out as plain text with the symbols removed.
 
 ## Using it in chat
 
@@ -252,8 +262,8 @@ You can speak naturally:
 - "Send the Sales group: meeting at 9am tomorrow."
 
 When sending, state the name or `threadId` clearly, the content, and whether it is a person or a
-group. If the search returns several chats with the same name, AIVON must ask back rather than
-guess. If exactly one result matches, AIVON sends right away with `zalo_send_message`; no
+group. If the search returns several chats with the same name, Aivon must ask back rather than
+guess. If exactly one result matches, Aivon sends right away with `zalo_send_message`; no
 listener has to be enabled, the recipient does not have to message first, and nothing depends on
 a watch list.
 
@@ -275,8 +285,8 @@ The new flow dropped the `listen --webhook` sidecar, the `/hook/zalo` endpoint, 
 continuously" panel, the per-chat rules file and the two plugins `aivon_zalo_rule` and
 `aivon_zalo_send`. No listener process turns the MCP connector off and back on any more.
 
-Because of that, AIVON does not forward Zalo messages to Telegram in the background. When you
-want to check messages, ask AIVON; MCP can use `zalo_get_messages` for buffered messages or
+Because of that, Aivon does not forward Zalo messages to Telegram in the background. When you
+want to check messages, ask Aivon; MCP can use `zalo_get_messages` for buffered messages or
 `zalo_get_history` for history.
 
 ## Troubleshooting
@@ -297,4 +307,4 @@ want to check messages, ask AIVON; MCP can use `zalo_get_messages` for buffered 
 
 - [The `aivon-zalo` repository](https://github.com/kenwingroup/aivon-zalo)
 - [zca-js](https://github.com/RFS-ADRENO/zca-js), the library that talks to Zalo underneath
-- [Connections and MCP permissions in AIVON](09-connections-and-business-data.md)
+- [Connections and MCP permissions in Aivon](09-connections-and-business-data.md)

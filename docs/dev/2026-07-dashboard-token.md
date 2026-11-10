@@ -6,14 +6,14 @@ Người yêu cầu: Minh Vu
 
 ## 1. Mục tiêu
 
-Một dashboard trong AIVON để theo dõi mức tiêu thụ token, trả lời được 4 câu hỏi:
+Một dashboard trong Aivon để theo dõi mức tiêu thụ token, trả lời được 4 câu hỏi:
 
 1. Tổng quan: kỳ này tiêu bao nhiêu token, so kỳ trước tăng hay giảm, có đang phình bất thường không.
-2. Bóc tách: token đi vào đâu nhiều nhất - provider nào (Claude / Codex / OpenRouter-API), model nào, dự án nào, và của AIVON thì là chat hay hoạt động ngầm (loop, lịch, subagent).
+2. Bóc tách: token đi vào đâu nhiều nhất - provider nào (Claude / Codex / OpenRouter-API), model nào, dự án nào, và của Aivon thì là chat hay hoạt động ngầm (loop, lịch, subagent).
 3. Hiệu quả: đang dùng tiết kiệm hay lãng phí (cache hit, token/phiên, output/input, chi phí quy đổi).
 4. Hành động: sinh ra vài đề xuất cụ thể để tối ưu (giảm loop, hạ model, tách phiên, /compact...).
 
-Người xem chính là Minh Vu (human-facing). Endpoint tổng hợp có thể tái dùng sau này cho một tool để chính AIVON đọc, nhưng v1 không làm phần đó.
+Người xem chính là Minh Vu (human-facing). Endpoint tổng hợp có thể tái dùng sau này cho một tool để chính Aivon đọc, nhưng v1 không làm phần đó.
 
 ## 2. Nguồn dữ liệu và sự thật lịch sử
 
@@ -21,9 +21,9 @@ Có 3 nguồn, mức độ sẵn sàng khác nhau. Đây là điểm quan trọn
 
 | Provider | Nguồn | Trường token | Lịch sử |
 |---|---|---|---|
-| Claude (Code + AIVON-SDK) | `~/.claude/projects/**/*.jsonl` | input, output, cache_read, cache_creation (tách riêng) + model, cwd, entrypoint, isSidechain, sessionId, timestamp, gitBranch | Có đầy đủ, backfill được toàn bộ |
+| Claude (Code + Aivon-SDK) | `~/.claude/projects/**/*.jsonl` | input, output, cache_read, cache_creation (tách riêng) + model, cwd, entrypoint, isSidechain, sessionId, timestamp, gitBranch | Có đầy đủ, backfill được toàn bộ |
 | Codex / ChatGPT | `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl` | `total_token_usage` {input_tokens, cached_input_tokens, output_tokens, total_tokens} theo phiên | Có, backfill được |
-| OpenRouter / OpenAI / Anthropic API (AIVON chat thuần) | Hiện KHÔNG lưu. `engine.py` có trích `usage` mỗi lượt rồi ném đi; `conversations.db` không có cột token | Không có lịch sử | Chỉ có từ lúc bật ghi-log (forward-only) |
+| OpenRouter / OpenAI / Anthropic API (Aivon chat thuần) | Hiện KHÔNG lưu. `engine.py` có trích `usage` mỗi lượt rồi ném đi; `conversations.db` không có cột token | Không có lịch sử | Chỉ có từ lúc bật ghi-log (forward-only) |
 
 Hệ quả thiết kế: Claude và Codex có số ngay từ lịch sử. Nhánh API phải cắm một sink ghi-log nhẹ, và dashboard phải nói rõ "nhánh API chỉ có số từ ngày bật".
 
@@ -33,7 +33,7 @@ Mỗi dòng `type=assistant` có:
 - `timestamp` (UTC, hậu tố Z) - phải đổi sang giờ địa phương (Asia/Ho_Chi_Minh) khi chia theo ngày.
 - `message.model`: `claude-opus-4-8`, `claude-sonnet-4-6`, `claude-fable-5`, `claude-haiku-4-5-...`, `<synthetic>` (bỏ qua synthetic).
 - `message.usage`: `input_tokens`, `output_tokens`, `cache_creation_input_tokens`, `cache_read_input_tokens`, `server_tool_use.web_search_requests/web_fetch_requests`.
-- `entrypoint`: `sdk-cli`/`sdk-py`/`sdk-ts` (= AIVON) vs `claude-desktop`/`claude-vscode` (= gõ tay).
+- `entrypoint`: `sdk-cli`/`sdk-py`/`sdk-ts` (= Aivon) vs `claude-desktop`/`claude-vscode` (= gõ tay).
 - `cwd` (= dự án), `gitBranch`, `sessionId`, `isSidechain` (= token subagent).
 - Tên thư mục project là slug hoá cwd; ưu tiên đọc `cwd` trong dòng để lấy dự án thật.
 
@@ -66,12 +66,12 @@ UsageEvent {
 ## 4. Phân loại nguồn / hoạt động (attribution)
 
 - `source`: Claude theo `entrypoint` (sdk-* = aivon, desktop/vscode = manual). Codex và API luôn = aivon.
-- `activity` cho phần AIVON:
+- `activity` cho phần Aivon:
   - `subagent`: dòng có `isSidechain = true` (token của agent con chạy ngầm trong bất kỳ phiên nào).
   - `chat`: `sessionId` của phiên Claude-SDK có mặt trong `conversations.db.cli_session_id` (tức phiên do người dùng mở qua dashboard/Telegram).
   - `background`: phiên Claude-SDK KHÔNG có trong `conversations.db` (loop, lịch hẹn, tự cải tiến, cron). Đây là "hoạt động ngầm".
   - `manual`: entrypoint gõ tay.
-- Tinh chỉnh loop vs lịch (để sau v1): hiện gộp chung `background`. Muốn tách "loop X tốn bao nhiêu" cần AIVON gắn nhãn khi spawn phiên (ví dụ ghi một map `sessionId -> {kind: loop, slug}` vào một sidecar). Ghi nhận là việc v1.1, không chặn v1.
+- Tinh chỉnh loop vs lịch (để sau v1): hiện gộp chung `background`. Muốn tách "loop X tốn bao nhiêu" cần Aivon gắn nhãn khi spawn phiên (ví dụ ghi một map `sessionId -> {kind: loop, slug}` vào một sidecar). Ghi nhận là việc v1.1, không chặn v1.
 
 Join key: `conversations.db.sessions.cli_session_id` = `sessionId` trong Claude JSONL. Đã xác minh 31/43 phiên có key này.
 
@@ -89,8 +89,8 @@ Join key: `conversations.db.sessions.cli_session_id` = `sessionId` trong Claude 
 ### 5.2 Bóc tách (biểu đồ)
 
 - Theo provider: Claude / Codex / API (đây là bộ lọc chính; chọn provider thì cả trang lọc theo).
-- Theo source: AIVON vs gõ tay (chỉ áp dụng phần Claude).
-- Theo activity của AIVON: chat / background / subagent.
+- Theo source: Aivon vs gõ tay (chỉ áp dụng phần Claude).
+- Theo activity của Aivon: chat / background / subagent.
 - Theo model: xếp hạng model ngốn token (kèm cột chi phí quy đổi).
 - Theo dự án (cwd): top dự án.
 - Theo thời gian: cột token mỗi ngày trong kỳ (stacked theo provider hoặc theo activity); thêm heatmap 24 giờ để thấy giờ nào chạy ngầm nhiều.
@@ -164,9 +164,9 @@ v1 (làm ngay):
 - Tab dashboard với đủ bộ lọc kỳ + lọc provider.
 
 Để sau (v1.1+):
-- Tách `background` thành loop vs lịch vs tự-cải-tiến (cần AIVON gắn nhãn sessionId khi spawn).
+- Tách `background` thành loop vs lịch vs tự-cải-tiến (cần Aivon gắn nhãn sessionId khi spawn).
 - Drill-down tới từng phiên.
-- Tool cho chính AIVON đọc báo cáo token qua chat.
+- Tool cho chính Aivon đọc báo cáo token qua chat.
 - Cảnh báo chủ động (đẩy Telegram khi spike).
 
 ## 10. Edge cases / rủi ro

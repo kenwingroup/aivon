@@ -1,5 +1,6 @@
 // Wiring giao diện chat trên điện thoại (mobile-only, <=860px):
-//  - dời chip model (#mbOpen + #mbPop) và nút + (#newChatBtn) lên header khi mobile, trả về khi desktop
+//  - phone: the notification bell and the + button (#newChatBtn) move into the header, a computer gets them back
+//    (the model chip stays in the composer next to the Effort chip on every width since 2026-11-09)
 //  - dời nhóm Hệ thống (chọn brain, đổi tông, loa, dải HỆ THỐNG) vào đáy ngăn kéo
 //  - nút + = hội thoại mới (reset) + focus ô nhập
 //  - ngăn kéo điều hướng: nút menu mở/đóng, backdrop / Esc / chọn mục thì đóng
@@ -9,14 +10,11 @@
     var mq = window.matchMedia("(max-width: 860px)");
     var railEl = document.querySelector(".rail");
 
-    // ---- 1) Header mobile: dời chip model + nút + lên header; desktop trả về chỗ cũ ----
-    var mbOpen = document.getElementById("mbOpen");
-    var mbPop = document.getElementById("mbPop");
-    // Since 0.153.0 the model chip lives in the composer's button row (#cpChips); its picker (#mbPop) is a child of the card.
-    var chipHost = document.getElementById("cpChips");
-    var mbPopHome = mbPop ? mbPop.parentElement : null;
+    // ---- 1) Phone header: the bell and the + button move up into it; a computer gets them back ----
+    // The model chip (#mbOpen) and its picker (#mbPop) are NOT moved: owner, 2026-11-09, "chuyển khung lựa chọn model về
+    // cạnh lựa chọn mức suy luận ở bản điện thoại, làm giống bản máy tính". From 0.182.0 to then a phone carried the chip
+    // in the header; now the composer is compact enough to hold it next to the Effort chip, as on a computer.
     var headerRoot = document.querySelector(".hud-top");
-    var headerCenter = document.querySelector(".hud-center-title");
     var newChatBtn = document.getElementById("newChatBtn");
     var origNewChatParent = newChatBtn ? newChatBtn.parentElement : null;
     var notificationTrigger = document.getElementById("notificationTrigger");
@@ -30,18 +28,8 @@
           if (navToggle && navToggle.parentElement === headerRoot) headerRoot.insertBefore(notificationTrigger, navToggle.nextSibling);
           else headerRoot.insertBefore(notificationTrigger, headerRoot.firstChild);
         }
-        // 0.182.0: back in the header on a phone (0.180.0 had moved it into the composer; the owner found that worse).
-        if (mbOpen && mbOpen.parentElement !== headerRoot) {
-          if (headerCenter && headerCenter.parentElement === headerRoot) headerRoot.insertBefore(mbOpen, headerCenter.nextSibling);
-          else headerRoot.appendChild(mbOpen);
-          if (mbPop) headerRoot.insertBefore(mbPop, mbOpen.nextSibling);
-        }
         if (newChatBtn && newChatBtn.parentElement !== headerRoot) headerRoot.appendChild(newChatBtn);  // + về cuối header
       } else {
-        if (mbOpen && chipHost && mbOpen.parentElement !== chipHost) {
-          chipHost.insertBefore(mbOpen, document.getElementById("effBtn"));
-          if (mbPop && mbPopHome) mbPopHome.appendChild(mbPop);
-        }
         if (newChatBtn && origNewChatParent && newChatBtn.parentElement !== origNewChatParent) origNewChatParent.appendChild(newChatBtn);
         if (notificationTrigger && origNotificationParent && notificationTrigger.parentElement !== origNotificationParent) {
           if (origNotificationNext && origNotificationNext.parentElement === origNotificationParent) {
@@ -69,12 +57,20 @@
       var foot = railEl.querySelector(".rail-foot");
       railEl.insertBefore(sysHost, foot || null);
     }
-    function moveEl(el, toBtns) {
+    // `toFoot` (0.393.0, owner): the light/dark switch goes to the drawer's foot, just left of the collapse button,
+    // instead of a row of its own under the "System" label.
+    function moveEl(el, toBtns, toFoot) {
       if (!el) return;
       ensureSysHost();
       if (!sysHost) return;
       moved.push({ el: el, parent: el.parentElement, next: el.nextSibling });
-      (toBtns ? sysBtns : sysHost).appendChild(el);
+      var foot = toFoot && railEl && railEl.querySelector(".rail-foot");
+      if (foot) foot.insertBefore(el, foot.querySelector(".rail-collapse-btn"));
+      else (toBtns ? sysBtns : sysHost).appendChild(el);
+    }
+    function traVe(m) {
+      if (m.next && m.next.parentElement === m.parent) m.parent.insertBefore(m.el, m.next);
+      else m.parent.appendChild(m.el);
     }
     // Gỡ hẳn khung "Hệ thống" khỏi rail. PHẢI có hàm này: `ensureSysHost` dựng khung một lần
     // rồi giữ tham chiếu, còn `placeSystem` trước đây chỉ trả các nút về chỗ cũ mà KHÔNG dọn
@@ -89,7 +85,8 @@
       if (mq.matches) {
         if (!moved.length) {
           moveEl(document.querySelector(".navbar-brain"), false);
-          moveEl(document.getElementById("themeToggle"), true);
+          moveEl(document.getElementById("soundToggle"), true, true);   // 06/11/2026: loa ngay trước nút sáng/tối
+          moveEl(document.getElementById("themeToggle"), true, true);
           // Nút loa header đã bỏ (0.48.3), nút loa thanh nhập cũng bỏ (02/09): giọng đi theo
           // mic, bấm mic là bật loa. Không còn nút loa nào để dời cả.
           // Dải "VỪA GỌI" cũng bỏ (0.64.15): bước tool đã hiện ngay trong khung chat.
@@ -98,14 +95,13 @@
         // đường (đổi brain, đổi trang) - lúc đó chúng biến mất khỏi khung này và để lại đúng
         // cái nhãn trơ ra. Còn nút thì giữ, hết nút thì dọn.
         if (sysHost && !sysHost.querySelector(".navbar-brain, #themeToggle")) {
-          moved = [];
+          var cu = moved; moved = [];
+          // Whatever still sits in the foot goes home, so the next pass borrows it again from its real place.
+          cu.forEach(function (m) { if (m.el.parentElement && m.el.parentElement !== m.parent) traVe(m); });
           boSysHost();
         }
       } else if (moved.length) {
-        moved.forEach(function (m) {
-          if (m.next && m.next.parentElement === m.parent) m.parent.insertBefore(m.el, m.next);
-          else m.parent.appendChild(m.el);
-        });
+        moved.forEach(traVe);
         moved = [];
         boSysHost();   // trả nút về desktop rồi thì cái khung rỗng cũng phải đi theo
       } else {
@@ -199,9 +195,15 @@
     // CSS đặt khung chat đúng bằng vùng đó và bỏ lề an toàn. Nhận ra bàn phím bằng cách so với
     // chiều cao lúc KHÔNG gõ (mốc), vì trên iOS innerHeight không đổi còn trên Android (có
     // interactive-widget=resizes-content) thì innerHeight co theo, so với nó là không thấy gì.
+    // 0.359.0 (PR #850 của hwangrin, iPhone cài như app): lúc KHÔNG gõ, 100dvh của iOS standalone có khi lệch với phần
+    // màn hình thật sự nhìn thấy (đầu khung chat bị hụt, dưới ô nhập thừa một dải trống). Khung chat lúc nghỉ dùng đúng
+    // chiều cao visualViewport (`--app-h`, chỉ chiều cao, không cộng độ lệch: không có bàn phím thì vùng nhìn thấy bắt
+    // đầu từ mép trên), và bàn phím hạ xuống mà iOS để trang trượt lên thì kéo trang về đầu.
+    // 2026-11-08: the status bar is now "default" (solid, page starts below it) to stop the iOS 26/27 top blur; see the
+    // note on that meta tag in index.html. Nothing here depends on the bar style.
     var vv = window.visualViewport;
     var rootStyle = document.documentElement.style;
-    var mocCao = 0, kbHen = 0;
+    var mocCao = 0, kbHen = 0, vuaGo = false, vuaMo = false;
     function dangGo() {
       var a = document.activeElement;
       if (!a || a === document.body) return false;
@@ -226,6 +228,19 @@
         rootStyle.removeProperty("--vv-top");
         rootStyle.removeProperty("--vv-ptop");
       }
+      if (mq.matches && !go && Math.abs((vv.scale || 1) - 1) < 0.01 && vv.height > 200) {
+        rootStyle.setProperty("--app-h", Math.round(vv.height) + "px");
+        // Bàn phím vừa hạ: trang (vốn không cuộn được) bị iOS để trượt lên, đầu khung chat nằm khuất trên mép màn.
+        if (vuaGo && (window.scrollY || document.documentElement.scrollTop)) window.scrollTo(0, 0);
+      } else if (!mq.matches) {
+        rootStyle.removeProperty("--app-h");
+      }
+      // 0.409.0: the keyboard can also go down while the box KEEPS its focus (it turned read-only for dictation). The
+      // page is still slid up then, and on a slid page iOS hit-tests the fixed chat layer away from where it draws it:
+      // taps on the dictation bar's X and stop landed on the text box (owner's iPhone, 2026-10-30). Slide it back.
+      if (mq.matches && vuaMo && !mo && (window.scrollY || document.documentElement.scrollTop)) window.scrollTo(0, 0);
+      vuaMo = mo;
+      vuaGo = go;
     }
     function henKeyboard() {
       if (!kbHen) kbHen = (window.requestAnimationFrame || setTimeout)(syncKeyboard);
@@ -238,6 +253,24 @@
       document.addEventListener("focusout", function () { henKeyboard(); setTimeout(syncKeyboard, 350); });
       window.addEventListener("orientationchange", function () { mocCao = 0; setTimeout(syncKeyboard, 400); });
     }
+
+    // ---- 8) The page itself never stays slid (2026-11-06) ----
+    // Every screen is one fixed frame and scrolls inside its own boxes, so the document scroll should always be 0. iOS
+    // can still slide it: a launch from the home screen (standalone), a swipe on a page whose
+    // 100dvh is off by the status bar, a return from the background. On a slid page iOS draws the fixed layers in one
+    // place and hit-tests them in another (see 0.409.0 above), so every tap lands beside its button and the app looks
+    // frozen (owner, iPhone 13, app added from Chrome, 2026-11-06). Slide it back whenever nobody is typing; while
+    // the keyboard is up the slide is iOS's own and section 7 handles it. A touch also checks first, so the next tap
+    // after any missed one already lands right.
+    function pageToTop() {
+      if (!mq.matches || dangGo()) return;
+      if (window.scrollY || document.documentElement.scrollTop || document.body.scrollTop) window.scrollTo(0, 0);
+    }
+    window.addEventListener("scroll", pageToTop, { passive: true });
+    window.addEventListener("pageshow", function () { pageToTop(); setTimeout(pageToTop, 300); });
+    window.addEventListener("load", function () { setTimeout(pageToTop, 300); });
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) setTimeout(pageToTop, 60); });
+    document.addEventListener("touchstart", pageToTop, { capture: true, passive: true });
 
     function applyAll() { placeHeader(); placeSystem(); setPlaceholder(); syncBrainMax(); syncKeyboard(); }
     applyAll();

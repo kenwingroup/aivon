@@ -63,6 +63,13 @@ REM script cai ghi vao registry, nen "chua thay" o day khong co nghia la chua ca
 call :cai_script agy "Antigravity CLI cua Google" https://antigravity.google/cli/install.ps1
 call :cai_script grok "Grok Build cua xAI" https://x.ai/cli/install.ps1
 
+REM 0.306.0: bat tu khoi dong cung Windows (dang nhap may la Aivon tu chay va tu mo dashboard).
+REM Khong muon thi dat AIVON_NO_AUTOSTART=1 truoc khi chay, hoac tat trong trang Cai dat sau.
+if not "%AIVON_NO_AUTOSTART%"=="1" (
+  powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0aivon-autostart.ps1" install >nul 2>&1
+  if not errorlevel 1 echo     OK  Tu khoi dong cung Windows: BAT
+)
+
 REM Giai phong port 7979 neu dang bi chiem
 echo [4/4] Giai phong port 7979...
 for /f "tokens=5" %%a in ('netstat -ano ^| findstr ":7979" ^| findstr "LISTENING"') do (

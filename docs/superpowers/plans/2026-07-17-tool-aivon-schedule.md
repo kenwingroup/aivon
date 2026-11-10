@@ -2,11 +2,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Cho AIVON một tool để tạo/liệt kê/huỷ việc định kỳ và nhắc hẹn ngay từ chat, thay cho việc gõ YAML bằng tay hoặc shell ra `curl`.
+**Goal:** Cho Aivon một tool để tạo/liệt kê/huỷ việc định kỳ và nhắc hẹn ngay từ chat, thay cho việc gõ YAML bằng tay hoặc shell ra `curl`.
 
-**Architecture:** `aivon_schedule` là **plugin bundled** (`system/plugins/aivon-schedule/`), KHÔNG phải tool trong hub. Nó route theo bản chất công việc: nhắc/cron/một-lần → kho `reminders` (đã chạy sẵn, có cron đầy đủ); việc lặp + bền + cần prompt sửa được trong Obsidian → file `.md` trong `AIVON/loops/`. Người dùng và model chỉ thấy MỘT khái niệm "việc"; chuyện nó rơi vào kho nào là chi tiết triển khai.
+**Architecture:** `aivon_schedule` là **plugin bundled** (`system/plugins/aivon-schedule/`), KHÔNG phải tool trong hub. Nó route theo bản chất công việc: nhắc/cron/một-lần → kho `reminders` (đã chạy sẵn, có cron đầy đủ); việc lặp + bền + cần prompt sửa được trong Obsidian → file `.md` trong `Aivon/loops/`. Người dùng và model chỉ thấy MỘT khái niệm "việc"; chuyện nó rơi vào kho nào là chi tiết triển khai.
 
-**Tech Stack:** Python 3.12, hệ plugin của AIVON (`plugins_host.py`), test script thuần.
+**Tech Stack:** Python 3.12, hệ plugin của Aivon (`plugins_host.py`), test script thuần.
 
 Spec: `docs/superpowers/specs/2026-07-17-hop-nhat-viec-dinh-ky-design.md` (mục "Tool `aivon_schedule`")
 
@@ -28,7 +28,7 @@ Spec viết: *"Thêm vào hub cạnh `aivon_use_skill` (`mcp_hub.py:272`)"*. **S
 
 `PluginContext.vault_root` (`plugins_host.py:218`) nhận thẳng tham số `vault_root`. Đường SDK truyền `None` (`claude_sdk_engine.py:169`, comment "None = plugin toàn cục"). Nên **mọi plugin gọi từ Claude Code đều có `ctx.vault_root is None`**.
 
-Hậu quả đang xảy ra HÔM NAY (không phải giả thuyết): `image-chatgpt` truyền `vault_root=cctx.vault_root` (`plugin.py:33`) xuống `image_gen._resolve_vault` (`image_gen.py:95-98`), hàm này thấy rỗng thì **rơi về `brains/Brain Default`**. Tức: anh Quy đang làm việc ở brain "My Bullet Journal", bảo AIVON tạo ảnh, **ảnh lưu vào Brain Default** và link `![](attachments/...)` trong chat trỏ vào chỗ không có file. Bug im lặng, chưa ai báo.
+Hậu quả đang xảy ra HÔM NAY (không phải giả thuyết): `image-chatgpt` truyền `vault_root=cctx.vault_root` (`plugin.py:33`) xuống `image_gen._resolve_vault` (`image_gen.py:95-98`), hàm này thấy rỗng thì **rơi về `brains/Brain Default`**. Tức: anh Quy đang làm việc ở brain "My Bullet Journal", bảo Aivon tạo ảnh, **ảnh lưu vào Brain Default** và link `![](attachments/...)` trong chat trỏ vào chỗ không có file. Bug im lặng, chưa ai báo.
 
 `aivon_schedule` mà copy mẫu này thì sẽ ghi loop vào sai brain và đặt nhắc vào sai kho. **Task 1 sửa đường ống đó**, và sửa luôn `image-chatgpt` như hiệu ứng phụ.
 
@@ -37,7 +37,7 @@ Hậu quả đang xảy ra HÔM NAY (không phải giả thuyết): `image-chatg
 - **TUYỆT ĐỐI không dùng ký tự em dash (U+2014)** trong bất kỳ file nào: code, comment, test, doc, commit message. Dùng "-" hoặc viết lại câu. (CLAUDE.md, nguyên tắc 8.)
 - Tiếng Việt cho comment, docstring, mô tả tool, thông báo lỗi.
 - Test là **script thuần, không pytest**: `server/test_*.py`, có `def check(name, cond)`, gom `_fails`, `sys.exit(1)` khi lỗi. CI chạy `for f in test_*.py; do python "$f"; done` (`.github/workflows/ci.yml:35-37`).
-- Chạy test bằng venv: `.venv/Scripts/python.exe`. Test tự cô lập bằng `os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="..."))` TRƯỚC khi import module AIVON.
+- Chạy test bằng venv: `.venv/Scripts/python.exe`. Test tự cô lập bằng `os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="..."))` TRƯỚC khi import module Aivon.
 - **Mô tả tool phải nói rõ KHI NÀO gọi**, vì đó là thứ duy nhất model đọc để quyết định. Bám giọng `image-chatgpt`.
 - Plugin bundled (`system/plugins/`) đi theo app, `enabled: true`. **Không** áp luật "plugin do chat tạo thì `enabled: false`" - luật đó dành cho plugin user tự viết.
 - Không sửa `server/self_improve.py` phần executor (`_eligible_overdue`, `run_cycle`). Plan này chỉ TẠO việc, không đổi cách chạy.
@@ -53,7 +53,7 @@ Hậu quả đang xảy ra HÔM NAY (không phải giả thuyết): `image-chatg
 | `system/plugins/aivon-schedule/plugin.yaml` | **Mới.** Khai báo plugin, `min_mode: safe`. |
 | `system/plugins/aivon-schedule/plugin.py` | **Mới.** Tool `aivon_schedule`: op create/list/cancel, route hai kho. |
 | `server/test_aivon_schedule.py` | **Mới.** Phủ: route đúng kho, parse lịch, list thấy CẢ HAI kho, cancel. |
-| `CLAUDE.md` | Mục điều phối: nói cho AIVON biết đã có tool này, đừng gõ YAML tay nữa. |
+| `CLAUDE.md` | Mục điều phối: nói cho Aivon biết đã có tool này, đừng gõ YAML tay nữa. |
 
 ---
 
@@ -66,7 +66,7 @@ Hậu quả đang xảy ra HÔM NAY (không phải giả thuyết): `image-chatg
 
 **Interfaces:**
 - Consumes: chữ ký HIỆN TẠI đã verify: `plugin_tools(mode: str = "full", vault_root: Optional[str] = None) -> Tuple[List[dict], Dict[str, dict]]` (`plugins_host.py:415`). Task này THÊM keyword-only `scope_vault: bool = True`.
-- Produces: `ctx.vault_root` **không còn là None** ở đường chat. **Cơ chế THẬT (đã sửa lúc chạy, khác bản nháp plan):** brain đi TƯỜNG MINH qua `_apply_mcp(cli, mode="full", brain=None)` (`main.py:693`) đặt `cli.aivon_vault = _brain_root(brain) if brain else None`, y khuôn `cli.aivon_mode` sẵn có; `_plugins_server` đọc `self.aivon_vault`. Bản nháp plan bảo suy từ `cwd` (`_brain_root()` kiểm `(cwd/"AIVON").is_dir()`) - **SAI và đã xoá hẳn**: `CLAUDE_CWD` (`main.py:318`) là gốc project, không có `AIVON/`, mà chat (`main.py:4213`, `:4537`) dùng đúng cwd đó, nên suy-từ-cwd luôn trượt ở chính đường chat.
+- Produces: `ctx.vault_root` **không còn là None** ở đường chat. **Cơ chế THẬT (đã sửa lúc chạy, khác bản nháp plan):** brain đi TƯỜNG MINH qua `_apply_mcp(cli, mode="full", brain=None)` (`main.py:693`) đặt `cli.aivon_vault = _brain_root(brain) if brain else None`, y khuôn `cli.aivon_mode` sẵn có; `_plugins_server` đọc `self.aivon_vault`. Bản nháp plan bảo suy từ `cwd` (`_brain_root()` kiểm `(cwd/"Aivon").is_dir()`) - **SAI và đã xoá hẳn**: `CLAUDE_CWD` (`main.py:318`) là gốc project, không có `Aivon/`, mà chat (`main.py:4213`, `:4537`) dùng đúng cwd đó, nên suy-từ-cwd luôn trượt ở chính đường chat.
 
 **Vì sao task riêng:** đây là bug có sẵn, độc lập với `aivon_schedule`, và một reviewer có thể duyệt/từ chối nó riêng. Nó cũng sửa `image-chatgpt` (đang lưu ảnh nhầm brain) mà không cần đụng file plugin đó.
 
@@ -156,7 +156,7 @@ Expected: hai assert "tiền đề" PASS (chứng minh bug có thật và `_reso
 
 - [ ] **Step 3: Đọc chữ ký thật trước khi sửa**
 
-Run: `cd /d/Project/AIVON-OS && sed -n '160,175p;209,225p' server/plugins_host.py && sed -n '160,172p' server/claude_sdk_engine.py`
+Run: `cd /d/Project/AIVON && sed -n '160,175p;209,225p' server/plugins_host.py && sed -n '160,172p' server/claude_sdk_engine.py`
 
 Ghi lại: `plugin_tools` nhận gì, `PluginContext.__init__` nhận gì, `_plugins_server` đang truyền gì. Plan này mô tả theo hiểu biết lúc soạn; **code thật thắng**.
 
@@ -188,7 +188,7 @@ Và thêm helper vào cùng class:
         (vd chat chạy với cwd = thư mục project) - khi đó plugin tự lo fallback như cũ."""
         try:
             root = Path(self.cwd)
-            return str(root) if (root / "AIVON").is_dir() else None
+            return str(root) if (root / "Aivon").is_dir() else None
         except Exception:
             return None
 ```
@@ -294,7 +294,7 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 Plugin **KHÔNG import `main.py`** (vòng lặp import, và `main.py` 5000 dòng có side-effect lúc import). Hai kho được với tới theo hai đường khác nhau, vì luật auth khác nhau:
 
 - **Nhắc hẹn** → gọi HTTP `POST /reminders` trên `127.0.0.1`. Đường này CỐ Ý miễn đăng nhập cho localhost (`main.py:70`, `_AUTH_LOCAL_EXACT = ("/telegram/send-file", "/reminders")`), chính là đường mà `reminders.py:17` mô tả agent đang dùng bằng `curl`. Tool chỉ gói lại cho tử tế.
-- **Loop** → **ghi thẳng file** `.md` vào `<vault_root>/AIVON/loops/<slug>.md`. KHÔNG dùng `POST /loops` vì route đó **cần đăng nhập** (không nằm trong `_AUTH_LOCAL_EXACT`) nên plugin không gọi được từ localhost. Ghi file là đúng bản chất: loop VỐN LÀ một file `.md` (`self_improve.py:6`), scheduler tự đọc thư mục.
+- **Loop** → **ghi thẳng file** `.md` vào `<vault_root>/Aivon/loops/<slug>.md`. KHÔNG dùng `POST /loops` vì route đó **cần đăng nhập** (không nằm trong `_AUTH_LOCAL_EXACT`) nên plugin không gọi được từ localhost. Ghi file là đúng bản chất: loop VỐN LÀ một file `.md` (`self_improve.py:6`), scheduler tự đọc thư mục.
 
 Port server: đọc từ env `AIVON_PORT` nếu có, mặc định `7979`. Xác nhận bằng `grep -rn "7979\|AIVON_PORT" server/main.py server/config.py | head`.
 
@@ -308,7 +308,7 @@ Tạo `server/test_aivon_schedule.py`:
     cd server && python test_aivon_schedule.py
 
 Bối cảnh: trước tool này, chat muốn tạo việc định kỳ phải TỰ GÕ YAML frontmatter vào
-AIVON/loops/<slug>.md, hoặc shell ra curl POST /reminders (reminders.py:17). Tool gói cả hai
+Aivon/loops/<slug>.md, hoặc shell ra curl POST /reminders (reminders.py:17). Tool gói cả hai
 lại và tự route: nhắc/cron/một-lần -> kho reminders; việc lặp + bền -> file .md.
 
 KHÔNG chạm mạng: mọi test đều gọi hàm thuần hoặc ghi file trong thư mục tạm.
@@ -358,8 +358,8 @@ _vault = tempfile.mkdtemp(prefix="aivon-vault-")
 res = sched._create_loop_file(_vault, name="Quét đơn mỗi 2 tiếng",
                               prompt="Mỗi vòng đọc số đơn hôm nay qua MCP POS rồi ghi nháp.",
                               schedule="120m", owner_chat="123")
-f = Path(_vault) / "AIVON" / "loops" / "quet-don-moi-2-tieng.md"
-check("loop: ghi đúng <vault>/AIVON/loops/<slug>.md", f.is_file())
+f = Path(_vault) / "Aivon" / "loops" / "quet-don-moi-2-tieng.md"
+check("loop: ghi đúng <vault>/Aivon/loops/<slug>.md", f.is_file())
 body = f.read_text(encoding="utf-8") if f.is_file() else ""
 check("loop: frontmatter có type: loop", "type: loop" in body)
 check("loop: MẶC ĐỊNH enabled: false (luật an toàn CLAUDE.md)", "enabled: false" in body)
@@ -424,8 +424,8 @@ Tạo `system/plugins/aivon-schedule/plugin.yaml`:
 name: Đặt việc định kỳ & nhắc hẹn
 slug: aivon-schedule
 version: 1.0.0
-description: Tạo/liệt kê/huỷ việc chạy định kỳ và nhắc hẹn ngay từ chat. Tự chọn kho - việc lặp và bền thì ghi AIVON/loops/<slug>.md để sửa được trong Obsidian; nhắc một lần hoặc lịch cron thì vào kho nhắc hẹn (đã có sẵn cron 5 trường). Thay cho việc gõ YAML tay hoặc curl.
-author: AIVON (bundled)
+description: Tạo/liệt kê/huỷ việc chạy định kỳ và nhắc hẹn ngay từ chat. Tự chọn kho - việc lặp và bền thì ghi Aivon/loops/<slug>.md để sửa được trong Obsidian; nhắc một lần hoặc lịch cron thì vào kho nhắc hẹn (đã có sẵn cron 5 trường). Thay cho việc gõ YAML tay hoặc curl.
+author: Aivon (bundled)
 enabled: true
 min_mode: safe
 tools:
@@ -446,7 +446,7 @@ Yêu cầu nội dung (viết đầy đủ, đây là mô tả hành vi bắt bu
    - Chuỗi chỉ ra CHU KỲ lặp (`"120m"`, `"90 phút"`, `"mỗi 2 tiếng"`, `"2h"`) → `"loop"`.
    - Còn lại (mốc một lần: `"30 phút nữa"`, `"9h sáng mai"`, ISO) → `"reminder"`.
 3. `_interval_min(schedule) -> int`: rút số phút từ chuỗi chu kỳ. `"2 tiếng"`/`"2h"` → 120. Tối thiểu **5** (khớp trần cứng ở `self_improve.py:257`).
-4. `_create_loop_file(vault_root, name, prompt, schedule, owner_chat="") -> str`: ghi `<vault_root>/AIVON/loops/<slug>.md`. **File đã tồn tại → trả `"ERROR: đã có việc tên ... , sửa nó thay vì tạo bản sao"`**, KHÔNG ghi đè (`self_improve.py:321-327` lấy định danh theo tên file; đẻ bản ascii song song thì bản gốc VẪN CHẠY). Frontmatter đúng khuôn CLAUDE.md:
+4. `_create_loop_file(vault_root, name, prompt, schedule, owner_chat="") -> str`: ghi `<vault_root>/Aivon/loops/<slug>.md`. **File đã tồn tại → trả `"ERROR: đã có việc tên ... , sửa nó thay vì tạo bản sao"`**, KHÔNG ghi đè (`self_improve.py:321-327` lấy định danh theo tên file; đẻ bản ascii song song thì bản gốc VẪN CHẠY). Frontmatter đúng khuôn CLAUDE.md:
 
 ```
 ---
@@ -466,7 +466,7 @@ updated: <YYYY-MM-DD>
 5. `_post_reminder(payload) -> str`: `httpx.post(f"http://127.0.0.1:{_port()}/reminders", json=payload, timeout=10)`. `_port()` đọc env `AIVON_PORT` mặc định `7979`.
 6. Handler `aivon_schedule(args, cctx)`:
    - `op="create"`: cần `name` + `prompt` + `schedule`. Route bằng `_route_kind`. `"loop"` → `_create_loop_file(cctx.vault_root, ...)`; `"reminder"` → `_post_reminder`. `cctx.vault_root` rỗng → trả `"ERROR: không xác định được brain đang làm việc"` (ĐỪNG fallback về Brain Default - đó là chính bug Task 1 vừa sửa).
-   - `op="list"`: trả **union CẢ HAI kho** - đọc `<vault>/AIVON/loops/*.md` (tên + enabled + interval) và `GET /reminders` (pending). Đây là lỗi dễ mắc nhất: chỉ nhìn một kho thì model sẽ báo "không có việc nào" trong khi việc nằm ở kho kia.
+   - `op="list"`: trả **union CẢ HAI kho** - đọc `<vault>/Aivon/loops/*.md` (tên + enabled + interval) và `GET /reminders` (pending). Đây là lỗi dễ mắc nhất: chỉ nhìn một kho thì model sẽ báo "không có việc nào" trong khi việc nằm ở kho kia.
    - `op="cancel"`: `id` bắt đầu bằng slug loop → xoá file `.md`; còn lại → `POST /reminders/cancel`.
    - Trả CHUỖI người đọc được (model sẽ đọc lại), lỗi thì `"ERROR: ..."`.
 7. `register(ctx)` gọi `ctx.register_tool(...)`. Chữ ký THẬT đã verify (`plugins_host.py:~230`):
@@ -521,7 +521,7 @@ git add system/plugins/aivon-schedule/ server/test_aivon_schedule.py
 git commit -m "feat(schedule): tool aivon_schedule - chat dat duoc viec dinh ky, thoi go YAML tay
 
 Truoc: chat muon tao viec dinh ky phai TU GO YAML frontmatter vao
-AIVON/loops/<slug>.md, hoac shell ra curl POST /reminders (reminders.py:17 ghi
+Aivon/loops/<slug>.md, hoac shell ra curl POST /reminders (reminders.py:17 ghi
 thang nhu vay). Duong thu hai con tu mau thuan: loop mode suggest/auto bi chan
 Bash (self_improve.py:112) nen loop khong tu dat nhac duoc cho chinh no.
 
@@ -543,7 +543,7 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 
 ---
 
-### Task 3: Dạy AIVON dùng tool + tài liệu
+### Task 3: Dạy Aivon dùng tool + tài liệu
 
 **Files:**
 - Modify: `CLAUDE.md` (mục "Điều phối", bậc 2/6/7)
@@ -553,11 +553,11 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 - Consumes: tool `aivon_schedule` (Task 2).
 - Produces: không.
 
-**Vì sao cần:** tool tồn tại mà system prompt vẫn dạy "ghi file `AIVON/loops/<slug>.md`" thì model sẽ tiếp tục gõ YAML tay. Mô tả tool cạnh tranh trực tiếp với chỉ dẫn trong prompt, và prompt thường thắng.
+**Vì sao cần:** tool tồn tại mà system prompt vẫn dạy "ghi file `Aivon/loops/<slug>.md`" thì model sẽ tiếp tục gõ YAML tay. Mô tả tool cạnh tranh trực tiếp với chỉ dẫn trong prompt, và prompt thường thắng.
 
 - [ ] **Step 1: Đọc mục Điều phối hiện tại**
 
-Run: `cd /d/Project/AIVON-OS && sed -n '18,40p' CLAUDE.md`
+Run: `cd /d/Project/AIVON && sed -n '18,40p' CLAUDE.md`
 
 Ghi lại nguyên văn bậc 2 (Kanban task), bậc 6 (Nhắc hẹn), bậc 7 (Loop).
 
@@ -571,7 +571,7 @@ Bậc 6 hiện tại (sau giai đoạn 1): `6. **Tạo Nhắc hẹn** - nhắc n
 6. **Tạo Nhắc hẹn** - nhắc nhở / job có MỐC GIỜ cố định → gọi tool `aivon_schedule` (op=create, notify_only=true nếu chỉ nhắc). Xem lại ở trang Việc định kỳ.
 ```
 
-Bậc 7 hiện tại nói loop ghi file `AIVON/loops/<slug>.md`. Thêm vào ĐẦU phần format loop một câu:
+Bậc 7 hiện tại nói loop ghi file `Aivon/loops/<slug>.md`. Thêm vào ĐẦU phần format loop một câu:
 
 ```markdown
 **Ưu tiên gọi tool `aivon_schedule` (op=create) thay vì tự ghi file** - tool tự đặt đúng slug, đúng frontmatter, chặn trùng tên, và tự chọn kho (việc lặp → file .md; nhắc/cron → kho nhắc hẹn). Chỉ ghi file tay khi cần trường nâng cao mà tool chưa nhận (quiet_hours, max_runs_per_day, workspace, ambient_mcp).
@@ -581,7 +581,7 @@ Bậc 7 hiện tại nói loop ghi file `AIVON/loops/<slug>.md`. Thêm vào Đ�
 
 - [ ] **Step 3: Kiểm tra không còn chỗ nào dạy curl**
 
-Run: `cd /d/Project/AIVON-OS && grep -n "curl\|POST /reminders\|POST /kanban" CLAUDE.md`
+Run: `cd /d/Project/AIVON && grep -n "curl\|POST /reminders\|POST /kanban" CLAUDE.md`
 
 Với mỗi hit: nếu nó dạy model tự gọi HTTP để đặt lịch/nhắc, đổi sang gọi `aivon_schedule`. Nếu là chuyện khác (vd Kanban task) thì để yên - plan này không đụng Kanban.
 
@@ -597,7 +597,7 @@ Run: `cd server && for f in test_*.py; do echo "--- $f"; ../.venv/Scripts/python
 
 Expected: mọi file in `OK - ...`.
 
-Run: `cd /d/Project/AIVON-OS && .venv/Scripts/python.exe -m compileall -q server system/plugins`
+Run: `cd /d/Project/AIVON && .venv/Scripts/python.exe -m compileall -q server system/plugins`
 
 Expected: không output.
 
@@ -605,9 +605,9 @@ Expected: không output.
 
 ```bash
 git add CLAUDE.md CHANGELOG.md VERSION
-git commit -m "docs(schedule): day AIVON goi aivon_schedule thay vi go YAML tay
+git commit -m "docs(schedule): day Aivon goi aivon_schedule thay vi go YAML tay
 
-Tool ton tai ma system prompt van day 'ghi file AIVON/loops/<slug>.md' thi model
+Tool ton tai ma system prompt van day 'ghi file Aivon/loops/<slug>.md' thi model
 van go YAML tay: mo ta tool canh tranh truc tiep voi chi dan trong prompt, va
 prompt thuong thang.
 
@@ -624,7 +624,7 @@ Giai đoạn 1 dạy một bài đắt: **mọi kiểm chứng tĩnh đều xanh
 Nên sau Task 3, phải làm bằng tay:
 
 1. Khởi động lại server (code mới), mở dashboard, đăng nhập.
-2. Chat: *"tạo cho anh một việc mỗi 2 tiếng đọc source mới rồi đề xuất wiki"*. Kỳ vọng: AIVON **gọi tool** (không gõ YAML), báo đã tạo, và `brains/<brain đang dùng>/AIVON/loops/doc-source-*.md` xuất hiện với `enabled: false`.
+2. Chat: *"tạo cho anh một việc mỗi 2 tiếng đọc source mới rồi đề xuất wiki"*. Kỳ vọng: Aivon **gọi tool** (không gõ YAML), báo đã tạo, và `brains/<brain đang dùng>/Aivon/loops/doc-source-*.md` xuất hiện với `enabled: false`.
 3. Kiểm tra file rơi vào **ĐÚNG brain đang mở**, không phải Brain Default. Đây là điểm chính Task 1 sửa.
 4. Chat: *"30 phút nữa nhắc anh gọi cho khách"*. Kỳ vọng: vào kho nhắc hẹn (không đẻ file .md), và hiện ở khối "Nhắc hẹn đang chờ" trên trang Việc định kỳ.
 5. Chat: *"anh đang có những việc định kỳ nào"*. Kỳ vọng: `op=list` liệt kê **cả hai** thứ vừa tạo.

@@ -113,7 +113,7 @@ check("CANARY: nhánh watchtower_off chỉ ra ĐÚNG lệnh bật",
 check("nhánh no_token nói Hostinger dùng Redeploy",
       re.search(r'no_token[\s\S]{0,600}Redeploy', CON) is not None)
 # Chủ repo gõ đúng lệnh rồi vẫn lãnh "no configuration file provided: not found" - đứng sai thư
-# mục, vì tên thư mục tuỳ lúc clone (aivon hay aivon-os). Bảo người ta "chạy ở thư mục chứa file
+# mục, vì tên thư mục tuỳ lúc clone (aivon hay aivon). Bảo người ta "chạy ở thư mục chứa file
 # compose" là đúng nhưng vô dụng khi họ KHÔNG BIẾT nó nằm đâu. Docker biết, nên phải hỏi nó.
 check("CANARY: có cách TÌM thư mục compose, không chỉ bảo 'đúng thư mục'",
       "com.docker.compose.project.working_dir" in CON)

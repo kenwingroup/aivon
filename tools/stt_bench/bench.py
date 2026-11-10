@@ -19,7 +19,7 @@ Dữ liệu KHÔNG lên git, nằm ở <AIVON_STATE_DIR>/stt_bench/:
   real/refs.tsv            (tuỳ chọn) giọng thật: "tên file<TAB>câu đúng<TAB>thuật ngữ|thuật ngữ"
 Đặt STT_BENCH_DIR để dữ liệu nằm chỗ khác. Cần key Groq thì chạy với AIVON_STATE_DIR trỏ tới
 thư mục có settings.json thật, ví dụ
-    set AIVON_STATE_DIR=D:\\Project\\Aivon-OS\\server
+    set AIVON_STATE_DIR=D:\\Project\\AIVON\\server
 """
 from __future__ import annotations
 

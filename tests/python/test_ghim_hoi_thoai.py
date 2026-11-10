@@ -63,11 +63,14 @@ for fts in (True, False):
     check(f"[{nhan}] cuộc chưa ghim vẫn có trong kết quả", any(h["session_id"] == moi and not h["pinned"] for h in kq))
 
 ui = (ROOT / "dashboard" / "sessions-ui.js").read_text(encoding="utf-8")
-tim = ui[ui.index("async function doSearch"):ui.index("async function delSession")]
-check("kết quả tìm vẽ nút ghim", '<span class="pin' in tim and 'ic("pin")' in tim)
-check("hàng kết quả đã ghim có vạch ghim như danh sách", '(h.pinned ? " ghim" : "")' in tim)
-check("bấm ghim không mở hội thoại", "ev.stopPropagation();" in tim)
-check("ghim từ kết quả tìm thì tìm lại đúng câu đó", "togglePin({ id: h.session_id, pinned: h.pinned }, q);" in tim
+tim = ui[ui.index("async function doSearch"):ui.index("async function xoaHan(s)")]
+# 2026-11-09: pinning a search hit goes through the row's "..." menu, like every list row.
+check("kết quả tìm có nút ... mở menu của hàng", "nutBaCham()" in tim and "toggleMenuDong(item, s, false)" in tim)
+check("hàng kết quả đã ghim có dấu ghim như danh sách", '(h.pinned ? " ghim" : "")' in tim
+      and '(h.pinned ? \'<span class="ci-pin"' in tim)
+check("mở menu không mở hội thoại", "e.stopPropagation(); toggleMenuDong(item, s, false); return;" in tim)
+check("ghim từ kết quả tìm thì tìm lại đúng câu đó", "timKiem: q" in tim
+      and 'if (act === "pin") { dongMenuDong(false); return togglePin(s, s.timKiem); }' in ui
       and "if (q) doSearch(q); else loadList();" in ui)
 check("cả trang Trò chuyện, lịch sử trợ lý và Coding cùng dùng cột này",
       all("AivonChatSide.mount(" in (ROOT / "dashboard" / f).read_text(encoding="utf-8")
@@ -131,7 +134,11 @@ check("bấm ghim gọi đúng endpoint rồi tải lại danh sách",
       '"/conversations/" + id + "/pin"' in js and "tai(true);" in js[js.index("async function ghim"):])
 check("bấm ghim không mở cuộc chat", 'closest(".ht-pin")) { e.stopPropagation(); ghim(x); return; }' in js)
 css = (ROOT / "dashboard" / "console.css").read_text(encoding="utf-8")
-check("nút ghim luôn hiện trên màn cảm ứng", "@media (hover: none) { .ht-pin { opacity: .6;" in css)
+# 2026-10-25: pinning moved into the row's "..." menu; only a PINNED row still draws its pin (click to unpin), so
+# unpinned rows stay clean like Zalo's. The pin no longer hides until hover.
+check("only a pinned row draws the pin, always visible", "(c.pinned ? '<span class=\"ht-pin on\"" in js
+      and ".ht-pin { flex: none;" in css and ".ht-item:hover .ht-pin" not in css)
+check("the row menu offers pin and unpin", '"/conversations/" + id + "/pin"' in js[js.index("async function runRowAction"):])
 
 if _fails:
     print(f"\nFAIL {len(_fails)}: " + ", ".join(_fails))

@@ -83,7 +83,7 @@ alignment. `test_webhook_bench_short` runs the §16 benchmark briefly.
 
 | Requirement | Code | Proof | Status |
 |---|---|---|---|
-| 8.1 HTTP forward: raw bytes and content type, `X-AIVON-Event-Id`, no sender cookie or token, SSRF guard with pinned connections, redirects not followed | `run_http`, `_pinned_backend` | matrix "§15 Chuyển tiếp" (DNS rebinding included) | done |
+| 8.1 HTTP forward: raw bytes and content type, `X-Aivon-Event-Id`, no sender cookie or token, SSRF guard with pinned connections, redirects not followed | `run_http`, `_pinned_backend` | matrix "§15 Chuyển tiếp" (DNS rebinding included) | done |
 | 8.1 A name that does not resolve is retried (nothing sent) | `_refused` | matrix "§8: a name that does not resolve" | done |
 | 8.1 Apps Script profile: echo hop checked, receipt required, sign-in page is blocked, `delivery_ref: query` | `run_apps_script` | matrix "§15 Apps Script" (two rows) | done (fakes); open (real deployment) |
 | 8.2 Plugin contract: completed, accepted, retryable_error, permanent_error, unknown, waiting_approval; same delivery id gives the same job | `run_plugin`, `register_event_handler` | matrix "§15 Plugin" (three rows) | done (fake plugin); open (poscake-zalo, §17) |
@@ -104,8 +104,8 @@ alignment. `test_webhook_bench_short` runs the §16 benchmark briefly.
 | Requirement | Code | Proof | Status |
 |---|---|---|---|
 | Profile per source, never one shared formula; the payload cannot pick the algorithm | `webhook_auth.verify_ex` | `test_webhook_golden_signatures`, matrix "§15 Provider" | done |
-| Generic token: header of the owner's choice or Bearer; `?token=` only for older hooks; the header cannot be one AIVON stores | `token_from_request`, `allow_query`, `token_header_name` | matrix "§10: a NEW hook does not accept the token in the URL"; review "R2 P3" | done |
-| A provider-checked hook is authenticated by the provider's signature (the provider cannot add the AIVON token); the token never bypasses the signature | `authorize`, `accept_body` | review "R2 P2-5" (real router, signed GitHub delivery) | done |
+| Generic token: header of the owner's choice or Bearer; `?token=` only for older hooks; the header cannot be one Aivon stores | `token_from_request`, `allow_query`, `token_header_name` | matrix "§10: a NEW hook does not accept the token in the URL"; review "R2 P3" | done |
+| A provider-checked hook is authenticated by the provider's signature (the provider cannot add the Aivon token); the token never bypasses the signature | `authorize`, `accept_body` | review "R2 P2-5" (real router, signed GitHub delivery) | done |
 | GitHub hex `sha256=`, Shopify base64 over raw bytes (id from `X-Shopify-Event-Id`, else `Webhook-Id`), Stripe timestamp with several signatures and tolerance | `webhook_auth.py` | matrix "§15 Provider", "§15 Xác thực" | done (spec); open (real deliveries) |
 | Systeme.io: `X-Webhook-Signature` over Systeme's normalised JSON, dedup on `X-Webhook-Message-Id` | `systeme_forms` (raw, php_default, php_unescaped) | synthetic fixtures `systeme_io_synthetic_*` | open: `unverified` until a real delivery (the docs site was unreachable from the build session) |
 | POSCake: no preset until its contract is known | `validate` refuses `poscake` | test | done (not built, by design) |
@@ -132,14 +132,14 @@ alignment. `test_webhook_bench_short` runs the §16 benchmark briefly.
 
 | Requirement | Code | Proof | Status |
 |---|---|---|---|
-| Three parts: Configuration, Events, Health; simple setup first, advanced behind a button | `dashboard/webhooks.js` | `test_webhooks_ui_spec.js`; `tools/webhook_ui_narrow_check.mjs` at 390 px | done |
+| Three parts: Configuration, Events, Health, in one popup per hook (0.432.0) that stays open until closed; a new hook opens on Configuration, one with runs on Events; simple setup first, advanced behind a button | `dashboard/webhooks.js`, `dashboard/webhooks.css` | `test_webhooks_ui_spec.js`, `test_webhooks_ui_0432.js`; `tools/webhook_ui_narrow_check.mjs` at 390 px | done |
 | Timeline per event (received, verified, parsed, filter, duplicate, dispatch, attempt, receipt, result, notice) | `timeline()` | matrix "§16.5" | done |
 | Cursor pages, filters by hook, state, order or correlation id, time range; never the whole DB in memory | `Store.page` (keyset), `/webhooks/events` | `test_webhooks_ui_m1.js`, `test_webhooks_ui_spec.js` | done |
 | Test send: the owner's payload, the list of effects first, a test namespace, same permissions and quotas | `test_send` | matrix "§15 UI"; `test_webhooks_ui_spec.js` | done |
 | Retry keeps the delivery id and snapshot, re-runs dependents a failure cancelled, never sends an empty body; a failed event can also be closed without resending | `Store.retry`, `Store.resolve`, `close_failed` | matrix "§15 Apps Script: the owner's retry sends the same delivery id"; review "R2 P2-2", "R3 P1-1" | done |
 | Process again with the current setup: a new generation under the current revision; the preview names every delivery that may act again (succeeded or unknown), and a confirm after the hook changed is refused | `replay_confirm`, `Store.replay` | review "R2 P2-1", "R6 P2-6" | done |
 | A block fixed outside the hook (plugin switched back on, key changed at the receiver) runs again from Retry all blocked; a fix in the hook runs it by itself | `Store.unblock`, `/webhooks/events/retry_blocked` | review "R6 P2-4" | done |
-| A test event is marked for the receiver: `_aivon.test` in the envelope, `X-AIVON-Test: 1` on every HTTP call, `aivon_test=1` for Apps Script | `_headers`, `target_url` | review "R6 P2-7" | done |
+| A test event is marked for the receiver: `_aivon.test` in the envelope, `X-Aivon-Test: 1` on every HTTP call, `aivon_test=1` for Apps Script | `_headers`, `target_url` | review "R6 P2-7" | done |
 | Raw view and export masked by default (payload, fields, headers, trace, result, error, correlation, deliveries, timeline, list rows, tool arguments), raw always audited (view, export with or without bodies, simulation of a logged event) | `mask_row()`, `/webhooks/audit` | matrix "§15 UI ... customer data masked"; review "R3 P2-5", "R3 P2-6", "R1 P2-5", "R6 P2-5" | done |
 | Pause processing vs stop receiving, two switches | `pause()`, `enabled` | `test_webhooks_ui_spec.js`; `test_webhook_ops_m5` | done |
 | Notify modes; older hooks keep `all`, new non-AI hooks start `errors_only` | `create()` | `test_webhook_ops_m5` | done |
@@ -272,7 +272,7 @@ found the denylist still missing keys, so payload masking moved to an allowlist 
 | R1 P1 one event with a lone surrogate stopped triage for every hook | triage guarded per event (quarantined with the fault named); lone surrogates are bad UTF-8 |
 | R3 P1 retention emptied failed bodies, then Retry sent an empty body and marked it done | failed and dead bodies kept until settled or deleted; Retry refuses `body_pruned`; owner delete route |
 | R3 P1 / R1 P2 rollback then upgrade switched v2 hooks off and re-ran the exported backlog; deleted hooks came back | own switches recorded and restored; exported events held unknown; hooks deleted in the older build stop receiving |
-| R2 P2 provider-signed hooks refused real deliveries without the AIVON token | the provider signature authenticates; the token never bypasses it |
+| R2 P2 provider-signed hooks refused real deliveries without the Aivon token | the provider signature authenticates; the token never bypasses it |
 | R3 P2 junk requests locked out valid senders | valid tokens always pass; per-address throttle on failures only; forwarded address behind a local proxy |
 | R2 P2 / R3 P2 replay ran the old revision and cancelled every changed action | replay records the current revision and a fresh retry window |
 | R2 P2 retry did not re-run dependents cancelled by a failed dependency | they run again |
@@ -295,9 +295,9 @@ found the denylist still missing keys, so payload masking moved to an allowlist 
 | R6 P2 a block fixed outside the hook never ran again | Retry all blocked (per hook, audited); the notice says when to press it |
 | R6 P2 the correlation value was shown unmasked | masked like every other dashboard text |
 | R6 P2 replay preview left out unknown deliveries; a confirm used whatever revision was current | unknown listed as may act again; the confirm carries the previewed revision, 409 when it changed |
-| R6 P2 a raw-body test event could not tell the receiver it was a test | `X-AIVON-Test` header, `aivon_test` query for Apps Script |
+| R6 P2 a raw-body test event could not tell the receiver it was a test | `X-Aivon-Test` header, `aivon_test` query for Apps Script |
 | R6 P2 deleting a hook left its unknown, waiting and blocked events where no view shows them; an ingest racing the delete stored an orphan | closed as cancelled with the reason; the ingest refuses (401) |
-| R6 P2 a fault in AIVON inside one delivery left the event without a settled branch | that delivery is unknown (it may have acted), the others finish |
+| R6 P2 a fault in Aivon inside one delivery left the event without a settled branch | that delivery is unknown (it may have acted), the others finish |
 | R6 P2 hooks with a slow AI action could take every worker slot | at most WORKER_MAX - 1 AI events run at once |
 | R7 (review of the R6 fixes, at fc621216) P2 two saves of one hook at once: the losing save's restore put back the key from before both | saves of one hook run one at a time in the process (check, seal, commit); a conflict from another process or a failed commit restores, and a key that cannot be read is never deleted by a restore |
 | R7 P2 deleting the last hook left the ingest race open (202 for a deleted hook) | a tombstone per deleted hook; the ingest refuses (401) |
@@ -313,7 +313,7 @@ found the denylist still missing keys, so payload masking moved to an allowlist 
 | R8 P2 Retry of an event held at rollback before triage ran every action unfiltered | it goes back through triage |
 | R8 P2 errors_only grouped on the receiver's wording (one notice per order id; 502 and 504 alternating) | grouped on the kind of failure (numbers and quoted values removed), every open kind remembered |
 | R8 P2 masking missed `ten_khach_hang`, `nguoi_nhan`, `recipient`, `buyer`, numeric CCCD and Zalo ids (view, export, capture fixtures) | the key list widened; numbers under a customer key masked |
-| R8 P3 (fixed) | X-Request-ID is a delivery key only for older hooks; the overlap end is AIVON's to set and bounded; the failed-auth table forgets finished addresses only; a plugin call that never returned ends unknown at the deadline; a deleted hook's running event dispatches nothing more; Retry all blocked clears the dispatch mark; the incident key is dropped with the hook |
+| R8 P3 (fixed) | X-Request-ID is a delivery key only for older hooks; the overlap end is Aivon's to set and bounded; the failed-auth table forgets finished addresses only; a plugin call that never returned ends unknown at the deadline; a deleted hook's running event dispatches nothing more; Retry all blocked clears the dispatch mark; the incident key is dropped with the hook |
 | R8 P3 (kept, noted) | a crash between sealing a rotated signing secret and the commit leaves the new key live without the old one (the provider's in-flight deliveries get 401 and are retried by it); the breaker key is the target plus the secret's name, not its value; GitHub and Shopify delivery ids are not signed, so a captured delivery resent with a new id passes (inherent to those providers); an event whose deliveries all ended `accepted` reads as done, since a plugin's accepted job is its normal success |
 | R9 (review of the R8 fixes, at 6d40a873) P1 a chain through a delivery held for approval still spun the event (656 attempt rows in 3 s) | held is transitive down the chain |
 | R9 P2 deleting an event every receiver refused (4xx) kept its keys: the resent order was a duplicate of a deleted event | keys are kept only when a delivery succeeded, is unclear, or may have acted |

@@ -1,17 +1,19 @@
 <!-- translated-from: README.md sha256:2e10ad3d2a86 -->
 <div align="center">
 
-<img src="../../../dashboard/logo.png" width="96" alt="Logo do AIVON">
+<a href="https://aivon.vn"><img src="../../assets/social-preview.png" width="100%" alt="AIVON: Your AI Workforce. Never miss the best AI."></a>
 
 # AIVON
 
-### Seu agente de IA self-hosted com um cérebro intercambiável e um Second Brain que fica mais inteligente a cada dia.
+### Sua equipe de IA. Nunca perca a melhor IA.
 
-Rode no seu notebook ou em uma VPS pequena. Converse com ele por voz. Conecte Claude, ChatGPT, Grok, Gemini ou qualquer um dos 12 provedores, mantenha todas as ferramentas quando trocar de um para outro e deixe ele trabalhar em segundo plano enquanto você dorme.
+O AIVON transforma **Claude, ChatGPT, Gemini, Grok** e os modelos que você escolher em uma equipe que trabalha 24/7 na sua própria máquina ou servidor. Cada colega tem um papel, compartilha a mesma memória e as mesmas ferramentas, e continua trabalhando em segundo plano. Quando sai um modelo melhor, você troca e mantém tudo o que eles aprenderam.
+
+**🌐 Site: [aivon.vn](https://aivon.vn)** · Código aberto · Self-hosted · 14 provedores de IA
 
 [![GitHub stars](https://img.shields.io/github/stars/kenwingroup/aivon?style=flat&logo=github&label=stars)](https://github.com/kenwingroup/aivon/stargazers)
 [![License: MIT](https://img.shields.io/badge/license-MIT-22c55e)](../../../LICENSE)
-[![Last commit](https://img.shields.io/github/last-commit/kenwingroup/aivon?color=38bdf8)](https://github.com/kenwingroup/aivon/commits/main)
+[![Last commit](https://img.shields.io/github/last-commit/kenwingroup/aivon?color=f97316)](https://github.com/kenwingroup/aivon/commits/main)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-3776ab?logo=python&logoColor=white)](../../../requirements.txt)
 [![Docker](https://img.shields.io/badge/docker-ghcr.io-2496ed?logo=docker&logoColor=white)](https://github.com/kenwingroup/aivon/pkgs/container/aivon)
 [![MCP](https://img.shields.io/badge/tools-Model%20Context%20Protocol-8b5cf6)](https://modelcontextprotocol.io)
@@ -36,7 +38,7 @@ Rode no seu notebook ou em uma VPS pequena. Converse com ele por voz. Conecte Cl
 
 [🇬🇧 English](../../../README.md) · [🇻🇳 Tiếng Việt](../vi/README.md) · [🇨🇳 简体中文](../zh/README.md) · [🇪🇸 Español](../es/README.md) · [🇯🇵 日本語](../ja/README.md) · [🇮🇳 हिन्दी](../hi/README.md) · 🇧🇷 **Português** · [🇰🇷 한국어](../ko/README.md) · [🇷🇺 Русский](../ru/README.md) · [🇩🇪 Deutsch](../de/README.md) · [🇫🇷 Français](../fr/README.md) · [🇮🇩 Bahasa Indonesia](../id/README.md) · [🌍 Ajude a traduzir](../../../CONTRIBUTING.md#translations)
 
-[Início rápido](#-início-rápido) · [Por que o AIVON](#-por-que-o-aivon) · [Cérebros](#-12-cérebros-um-só-kit-de-ferramentas) · [Recursos](#-recursos) · [Instalação](#-instalação) · [Documentação](../../../docs/en/README.md) · [Apoio](#-apoie-o-aivon)
+[Início rápido](#-início-rápido) · [Por que o Aivon](#-por-que-o-aivon) · [Cérebros](#-12-cérebros-um-só-kit-de-ferramentas) · [Recursos](#-recursos) · [Instalação](#-instalação) · [Documentação](../../../docs/en/README.md) · [Apoio](#-apoie-o-aivon)
 
 <br>
 
@@ -44,7 +46,7 @@ Rode no seu notebook ou em uma VPS pequena. Converse com ele por voz. Conecte Cl
 
 </div>
 
-> 🌍 Esta é uma tradução automática do README em inglês. O AIVON responde no idioma em que você escrever; por enquanto, a interface está disponível em inglês e vietnamita. A documentação completa está em inglês ([docs/en](../../../docs/en/README.md)). Correções são muito bem-vindas ([CONTRIBUTING](../../../CONTRIBUTING.md#translations)).
+> 🌍 Esta é uma tradução automática do README em inglês. O Aivon responde no idioma em que você escrever; por enquanto, a interface está disponível em inglês e vietnamita. A documentação completa está em inglês ([docs/en](../../../docs/en/README.md)). Correções são muito bem-vindas ([CONTRIBUTING](../../../CONTRIBUTING.md#translations)).
 
 ---
 
@@ -61,15 +63,15 @@ Rode no seu notebook ou em uma VPS pequena. Converse com ele por voz. Conecte Cl
 Depois abra **http://localhost:7979**. O instalador configura o Python, os quatro cérebros CLI por assinatura (`claude`, `codex`, `agy`, `grok`) e um `.env`, e então inicia o servidor. Você faz login em cada cérebro **na página Models (Modelos) do dashboard**, sem precisar digitar mais nenhum comando.
 
 > [!NOTE]
-> Instalou uma CLI extra **depois** que o AIVON já estava rodando? **Reinicie o AIVON.** Um processo em execução mantém o PATH com que foi iniciado, então ele não enxerga uma CLI instalada depois.
+> Instalou uma CLI extra **depois** que o Aivon já estava rodando? **Reinicie o Aivon.** Um processo em execução mantém o PATH com que foi iniciado, então ele não enxerga uma CLI instalada depois.
 
 <p align="center">
-<img src="../../../docs/assets/diagrams/install-terminal.svg" width="100%" alt="Terminal animado: o instalador de uma linha configura o Python, os quatro cérebros CLI por assinatura e um .env, e depois avisa que o AIVON está rodando em http://localhost:7979">
+<img src="../../../docs/assets/diagrams/install-terminal.svg" width="100%" alt="Terminal animado: o instalador de uma linha configura o Python, os quatro cérebros CLI por assinatura e um .env, e depois avisa que o Aivon está rodando em http://localhost:7979">
 </p>
 
 ---
 
-## 🤔 Por que o AIVON?
+## 🤔 Por que o Aivon?
 
 O AIVON **não** é um chatbot. É uma **IA agêntica self-hosted** que roda na sua própria máquina ou VPS: lê e escreve arquivos, chama ferramentas via MCP, executa skills, coloca trabalho em fila para rodar em segundo plano e agenda a si mesma. Tudo isso fica por trás de um **dashboard controlado por voz** com um **Second Brain** (memória + wiki) que acumula conhecimento com o tempo.
 
@@ -86,9 +88,9 @@ Tudo isso fica nos servidores do fornecedor, no formato do fornecedor. Aí sai u
 
 Então você fica. Não porque o modelo antigo ainda é o melhor, mas porque sair significa começar do zero. E quando o fornecedor aumenta os preços, aperta os limites, aposenta um modelo ou bloqueia a sua conta, não existe plano B.
 
-### O AIVON inverte o jogo: alugue o modelo, seja dono do Brain
+### O Aivon inverte o jogo: alugue o modelo, seja dono do Brain
 
-No AIVON o modelo é uma peça que você troca. Tudo o que você constrói fica com você, em arquivos que você pode abrir:
+No Aivon o modelo é uma peça que você troca. Tudo o que você constrói fica com você, em arquivos que você pode abrir:
 
 | O que você constrói | Onde fica | Formato |
 |---|---|---|
@@ -97,17 +99,17 @@ No AIVON o modelo é uma peça que você troca. Tudo o que você constrói fica 
 | **Conhecimento** | as pastas Wiki e Sources do seu Brain | Markdown, compatível com Obsidian |
 | **Skills** | `skills/<name>/SKILL.md` | Markdown |
 | **Agents e workflows** | `agents/*.md`, `workflows/*.md` | Markdown com front matter |
-| **Loops e lembretes** | `AIVON/loops/*.md`, `AIVON/reminders.json` | Markdown, JSON |
+| **Loops e lembretes** | `Aivon/loops/*.md`, `Aivon/reminders.json` | Markdown, JSON |
 
 O que você ganha com isso:
 
 - **Saiu um modelo novo? Troque na página Models e siga em frente.** Ele lê a mesma memória, executa as mesmas skills, agents e workflows e chama as mesmas conexões pelo MCP Hub. Nada para migrar, nada para reconstruir.
 - **Use vários cérebros ao mesmo tempo.** Um modelo forte para a conversa, um mais barato para o trabalho em segundo plano, um modelo local do Ollama para as notas privadas, todos trabalhando no mesmo Brain.
-- **Legível sem o AIVON.** O seu Brain é uma pasta de markdown. Abra no Obsidian ou em qualquer editor. Se o AIVON sumisse amanhã, o seu conhecimento continuaria lá, em texto puro.
+- **Legível sem o Aivon.** O seu Brain é uma pasta de markdown. Abra no Obsidian ou em qualquer editor. Se o Aivon sumisse amanhã, o seu conhecimento continuaria lá, em texto puro.
 - **Versionado e portátil.** Cada rodada de aprendizado é um commit de git que você desfaz com um toque, e o Brain inteiro pode sincronizar com o seu próprio repositório privado no GitHub, compartilhado entre o seu notebook e a sua VPS.
-- **Os seus dados ficam no seu hardware.** Não existe nenhuma nuvem do AIVON no meio. Cada requisição vai só para o provedor de modelo que você escolheu para ela, e com um modelo local do Ollama ela nunca sai da sua máquina.
+- **Os seus dados ficam no seu hardware.** Não existe nenhuma nuvem do Aivon no meio. Cada requisição vai só para o provedor de modelo que você escolheu para ela, e com um modelo local do Ollama ela nunca sai da sua máquina.
 
-### O AIVON lado a lado com um chatbot comum
+### O Aivon lado a lado com um chatbot comum
 
 | | Um chatbot comum | **AIVON** |
 |---|---|---|
@@ -119,20 +121,20 @@ O que você ganha com isso:
 | **Seu trabalho** | Fica nos servidores do fornecedor, no formato do fornecedor | **Arquivos simples na sua máquina**: histórico, memória, skills, agents e workflows passam para qualquer modelo novo |
 | **Deploy** | A nuvem de outra pessoa | **Self-hosted**: [Hostinger](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN) em um clique, Docker ou qualquer VPS |
 
-> 💡 **A filosofia: a capacidade mora no AIVON, não no modelo.** Todo cérebro recebe a mesma caixa de ferramentas por meio de um único hub de conexões compartilhado (o MCP Hub). Trocar do Claude para o Gemini não te custa nada além do acesso ao shell, que só os motores CLI têm.
+> 💡 **A filosofia: a capacidade mora no Aivon, não no modelo.** Todo cérebro recebe a mesma caixa de ferramentas por meio de um único hub de conexões compartilhado (o MCP Hub). Trocar do Claude para o Gemini não te custa nada além do acesso ao shell, que só os motores CLI têm.
 
 <p align="center">
-<img src="../../../docs/assets/diagrams/chat-to-action.svg" width="100%" alt="Diagrama animado: uma mensagem de chat entra no AIVON, que escolhe a menor ferramenta capaz de resolver o trabalho, desde responder diretamente até colocar uma tarefa na fila, criar um agent, um workflow, um lembrete ou um loop">
+<img src="../../../docs/assets/diagrams/chat-to-action.svg" width="100%" alt="Diagrama animado: uma mensagem de chat entra no Aivon, que escolhe a menor ferramenta capaz de resolver o trabalho, desde responder diretamente até colocar uma tarefa na fila, criar um agent, um workflow, um lembrete ou um loop">
 </p>
 
 ---
 
 ## 🧠 12 cérebros, um só kit de ferramentas
 
-Escolha o cérebro na página **Models** e troque quando quiser. Hoje o AIVON suporta **12 provedores**.
+Escolha o cérebro na página **Models** e troque quando quiser. Hoje o Aivon suporta **12 provedores**.
 
 <p align="center">
-<img src="../../../docs/assets/diagrams/swappable-brain.svg" width="100%" alt="Diagrama animado: o núcleo do AIVON no centro com seu kit de ferramentas (MCP Hub, Skills, Second Brain, Tarefas, Agendamentos, Plugins) ao redor, enquanto os 12 cérebros se revezam na conexão e todas as ferramentas continuam acesas">
+<img src="../../../docs/assets/diagrams/swappable-brain.svg" width="100%" alt="Diagrama animado: o núcleo do Aivon no centro com seu kit de ferramentas (MCP Hub, Skills, Second Brain, Tarefas, Agendamentos, Plugins) ao redor, enquanto os 12 cérebros se revezam na conexão e todas as ferramentas continuam acesas">
 </p>
 
 | Cérebro | Como você paga | Shell, web, subagentes |
@@ -141,15 +143,15 @@ Escolha o cérebro na página **Models** e troque quando quiser. Hoje o AIVON su
 | **ChatGPT** (via Codex) | Seu plano do ChatGPT | ✅ |
 | **Grok Build** | Seu plano SuperGrok ou X Premium+ | ✅ |
 | **Antigravity CLI** | Seu plano do Google (a mesma linha de modelos do Antigravity IDE, Claude incluído) | Shell ✅ |
-| **OpenRouter** | API key (centenas de modelos com uma única chave) | via ferramentas do AIVON |
-| **OpenAI API** · **Anthropic API** · **Google Gemini** · **Groq** | API key | via ferramentas do AIVON |
-| **Ollama Cloud** · **Ollama nesta máquina** | API key, ou grátis no seu próprio hardware | via ferramentas do AIVON |
-| **Qualquer endpoint compatível com OpenAI** | O que esse endpoint exigir | via ferramentas do AIVON |
+| **OpenRouter** | API key (centenas de modelos com uma única chave) | via ferramentas do Aivon |
+| **OpenAI API** · **Anthropic API** · **Google Gemini** · **Groq** | API key | via ferramentas do Aivon |
+| **Ollama Cloud** · **Ollama nesta máquina** | API key, ou grátis no seu próprio hardware | via ferramentas do Aivon |
+| **Qualquer endpoint compatível com OpenAI** | O que esse endpoint exigir | via ferramentas do Aivon |
 
 Todo cérebro pode chamar os seus servidores MCP conectados, ler e escrever no Brain, executar skills, colocar trabalho no Kanban e criar agents, workflows, loops e lembretes. Os motores CLI, além disso, rodam **comandos de shell**, **buscam e pesquisam na web** e **disparam subagentes em paralelo**.
 
 > [!WARNING]
-> **Leia isto antes de deixar uma assinatura rodar trabalho em segundo plano.** A Anthropic limita o Claude Pro/Max ao **uso pessoal comum** do Claude Code. Execução contínua em segundo plano (loops, lembretes, jobs do Kanban, chatbots), rodar em uma VPS ou várias pessoas compartilhando uma mesma conta ficam fora desse escopo, e **contas já foram suspensas** por isso. O AIVON nunca lê o seu token de login: ele roda o binário real do `claude`, mas isso não torna legítimo o uso em segundo plano 24 horas por dia. Por segurança, configure o Claude Code para rodar com uma **API key** na página Models, ou aponte o **modelo de trabalho em segundo plano** para outro provedor. A mesma cautela vale para o plano da xAI. Veja `server/claude_auth.py`.
+> **Uma observação antes de deixar uma assinatura rodar trabalho em segundo plano.** A Anthropic limita o Claude Pro/Max ao **uso pessoal comum** do Claude Code. Execução contínua em segundo plano (loops, lembretes, jobs do Kanban, chatbots), rodar em uma VPS ou várias pessoas compartilhando uma mesma conta ficam fora desse escopo, então existe o risco de a conta **ser bloqueada**, embora o Aivon ainda não tenha nenhum caso registrado. Se acontecer com você, avise o desenvolvedor pelas [Issues](https://github.com/kenwingroup/aivon/issues/new/choose). O Aivon nunca lê o seu token de login: ele roda o binário real do `claude`, mas isso não torna legítimo o uso em segundo plano 24 horas por dia. Por segurança, configure o Claude Code para rodar com uma **API key** na página Models, ou aponte o **modelo de trabalho em segundo plano** para outro provedor. A mesma cautela vale para o plano da xAI. Veja `server/claude_auth.py`.
 
 ---
 
@@ -164,15 +166,15 @@ Todo cérebro pode chamar os seus servidores MCP conectados, ler e escrever no B
 <td width="50%" valign="top">
 
 ### 🗣️ Converse com ele
-- **Voz sem usar as mãos**: você fala, o AIVON escuta e responde em voz alta (Edge TTS grátis por padrão, ou OpenAI e ElevenLabs).
+- **Voz sem usar as mãos**: você fala, o Aivon escuta e responde em voz alta (Edge TTS grátis por padrão, ou OpenAI e ElevenLabs).
 - **Sessões de chat** que você pode salvar, reabrir e pesquisar em texto completo. Sessões longas são compactadas em resumos em vez de serem cortadas.
-- **Telegram, Slack, WhatsApp, Zalo, uma CLI e um dashboard web**, todos falando com o mesmo AIVON ([configuração do Slack e do WhatsApp](../../../docs/en/29-slack-whatsapp.md)).
-- **Qualquer idioma**: o AIVON responde no idioma em que você escreve. A interface vem em inglês e vietnamita.
+- **Telegram, Slack, WhatsApp, Zalo, uma CLI e um dashboard web**, todos falando com o mesmo Aivon ([configuração do Slack e do WhatsApp](../../../docs/en/29-slack-whatsapp.md)).
+- **Qualquer idioma**: o Aivon responde no idioma em que você escreve. A interface vem em inglês e vietnamita.
 
 ### 🧠 Lembre de tudo
 - **Second Brain**: um vault em markdown (compatível com o Obsidian) com memória de longo prazo, uma Wiki e as Sources brutas.
 - **Grafo de conhecimento** das suas notas ligadas por `[[wikilink]]`, em um canvas claro que funciona offline.
-- **Autoaprendizado**: depois de cada conversa, o AIVON destila memórias, conhecimento para a wiki e skills. Cada rodada de aprendizado é um commit do git, então dá para **desfazer com um toque**.
+- **Autoaprendizado**: depois de cada conversa, o Aivon destila memórias, conhecimento para a wiki e skills. Cada rodada de aprendizado é um commit do git, então dá para **desfazer com um toque**.
 - **Backup no GitHub**: sincronização bidirecional de cada Brain com um repositório privado, compartilhado entre o seu notebook e a sua VPS.
 
 </td>
@@ -185,7 +187,7 @@ Todo cérebro pode chamar os seus servidores MCP conectados, ler e escrever no B
 - **Chatbots**: coloque um agent para atender os seus clientes no próprio bot de Telegram, Slack, WhatsApp ou Zalo dele, com uma caixa de entrada compartilhada em que você pode assumir a conversa.
 
 ### 🔌 Conecte qualquer coisa
-- **Loja de conexões MCP** com várias contas por serviço e três níveis de permissão que o AIVON **aplica de forma rígida**.
+- **Loja de conexões MCP** com várias contas por serviço e três níveis de permissão que o Aivon **aplica de forma rígida**.
 - **Skills e plugins**: solte uma pasta para adicionar know-how (skill) ou uma ferramenta nativa em Python (plugin) para todos os motores.
 - **Geração de imagens** no plano do ChatGPT em que você já está logado.
 - **Acompanhamento de uso**: tokens e custo por dia, por provedor, separando o que você digitou do que rodou sozinho.
@@ -212,10 +214,10 @@ flowchart LR
     subgraph You
         W[Web dashboard<br>voice + graph]
         T[Telegram]
-        C[AIVON CLI]
+        C[Aivon CLI]
         Z[Zalo / bot channels]
     end
-    subgraph AIVON["AIVON (FastAPI, self-hosted)"]
+    subgraph Aivon["AIVON (FastAPI, self-hosted)"]
         R[Engine router]
         H[MCP Hub<br>shared toolbox]
         B[(Second Brain<br>Memory + Wiki + Sources)]
@@ -242,12 +244,12 @@ flowchart LR
 ## 🚀 Instalação
 
 > [!IMPORTANT]
-> O AIVON roda um cérebro de IA com **permissões totais** na máquina. Quando ele roda publicamente (Docker, VPS, Hostinger), o AIVON **exige login por conta própria**: ao abrir o app aparece uma tela para criar conta ou entrar, e ninguém consegue usá-lo sem senha.
+> O Aivon roda um cérebro de IA com **permissões totais** na máquina. Quando ele roda publicamente (Docker, VPS, Hostinger), o Aivon **exige login por conta própria**: ao abrir o app aparece uma tela para criar conta ou entrar, e ninguém consegue usá-lo sem senha.
 
 <details open>
 <summary><b>Opção 1: Hostinger Docker Manager (domínio + HTTPS, em um clique)</b></summary>
 
-> 🛒 **Ainda não tem VPS?** [Contrate uma VPS da Hostinger aqui](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN). Ela já vem com o Docker Manager, então o AIVON instala em um clique. Quando estiver pronta, volte aos passos abaixo.
+> 🛒 **Ainda não tem VPS?** [Contrate uma VPS da Hostinger aqui](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN). Ela já vem com o Docker Manager, então o Aivon instala em um clique. Quando estiver pronta, volte aos passos abaixo.
 
 VPS da Hostinger → **Docker Manager → Compose → URL** → cole o arquivo da Hostinger e clique em **Deploy**:
 
@@ -255,7 +257,7 @@ VPS da Hostinger → **Docker Manager → Compose → URL** → cole o arquivo d
 https://raw.githubusercontent.com/kenwingroup/aivon/main/docker-compose.hostinger.yml
 ```
 
-A caixa **Environment** só precisa de três campos: `DOMAIN_NAME`, `AIVON_ADMIN_USER`, `AIVON_ADMIN_PASSWORD`, mais um `AIVON_AUTO_UPDATE` opcional (defina como `true` e o AIVON se atualiza sozinho todo dia).
+A caixa **Environment** só precisa de três campos: `DOMAIN_NAME`, `AIVON_ADMIN_USER`, `AIVON_ADMIN_PASSWORD`, mais um `AIVON_AUTO_UPDATE` opcional (defina como `true` e o Aivon se atualiza sozinho todo dia).
 
 Defina `DOMAIN_NAME` para que o Traefik da Hostinger emita o HTTPS:
 - **Link grátis** (sem comprar domínio): `DOMAIN_NAME=aivon.<vps-hostname>.hstgr.cloud` (o hostname fica em hPanel → VPS, ex.: `aivon.srv1562015.hstgr.cloud`).
@@ -328,7 +330,7 @@ Dashboard:                             http://localhost:7979
 </details>
 
 <details>
-<summary><b>Várias instâncias do AIVON em uma mesma VPS</b></summary>
+<summary><b>Várias instâncias do Aivon em uma mesma VPS</b></summary>
 
 Brains, configurações e contas ficam totalmente separados por instância. Só três valores mudam entre elas: `AIVON_NAME`, `AIVON_HOST_PORT`, `DOMAIN_NAME`.
 
@@ -342,16 +344,16 @@ Passo a passo: [DEPLOY.en.md](../../../DEPLOY.en.md).
 
 ### 🎬 Primeira execução
 
-Abra o AIVON e o assistente de configuração guia você por tudo, no idioma do seu navegador:
+Abra o Aivon e o assistente de configuração guia você por tudo, no idioma do seu navegador:
 
 1. **Conta de admin**: obrigatória quando roda publicamente, para manter estranhos do lado de fora.
 2. **Escolha um cérebro**: faça login uma vez com uma assinatura ou cole uma API key. O card do Claude Code tem uma chave **"Runs on"** para alternar entre o plano em que você está logado e uma API key da Anthropic.
 3. **Escolha um modelo**: trocar de provedor depois não faz você perder nenhum recurso (exceto os comandos de shell, que só os motores CLI têm).
-4. **Configure as conexões** (opcional): abra **Connections** (Conexões), escolha um serviço e cole uma chave ou escaneie um QR code. A partir daí o AIVON reporta com base em números reais vindos dele.
+4. **Configure as conexões** (opcional): abra **Connections** (Conexões), escolha um serviço e cole uma chave ou escaneie um QR code. A partir daí o Aivon reporta com base em números reais vindos dele.
 
 ---
 
-## 📖 Usando o AIVON
+## 📖 Usando o Aivon
 
 A barra lateral esquerda organiza as páginas em **6 grupos**. Cada página tem um guia em [docs/en/](../../../docs/en/README.md).
 
@@ -361,18 +363,18 @@ A barra lateral esquerda organiza as páginas em **6 grupos**. Cada página tem 
 | **Code** | Terminal, Coding | [Terminal de código](../../../docs/en/27-code-terminal.md) |
 | **Capabilities** | Partners (agents e workflows), Chatbot, Skills, Plugins | [Agents e workflows](../../../docs/en/07-agents-and-workflows.md) · [Chatbots](../../../docs/en/25-chatbots.md) · [Conversas com clientes](../../../docs/en/28-customer-conversations.md) · [Skills](../../../docs/en/06-skills.md) · [Plugins](../../../docs/en/20-plugins.md) |
 | **Work** | Tasks, Scheduled | [Tarefas (Kanban)](../../../docs/en/21-kanban-work.md) · [Jobs recorrentes e lembretes](../../../docs/en/08-recurring-jobs.md) |
-| **Connections** | Connections, AIVON Store, Channels, Models | [Conexões e dados do negócio](../../../docs/en/09-connections-and-business-data.md) · [Telegram](../../../docs/en/11-telegram.md) · [Zalo](../../../docs/en/12-zalo-agent-mcp.md) · [Modelos e motores](../../../docs/en/10-models-and-engines.md) |
-| **System** | Settings, Share links, Account | [Primeiros passos](../../../docs/en/01-getting-started.md) · [Segurança e contas](../../../docs/en/14-security-and-accounts.md) · [Uso e custo](../../../docs/en/23-usage-and-cost.md) · [AIVON CLI](../../../docs/en/24-cli.md) |
+| **Connections** | Connections, Aivon Store, Channels, Models | [Conexões e dados do negócio](../../../docs/en/09-connections-and-business-data.md) · [Telegram](../../../docs/en/11-telegram.md) · [Zalo](../../../docs/en/12-zalo-agent-mcp.md) · [Modelos e motores](../../../docs/en/10-models-and-engines.md) |
+| **System** | Settings, Share links, Account | [Primeiros passos](../../../docs/en/01-getting-started.md) · [Segurança e contas](../../../docs/en/14-security-and-accounts.md) · [Uso e custo](../../../docs/en/23-usage-and-cost.md) · [Aivon CLI](../../../docs/en/24-cli.md) |
 
 Mais: [Second Brain: memória, Wiki e INGEST](../../../docs/en/13-second-brain.md) · [Backup no GitHub](../../../docs/en/18-github-backup.md) · [Tarefas e Dataview nas notas](../../../docs/en/19-tasks-and-dataview.md) · [Marca e domínios personalizados](../../../docs/en/15-branding-and-domains.md) · [Solução de problemas](../../../docs/en/17-troubleshooting.md)
 
 ### Algumas coisas para experimentar
 
-- **Peça números:** *"Como está o faturamento de hoje em comparação com ontem?"* O AIVON chama a conexão certa e responde com números reais e sugestões.
-- **Digira conhecimento:** solte um arquivo ou uma nota. O AIVON resume, extrai insights, escreve na Wiki e sugere tarefas.
+- **Peça números:** *"Como está o faturamento de hoje em comparação com ontem?"* O Aivon chama a conexão certa e responde com números reais e sugestões.
+- **Digira conhecimento:** solte um arquivo ou uma nota. O Aivon resume, extrai insights, escreve na Wiki e sugere tarefas.
 - **Delegue trabalho em segundo plano:** **Tasks** → **+ Assign goal** → *"resuma as vendas desta semana, encontre o estoque parado e escreva três legendas para girá-lo"*. A IA especifica, executa e te reporta o resultado.
 - **Agende algo:** *"me lembre todo dia útil às 8:30 de conferir o orçamento de anúncios"*, no chat ou na página **Scheduled** (Agendados).
-- **Use a sua voz:** aperte o microfone (ou ative o modo sem usar as mãos), fale, e o AIVON responde em voz alta.
+- **Use a sua voz:** aperte o microfone (ou ative o modo sem usar as mãos), fale, e o Aivon responde em voz alta.
 
 <div align="center">
 <img src="../../../docs/assets/screenshots/mobile.jpg" alt="O AIVON em um celular: o grafo de conhecimento em cima, a conversa embaixo e a barra de chat no rodapé" width="300">
@@ -383,7 +385,7 @@ Mais: [Second Brain: memória, Wiki e INGEST](../../../docs/en/13-second-brain.m
 
 ## ⚙️ Configuração (`.env`)
 
-Todas as linhas podem ficar vazias e o AIVON continua rodando. Copie `env.example` → `.env` e adicione o que precisar. A lista completa, com uma explicação para cada variável, está em [docs/en/16-env-configuration.md](../../../docs/en/16-env-configuration.md).
+Todas as linhas podem ficar vazias e o Aivon continua rodando. Copie `env.example` → `.env` e adicione o que precisar. A lista completa, com uma explicação para cada variável, está em [docs/en/16-env-configuration.md](../../../docs/en/16-env-configuration.md).
 
 | Variável | Significado | Padrão |
 |---|---|---|
@@ -422,7 +424,7 @@ No app: **Settings → Updates → Update now**, com uma barra de progresso e um
 
 | Sintoma | O que fazer |
 |---|---|
-| A página Models diz que uma CLI não está instalada, mas ela está | **Reinicie o AIVON**: o processo em execução mantém o PATH de quando foi iniciado. |
+| A página Models diz que uma CLI não está instalada, mas ela está | **Reinicie o Aivon**: o processo em execução mantém o PATH de quando foi iniciado. |
 | A porta 7979 está ocupada e a nova versão não inicia | Pare o processo antigo primeiro (`stop-aivon.bat`, ou mate o PID) e inicie de novo. |
 | A Hostinger não consegue baixar a imagem | Deixe o pacote do GHCR como **Public** e espere o build do GitHub Action terminar. |
 | Um cérebro diz que não está logado | **Models** → card daquele provedor → faça login. |
@@ -444,7 +446,7 @@ aivon/
 ├── tests/           # Python + JS test suite (python tests/run.py)
 ├── install.sh · install.ps1 · update.sh
 ├── Dockerfile · docker-compose*.yml
-└── CLAUDE.md        # The system prompt AIVON runs on
+└── CLAUDE.md        # The system prompt Aivon runs on
 ```
 
 ---
@@ -453,7 +455,7 @@ aivon/
 
 | O quê | Idiomas hoje |
 |---|---|
-| **Respostas do AIVON** | Qualquer idioma: ele responde no idioma em que você escreve, ou em um que você fixar em Settings |
+| **Respostas do Aivon** | Qualquer idioma: ele responde no idioma em que você escreve, ou em um que você fixar em Settings |
 | **Dashboard e mensagens do servidor** | 🇬🇧 English · 🇻🇳 Tiếng Việt, por dispositivo: cada navegador fica com o seu próprio idioma até você escolher um |
 | **Loja de conexões, plugins, arquivos iniciais de um novo Brain** | 🇬🇧 English · 🇻🇳 Tiếng Việt |
 | **README e início rápido** | 🇬🇧 English · 🇻🇳 Tiếng Việt · 🇨🇳 简体中文 · 🇪🇸 Español · 🇯🇵 日本語 · 🇮🇳 हिन्दी · 🇧🇷 Português · 🇰🇷 한국어 · 🇷🇺 Русский · 🇩🇪 Deutsch · 🇫🇷 Français · 🇮🇩 Bahasa Indonesia |
@@ -472,12 +474,12 @@ Relatos de bugs, ideias, traduções e pull requests são todos bem-vindos, em i
 | [CONTRIBUTING.md](../../../CONTRIBUTING.md) | Configurar o ambiente, rodar os testes (`python tests/run.py`), as convenções de código |
 | [ARCHITECTURE.md](../../../ARCHITECTURE.md) | Como as peças se encaixam, e um mapa dos módulos do servidor |
 | [docs/dev/GLOSSARY.md](../../../docs/dev/GLOSSARY.md) | O código foi escrito em vietnamita: este glossário decifra nomes como `nhac_hen` (lembrete) |
-| [docs/dev/adding-a-language.md](../../../docs/dev/adding-a-language.md) | Como traduzir o AIVON para o seu idioma, passo a passo |
+| [docs/dev/adding-a-language.md](../../../docs/dev/adding-a-language.md) | Como traduzir o Aivon para o seu idioma, passo a passo |
 | [Templates de issue](https://github.com/kenwingroup/aivon/issues/new/choose) | Relato de bug, pedido de recurso, oferta de tradução |
 
 Siga o [Código de Conduta](../../../CODE_OF_CONDUCT.md) e reporte problemas de segurança de forma privada, como descrito no [SECURITY.md](../../../SECURITY.md).
 
-Se o AIVON for útil para você, uma ⭐ no repositório ajuda outras pessoas a encontrá-lo.
+Se o Aivon for útil para você, uma ⭐ no repositório ajuda outras pessoas a encontrá-lo.
 
 [![Star History Chart](https://api.star-history.com/svg?repos=kenwingroup/aivon&type=Date)](https://star-history.com/#kenwingroup/aivon&Date)
 
@@ -486,7 +488,7 @@ Se o AIVON for útil para você, uma ⭐ no repositório ajuda outras pessoas a 
 ## 🙏 Créditos
 
 - **Cérebros:** [Claude Code](https://claude.com/claude-code) e o [Claude Agent SDK](https://docs.claude.com/en/api/agent-sdk/overview) (Anthropic), [Codex CLI](https://developers.openai.com/codex/cli) (OpenAI), [Grok Build](https://x.ai) (xAI), [Antigravity](https://antigravity.google) (Google), além das APIs de [OpenRouter](https://openrouter.ai), OpenAI, [Google Gemini](https://ai.google.dev), Anthropic, [Groq](https://groq.com) e [Ollama](https://ollama.com).
-- **Padrão de ferramentas:** [Model Context Protocol](https://modelcontextprotocol.io). Toda a loja de conexões do AIVON roda sobre ele.
+- **Padrão de ferramentas:** [Model Context Protocol](https://modelcontextprotocol.io). Toda a loja de conexões do Aivon roda sobre ele.
 - Os padrões de Second Brain e de Bullet Journal digital.
 
 ## 📄 Licença
@@ -495,15 +497,21 @@ Código aberto sob a **MIT License**: use, modifique e distribua à vontade, só
 
 ---
 
-## 📞 Contact & Support AIVON
+## ☕ Apoie o AIVON
 
-**AIVON — Intelligence · Vision · Always On**
+O AIVON é gratuito e de código aberto, e ainda é uma única pessoa escrevendo o código e pagando os servidores de teste. Se o Aivon ajuda no seu trabalho ou na sua vida, uma pequena doação compra mais tempo para correções de bugs e novos recursos.
 
-- 👤 **Author / Owner**: **Minh Vũ**
-- 📞 **Hotline / Zalo**: `0989811931`
-- 🌐 **GitHub Repository**: [https://github.com/kenwingroup/aivon](https://github.com/kenwingroup/aivon)
+- 🌍 **PayPal**: [paypal.me/minhvu](https://paypal.me/minhvu)
+- 🏦 **MB Bank** (Vietnã): `6636966369`
+- 📱 **Carteira MoMo** (Vietnã): `0372752740`
+
+Não pode doar? Usar o Aivon, mandar feedback ou abrir um pull request também conta como apoio.
 
 <div align="center">
 <br>
-Developed in Vietnam by <b>Minh Vũ · Hotline: 0989811931</b> · <a href="https://github.com/kenwingroup/aivon">AIVON</a>
+<b><a href="https://aivon.vn">aivon.vn</a></b><br>
+Feito com ☕ no Vietnã por <b><a href="https://minhvu.vn">Minh Vũ</a></b>
 </div>
+
+---
+**Phát triển bởi Minh Vũ** — Hotline hỗ trợ: **0989811931** | GitHub: [kenwingroup/aivon](https://github.com/kenwingroup/aivon)

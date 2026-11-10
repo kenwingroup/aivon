@@ -96,7 +96,7 @@ async def tai(url: str, *, header: dict = None, tran: int = MAX_TAI) -> bytes:
     import httpx
 
     hien = str(url or "").strip()
-    hd = {"User-Agent": "Aivon-OS pack fetcher", **header_xac_thuc(hien), **(header or {})}
+    hd = {"User-Agent": "AIVON pack fetcher", **header_xac_thuc(hien), **(header or {})}
     async with httpx.AsyncClient(follow_redirects=False,
                                  timeout=httpx.Timeout(TIMEOUT_TONG, connect=TIMEOUT_KET_NOI)) as cl:
         for _ in range(MAX_CHUYEN_HUONG + 1):

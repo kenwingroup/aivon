@@ -74,10 +74,10 @@ Toàn bộ tool surface của hub là `aivon_connections`, `aivon_read_file`, `a
 `aivon_schedule`.** `grep -rn "aivon_schedule\|create_loop\|aivon_remind\|aivon_task"` = 0 hit.
 
 Nên hôm nay:
-- Tạo loop = model **tự tay gõ YAML frontmatter** vào `AIVON/loops/<slug>.md` qua
+- Tạo loop = model **tự tay gõ YAML frontmatter** vào `Aivon/loops/<slug>.md` qua
   `aivon_write_file`.
 - Tạo nhắc hẹn = model **shell ra `curl` POST /reminders qua Bash** (`reminders.py:17` ghi
-  thẳng: "engine (AIVON) tự gọi POST /reminders qua Bash curl từ localhost").
+  thẳng: "engine (Aivon) tự gọi POST /reminders qua Bash curl từ localhost").
 - Tạo task Kanban = tương tự, curl.
 
 Đường thứ hai còn tự mâu thuẫn: loop ở mode suggest/auto bị chặn Bash (`self_improve.py:112`,
@@ -95,7 +95,7 @@ phải mỗi job một file markdown). `parse_schedule()` chuẩn hoá **mọi**
 Bài học cốt lõi: **"mỗi 2 tiếng" và "7h sáng" là cùng một primitive; `kind` chỉ là một
 field.** Claude Code xác nhận độc lập: nó convert interval thành cron ngay lúc tạo.
 
-Bên AIVON hôm nay chúng là hai code path không chung một dòng:
+Bên Aivon hôm nay chúng là hai code path không chung một dòng:
 - Loop: interval-since-last-run (`self_improve.py:465`), nên nó **trôi** dần theo thời gian
   chạy.
 - Reminders: wall-clock tuyệt đối `due_at`, lặp qua `cron_next` (`reminders.py:391-399`) dùng
@@ -150,7 +150,7 @@ Xoá:
 - `_automations_path` (`:3145`), `_read_automations` (`:3149`), `_write_automations` (`:3161`).
 - Khối `caps["automations"]` (`_gather_capabilities`, `main.py:3324, 3352-3354`) và mục "##
   Lịch (automations)" trong `_render_aivon_index` (`main.py:3411-3413`). Đính chính khi soát
-  plan: khối này **không** rác vào system prompt. Nó đi vào `AIVON/index.md` qua
+  plan: khối này **không** rác vào system prompt. Nó đi vào `Aivon/index.md` qua
   `rebuild_aivon_index` (`main.py:3462`), và vì list luôn rỗng nên `if caps["automations"]:`
   luôn falsy, section không bao giờ render. Là code chết, dọn cho sạch chứ không phải sửa bug.
   (`_aivon_capability_summary` tại `main.py:3477` không hề nhắc automations.)
@@ -179,7 +179,7 @@ claude.ai thì viết lại thành nút riêng ở trang Model, có `allowed_too
 thời gian và đường tạo**, KHÔNG phải nhét mọi thứ vào một file store.
 
 - **Việc bền** (lặp lại, chạy engine: loop hôm nay + cron chưa từng có executor) → `.md` trong
-  `AIVON/loops/`. Chúng là tài liệu: user mở trong Obsidian, sửa prompt, commit theo brain.
+  `Aivon/loops/`. Chúng là tài liệu: user mở trong Obsidian, sửa prompt, commit theo brain.
 - **Nhắc hẹn một lần** (`action: notify`, `kind: once`) → **ở nguyên `reminders.py` store**.
   Lý do: "30 phút nữa nhắc anh uống thuốc" mà đẻ một file `.md` trong vault rồi xoá đi là rác,
   và nó mâu thuẫn với chính lý do chọn `.md` (để người dùng mở trong Obsidian). Nhắc hẹn là
@@ -195,8 +195,8 @@ Cái được hợp nhất giữa hai kho:
 Đây là lý do giữ `reminders.py` chứ không xoá: nó không trùng loop, nó phủ đúng nửa "phù du"
 mà loop không nên phủ.
 
-**Lưu trữ việc bền: giữ nguyên `<brain>/AIVON/loops/<slug>.md`.** Frontmatter sửa được trong Obsidian
-là giá trị thật của AIVON (`self_improve.py:11` có comment cố ý tách state ra
+**Lưu trữ việc bền: giữ nguyên `<brain>/Aivon/loops/<slug>.md`.** Frontmatter sửa được trong Obsidian
+là giá trị thật của Aivon (`self_improve.py:11` có comment cố ý tách state ra
 `loop-state.json` để "tránh giẫm chân user đang mở file trong Obsidian"). Đổi tên thư mục phải
 đụng 6 file loop trên 4 brain cộng `LEGACY_HASHES` (`system_sync.py:536`) và loop builtin
 `tu-cai-tien-aivon` có mặt ở cả 4 brain, để đổi lấy đúng con số không. Đường dẫn là chi tiết
@@ -215,7 +215,7 @@ Các field cũ giữ nguyên nghĩa: `name`, `slug`, `enabled`, `owner_chat`, `n
 `quiet_hours`, `max_runs_per_day`, `workspace`, `tools_profile`, `ambient_mcp`. Thân file vẫn
 là prompt.
 
-Không có field `action` ở đây: file `.md` trong `AIVON/loops/` **luôn** là `action: run`.
+Không có field `action` ở đây: file `.md` trong `Aivon/loops/` **luôn** là `action: run`.
 `notify` và `script` là chuyện của kho nhắc hẹn (`reminders.py:48` đã có sẵn ba mode
 `notify|task|script`), không phải của việc bền.
 
@@ -241,7 +241,7 @@ mới bị `_ascii_slug`. Comment giải thích vì sao: nếu không, toggle m�
 San cửa sổ 5 phút đang ép ở 3 chỗ (`self_improve.py:257, 929, 213`) cần rà lại cho `cron`:
 "mỗi 5 phút tối thiểu" là luật của interval, không phải của cron.
 
-**Jitter (cho bản fork):** cron cộng jitter suy từ `hash(slug)`, 0 tới 5 phút. Nếu AIVON được
+**Jitter (cho bản fork):** cron cộng jitter suy từ `hash(slug)`, 0 tới 5 phút. Nếu Aivon được
 fork rộng thì mọi bản đều `0 7 * * *` và cùng đập vào Pancake lúc 7:00:00. Deterministic theo
 slug nên ổn định qua các lần chạy.
 
@@ -253,7 +253,7 @@ chạy hôm nay** (`mcp_hub.py:314`). Toàn bộ cưỡng chế giữ nguyên, c
 hại, và đó chính là thứ user muốn khi bật một việc.
 
 `connectors: [...]` là phần **mới thật sự**, và là rủi ro triển khai chính của spec:
-- Hub cần header `X-AIVON-Connectors` (cạnh `X-AIVON-Mode` sẵn có tại `mcp_hub.py:457, 483`).
+- Hub cần header `X-Aivon-Connectors` (cạnh `X-Aivon-Mode` sẵn có tại `mcp_hub.py:457, 483`).
 - `mcp_hub.py:304` (`mcp_store.resolved(enabled_only=True)`) lọc thêm theo danh sách đó.
 - Danh sách rỗng hoặc thiếu field = giữ hành vi cũ (mọi connector đang bật), để 6 file loop
   hiện có không đổi hành vi.
@@ -276,7 +276,7 @@ aivon_schedule(op: create|list|cancel, name, schedule, prompt,
 - `notify_only: true` hoặc schedule parse ra `kind: once` → vào kho **nhắc hẹn**
   (`reminders.py`), **bật ngay**. Nó chỉ bắn một tin Telegram, và đây là hành vi hiện tại
   user đang dựa vào ("30 phút nữa nhắc anh...").
-- Còn lại (lặp lại, chạy engine) → ghi `.md` vào `AIVON/loops/`, `enabled: false`, user tự
+- Còn lại (lặp lại, chạy engine) → ghi `.md` vào `Aivon/loops/`, `enabled: false`, user tự
   bật. Đúng luật CLAUDE.md hiện hành.
 
 `op: list` và `op: cancel` phải nhìn thấy **cả hai kho** (union), nếu không model sẽ báo với
@@ -298,13 +298,13 @@ bắt đầu phụ thuộc context chat.
   `tasks_feature.tick(["brain"])` với brain **hardcode**, trong khi `tick(brains)` nhận list.
   Board ở brain khác không bao giờ được dispatch. Đây là bug độc lập, nên tách issue riêng.)
 - TTL/auto-expire bắt buộc cho việc bị bỏ quên. Prior art nói nên có (Claude Code hết hạn sau
-  7 ngày, ChatGPT tự pause khi user thôi tương tác); AIVON mới có `max_runs_per_day` tuỳ chọn
+  7 ngày, ChatGPT tự pause khi user thôi tương tác); Aivon mới có `max_runs_per_day` tuỳ chọn
   và auto-pause theo `fail_streak`. Đáng làm, nhưng vòng sau.
 - Bọc dữ liệu MCP trả về như untrusted (kiểu `<routine-fire-payload>`). Đáng làm, vòng sau.
 
 ## Rủi ro
 
-1. **`X-AIVON-Connectors` là phần duy nhất phải sửa hub.** Hub là lớp cứng của mô hình bảo
+1. **`X-Aivon-Connectors` là phần duy nhất phải sửa hub.** Hub là lớp cứng của mô hình bảo
    mật; sai ở đây là hỏng rào cho mọi engine, không chỉ loop. Cần test riêng cho: danh sách
    rỗng = hành vi cũ, danh sách sai tên = fail-closed chứ không fail-open.
 2. **Đổi `_eligible_overdue` đụng vòng chạy của loop builtin `tu-cai-tien-aivon`** đang sống ở

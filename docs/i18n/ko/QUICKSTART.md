@@ -5,7 +5,20 @@
 
 > 이 문서는 영어 빠른 시작 안내를 자동 번역한 것입니다.
 
-몇 분이면 AIVON OS를 실행할 수 있습니다. 전체 안내서: [docs/en/](../../../docs/en/README.md).
+몇 분이면 Aivon OS를 실행할 수 있습니다. 전체 안내서: [docs/en/](../../../docs/en/README.md).
+
+## 개인 컴퓨터 (Windows, macOS) - 설치 프로그램 다운로드
+
+Aivon를 일반 앱처럼 설치하세요. 파일 하나를 내려받아 열면 매일 클릭할 AIVON 아이콘이 생깁니다. 설치 프로그램은 컴퓨터에 없는 것(Git, Python, Node, AI 브레인)을 확인하고 그것만 설치합니다.
+
+- **Windows 10/11:** [AivonOS-Setup.exe](https://github.com/kenwingroup/aivon/releases/download/desktop/AivonOS-Setup.exe)를 내려받아 더블클릭하고 끝까지 Next를 누르세요. 검은 창에 설치 진행 상황이 표시됩니다(몇 분). 끝나면 바탕 화면과 시작 메뉴에 AIVON 아이콘이 생깁니다.
+- **macOS 11 이상:** [AivonOS-macOS.dmg](https://github.com/kenwingroup/aivon/releases/download/desktop/AivonOS-macOS.dmg)를 내려받아 열고 **AIVON**를 **Applications**로 끌어 놓은 뒤 Launchpad에서 여세요. 처음에는 설치를 위해 터미널이 열립니다(Aivon 관리자 계정 설정과 Mac 암호를 한 번 물어볼 수 있습니다).
+
+아이콘을 클릭하면 Aivon가 별도 창(주소 표시줄 없음)으로 열리고, 컴퓨터와 함께 자동으로 시작되며, 앱의 **Update** 버튼도 평소처럼 동작합니다. 데이터는 사용자 폴더의 `AivonOS` 폴더에 있으며, 앱을 제거해도 이 폴더는 남습니다.
+
+두 설치 프로그램 모두 아직 코드 서명이 없어 처음 한 번 확인을 묻습니다:
+- Windows에서 "Windows protected your PC"가 나오면 **More info**를 누른 다음 **Run anyway**를 누르세요.
+- macOS에서 앱을 열 수 없다고 나오면 **System Settings → Privacy & Security**로 가서 아래로 내려 **Open Anyway**를 누른 뒤 AIVON OS를 다시 여세요.
 
 ## 방법 1 - Hostinger VPS (Docker Manager, 원클릭)
 

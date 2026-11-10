@@ -38,14 +38,19 @@ người:
   Telegram đầu tiên trong whitelist, mà máy chưa đấu Telegram thì MẤT HÚT. Model phải lấy mã
   phiên từ khối "KÊNH HỘI THOẠI HIỆN TẠI" và truyền vào.
 
-Phạm vi: `add`, `list` và `answer` (0.235.0). Chuyển cột, huỷ, duyệt việc chờ phê duyệt vẫn làm
-ở trang Việc - đó là những thao tác cần nhìn thấy bảng, và mô tả tool nói thẳng như vậy thay vì
+Phạm vi: `add`, `list`, `answer` (0.235.0), `accept` và `fix` (2026-11-08). Chuyển cột, huỷ, duyệt việc chờ phê duyệt vẫn làm
+ở trang Nhiệm vụ - đó là những thao tác cần nhìn thấy bảng, và mô tả tool nói thẳng như vậy thay vì
 để model đoán.
 
 `answer` (0.235.0): việc nền dừng lại hỏi (`[[NEEDS_INPUT]]`) thì câu hỏi về khung chat của
 người giao việc. Người đó trả lời NGAY trong chat (web, Telegram, Zalo), model chuyển nguyên văn
 vào đây và việc chạy tiếp với câu trả lời. Thiếu `id` mà brain chỉ có đúng MỘT việc đang chờ thì
 dùng việc đó; nhiều hơn thì trả danh sách để model hỏi lại, KHÔNG đoán.
+
+`accept` / `fix` (2026-11-08): việc chạy xong mà máy tự kiểm vẫn chưa qua sau một lần tự sửa thì dừng ở
+`acceptance_failed` và nhắn về chat. Không có câu hỏi nào để trả lời, chỉ có hai lựa chọn: chấp nhận kết quả, hoặc
+trả về cho người làm sửa lại. Chủ chọn ngay trong chat thay vì phải mở trang Nhiệm vụ. Cùng luật chọn việc với
+`answer`: thiếu `id` mà chỉ có một việc đang chờ chọn thì dùng việc đó, nhiều hơn thì trả danh sách để hỏi lại.
 
 `route` (0.107.0): `auto` hoặc `wf:<slug>` của một quy trình CÓ THẬT. Trước bản này tool không
 có tham số này, trong khi mô tả của `aivon_workflow` lại bảo "dùng aivon_task với route
@@ -97,7 +102,7 @@ _MODE_MAC_DINH = "full"
 _CANH_BAO_DIEU_PHOI = (
     "LƯU Ý QUAN TRỌNG: điều phối việc nền của brain này đang ở mức \"{muc}\" nên việc chỉ nằm "
     "xếp hàng, KHÔNG tự chạy và sẽ không có kết quả nào tự về. Phải nói thẳng điều này với "
-    "người dùng và bảo họ bật \"AI tự vận hành\" ở trang Việc, đừng hứa là việc đang chạy."
+    "người dùng và bảo họ bật \"AI tự vận hành\" ở trang Nhiệm vụ, đừng hứa là việc đang chạy."
 )
 
 
@@ -146,14 +151,14 @@ def _feature():
     f = tasks_mod.current()
     if f is None:
         return None, ("ERROR: hàng đợi việc chưa sẵn sàng (máy chủ đang khởi động?). "
-                      "Thử lại sau vài giây, hoặc giao việc ở trang Việc trên dashboard.")
+                      "Thử lại sau vài giây, hoặc giao việc ở trang Nhiệm vụ trên dashboard.")
     return f, ""
 
 
 def _them(args, ctx) -> str:
     if not ctx.vault_root:
         return ("ERROR: chưa biết đang làm việc trên brain nào nên không giao việc được. "
-                "Giao ở trang Việc trên dashboard, ở đó brain đã xác định rõ.")
+                "Giao ở trang Nhiệm vụ trên dashboard, ở đó brain đã xác định rõ.")
     tieu_de = str((args or {}).get("title") or "").strip()
     if not tieu_de:
         return "ERROR: thiếu title - việc phải có tên thì người dùng mới theo dõi được."
@@ -183,7 +188,7 @@ def _them(args, ctx) -> str:
         if wfs[slug][1] != "active":
             canh_bao_route = (f"LƯU Ý: quy trình '{wfs[slug][0]}' đang TẮT, nên việc này sẽ dừng "
                               "chờ ngay khi tới lượt chạy. Bảo người dùng bật quy trình ở trang Cộng "
-                              "sự, rồi chạy lại việc ở trang Việc.")
+                              "sự, rồi chạy lại việc ở trang Nhiệm vụ.")
     else:
         nhac = _workflow_nhac_toi(wfs, tieu_de, str((args or {}).get("intent") or ""))
         if nhac:
@@ -204,6 +209,16 @@ def _them(args, ctx) -> str:
         except Exception:
             chat_id = ""
     deps = [d.strip() for d in str((args or {}).get("deps") or "").split(",") if d.strip()]
+    # 0.429.0: a dedicated chatbot's turn stamps the job with that bot ("bot:<id>"), so the Tasks page shows it under
+    # the bot's assistant instead of Aivon Core. The host sets the bot in turn_context, never the model.
+    nguoi_tao = "chat"
+    try:
+        import turn_context
+        _bot = str((turn_context.current() or {}).get("bot_id") or "").strip()
+        if _bot:
+            nguoi_tao = f"bot:{_bot}"
+    except Exception:
+        pass
     try:
         tid = f.enqueue(
             ctx.vault_root,
@@ -213,7 +228,7 @@ def _them(args, ctx) -> str:
             2,
             deps,
             False,
-            "chat",
+            nguoi_tao,
             chat_id,
             "auto",
             mode,
@@ -232,7 +247,7 @@ def _them(args, ctx) -> str:
     if _cu and (time.time() - float(_cu.get("created_at") or time.time())) > 5:
         return (f"CHƯA TẠO việc mới: đã có việc trùng tên \"{tieu_de}\" (mã {tid}) đang ở trạng thái "
                 f"{_cu.get('status')}. Hãy nói rõ với người dùng, rồi hoặc đặt tên việc khác đi, "
-                "hoặc xử lý việc cũ ở trang Việc (chạy lại / huỷ) trước khi giao lại.")
+                "hoặc xử lý việc cũ ở trang Nhiệm vụ (chạy lại / huỷ) trước khi giao lại.")
 
     ten_mode = {"suggest": "chỉ đọc và đề xuất", "auto": "được ghi file nháp trong brain",
                 "full": "toàn quyền, tự thao tác ra ngoài"}[mode]
@@ -262,7 +277,7 @@ def _them(args, ctx) -> str:
     except Exception:
         pass
     if _dieu_phoi_chay(muc):
-        ra.append("Việc chạy nền. Kết quả tự về, tiến độ xem ở trang Việc.")
+        ra.append("Việc chạy nền. Kết quả tự về, tiến độ xem ở trang Nhiệm vụ.")
     else:
         ra.append(_CANH_BAO_DIEU_PHOI.format(muc=muc))
     return "\n".join(ra)
@@ -290,12 +305,15 @@ def _liet_ke(args, ctx) -> str:
                 con += 1
                 continue
             hoi = _cau_hoi(t)
+            pick = _acceptance_reason(t)
             dong.append(f"[{nhan}] {t.get('id', '')} · {t.get('title', '')}"
-                        + (f" · CHỜ TRẢ LỜI: {hoi[:200]}" if hoi else ""))
+                        + (f" · CHỜ TRẢ LỜI: {hoi[:200]}" if hoi else "")
+                        + (f" · MÁY TỰ KIỂM CHƯA QUA, CHỜ CHỌN (op=accept hoặc op=fix): {pick[:200]}"
+                           if pick is not None else ""))
     if not dong:
         return "Chưa có việc nào trong hàng đợi."
     if con:
-        dong.append(f"…(+{con} việc nữa, xem đủ ở trang Việc)")
+        dong.append(f"…(+{con} việc nữa, xem đủ ở trang Nhiệm vụ)")
 
     # Điều phối TẮT thì việc nằm im mãi mãi mà không có một dòng lỗi nào. Nói ngay ở đây, vì đây
     # là chỗ model đang nhìn khi người dùng hỏi "việc chạy tới đâu rồi".
@@ -321,6 +339,56 @@ def _dang_cho(f, vault_root) -> list:
     except Exception:
         return []
     return [t for t in (cols.get("blocked") or []) if _cau_hoi(t)]
+
+
+def _acceptance_reason(t: dict):
+    """The checker's reason for a job waiting for the owner's accept/fix pick, None for any other job."""
+    if str(t.get("status") or "") != "blocked" or str(t.get("block_kind") or "") != "acceptance_failed":
+        return None
+    return str(t.get("block_reason") or "").strip()
+
+
+def _acceptance_waiting(f, vault_root) -> list:
+    """This brain's jobs whose result failed the acceptance check and wait for accept or fix."""
+    try:
+        cols = (f.board_view(vault_root).get("columns") or {})
+    except Exception:
+        return []
+    return [t for t in (cols.get("blocked") or []) if _acceptance_reason(t) is not None]
+
+
+async def _resolve_acceptance(args, ctx, decision: str) -> str:
+    """op=accept / op=fix: the owner's pick, said in chat, on a job the acceptance check failed."""
+    if not ctx.vault_root:
+        return "ERROR: chưa biết đang làm việc trên brain nào nên không chọn được cho việc."
+    f, loi = _feature()
+    if loi:
+        return loi
+    waiting = _acceptance_waiting(f, ctx.vault_root)
+    tid = str((args or {}).get("id") or "").strip()
+    if not tid:
+        if len(waiting) == 1:
+            tid = str(waiting[0].get("id") or "")
+        elif not waiting:
+            return "Không có việc nào của brain này đang chờ chọn chấp nhận hay sửa lại."
+        else:
+            return ("ERROR: có " + str(len(waiting)) + " việc đang chờ chọn, chưa biết người dùng nói việc "
+                    "nào. Hỏi lại người dùng rồi gọi lại với id:\n"
+                    + "\n".join(f"- {t.get('id')} · {t.get('title')}: {_acceptance_reason(t)[:160]}"
+                                for t in waiting))
+    if tid not in {str(t.get("id") or "") for t in waiting}:
+        return (f"ERROR: việc {tid} không thuộc brain này hoặc không còn chờ chọn. "
+                "Gọi op=list để xem việc nào MÁY TỰ KIỂM CHƯA QUA.")
+    kq = await f.resolve_acceptance(tid, decision)
+    if not kq.get("ok"):
+        return f"ERROR: {kq.get('error') or 'không ghi được lựa chọn'}."
+    if decision == "accept":
+        return (f"Đã chấp nhận kết quả của việc {tid}: việc được đánh dấu "
+                + ("đã xong." if kq.get("status") == "done" else "xong, đang chờ duyệt như cũ."))
+    ra = [f"Đã trả việc {tid} về cho người làm sửa đúng chỗ máy chấm chưa đạt; kết quả tự về khung chat này."]
+    if not _dieu_phoi_chay(kq.get("orchestration")):
+        ra.append(_CANH_BAO_DIEU_PHOI.format(muc=str(kq.get("orchestration") or "off")))
+    return "\n".join(ra)
 
 
 async def _tra_loi(args, ctx) -> str:
@@ -375,13 +443,15 @@ def register(ctx):
         "op=list: liệt kê việc theo cột, việc đang dừng hỏi có ghi CHỜ TRẢ LỜI. "
         "op=answer: người dùng trả lời câu hỏi của một việc nền đang chờ -> truyền id và answer "
         "(chép nguyên văn); việc chạy tiếp với câu trả lời đó. "
-        "Chuyển cột, huỷ việc và duyệt việc chờ phê duyệt thì làm ở trang Việc, tool này không có.",
+        "op=accept / op=fix: việc MÁY TỰ KIỂM CHƯA QUA đang chờ người dùng chọn -> họ bảo dùng kết quả "
+        "như vậy thì accept, bảo làm lại cho đạt thì fix; truyền id. "
+        "Chuyển cột, huỷ việc và duyệt việc chờ phê duyệt thì làm ở trang Nhiệm vụ, tool này không có.",
         _chay,
         schema={
             "type": "object",
             "properties": {
-                "op": {"type": "string", "enum": ["add", "list", "answer"]},
-                "id": {"type": "string", "description": "Mã việc đang chờ trả lời (op=answer)"},
+                "op": {"type": "string", "enum": ["add", "list", "answer", "accept", "fix"]},
+                "id": {"type": "string", "description": "Mã việc đang chờ (op=answer, accept, fix)"},
                 "answer": {"type": "string", "description": "Câu trả lời nguyên văn của người dùng (op=answer)"},
                 "title": {"type": "string", "description": "Tên việc, ngắn gọn (op=add)"},
                 "intent": {"type": "string", "description": "Mô tả đầy đủ hơn nếu tiêu đề chưa đủ"},
@@ -406,5 +476,7 @@ async def _chay(args, ctx) -> str:
         return _liet_ke(args, ctx)
     if op == "answer":
         return await _tra_loi(args, ctx)
-    return ("ERROR: op phải là 'add' (giao việc), 'list' (xem việc đang có) hoặc 'answer' "
-            "(chuyển câu trả lời cho việc đang chờ).")
+    if op in ("accept", "fix"):
+        return await _resolve_acceptance(args, ctx, op)
+    return ("ERROR: op phải là 'add' (giao việc), 'list' (xem việc đang có), 'answer' "
+            "(chuyển câu trả lời cho việc đang chờ), 'accept' hoặc 'fix' (chọn cho việc máy tự kiểm chưa qua).")

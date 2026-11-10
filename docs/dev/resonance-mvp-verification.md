@@ -1,4 +1,4 @@
-# Kiểm chứng AIVON Resonance MVP
+# Kiểm chứng Aivon Resonance MVP
 
 Báo cáo này ghi những gì đã chạy thật cho từng mốc của [kế hoạch MVP](../superpowers/plans/2026-10-06-resonance-00-mvp.md). Mỗi mục tách rõ phần chạy với engine giả và phần chạy với engine thật. Điều gì chưa kiểm được thì ghi là chưa kiểm.
 
@@ -13,13 +13,13 @@ Báo cáo này ghi những gì đã chạy thật cho từng mốc của [kế h
 | Commit pilot cuối | `ba404185a0ef066b3a6d2922a5ebe5c38235a131` (sạch, không có thay đổi chưa commit trong `server/`) |
 | Head khi viết báo cáo | `5162dfab`: commit sau pilot chỉ sửa thư mục tạm của engine giả trong test, không đổi đường chạy pilot |
 | Máy | Windows 11 Pro 10.0.26200 |
-| Python | 3.12.10, `.venv` của checkout gốc `D:\Project\AIVON-OS` |
+| Python | 3.12.10, `.venv` của checkout gốc `D:\Project\AIVON` |
 | Claude Code CLI | `~/.local/bin/claude`, đăng nhập bằng gói thuê bao |
 | Engine việc nền đang chọn | `anthropic-cli`, model `sonnet` |
 | Bộ não chính | `anthropic-cli`, model `claude-opus-5-5` |
 | Key OpenRouter | có trong cài đặt thật (không chép sang pilot, xem Giới hạn) |
 
-Checkout gốc `D:\Project\AIVON-OS` đang ở nhánh cũ `codex/restore-chat-colors`, chậm hơn main 121 commit. Toàn bộ khảo sát dưới đây đọc mã trên nhánh M1, tức là main 0.83.2.
+Checkout gốc `D:\Project\AIVON` đang ở nhánh cũ `codex/restore-chat-colors`, chậm hơn main 121 commit. Toàn bộ khảo sát dưới đây đọc mã trên nhánh M1, tức là main 0.83.2.
 
 ### Các điểm tích hợp đã dò trên mã thật
 
@@ -110,7 +110,7 @@ python tests/run.py sdk_engine claude_ket_thuc_luot aux_engine aux_fallback tao_
 Lệnh chạy, với hai đường dẫn đặt theo máy:
 
 ```
-AIVON_RESONANCE_PILOT=1 AIVON_RESONANCE_PILOT_SETTINGS=D:/Project/AIVON-OS/server/settings.json AIVON_RESONANCE_PILOT_CALLS=1 python tests/python/test_resonance_mvp_integration.py
+AIVON_RESONANCE_PILOT=1 AIVON_RESONANCE_PILOT_SETTINGS=D:/Project/AIVON/server/settings.json AIVON_RESONANCE_PILOT_CALLS=1 python tests/python/test_resonance_mvp_integration.py
 ```
 
 - **Đầu vào:** một danh sách việc mô phỏng ghi rõ là không có thật, yêu cầu một ghi chú Markdown có tiêu đề `# Việc đang dở` và đúng ba gạch đầu dòng. Prompt nguyên văn nằm trong file bằng chứng.
@@ -215,8 +215,8 @@ Một lượt chạy giữa chừng (sau commit `ba404185`) có `test_ignore_fil
    - Tool chạy qua hub, có khi ở tiến trình khác, nên đọc sổ đó để biết đúng tin nào. Không chắc (hai khung chat cùng chạy trên một brain, hoặc kênh chưa truyền id tin như Telegram) thì tool từ chối, không đoán.
 5. **Tool chỉ hiện ở brain đã bật.**
    - `plugins_host.register_tool` nhận thêm `visible_fn(vault_root)`; `plugin_tools` giấu tool khi hàm trả False. `check_fn` có sẵn chỉ chặn lúc gọi nhưng tool vẫn hiện, không đủ.
-   - Công tắc là `<brain>/AIVON/resonance.json` có `{"enabled": true}`. Mặc định tắt, file hỏng coi như tắt. Giao diện bật tắt thuộc M4.
-   - Chỉ mục năng lực (dòng trong system prompt và `AIVON/index.md`) cũng chỉ liệt kê tool đang hiện với brain đó; trước sửa, chỉ mục đọc manifest và vẫn kể `aivon_goal` ở brain chưa bật.
+   - Công tắc là `<brain>/Aivon/resonance.json` có `{"enabled": true}`. Mặc định tắt, file hỏng coi như tắt. Giao diện bật tắt thuộc M4.
+   - Chỉ mục năng lực (dòng trong system prompt và `Aivon/index.md`) cũng chỉ liệt kê tool đang hiện với brain đó; trước sửa, chỉ mục đọc manifest và vẫn kể `aivon_goal` ở brain chưa bật.
 6. **System prompt có thêm đúng một dòng gợi ý `aivon_goal`, chỉ ở brain đã bật.** `CLAUDE.md` còn đúng 1 ký tự ngân sách nên không đụng tới; brain chưa bật không dài thêm chữ nào.
 7. **M2 chỉ LƯU mục tiêu.** Kết quả tool dặn bộ não rằng chưa có gì tự thực hiện hay tự báo cáo, để nó không hứa suông (đúng luật "không hứa sẽ làm rồi báo lại" của `CLAUDE.md`).
 
@@ -374,7 +374,7 @@ Lượt chạy toàn bộ đầu tiên của M2 (commit `66328b61`) có `test_vo
 2. **Ghi ý định trước tác động.** `GoalStore.begin_action` ghi hành động `running` và giữ một lượt gọi model trong CÙNG giao dịch (`calls_used < budget_calls`), kèm lịch phục hồi tại lúc hết khoá. Không ghi được thì không dựng engine. Hết hạn mức thì blocked `budget`, không gọi.
 3. **Đối soát sau restart.** Hành động `running` mà khoá đã hết: có file đầu ra đúng `action_id` thì chốt succeeded (`reconciled: true`), không gọi model lại; không có thì `failed: interrupted` (model có thể đã được gọi nên vẫn tính vào hạn mức) và lượt sau dùng id MỚI. Hành động đăng sản phẩm đối soát bằng hash file đích.
 4. **Bằng chứng qua EvidenceStore thật.** `main._ResonanceEvidence` mở một turn runtime kênh `resonance` cho mỗi lần ghi, mã hoá, đọc lại qua `get_valid` (kiểm hạn và hash). Kho chưa có cơ chế ghim nên hạn lưu đặt 90 ngày. Không ghi được bằng chứng thì coi như CHƯA có bằng chứng và không xác nhận thành công. Mỗi lần đánh giá file trong brain cũng chụp nội dung vào kho (bỏ qua nếu cùng hash).
-5. **Đặt sản phẩm vào brain có rào.** Đầu ra của model nằm trong vùng làm việc `AIVON/resonance/outputs/<goal>`; host đăng bản đó vào đường dẫn tiêu chí `artifact_contract` đầu tiên khai `path`, khi và chỉ khi: đường dẫn nằm trong brain sau resolve; đuôi `.md` hoặc `.txt`; KHÔNG nằm ở chỗ AIVON tự chạy hay tự nạp (thư mục ẩn, `AIVON/`, `agents/`, `skills/`, `workflows/`, `plugins/`, `memory/`, file `CLAUDE.md`/`AGENTS.md`/`GEMINI.md`/`MEMORY.md`); file chưa có, hoặc có nhưng hash đúng bằng lần chính mục tiêu này đăng trước. File người dùng hay tác vụ khác đã sửa thì xung đột: giữ nguyên, ghi `publish_conflict`, báo người dùng. Kiểm lại công tắc brain NGAY TRƯỚC khi đăng.
+5. **Đặt sản phẩm vào brain có rào.** Đầu ra của model nằm trong vùng làm việc `Aivon/resonance/outputs/<goal>`; host đăng bản đó vào đường dẫn tiêu chí `artifact_contract` đầu tiên khai `path`, khi và chỉ khi: đường dẫn nằm trong brain sau resolve; đuôi `.md` hoặc `.txt`; KHÔNG nằm ở chỗ Aivon tự chạy hay tự nạp (thư mục ẩn, `Aivon/`, `agents/`, `skills/`, `workflows/`, `plugins/`, `memory/`, file `CLAUDE.md`/`AGENTS.md`/`GEMINI.md`/`MEMORY.md`); file chưa có, hoặc có nhưng hash đúng bằng lần chính mục tiêu này đăng trước. File người dùng hay tác vụ khác đã sửa thì xung đột: giữ nguyên, ghi `publish_conflict`, báo người dùng. Kiểm lại công tắc brain NGAY TRƯỚC khi đăng.
 6. **Kết luận.** `evaluate_artifact` trả met / not_met / unknown theo từng tiêu chí: thiếu file khai rõ là not_met; chưa có hoặc không đọc lại được bằng chứng là unknown; đường dẫn ra ngoài brain là unknown (lỗi evaluator); `human_confirmation` luôn unknown tới M4. Mục tiêu achieve chỉ thành `succeeded` khi MỌI tiêu chí met và `GoalStore.finish` so đúng revision đã đánh giá (CAS). Mục tiêu maintain đạt thì giữ active, hẹn xem lại. Chỉ còn tiêu chí người dùng thì chuyển `waiting`, không hẹn gọi model.
 7. **Lịch.** Bảng `wakeups` (một lịch `work` và một lịch `observe` mỗi mục tiêu). `main._resonance_tick` được scheduler 30 giây có sẵn khởi bằng `create_task` (cờ bận chống chồng nhịp); chưa có `resonance.sqlite3` thì thoát ngay. `tick` chỉ đọc lịch tới hạn bằng code và nhận mỗi lịch bằng CAS. `next_wake`: không có nguồn sự kiện thì xem lại trong khoảng 6 đến 24 giờ; chân trời `event` chưa có adapter nên cũng chỉ xem lại có giới hạn; chưa đạt sau một lượt thì làm lại sau 15 phút nếu còn hạn mức; lỗi engine lùi 1 giờ, 4 giờ, 24 giờ hoặc chờ mốc mở lại hạn mức gói (`limit_learner.parse_subscription_limit`); người dùng hẹn thì sửa lịch trực tiếp; reaction không đổi gì. Tạo và sửa mục tiêu ghi lịch `work` ngay trong giao dịch của chúng.
 8. **Guard.** Trường mới `guards` trong khung mục tiêu (tool nhận). Chỉ `artifact_contract` có adapter đọc: file khai phải còn và đạt điều kiện. Nguồn khác ghi unknown "chưa hỗ trợ nguồn ... (chưa có adapter đọc)". Lịch quan sát guard riêng (1 giờ), đọc bằng code, không gọi model. Guard nhảy thì blocked `guard`, xoá mọi lịch, báo người dùng, không tự mở lại khi bị đánh thức.
@@ -407,7 +407,7 @@ Phép thử đột biến (phá từng hành vi rồi chạy lại test, phải 
 
 - **Mất ngữ cảnh khi làm tiếp.** Sau tin bổ sung, ý định của revision là tin bổ sung đó, nên bước làm tiếp chỉ đưa tin mới cho model, mất lời giao gốc và bản đã làm. Phát hiện khi thiết kế pilot; sửa ở `9f3dad13`.
 - **Mục tiêu duy trì im lặng.** Phát hiện ở pilot; sửa ở `a71b124e`.
-- **Sản phẩm có thể tạo file cấu hình AIVON.** Tự soát diff thấy đường dẫn do model khai có thể tạo `AIVON/loops/*.md`, `agents/*.md`, `skills/*/SKILL.md`, `memory/...` hay `CLAUDE.md`, tức tự mở rộng quyền. Thêm danh sách cấm ở `_publish`.
+- **Sản phẩm có thể tạo file cấu hình Aivon.** Tự soát diff thấy đường dẫn do model khai có thể tạo `Aivon/loops/*.md`, `agents/*.md`, `skills/*/SKILL.md`, `memory/...` hay `CLAUDE.md`, tức tự mở rộng quyền. Thêm danh sách cấm ở `_publish`.
 - **Hai lỗi trong test của chính em:** chân trời `maintain` làm mục tiêu thành maintain nên không "thành công" (đúng thiết kế, sửa test); `tick` chung xử lý cả mục tiêu khác đang tới hạn (sửa test đếm theo mục tiêu).
 
 ### Sửa theo review PR #570
@@ -502,7 +502,7 @@ Server sandbox của worktree (cổng 7788, `AIVON_STATE_DIR` và `BRAINS_DIR` t
 
 Ba điều lần kiểm này làm lộ ra, đã sửa ở `a2cf6cc7`: thẻ vẫn ghi "Chưa biết" ngay sau khi bấm "Đạt yêu cầu" (nay đọc xác nhận sống theo đúng luật đánh giá và báo đã ghi nhận); nhiều thẻ của cùng mục tiêu hiện trạng thái mâu thuẫn (nay vẽ chung, thẻ cũ thu gọn); "Lần làm tiếp" vẫn hiện khi đang tạm dừng (nay ẩn). Một cú bấm chuột bằng toạ độ tính trong lúc trang còn đang cuộn đã trượt khỏi nút; bấm lại theo ảnh chụp thì đúng, ghi lại để phân biệt với lỗi.
 
-Đường dẫn rất dài trên Windows: ở thư mục sandbox đầu tiên (đường dẫn tạm rất sâu), ghi đầu ra vào `AIVON/resonance/outputs/<mục tiêu>/<hành động>.md` vượt giới hạn 260 ký tự và lượt làm kết thúc `write_failed` (host báo lỗi đúng, không giả thành công). Brain ở đường dẫn thường không gặp; brain đặt rất sâu thì có thể gặp.
+Đường dẫn rất dài trên Windows: ở thư mục sandbox đầu tiên (đường dẫn tạm rất sâu), ghi đầu ra vào `Aivon/resonance/outputs/<mục tiêu>/<hành động>.md` vượt giới hạn 260 ký tự và lượt làm kết thúc `write_failed` (host báo lỗi đúng, không giả thành công). Brain ở đường dẫn thường không gặp; brain đặt rất sâu thì có thể gặp.
 
 Không chạy pilot model thật cho M4: phần mới là API, kho và giao diện, kiểm được tất định; đường gọi model không đổi từ M3.
 

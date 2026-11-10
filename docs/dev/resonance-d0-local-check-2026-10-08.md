@@ -32,7 +32,7 @@ Ghi chú:
 ## Một lượt chat thật: đạt
 
 - Người dùng duyệt đúng 1 lượt. Engine chép từ settings thật chỉ phần chọn engine: `anthropic-cli` / `claude-opus-5-5`, gói Max; token còn khoảng 15.400 giây trước khi gửi.
-- Tin: "Chào AIVON, đây là tin thử sau khi nâng cấp. Em trả lời ngắn một câu: em đang chạy phiên bản nào và bằng bộ não gì?"
+- Tin: "Chào Aivon, đây là tin thử sau khi nâng cấp. Em trả lời ngắn một câu: em đang chạy phiên bản nào và bằng bộ não gì?"
 - Kết quả sau 10 giây: khung `turn_done` có `engine_status: ok`, `turn_status: completed`, không có lỗi engine. Câu trả lời nêu đúng Claude Code và `claude-opus-5-5`, nói không thấy số phiên bản trong ngữ cảnh nên không báo.
 - Hội thoại được lưu vào danh sách phiên. Log server không có Traceback.
 

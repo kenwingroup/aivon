@@ -101,18 +101,22 @@ lenh = (ROOT / "dashboard" / "chat-lenh.js").read_text(encoding="utf-8")
 check("lệnh /brain trong chat nhận cả tên thư mục cũ",
       "if (!k.hit && !k.nhieu.length) k = khopTen(brains, arg, function (b) { return b.name; });" in lenh)
 cs = (ROOT / "dashboard" / "console.js").read_text(encoding="utf-8")
-check("các ô chọn brain ở Cài đặt và trang Việc hiện label",
-      cs.count("name: b.label || b.name, path: b.path") == 3)
-check("nút đổi tên gọi đúng endpoint với địa chỉ brain đang chọn",
-      'fetch("/brains/label"' in js and 'fd.append("brain", sel.value)' in js)
-html = (ROOT / "dashboard" / "index.html").read_text(encoding="utf-8")
-check("có nút Đổi tên cạnh nút tạo và xoá brain", 'id="renameBrainBtn"' in html)
+# 0.426.0: trang Việc cũ rời console.js; trang Nhiệm vụ (tasks.js) chọn brain để chuyển, sao chép việc.
+nv = (ROOT / "dashboard" / "tasks.js").read_text(encoding="utf-8")
+check("các ô chọn brain ở Cài đặt và trang Nhiệm vụ hiện label",
+      cs.count("name: b.label || b.name, path: b.path") == 1 and "name: x.label || x.name, path: x.path" in nv)
+# 2026-11-09: rename moved from a button beside the picker onto each brain's row inside the picker panel.
+check("đổi tên gọi đúng endpoint với địa chỉ của chính dòng đó",
+      'post("/brains/label", { brain: value' in js)
+bp = (ROOT / "dashboard" / "brain-picker.js").read_text(encoding="utf-8")
+check("mỗi dòng trong khung chọn não có nút Đổi tên", 'actBtn("rename", "pencil"' in bp
+      and "root.AivonBrains.rename(edit.value, edit.text)" in bp)
 import json  # noqa: E402
 
 for lang in ("vi", "en"):
     dd = json.loads((ROOT / "dashboard" / "i18n" / f"{lang}.json").read_text(encoding="utf-8"))
-    check(f"{lang}: đủ chữ", all(dd.get(k) for k in ("top.brain_rename", "brains.rename_prompt", "brains.rename_failed",
-                                                      "brains.rename_net_err")))
+    check(f"{lang}: đủ chữ", all(dd.get(k) for k in ("bpick.rename", "bpick.rename_hint", "brains.rename_failed",
+                                                      "bpick.net_err")))
 
 if _fails:
     print(f"\nFAIL {len(_fails)}: " + ", ".join(_fails))

@@ -1,0 +1,62 @@
+{
+  "source": "C:\\Users\\Admin\\Downloads\\BG TQ MIỀN NAM - FINAL.xlsx",
+  "source_sha256": "16028cf0439a28697d19f3b596e7e486d6be94f4d722caf692b073f6d436008d",
+  "products": {
+    "2ray_standard_2": {
+      "sheet": "2-4 cánh",
+      "description_cell": "B8",
+      "media": "xl/media/image2.png",
+      "sha256": "1ee46d4d92946b4eefa9e0de58cebf27bde709346d43826980f873b7695478dc",
+      "file": "2ray_standard_2.png"
+    },
+    "2ray_standard_4": {
+      "sheet": "2-4 cánh",
+      "description_cell": "B12",
+      "media": "xl/media/image1.png",
+      "sha256": "d21f4f284c46606e1bcded3d9ac7733e5b3d4292ad1a954b6ff4781aed3a04eb",
+      "file": "2ray_standard_4.png"
+    },
+    "2ray_slim_2": {
+      "sheet": "2-4 cánh",
+      "description_cell": "B18",
+      "media": "xl/media/image3.png",
+      "sha256": "1504f74323e6da91ea5a5281b5ab63a60688d629bb814aea91b65783bfbe8ec3",
+      "file": "2ray_slim_2.png"
+    },
+    "2ray_slim_4": {
+      "sheet": "2-4 cánh",
+      "description_cell": "B22",
+      "media": "xl/media/image4.png",
+      "sha256": "8690e4dc0d626c0e0bfa3c473cd998f7715999b5501ae283be3bd51cb3488a84",
+      "file": "2ray_slim_4.png"
+    },
+    "3ray_standard_3": {
+      "sheet": "3C-6C",
+      "description_cell": "B8",
+      "media": "xl/media/image5.png",
+      "sha256": "7ef4ac8922bec579312635e2c2c509ef7ba57daaf5f3915c1c37976c7a209a6e",
+      "file": "3ray_standard_3.png"
+    },
+    "3ray_standard_6": {
+      "sheet": "3C-6C",
+      "description_cell": "B12",
+      "media": "xl/media/image6.png",
+      "sha256": "bb5275362917c84ea7f1b9c9e903a0c926325fbd151ddc6c3915f9235440b40b",
+      "file": "3ray_standard_6.png"
+    },
+    "3ray_slim_3": {
+      "sheet": "3C-6C",
+      "description_cell": "B18",
+      "media": "xl/media/image7.png",
+      "sha256": "9574fe8c705ea75d4c7019f6435c1517f09dfdf57fb3cfa91b7a6272e7883954",
+      "file": "3ray_slim_3.png"
+    },
+    "3ray_slim_6": {
+      "sheet": "3C-6C",
+      "description_cell": "B22",
+      "media": "xl/media/image8.png",
+      "sha256": "6504d30c5569867c3cc5e6320d9c4bd959a8f5dabedeb119887175159b3c92e8",
+      "file": "3ray_slim_6.png"
+    }
+  }
+}

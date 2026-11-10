@@ -7,9 +7,22 @@
 
 कुछ ही मिनटों में AIVON चालू कीजिए। पूरी guides: [docs/en/](../../../docs/en/README.md)।
 
+## निजी कंप्यूटर (Windows, macOS) - इंस्टॉलर डाउनलोड करें
+
+Aivon को किसी भी सामान्य ऐप की तरह इंस्टॉल करें: एक फ़ाइल डाउनलोड करें, उसे खोलें, और रोज़ क्लिक करने के लिए AIVON आइकन मिल जाएगा। इंस्टॉलर देखता है कि कंप्यूटर में क्या कमी है (Git, Python, Node, AI ब्रेन) और सिर्फ़ वही इंस्टॉल करता है।
+
+- **Windows 10/11:** [AivonOS-Setup.exe](https://github.com/kenwingroup/aivon/releases/download/desktop/AivonOS-Setup.exe) डाउनलोड करें, डबल-क्लिक करें और अंत तक Next दबाएँ। एक काली विंडो इंस्टॉल की प्रगति दिखाती है (कुछ मिनट)। पूरा होने पर Desktop और Start menu में AIVON आइकन आ जाता है।
+- **macOS 11 या नया:** [AivonOS-macOS.dmg](https://github.com/kenwingroup/aivon/releases/download/desktop/AivonOS-macOS.dmg) डाउनलोड करें, खोलें, **AIVON** को **Applications** में खींचें, फिर Launchpad से खोलें। पहली बार इंस्टॉल के लिए Terminal खुलता है (यह एक बार Aivon एडमिन खाता बनाने और Mac का पासवर्ड पूछ सकता है)।
+
+आइकन पर क्लिक करने से Aivon अपनी अलग विंडो में खुलता है (बिना एड्रेस बार), कंप्यूटर के साथ अपने आप चालू होता है, और ऐप का **Update** बटन सामान्य रूप से काम करता है। आपका डेटा यूज़र फ़ोल्डर के `AivonOS` फ़ोल्डर में रहता है; ऐप हटाने पर भी यह फ़ोल्डर बना रहता है।
+
+दोनों इंस्टॉलर अभी कोड-साइन नहीं हैं, इसलिए कंप्यूटर एक बार पूछेगा:
+- Windows में "Windows protected your PC" दिखे तो **More info** और फिर **Run anyway** दबाएँ।
+- macOS कहे कि ऐप नहीं खुल सकता तो **System Settings → Privacy & Security** में जाएँ, नीचे स्क्रॉल करके **Open Anyway** दबाएँ, फिर AIVON दोबारा खोलें।
+
 ## विकल्प 1 - Hostinger VPS (Docker Manager, एक click में)
 
-> 🛒 **अभी VPS नहीं है?** [Hostinger VPS यहाँ से लीजिए](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN)। इसमें Docker Manager पहले से है, इसलिए AIVON एक click में install होता है। तैयार होने पर नीचे के steps पर लौट आइए।
+> 🛒 **अभी VPS नहीं है?** [Hostinger VPS यहाँ से लीजिए](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN)। इसमें Docker Manager पहले से है, इसलिए Aivon एक click में install होता है। तैयार होने पर नीचे के steps पर लौट आइए।
 
 1. hPanel → VPS → **Docker Manager** → **Compose** → **Compose from URL**।
 2. यह URL paste कीजिए:

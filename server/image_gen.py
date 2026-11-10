@@ -151,10 +151,16 @@ def host_model_candidates(catalog: Optional[list] = None) -> list:
 
 
 def model_rejected(status: int, text: str) -> bool:
-    """Lỗi này là 'gói không cho dùng model này' (đổi model thử tiếp được), không phải lỗi khác."""
+    """Lỗi này là 'gói không cho dùng model này' (đổi model thử tiếp được), không phải lỗi khác.
+
+    0.356.0 (issue #854): có model nhận yêu cầu nhưng KHÔNG có công cụ tạo ảnh, backend bỏ tool đó
+    đi rồi báo "Tool choice 'image_generation' not found in 'tools' parameter". Cũng là chuyện của
+    model chủ, nên đổi sang model khác của tài khoản như khi model bị từ chối."""
     low = str(text or "").lower()
     if status not in (0, 400, 403, 404):
         return False
+    if "image_generation" in low and "tool" in low and "not found" in low:
+        return True
     return "model" in low and any(k in low for k in _TU_CHOI_MODEL)
 
 
@@ -207,7 +213,8 @@ def extract_image_b64(value: Any, *, include_partial: bool = True) -> Optional[s
 
 
 def _default_vault() -> str:
-    return str(Path(os.getenv("BRAINS_DIR", str(Path(__file__).parent.parent / "brains"))) / "Brain Default")
+    import default_brain
+    return str(default_brain.path(default_brain.brains_dir_from_env()))
 
 
 def _resolve_vault(vault_root: Optional[str]) -> Path:
@@ -346,7 +353,7 @@ def _headers(token: str, account_id: str) -> dict:
         "Authorization": f"Bearer {token}", "chatgpt-account-id": account_id or "",
         "OpenAI-Beta": "responses=experimental", "originator": "codex_cli_rs",
         "session_id": str(uuid.uuid4()), "Content-Type": "application/json",
-        "Accept": "text/event-stream", "User-Agent": "aivon-os/0.3 (codex)",
+        "Accept": "text/event-stream", "User-Agent": "aivon/0.3 (codex)",
     }
 
 

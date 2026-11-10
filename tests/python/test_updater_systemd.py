@@ -17,6 +17,8 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "server"))
+import _paths  # noqa: E402,F401  - thư mục tạm riêng, tự xoá khi thoát (xem _paths.py)
+
 os.environ["AIVON_STATE_DIR"] = tempfile.mkdtemp(prefix="aivon-upd-systemd-")
 import updater  # noqa: E402
 import update_state as us  # noqa: E402

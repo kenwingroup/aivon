@@ -141,7 +141,12 @@
   // `color` / `eyeColor` là mã màu của ô TỰ CHỌN. Chúng nằm sẵn trong cấu hình kể cả khi đang
   // dùng màu có sẵn, để bấm lại ô tự chọn là ra đúng màu lần trước chứ không về một màu lạ.
   // Mặc định là LINH VẬT CHÍNH THỨC: ngôi sao màu cam, trùng logo (chủ dự án chốt 24/09, 0.64.47).
-  var MAC_DINH = { enabled: true, shape: "star", palette: "thanhthien", side: "right", pos: 0.62, size: 72, eye: "den", eyeSize: 1, color: "#0ea5e9", eyeColor: "#2a62b0" };
+  // `image`: the owner's own picture (a name from the /avatars store, "" = the drawn face). `favicon`: also use that
+  // picture as the browser tab icon, so several Aivon open side by side tell apart at a glance (owner, 2026-11-07).
+  var MAC_DINH = { enabled: true, shape: "star", palette: "thanhthien", side: "right", pos: 0.62, size: 72, eye: "den", eyeSize: 1, color: "#0ea5e9", eyeColor: "#2a62b0", image: "", favicon: true };
+  // Same name rule as server/avatar_upload.py: 20 hex characters of a content hash plus the real image type.
+  var ANH_TEN = /^[0-9a-f]{20}\.(png|jpg|webp|gif)$/;
+  function anhHopLe(v) { return typeof v === "string" && ANH_TEN.test(v); }
 
   // DÁNG LIẾC - chữ ký của nhân vật. Linh vật KHÔNG nhìn thẳng lúc nghỉ: nó liếc chéo lên
   // phía trên bên phải, đúng như hình logo tĩnh. Nhìn thẳng thì ra một cái mặt cười vô hồn;
@@ -259,7 +264,7 @@
   var NGU_SAU = 90000;
 
   var el = null, svg = null, nutBody = null, menu = null;
-  var pRing = null, pFace = null, gEyes = null, gRig = null;
+  var pRing = null, pFace = null, gEyes = null, gRig = null, pClip = null, pPhoto = null;
   var cfg = Object.assign({}, MAC_DINH);
   var state = "idle", mood = "neutral", dangChop = false;
   var raf = 0, truoc = 0, gocRing = 0, tocDo = STATES.idle.ring, tocDoDich = STATES.idle.ring;
@@ -431,6 +436,8 @@
     c.eyeSize = heSo(c.eyeSize);
     c.pos = kep(Number(c.pos) || MAC_DINH.pos, 0.05, 0.95);
     c.enabled = c.enabled !== false;
+    c.image = anhHopLe(c.image) ? c.image : "";
+    c.favicon = c.favicon !== false;
     return c;
   }
 
@@ -445,9 +452,13 @@
     el.innerHTML =
       '<button type="button" class="pet-body" aria-label="Aivon">' +
         '<svg viewBox="0 0 320 320" aria-hidden="true">' +
+          '<defs><clipPath id="aivonPetClip"><path class="pet-clip"></path></clipPath></defs>' +
           '<g class="pet-rig">' +
             '<path class="pet-ring" pathLength="360"></path>' +
             '<path class="pet-face"></path>' +
+            // The owner's own picture, cut to the chosen shape. Hidden while there is none.
+            '<image class="pet-photo" x="54" y="54" width="212" height="212" preserveAspectRatio="xMidYMid slice" ' +
+              'clip-path="url(#aivonPetClip)" display="none"></image>' +
             '<g class="pet-eyes"></g>' +
           '</g>' +
         '</svg>' +
@@ -461,6 +472,8 @@
     pRing = el.querySelector(".pet-ring");
     pFace = el.querySelector(".pet-face");
     gEyes = el.querySelector(".pet-eyes");
+    pClip = el.querySelector(".pet-clip");
+    pPhoto = el.querySelector(".pet-photo");
     noiTuongTac();
   }
 
@@ -480,7 +493,7 @@
     var mic = micDangBat();
     var muc = [
       { id: "chat", ic: icon("message-circle"), nhan: t("pet.menu.chat", "Chat") },
-      { id: "agent", ic: icon("bot"), nhan: t("pet.menu.agent", "Assistants") },
+      { id: "agent", ic: icon("bot"), nhan: t("pet.menu.agent", "Partners") },
       { id: "workflow", ic: icon("workflow"), nhan: t("pet.menu.workflow", "Workflows") },
       // Mic là CÔNG TẮC, nên nhãn phải nói việc sắp xảy ra chứ không phải trạng thái hiện tại:
       // đang tắt thì mời "Bật mic", đang bật thì mời "Tắt mic". Nhãn tính lại mỗi lần mở menu
@@ -491,12 +504,27 @@
       // AivonNav.go branch of the click handler opens it with no extra case.
       { id: "teams", ic: icon("users"), nhan: t("pet.menu.teams", "Team chat") },
     ];
+    // The owner's own menu (pet-menu.js, Settings > Mascot > Mascot menu): their order, plus the features they
+    // added. The list above stays as the fallback when pet-menu.js did not load (an old cached index.html).
+    // A feature that cannot run right now stays in its place, greyed out, with the reason under its name.
+    var PM = window.AivonPetMenu;
+    if (PM && PM.menuEntries) {
+      try {
+        // May be EMPTY: the owner can remove every item (2026-11-05), and then the pet opens no menu at all.
+        muc = PM.menuEntries({ mic: mic }).map(function (m) { return { id: m.id, ic: m.icon, nhan: m.label, why: m.why }; });
+      } catch (e) {}
+    }
     menu.innerHTML = muc.map(function (m) {
-      return '<button type="button" data-pet-go="' + m.id + '"><span aria-hidden="true">' + m.ic + '</span>' +
-             '<b></b></button>';
+      return '<button type="button" data-pet-go="' + esc(m.id) + '"' + (m.why ? ' disabled aria-disabled="true"' : "") +
+             '><span aria-hidden="true">' + m.ic + '</span>' +
+             '<b></b>' + (m.why ? '<small></small>' : "") + '</button>';
     }).join("");
     // Nhãn gán bằng textContent chứ không nối chuỗi: nó tới từ từ điển, và từ điển là dữ liệu.
-    menu.querySelectorAll("button").forEach(function (b, i) { b.querySelector("b").textContent = muc[i].nhan; });
+    menu.querySelectorAll("button").forEach(function (b, i) {
+      b.querySelector("b").textContent = muc[i].nhan;
+      var lyDo = b.querySelector("small");
+      if (lyDo) { lyDo.textContent = muc[i].why; b.title = muc[i].why; }
+    });
   }
 
   // ---- Diện mạo ----
@@ -505,6 +533,15 @@
     var d = SHAPES[cfg.shape].d;
     pFace.setAttribute("d", d);
     pRing.setAttribute("d", d);
+    // Own picture: it fills the shape and the drawn eyes step aside (eyes painted over a photo look like stickers).
+    // The orbit ring and the body moves (hop, squish, shake) still show what Aivon is doing.
+    if (pClip) pClip.setAttribute("d", d);
+    if (pPhoto) {
+      pPhoto.setAttribute("href", cfg.image ? "/avatars/" + cfg.image : "");
+      pPhoto.setAttribute("display", cfg.image ? "inline" : "none");
+    }
+    if (gEyes) gEyes.style.display = cfg.image ? "none" : "";
+    el.dataset.photo = cfg.image ? "1" : "0";
     var tone = toneCua(cfg.palette, cfg.color);
     el.style.setProperty("--pet-face", tone[0]);
     el.style.setProperty("--pet-ring", tone[1]);
@@ -605,7 +642,13 @@
   function nhip(now) {
     raf = 0;
     if (!el || el.hidden) return;
-    var dt = Math.min((now - (truoc || now)) / 1000, 0.05);
+    // 0.415.0: lúc NGHỈ thì vẽ thưa. Mỗi khung hình pet ghi transform lên nhóm SVG, trình duyệt phải tính lại kiểu và
+    // bố cục: đo trên điện thoại giả lập, riêng pet giữ luồng chính bận 26% (không có pet: 12%) trong lúc app để yên,
+    // tức là nóng máy, hao pin và giật khi cuộn. Thở, liếc và vành quay đều là chuyển động chậm, 30 khung/giây (ngủ gật
+    // 15) nhìn không khác; có chuột, có cú gật hay đang làm việc thì vẫn đủ 60.
+    var khoang = nguGat ? 66 : (state === "idle" && now - chuotLuc > 1600 && gatLuc <= now ? 33 : 0);
+    if (khoang && truoc && now - truoc < khoang) { raf = requestAnimationFrame(nhip); return; }
+    var dt = Math.min((now - (truoc || now)) / 1000, 0.1);
     truoc = now;
 
     if (giamChuyenDong && giamChuyenDong.matches) {
@@ -680,14 +723,98 @@
     }
     if (vuiDen && now > vuiDen) { vuiDen = 0; apDungTrangThai(); }
 
+    if (coTheNghi(now)) { vaoNghi(now); return; }
     raf = requestAnimationFrame(nhip);
   }
   function chay() {
+    if (nghiYen) raNghi();
     if (raf || !el || el.hidden) return;
     truoc = 0;
     raf = requestAnimationFrame(nhip);
   }
-  function dung_lai() { if (raf) cancelAnimationFrame(raf); raf = 0; }
+  function dung_lai() { if (nghiYen) raNghi(); if (raf) cancelAnimationFrame(raf); raf = 0; }
+
+  // ---- NGHỈ YÊN (0.418.0): đứng yên thì để CSS diễn, JS ngủ ----
+  // Đo trên điện thoại giả lập (trang Cộng sự, app để yên): vòng vẽ JS 30 khung/giây của pet giữ luồng chính bận khoảng
+  // 26% thời gian và bắt trình duyệt tính lại bố cục mỗi khung; không có pet là 13%. Lúc pet ngồi yên (rảnh, không ai rê
+  // chuột hay chạm, không phản ứng gì) chỉ còn vành quay chậm, mắt thỉnh thoảng liếc, chớp mắt và ngủ gật. Khi đó vòng JS
+  // dừng hẳn: vành quay bằng hoạt ảnh CSS 10 nhịp mỗi giây (steps, petVanh trong style.css), mắt liếc bằng transition CSS,
+  // chớp mắt và ngủ gật hẹn bằng setTimeout. Đo lại: 16%. Có động tĩnh gì (rê chuột, chạm, đổi trạng thái, phản ứng, chữ
+  // mới) là chay() gọi raNghi() và vòng JS chạy lại đủ nhịp như cũ.
+  var nghiYen = false, nghiHen = [];
+
+  function coTheNghi(now) {
+    return state === "idle" && !phanUngTen && !vuiDen && !dangChop && !keo && now - chuotLuc > 1600 && gatLuc <= now
+      && Math.abs(px) < 0.01 && Math.abs(py) < 0.01 && Math.abs(tocDo - tocDoDich) < 0.5
+      && Math.abs(liecX - liecDichX) < 0.02 && Math.abs(liecY - liecDichY) < 0.02   // mắt đã liếc tới nơi, không giật
+      && el.dataset.menu !== "1" && !(giamChuyenDong && giamChuyenDong.matches);
+  }
+
+  // Đặt dáng đứng yên (không thở, không nhún) theo hướng liếc hiện tại; transition CSS lo phần trượt mượt.
+  function datDangNghi() {
+    var nhinX = kep(liecX, -1, 1), nhinY = kep(liecY, -1, 1);
+    var ghim = el.dataset.out === "1" ? 1 : 0.45;
+    gRig.style.transform = "translate(" + (nhinX * 3.4).toFixed(2) + "px," + (nhinY * 2.4).toFixed(2) + "px)";
+    gEyes.style.transform = "translate(" + (nhinX * TAM_X * ghim).toFixed(2) + "px," + (nhinY * TAM_Y * ghim).toFixed(2) + "px)";
+  }
+  function quayVanhCss() {
+    var tg = 360 / Math.max(tocDoDich, 0.5);
+    pRing.style.setProperty("--vanh0", String((-gocRing).toFixed(2)));
+    pRing.style.animation = "petVanh " + tg.toFixed(1) + "s steps(" + Math.max(1, Math.round(tg * 10)) + ") infinite";
+  }
+  function hen(fn, ms) { nghiHen.push(setTimeout(fn, ms)); }
+
+  function vaoNghi(now) {
+    nghiYen = true;
+    raf = 0;
+    el.classList.add("pet-nghi");
+    quayVanhCss();
+    datDangNghi();
+    (function liec() {
+      hen(function () {
+        if (!nghiYen) return;
+        liecX = kep(nghiX() + (Math.random() * 2 - 1) * 0.17, -1, 1);
+        liecY = kep(NGHI_Y + (Math.random() * 2 - 1) * 0.13, -1, 1);
+        liecDichX = liecX; liecDichY = liecY;
+        datDangNghi();
+        liec();
+      }, 3600 + Math.random() * 3200);
+    })();
+    (function chop() {
+      if (nguGat) return;
+      hen(function () {
+        if (!nghiYen || nguGat) return;
+        dangChop = true; veMat("blink");
+        setTimeout(function () { dangChop = false; veMat(mood); }, 130);
+        chop();
+      }, Math.max(400, chopLuc - now) + (chopLuc < now ? Math.random() * 3200 : 0));
+      chopLuc = 0;
+    })();
+    if (!nguGat && hoatDongLuc) {
+      hen(function () {
+        if (!nghiYen || nguGat || state !== "idle") return;
+        nguGat = true; mood = "sleepy"; if (!dangChop) veMat(mood);
+        tocDoDich = 2; tocDo = 2; pRing.style.opacity = "0.3";
+        el.dataset.ngu = "1";
+        quayVanhCss();
+      }, Math.max(0, hoatDongLuc + NGU_SAU - now));
+    }
+  }
+
+  function raNghi() {
+    nghiYen = false;
+    nghiHen.forEach(clearTimeout);
+    nghiHen = [];
+    // Vành quay tiếp từ đúng chỗ CSS đang dừng, không giật về chỗ cũ.
+    var o = NaN;
+    try { o = parseFloat(getComputedStyle(pRing).strokeDashoffset); } catch (e) { /* không có trình duyệt (test) */ }
+    if (!isNaN(o)) gocRing = ((-o % 360) + 360) % 360;
+    pRing.style.animation = "";
+    pRing.style.strokeDashoffset = (-gocRing).toFixed(2);
+    el.classList.remove("pet-nghi");
+    var bay = typeof performance !== "undefined" ? performance.now() : 0;
+    if (!chopLuc || chopLuc < bay) chopLuc = bay + 2800 + Math.random() * 3200;
+  }
 
   function apDungTrangThai() {
     var s = STATES[state] || STATES.idle;
@@ -756,6 +883,7 @@
     // Vẽ lại MỖI LẦN mở, không chỉ lần đầu: nhãn mục mic đổi theo trạng thái mic, mà mic thì
     // bật tắt được từ chỗ khác (nút dưới ô nhập, phím Space, phiên Live đóng lại).
     if (mo) veMenu();
+    if (mo && menu.children.length === 0) mo = false;   // an emptied menu: the pet still comes out, no box opens
     menu.hidden = !mo;
     el.dataset.menu = mo ? "1" : "0";
     if (mo) ghimMenuTrongMan();
@@ -836,7 +964,7 @@
 
     menu.addEventListener("click", function (e) {
       var b = e.target.closest("[data-pet-go]");
-      if (!b) return;
+      if (!b || b.disabled) return;
       var id = b.dataset.petGo;
       moMenu(false);
       // Mic: BẤM HỘ cái nút mic thật chứ không gọi lại API giọng nói. Nút đó còn kéo theo cả
@@ -876,6 +1004,7 @@
       ty = kep((e.clientY - cy) / 320, -1, 1);
       chuotLuc = performance.now();
       thucDay();
+      if (nghiYen) chay();   // đang nghỉ yên thì vòng vẽ đã dừng: đánh thức để mắt nhìn theo
     }, { passive: true });
 
     // Con trỏ nằm TRÊN thân: đang rảnh thì tò mò nhìn lại (mắt to hơn một chút).
@@ -916,7 +1045,7 @@
     vuiDen = 0;
     if (s === "error") choXong = false;
     if (s !== "idle" && nguGat) { nguGat = false; if (el) delete el.dataset.ngu; }
-    if (el) apDungTrangThai();
+    if (el) { apDungTrangThai(); chay(); }   // chay(): pet đang nghỉ yên (vòng vẽ dừng) thì thức dậy diễn trạng thái mới
     // Trả lời xong trong lúc còn đang đọc thành tiếng: đợi đọc xong (về nghỉ / chờ nghe) mới
     // vui, không thì cú nhảy chen ngang giữa câu đang nói.
     if (choXong && (s === "idle" || s === "listening")) { choXong = false; dienPhanUng("xong"); }
@@ -950,6 +1079,7 @@
     if (!tam) { ghiLocal(); ghiServer(); }
     if (el) { apDung(); chay(); }
     veDauAn();
+    apFavicon();
     try { window.dispatchEvent(new CustomEvent("aivon:pet", { detail: Object.assign({}, cfg) })); } catch (e) {}
   }
   function setEnabled(on) { setCfg({ enabled: !!on }); }
@@ -967,8 +1097,12 @@
     ngoCongDangNhap();
     chay();
     veDauAn();
+    apFavicon();
     try { window.aivonTheme && window.aivonTheme.on(function () { apDung(); veDauAn(); }); } catch (e) {}
     window.addEventListener("aivon:i18n", function () { veMenu(); });
+    // The mascot menu was saved (here or in another window): close it if open, so no row moves under the pointer.
+    // moMenu(true) builds it again from the new list the next time.
+    window.addEventListener("aivon:pet-menu", function () { if (el && el.dataset.menu === "1") moMenu(false); });
     // Logo riêng của người dùng thắng linh vật, nên phải hỏi máy chủ một lượt. Hỏi SAU khi
     // đã vẽ bằng localStorage: chờ mạng xong mới vẽ thì thanh bên nháy một nhịp lúc mở trang.
     fetch("/settings").then(function (r) { return r.json(); }).then(function (j) {
@@ -979,6 +1113,7 @@
         ghiLocal(); apDung(); apDungTrangThai(); chay();
       }
       veDauAn();
+      apFavicon();
     }).catch(function () {});
   }
 
@@ -995,10 +1130,26 @@
   //   mat   - khoá MÀU MẮT ("den" / "trang" / "custom"), đi cùng `mauMat` là mã của ô tự chọn.
   //           Bỏ trống (avatar trợ lý cũ chưa chọn màu mắt) thì suy tự động từ độ chói thân.
   //   coMat - HỆ SỐ cỡ mắt (hay tên nấc cũ). Bỏ trống thì cỡ thường.
+  var _clipSo = 0;   // every still portrait with a picture needs its own clipPath id on the page
+  // Still portrait from the owner's own picture (`o.anh`, a name from /avatars): cut to the same shape, same frame and
+  // orbit ring as the drawn face, but no drawn eyes (eyes painted over a photo look like stickers).
+  function chanDungAnh(d, tone, o) {
+    var id = "petClip" + (++_clipSo);
+    var vanh = o.vanh
+      ? '<path d="' + d + '" fill="none" stroke="' + tone[1] + '" stroke-width="5" ' +
+        'stroke-linecap="round" transform="translate(160 160) scale(1.14) translate(-160 -160)"/>'
+      : "";
+    return '<svg viewBox="' + (o.vanh ? "42 42 236 236" : "58 58 204 204") + '" aria-hidden="true">' +
+      '<defs><clipPath id="' + id + '"><path d="' + d + '"/></clipPath></defs>' + vanh +
+      '<path d="' + d + '" fill="' + tone[0] + '"/>' +
+      '<image href="/avatars/' + o.anh + '" x="54" y="54" width="212" height="212" preserveAspectRatio="xMidYMid slice" ' +
+      'clip-path="url(#' + id + ')"/></svg>';
+  }
   function chanDung(shape, palette, opts) {
     var o = opts || {};
     var d = (SHAPES[shape] || SHAPES.circle).d;
     var tone = toneCua(palette, o.mau);
+    if (anhHopLe(o.anh)) return chanDungAnh(d, tone, o);
     var mat = mauMatCua(o.mat, o.mauMat) || mauMatTuDong(tone[0]);
     var lx = o.liecX === undefined ? LIEC_X : Number(o.liecX);
     var ly = o.liecY === undefined ? LIEC_Y : Number(o.liecY);
@@ -1065,7 +1216,7 @@
   function hinhHtml(v, o) {
     return Object.keys(SHAPES).map(function (k) {
       return '<button type="button" class="pet-pick" data-pet-shape="' + esc(k) + '" aria-pressed="' + (k === v.shape) + '">' +
-        chanDung(k, v.palette, Object.assign({ vanh: !!o.vanh }, anhCua(v))) + '<span>' + esc(t(SHAPES[k].key)) + '</span></button>';
+        chanDung(k, v.palette, Object.assign({ vanh: !!o.vanh, anh: o.image ? v.image : "" }, anhCua(v))) + '<span>' + esc(t(SHAPES[k].key)) + '</span></button>';
     }).join("");
   }
   // Ô MÀU TỰ CHỌN: một chấm tròn bọc <input type="color"> trong suốt phủ kín, bấm vào là bảng
@@ -1093,7 +1244,9 @@
         '<input type="range" class="pet-range" ' + attr + ' min="' + min + '" max="' + max + '" step="' + step + '" value="' + gt + '" aria-label="' + esc(nhan) + '">' +
         '<span>' + esc(nhanCuoi) + '</span></div>';
     };
-    var h = dau(t("settings.pet_shape", "Shape")) +
+    var h = "";
+    if (o.image) h += anhHtml(v);
+    h += dau(t("settings.pet_shape", "Shape")) +
       '<div class="pet-picker" role="group" data-pet-part="shapes">' + hinhHtml(v, o) + '</div>';
     if (o.size) {
       h += dau(t("settings.pet_size", "Size"), "size", nhanCo(v.size)) +
@@ -1118,6 +1271,27 @@
       truot("data-pet-eye-size", MAT_MIN, MAT_MAX, 0.05, v.eyeSize, t("pet.eyesize.nho", "Small"), t("pet.eyesize.rat_to", "Extra large"), t("settings.pet_eye_size", "Eye size"));
     return h;
   }
+  // ---- OWN PICTURE (mascot page only, opts.image) ----
+  // Upload goes through the same store as partner avatars (AivonAvatar.uploadImage: cropped square, 256px, EXIF
+  // dropped in the browser). The drawn face stays underneath, so "Use the Aivon face" brings it straight back.
+  // The tab-icon switch shows only while a picture is in use: with none there is nothing to put on the tab.
+  function anhHtml(v) {
+    var coAnh = !!v.image;
+    var h = '<div class="settings-card-head pet-ed-head"><b>' + esc(t("settings.pet_image", "Own picture")) + '</b>' +
+      (coAnh ? '<span class="gcard-tag">' + esc(t("settings.pet_image_on", "In use")) + '</span>' : "") + '</div>' +
+      '<div class="aa-upload pet-upload"><button type="button" class="gcard-btn ghost" data-pet-upload>' +
+      (typeof window.ic === "function" ? window.ic("image") : "") + " " +
+      esc(t(coAnh ? "settings.pet_image_change" : "settings.pet_image_upload", "Upload a picture")) + '</button>' +
+      (coAnh ? '<button type="button" class="gcard-btn ghost" data-pet-unimg>' + esc(t("settings.pet_image_remove", "Use the Aivon face")) + '</button>' : "") +
+      '<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" data-pet-file hidden></div>' +
+      '<div class="aa-upload-msg pet-upload-msg" role="status" aria-live="polite"></div>';
+    if (coAnh) {
+      h += '<label class="pet-favicon"><input type="checkbox" data-pet-favicon' + (v.favicon ? " checked" : "") + '> ' +
+        '<span>' + esc(t("settings.pet_favicon", "Use as the browser tab icon")) + '</span></label>';
+    }
+    return h;
+  }
+
   // Lúc KÉO (sự kiện input) chỉ sửa đúng mấy chỗ cần đổi, không vẽ lại cả bộ: vẽ lại là thay
   // luôn cái thanh trượt đang nằm dưới ngón tay, và cú kéo đứt giữa chừng.
   function capNhatNhe(host, v, o) {
@@ -1177,6 +1351,8 @@
       doi(Object.assign(p, patchChon), tam);
     }
     host.addEventListener("click", function (e) {
+      if (e.target.closest("[data-pet-upload]")) { var f = host.querySelector("[data-pet-file]"); if (f) f.click(); return; }
+      if (e.target.closest("[data-pet-unimg]")) { doi({ image: "" }); return; }
       var b = e.target.closest("[data-pet-shape], [data-pet-palette], [data-pet-eye]");
       if (!b || !host.contains(b)) return;
       if (b.dataset.petShape) doi({ shape: b.dataset.petShape });
@@ -1186,6 +1362,8 @@
     function nghe(e, tam) {
       var x = e.target;
       if (!x || !x.hasAttribute) return;
+      if (x.hasAttribute("data-pet-file")) { if (!tam) taiAnh(x); return; }
+      if (x.hasAttribute("data-pet-favicon")) { if (!tam) doi({ favicon: !!x.checked }); return; }
       if (x.hasAttribute("data-pet-size")) doi({ size: Number(x.value) }, tam);
       else if (x.hasAttribute("data-pet-eye-size")) doi({ eyeSize: Number(x.value) }, tam);
       else if (x.hasAttribute("data-pet-color")) doi({ palette: "custom", color: x.value }, tam);
@@ -1194,6 +1372,26 @@
       // viền đỏ (aria-invalid) và giữ nguyên màu cũ, không đoán bừa.
       else if (x.hasAttribute("data-pet-color-hex")) docMa(x, "color", { palette: "custom" }, tam);
       else if (x.hasAttribute("data-pet-eye-color-hex")) docMa(x, "eyeColor", { eye: "custom" }, tam);
+    }
+    // Upload the chosen file, then switch to it. A failure keeps the current look and says why under the button.
+    function taiAnh(inp) {
+      var f = inp.files && inp.files[0];
+      inp.value = "";
+      if (!f) return;
+      var nut = host.querySelector("[data-pet-upload]"), msg = host.querySelector(".pet-upload-msg");
+      var A = window.AivonAvatar;
+      var bao = function (k, loi) { if (msg) { msg.textContent = k; msg.classList.toggle("loi", !!loi); } };
+      if (!A || !A.uploadImage) { bao(t("settings.pet_image_fail", "Could not upload the picture."), true); return; }
+      if (nut) nut.disabled = true;
+      bao(t("ws.avatar_uploading", "Uploading..."), false);
+      A.uploadImage(f).then(function (ten) {
+        if (!anhHopLe(ten)) throw new Error("");
+        doi({ image: ten });
+      }).catch(function (err) {
+        if (nut) nut.disabled = false;
+        var m = err && err.message;
+        bao(m && m !== "decode" && m !== "encode" ? m : t("settings.pet_image_fail", "Could not upload the picture."), true);
+      });
     }
     host.addEventListener("input", function (e) { nghe(e, true); });
     host.addEventListener("change", function (e) { nghe(e, false); });
@@ -1206,13 +1404,15 @@
   }
 
   // ---- DẤU ẤN trên thanh bên ----
-  // AIVON: Luôn giữ nguyên logo chính thức của thương hiệu AIVON (<img src="/brand-logo">)
-  // trên cả thanh trên cùng (.brand .brand-icon) lẫn thanh bên (.rail-brand .brand-mark),
-  // không lấy mặt linh vật đè lên logo thương hiệu.
+  // Bật linh vật thì chỗ logo hiện chính khuôn mặt ấy, để cả app nói cùng một nhân dạng.
+  // TẮT linh vật, HOẶC người dùng đã tải logo riêng lên, thì trả lại thẻ <img src="/brand-logo">
+  // nguyên bản: logo của người ta thì người ta quyết, một con vật không được đè lên.
+  // Chỉ thay RUỘT của ô dấu ấn, không thay cả khối thương hiệu: chữ "AIVON" nằm cạnh đó
+  // trong cùng khối, thay cả khối là mỗi lần đổi hình dáng hay bảng màu lại xoá mất chữ.
   var LO_DAU_AN = ".rail-brand .brand-mark, .brand .brand-icon";
   var _logoRieng = false;      // người dùng đã tải logo riêng lên chưa
   // Tuỳ chọn chân dung khớp đúng con pet đang sống: màu thân tự chọn, màu mắt, cỡ mắt.
-  function optsCfg() { return { mau: cfg.color, mat: cfg.eye, mauMat: cfg.eyeColor, coMat: cfg.eyeSize }; }
+  function optsCfg() { return { mau: cfg.color, mat: cfg.eye, mauMat: cfg.eyeColor, coMat: cfg.eyeSize, anh: cfg.image }; }
   function dungDauAn() { return false; }
   function veDauAn() {
     var dung = dungDauAn();
@@ -1226,6 +1426,36 @@
         o.innerHTML = o.dataset.brandGoc;
       }
     });
+  }
+
+  // ---- TAB ICON from the own picture ----
+  // The server already writes the right icon into the page (server/main.py, /pet-icon), so the first paint is
+  // correct. This only follows changes made after load: upload, remove, or flip the switch. The browser caches
+  // icons stubbornly and some ignore a changed href, so the old <link> tags are replaced, as branding.js does.
+  function faviconHref() { return cfg.image && cfg.favicon ? "/pet-icon?v=" + cfg.image.split(".")[0] : ""; }
+  function datFavicon(href) {
+    try {
+      var head = document.head;
+      if (!head || !head.querySelectorAll) return;
+      var cu = head.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]');
+      Array.prototype.forEach.call(cu, function (l) { if (l.parentNode) l.parentNode.removeChild(l); });
+      ["icon", "apple-touch-icon"].forEach(function (rel) {
+        var l = document.createElement("link");
+        l.setAttribute("rel", rel);
+        l.setAttribute("href", href);
+        head.appendChild(l);
+      });
+    } catch (e) { /* the tab icon is decoration: never break the pet over it */ }
+  }
+  function apFavicon() {
+    try {
+      var hien = document.head && document.head.querySelector && document.head.querySelector('link[rel="icon"]');
+      var cu = (hien && hien.getAttribute("href")) || "";
+      var muon = faviconHref();
+      if (muon) { if (cu !== muon) datFavicon(muon); return; }
+      // Back to the logo only when the tab still shows a mascot picture; otherwise leave the logo link alone.
+      if (cu.indexOf("/pet-icon") === 0) datFavicon("/brand-logo?v=" + Date.now());
+    } catch (e) {}
   }
 
   window.AivonPet = {
@@ -1250,6 +1480,7 @@
       ghiLocal();
       if (el) { apDung(); apDungTrangThai(); chay(); }
       veDauAn();
+      apFavicon();
     },
     // branding.js gọi khi người dùng tải logo riêng lên hay khôi phục logo mặc định.
     setLogoRieng: function (rieng) { _logoRieng = !!rieng; veDauAn(); },
@@ -1271,6 +1502,8 @@
     usingMark: function () { return dungDauAn(); },
     // Lưu NGAY lên máy chủ rồi đọc lại để chắc chắn đã vào (nút Lưu trang Linh vật).
     luu: luu,
+    // Tab icon the mascot picture asks for, "" when the logo should stay (branding.js asks before it sets the logo).
+    faviconHref: faviconHref,
   };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

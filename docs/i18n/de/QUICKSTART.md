@@ -7,9 +7,22 @@
 
 Bring AIVON in wenigen Minuten zum Laufen. Vollständige Anleitungen: [docs/en/](../../../docs/en/README.md).
 
+## Eigener Computer (Windows, macOS) - Installer herunterladen
+
+Installiere Aivon wie jede andere App: eine Datei herunterladen, öffnen, und du hast ein AIVON-Symbol für jeden Tag. Der Installer prüft, was dem Computer fehlt (Git, Python, Node, die KI-Gehirne), und installiert nur das.
+
+- **Windows 10/11:** Lade [AivonOS-Setup.exe](https://github.com/kenwingroup/aivon/releases/download/desktop/AivonOS-Setup.exe) herunter, doppelklicke und drücke bis zum Ende auf Next. Ein schwarzes Fenster zeigt den Fortschritt (einige Minuten). Danach liegt ein AIVON-Symbol auf dem Desktop und im Startmenü.
+- **macOS 11 oder neuer:** Lade [AivonOS-macOS.dmg](https://github.com/kenwingroup/aivon/releases/download/desktop/AivonOS-macOS.dmg) herunter, öffne es, ziehe **AIVON** in **Applications** und öffne es über das Launchpad. Beim ersten Mal öffnet sich das Terminal zur Installation (es fragt eventuell einmal nach einem Aivon-Admin-Konto und deinem Mac-Passwort).
+
+Ein Klick auf das Symbol öffnet Aivon in einem eigenen Fenster (ohne Adressleiste), Aivon startet mit dem Computer, und der **Update**-Knopf in der App funktioniert wie gewohnt. Deine Daten liegen im Ordner `AivonOS` in deinem Benutzerordner; beim Deinstallieren bleibt dieser Ordner erhalten.
+
+Beide Installer sind noch nicht signiert, daher fragt der Computer einmal nach:
+- Windows zeigt "Windows protected your PC": klicke auf **More info** und dann auf **Run anyway**.
+- macOS meldet, dass die App nicht geöffnet werden kann: Gehe zu **System Settings → Privacy & Security**, scrolle nach unten, klicke auf **Open Anyway** und öffne AIVON erneut.
+
 ## Option 1 - Hostinger VPS (Docker Manager, ein Klick)
 
-> 🛒 **Noch keinen VPS?** [Hol dir hier einen Hostinger VPS](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN). Docker Manager ist eingebaut, AIVON installiert sich also mit einem Klick. Sobald er bereit ist, mach mit den Schritten unten weiter.
+> 🛒 **Noch keinen VPS?** [Hol dir hier einen Hostinger VPS](https://www.hostinger.com?REFERRALCODE=UTRBLOGMIDSN). Docker Manager ist eingebaut, Aivon installiert sich also mit einem Klick. Sobald er bereit ist, mach mit den Schritten unten weiter.
 
 1. hPanel → VPS → **Docker Manager** → **Compose** → **Compose from URL**.
 2. Füge diese URL ein:
@@ -39,7 +52,7 @@ docker compose -f docker-compose.yml up -d
 
 1. Installiere Python 3.12 + Node 22.
 2. Führe im Projektordner einmal `setup.bat` aus: Es legt .venv an, installiert die Abhängigkeiten und installiert für dich die beiden CLI-Engines (Claude Code, Codex).
-3. `start-aivon.bat` startet AIVON im Hintergrund (`stop-aivon.bat` beendet es).
+3. `start-aivon.bat` startet Aivon im Hintergrund (`stop-aivon.bat` beendet es).
 4. Öffne http://localhost:7979.
 
 ## Sobald es läuft

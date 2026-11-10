@@ -10,7 +10,7 @@
 > - **Làm PHASE 5 TRƯỚC PHASE 4**, theo yêu cầu của chủ repo (2026-08-08): giá trị nằm ở bot
 >   chuyên trách nói chuyện với khách Việt, không ở kênh của chủ.
 > - **Phần dùng chung tách ra `server/bot_gateway.py`** chứ không để `zalo_bot.py` chép lại:
->   hàng đợi lượt, luật `/stop`, cổng precheck và dòng vết công cụ là luật hành vi của AIVON,
+>   hàng đợi lượt, luật `/stop`, cổng precheck và dòng vết công cụ là luật hành vi của Aivon,
 >   không phải chi tiết của một nhà cung cấp. `TelegramBot` cũng đã chuyển sang dùng nó.
 > - **Danh sách trắng RỖNG = CHƯA AI ĐƯỢC PHÉP** (mục 5 chỉ nói tới hàng chờ, không nói tới
 >   luật này). Bên Telegram ô trống nghĩa là mở cho tất cả; giữ nguyên nết đó ở Zalo thì chính
@@ -21,13 +21,13 @@
 >   stderr khi gặp khuôn lạ.
 >
 > **Còn lại: Phase 3 chiều RA (gửi ảnh) và Phase 6 (webhook).** Cả hai phụ thuộc kết quả thăm
-> dò và phụ thuộc AIVON đang chạy ở đâu.
+> dò và phụ thuộc Aivon đang chạy ở đâu.
 
 ## 1. Quyết định cốt lõi
 
 **Zalo Bot là KÊNH THỨ TƯ, không phải một runtime thứ hai.**
 
-AIVON đã có ba kênh đi qua đúng một lõi: dashboard, Telegram, CLI. `main.py` cấp cho
+Aivon đã có ba kênh đi qua đúng một lõi: dashboard, Telegram, CLI. `main.py` cấp cho
 `telegram_bot.TelegramBot` đúng mấy hàm gọi ngược (`answer_fn`, `command_fn`,
 `callback_fn`, `precheck_fn`, `event_fn`) rồi thôi; toàn bộ phần khớp phiên, chọn brain,
 gọi engine, lưu hội thoại nằm ở nhóm hàm `_tg_*` trong `main.py` và đã nhận tham số
@@ -45,7 +45,7 @@ không chịu rủi ro nào.
 - Zalo Bot là **một danh tính riêng**, chính thức, không bị khoá, nhưng chỉ thấy được
   những gì người ta nhắn thẳng cho nó.
 
-Cái đầu để AIVON **thao tác thay bạn**. Cái sau để **người khác nói chuyện với AIVON**.
+Cái đầu để Aivon **thao tác thay bạn**. Cái sau để **người khác nói chuyện với Aivon**.
 Ai gộp hai cái làm một sẽ mất một nửa năng lực.
 
 ## 2. Zalo Bot API: những gì tài liệu nói
@@ -91,13 +91,13 @@ số hạn mức, và trang Giá gói lẫn FAQ đang trả HTTP 500 tại thờ
 
 Đây là phần quan trọng nhất của spec. Chép nguyên hành vi Telegram sang là hỏng ngay.
 
-1. **Không có `editMessageText`, không có `deleteMessage`.** Cái tin "🤔 AIVON đang xử
+1. **Không có `editMessageText`, không có `deleteMessage`.** Cái tin "🤔 Aivon đang xử
    lý…" tự đổi chữ theo tiến trình rồi tự xoá, thứ đã được viết hẳn một mục trong
    `docs/11-telegram.md`, **không làm được trên Zalo**. Xem mục 3.1 bên dưới, vì đây là
    chỗ phải thiết kế lại chứ không phải chỗ cắt bớt.
 2. **Không có nút bấm inline, không có callback.** Bảng chọn provider và lưới model của
    `/model`, bảng chọn brain của `/brain` đều dựa vào `callback_query`. Trên Zalo phải hạ
-   xuống **danh sách đánh số** rồi đọc con số ở lượt sau. AIVON đã có sẵn đường này cho
+   xuống **danh sách đánh số** rồi đọc con số ở lượt sau. Aivon đã có sẵn đường này cho
    khối `AIVON_ASK`, tái dùng chứ đừng viết bản thứ hai.
 3. **Trần chữ 2000 chứ không phải 4096.** Hằng số chia tin phải theo kênh.
 4. **Không có `sendDocument`.** PDF, xlsx, docx không có cửa gửi ra. Đây là khoảng hụt
@@ -106,7 +106,7 @@ số hạn mức, và trang Giá gói lẫn FAQ đang trả HTTP 500 tại thờ
 5. **`sendPhoto` nhận đường dẫn ảnh, nhiều khả năng là URL công khai.** Trang "Sử dụng
    API" có liệt kê `multipart/form-data` cho upload file, nên có thể đẩy file trực tiếp
    được, nhưng tài liệu `sendPhoto` không xác nhận. **Phải thử thật trước khi thiết kế**
-   (xem Phase 0). Nếu chỉ nhận URL thì máy chạy local không gửi ảnh ra được, và AIVON
+   (xem Phase 0). Nếu chỉ nhận URL thì máy chạy local không gửi ảnh ra được, và Aivon
    phải nói thật điều đó thay vì báo thành công.
 6. **`getUpdates` không có `offset` hay `update_id`.** Tham số duy nhất là `timeout`.
    Không có cơ chế xác nhận đã nhận, nên **phải tự chống trùng bằng `message_id`** (LRU
@@ -166,13 +166,13 @@ Zalo không có API tương đương.
 
 Ngắn gọn: **khách hàng Việt Nam không dùng Telegram.**
 
-Kênh Telegram hiện là cửa duy nhất để hỏi AIVON từ điện thoại, và là nơi mọi thông báo
+Kênh Telegram hiện là cửa duy nhất để hỏi Aivon từ điện thoại, và là nơi mọi thông báo
 nền (vòng loop, việc Kanban, nhắc hẹn) rơi về. Với một chủ cửa hàng kim khí ở Việt Nam,
 Telegram là một app lạ phải cài thêm. Zalo thì đã nằm sẵn trên máy.
 
 Hai sản phẩm mở ra từ đúng một lớp vận chuyển:
 
-- **Kênh của chủ.** Hỏi AIVON qua Zalo, nhận báo cáo loop và nhắc hẹn qua Zalo.
+- **Kênh của chủ.** Hỏi Aivon qua Zalo, nhận báo cáo loop và nhắc hẹn qua Zalo.
 - **Bot chuyên trách trên Zalo.** `chatbot_store` đã có sẵn trường `"channel":
   "telegram"` từ lúc thiết kế. Cho nó nhận thêm `"zalo"` là bot tư vấn của cửa hàng nói
   chuyện được với khách thật, trên app khách thật đang mở. Đây mới là phần có giá trị
@@ -185,7 +185,7 @@ Telegram bắt chủ đi tìm Chat ID bằng @userinfobot rồi tự dán vào �
 ai đọc ra được nó là ai.
 
 Phương án: **mã ghép nối**. Người lạ nhắn cho bot thì bot đáp "Bạn chưa được cấp quyền
-dùng AIVON. Mã ghép nối của bạn: 4821". Trang Kênh trên dashboard hiện một thẻ nhỏ liệt
+dùng Aivon. Mã ghép nối của bạn: 4821". Trang Kênh trên dashboard hiện một thẻ nhỏ liệt
 kê các cuộc chat đang chờ, kèm `display_name` thật và mã, cùng nút **Cho phép**. Bấm một
 cái là id vào whitelist.
 
@@ -261,7 +261,7 @@ dùng được không. Không đoán, vì đoán sai ở đây là thiết kế 
 ### Phase 1: Lớp vận chuyển và kênh của chủ
 
 `server/zalo_bot.py` cộng phần cấu hình, endpoint, thẻ trên dashboard, ghép nối bằng mã.
-Hết phase này là chủ nhắn cho bot Zalo và AIVON trả lời bằng đúng brain, đúng engine,
+Hết phase này là chủ nhắn cho bot Zalo và Aivon trả lời bằng đúng brain, đúng engine,
 đúng MCP như trên Telegram.
 
 ### Phase 2: Lệnh gõ nhanh và các tương tác đã hạ cấp
@@ -281,7 +281,7 @@ Chiều vào: tải ảnh và voice về `inbox/zalo/` của brain đang chọn 
 luật dọn cache 30 ngày và trần 300MB của `media_gc.py`.
 
 Chiều ra: nếu multipart chạy thì làm giống `send_file` của Telegram. Nếu chỉ nhận URL
-thì phải có một endpoint media công khai, ký, sống ngắn, và **chỉ khả dụng khi AIVON
+thì phải có một endpoint media công khai, ký, sống ngắn, và **chỉ khả dụng khi Aivon
 đang chạy trên máy có tên miền công khai**. Bản chạy local phải nói thẳng "chưa gửi được
 ảnh qua Zalo từ máy này" chứ không được báo thành công giả. Không có `sendDocument`
 nghĩa là PDF và bảng tính không gửi được, ghi rõ trong tài liệu.
@@ -334,10 +334,10 @@ Phase 0 nửa ngày. Phase 1 và 2 khoảng hai tới ba ngày. Phase 3 một ng
 ngày. Phase 5 một tới hai ngày. Phase 6 nửa ngày. Phase 7 nửa ngày. Tổng khoảng một tuần
 làm tập trung.
 
-Thứ tự đề xuất: ra **Phase 0 tới 2 trước** thành một bản dùng được (chủ hỏi AIVON qua
+Thứ tự đề xuất: ra **Phase 0 tới 2 trước** thành một bản dùng được (chủ hỏi Aivon qua
 Zalo), rồi **Phase 4** (thông báo nền về đúng Zalo), rồi **Phase 5** (bot chuyên trách,
 phần mở khoá giá trị kinh doanh). Phase 3 và 6 phụ thuộc kết quả thăm dò và phụ thuộc
-AIVON đang chạy ở đâu, nên xếp sau.
+Aivon đang chạy ở đâu, nên xếp sau.
 
 ## 10. Nguồn
 
@@ -350,4 +350,4 @@ AIVON đang chạy ở đâu, nên xếp sau.
 - [Kênh Zalo của OpenClaw](https://docs.openclaw.ai/channels/zalo) - một bản triển khai
   thật để đối chiếu; họ mặc định long polling, chia tin ở 2000, trần media 5MB
 - Trong repo: [Kênh Telegram](../11-telegram.md), [Zalo Agent MCP](../12-zalo.md),
-  [Spec AIVON CLI](2026-08-cli-spec.md), [Spec Bot chuyên trách](2026-08-bot-chuyen-trach-spec.md)
+  [Spec Aivon CLI](2026-08-cli-spec.md), [Spec Bot chuyên trách](2026-08-bot-chuyen-trach-spec.md)

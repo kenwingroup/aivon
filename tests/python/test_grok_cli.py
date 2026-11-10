@@ -847,6 +847,16 @@ check("CANARY: nhặt được sessionId từ `end` để lượt sau `--resume`
 # Và KHÔNG được thử lại lần hai: lượt này ra chữ rồi, chạy thêm là tốn một lượt model.
 check("CANARY: lượt ra chữ thì KHÔNG chạy lại lần hai", len(_fin_v) == 1, _evs_v)
 
+# 0.438.6: chủ repo 02/11/2026 "còn Grok Build với Antigravity thì sao". Chữ xem trước ra từng mẩu ngay khi
+# CLI in, đúng thứ tự, TRƯỚC `final`; bảng `available_commands` không lọt vào; `final` vẫn là nguyên câu.
+_dt_v = [e["content"] for e in _evs_v if e["type"] == "delta"]
+check("chữ xem trước ra từng mẩu đúng như luồng thật",
+      _dt_v == ["Chào", " anh,", " khỏe không", " nay", "?"], _dt_v)
+check("mẩu chữ ra TRƯỚC câu trả lời cuối",
+      _fin_v and max(i for i, e in enumerate(_evs_v) if e["type"] == "delta")
+      < _evs_v.index(_fin_v[0]), _evs_v)
+check("ghép các mẩu lại đúng bằng câu trả lời cuối", "".join(_dt_v) == _fin_v[0]["content"])
+
 grok_cli._HELP_CACHE.update(path=None, text="", ts=0.0)
 grok_cli.find_grok_cli = _that_find
 
@@ -878,6 +888,25 @@ check("NotebookEdit (tool của Claude Code) đã gỡ khỏi luật chặn củ
 check("mức suggest vẫn chặn đủ ghi file và chạy lệnh",
       {"Write", "Edit", "Bash"} <= {r.split("(")[0] for r in grok_cli._LUAT_CHAN["suggest"]})
 check("mức full vẫn không chặn gì", grok_cli._LUAT_CHAN["full"] == ())
+
+# Owner 2026-11-07: no turn cap by default. Only a CLI build without `--permission-mode` (which could stop to ask and
+# hang silently) keeps the 900 s net; AIVON_GROK_TIMEOUT still sets a cap.
+_co_that, _env_that = grok_cli.co_co, os.environ.pop("AIVON_GROK_TIMEOUT", None)
+try:
+    _gc = grok_cli.GrokCLI(cwd="/tmp")
+    grok_cli.co_co = lambda *names: "--permission-mode" in names
+    check("no cap by default when the CLI auto-approves (--permission-mode)", _gc.turn_cap() == 0)
+    grok_cli.co_co = lambda *names: False
+    check("a CLI without --permission-mode keeps the 900 s net",
+          _gc.turn_cap() == grok_cli.NO_PERMISSION_FLAG_CAP == 900.0)
+    for _raw, _want in (("1800", 1800.0), ("0", 0.0), ("abc", 0.0), ("-3", 0.0)):
+        os.environ["AIVON_GROK_TIMEOUT"] = _raw
+        check(f"AIVON_GROK_TIMEOUT={_raw!r} -> {_want}", grok_cli.turn_cap_seconds() == _want)
+finally:
+    grok_cli.co_co = _co_that
+    os.environ.pop("AIVON_GROK_TIMEOUT", None)
+    if _env_that is not None:
+        os.environ["AIVON_GROK_TIMEOUT"] = _env_that
 
 
 print()
