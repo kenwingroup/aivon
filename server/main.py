@@ -1370,7 +1370,7 @@ async def app_version():
     """Phiên bản + vân tay tài sản tĩnh. Rẻ và KHÔNG chạm mạng - `freshness.js` gọi định kỳ.
     Khác hẳn `/version` (đi hỏi GitHub, timeout 8 giây) nên đừng gộp hai cái làm một."""
     try:
-        html = (DASHBOARD_PATH / "index.html").read_text(encoding="utf-8")
+        html = await asyncio.to_thread((DASHBOARD_PATH / "index.html").read_text, encoding="utf-8")
     except OSError:
         html = ""
     return {"version": _app_version() or "0", "assets": await asyncio.to_thread(_asset_fps, html)}
@@ -1390,7 +1390,7 @@ def _warm_bundle() -> None:
 
 @app.get("/")
 async def root():
-    html = (DASHBOARD_PATH / "index.html").read_text(encoding="utf-8")
+    html = await asyncio.to_thread((DASHBOARD_PATH / "index.html").read_text, encoding="utf-8")
     # Ép khoá cache của MỌI file .js/.css theo phiên bản app. Trước đây mỗi file có ?v=NN
     # gõ tay, và suốt hàng chục bản không ai nhớ tăng console.js?v=72 nên trình duyệt cứ
     # dùng console.js CŨ trong cache - máy chủ cập nhật thật mà giao diện đóng băng, mọi

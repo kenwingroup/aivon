@@ -96,7 +96,7 @@ for code in langs:
         check(f"{rel}: every in-page anchor matches a heading", not bad, ", ".join(bad[:5]))
 
         check(f"{rel}: links back to the English original",
-              f"({os.path.relpath(R / source, p.parent)})" in text)
+              f"({Path(os.path.relpath(R / source, p.parent)).as_posix()})" in text)
         dashes = text.count("—") + text.count("–") + text.count("―")
         check(f"{rel}: no em or en dash", dashes == 0, f"{dashes} found")
 

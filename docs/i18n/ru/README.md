@@ -514,4 +514,4 @@ AIVON бесплатен и открыт, и пока что код пишет �
 </div>
 
 ---
-**Phát triển bởi Minh Vũ** — Hotline hỗ trợ: **0989811931** | GitHub: [kenwingroup/aivon](https://github.com/kenwingroup/aivon)
+**Phát triển bởi Minh Vũ** - Hotline hỗ trợ: **0989811931** | GitHub: [kenwingroup/aivon](https://github.com/kenwingroup/aivon)

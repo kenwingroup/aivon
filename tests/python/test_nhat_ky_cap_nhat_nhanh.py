@@ -25,6 +25,8 @@ import tempfile
 os.environ["AIVON_STATE_DIR"] = tempfile.mkdtemp(prefix="aivon-changelog-test-")
 
 import main  # noqa: E402
+# Exercise the opt-in updater; the fork intentionally disables it by default.
+main.SELF_UPDATE_DISABLED = False
 
 fails = []
 

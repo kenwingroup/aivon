@@ -123,17 +123,24 @@ async def sync_record(root,kind,rid):
             if existing and existing[0] and existing[0][0] not in ('',rid):
                 raise RuntimeError('Dòng Google Sheets đã bị di chuyển; cần chủ kiểm tra sổ trước khi ghi.')
             await _execute('GOOGLESHEETS_VALUES_UPDATE',{'spreadsheet_id':cfg['spreadsheet_id'],'range':f'{tab}!A{n}:'+('N' if kind=='leads' else 'Y')+str(n),'values':[row],'value_input_option':'RAW','auto_expand_sheet':True})
-            with _db(root) as c:c.execute(f'UPDATE {kind} SET synced_version=?,last_error=? WHERE id=? AND version=?',(rec['version'],'',rid,rec['version']))
+            def mark_synced():
+                with _db(root) as c:c.execute(f'UPDATE {kind} SET synced_version=?,last_error=? WHERE id=? AND version=?',(rec['version'],'',rid,rec['version']))
+            await asyncio.to_thread(mark_synced)
             return True
         except Exception as e:
-            with _db(root) as c:c.execute(f'UPDATE {kind} SET last_error=? WHERE id=?',(str(e)[:200],rid))
+            error=str(e)[:200]
+            def mark_error():
+                with _db(root) as c:c.execute(f'UPDATE {kind} SET last_error=? WHERE id=?',(error,rid))
+            await asyncio.to_thread(mark_error)
             return False
 
 async def sync_loop(root):
     while True:
         try:
             for kind in ('leads','quotes'):
-                with _db(root) as c:ids=[r[0] for r in c.execute(f'SELECT id FROM {kind} WHERE synced_version<version ORDER BY seq LIMIT 8')]
+                def pending_ids():
+                    with _db(root) as c:return [r[0] for r in c.execute(f'SELECT id FROM {kind} WHERE synced_version<version ORDER BY seq LIMIT 8')]
+                ids=await asyncio.to_thread(pending_ids)
                 for rid in ids:await sync_record(root,kind,rid)
         except asyncio.CancelledError:raise
         except Exception as exc:print('[kogen-sync]',type(exc).__name__,flush=True)
@@ -208,8 +215,9 @@ def build(root,scope,account_id,check,export_pdf,*,trial=False):
         stable_client={k:v for k,v in client.items() if k!='updated_at'}
         fingerprint=hashlib.sha256(json.dumps({'customer':stable_client,'calculation':calc},ensure_ascii=False,sort_keys=True).encode()).hexdigest()
         async with _LOCKS.setdefault(('quote',str(root),sk),asyncio.Lock()):
-            with _db(root) as c:
-                old=[dict(r) for r in c.execute('SELECT * FROM quotes WHERE scope=? ORDER BY seq DESC LIMIT 20',(sk,))]
+            def previous_quotes():
+                with _db(root) as c:return [dict(r) for r in c.execute('SELECT * FROM quotes WHERE scope=? ORDER BY seq DESC LIMIT 20',(sk,))]
+            old=await asyncio.to_thread(previous_quotes)
             previous=next((json.loads(r['body']) for r in old if json.loads(r['body']).get('fingerprint')==fingerprint and json.loads(r['body']).get('file_id') and json.loads(r['body']).get('created_at','')[:7]==created_at[:7]),None)
             if previous:
                 return json.dumps({'ok':True,'quote_id':previous['quote_id'],'file_id':previous['file_id'],'total_vat_included':calc['totals']['total_vat_included'],'already_created':True},ensure_ascii=False)

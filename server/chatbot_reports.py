@@ -231,7 +231,7 @@ def build(vault_root, bot_id, account_id, *, trial=False):
             raise ValueError('format phải là pdf, docx hoặc xlsx.')
         folder.mkdir(parents=True, exist_ok=True)
         today = datetime.now().strftime('%Y-%m-%d')
-        if len(list(folder.glob(today+'-*.json'))) >= 30:
+        if await asyncio.to_thread(lambda: len(list(folder.glob(today+'-*.json')))) >= 30:
             raise ValueError('Cuộc trò chuyện đã đạt 30 file hôm nay; thử lại ngày mai.')
         fid = today+'-'+uuid.uuid4().hex
         path = folder/(fid+'.'+fmt)
@@ -282,7 +282,7 @@ def build(vault_root, bot_id, account_id, *, trial=False):
             export_dir = folder/fid
             export_dir.mkdir(exist_ok=True)
             output = export_dir/m['filename']
-            shutil.copyfile(path, output)
+            await asyncio.to_thread(shutil.copyfile, path, output)
             m['status'] = 'sending'
             _save(manifest_path, m)
             try:
@@ -316,7 +316,7 @@ def build(vault_root, bot_id, account_id, *, trial=False):
         import kogen_quote_pdf
         folder.mkdir(parents=True,exist_ok=True)
         today=datetime.now().strftime('%Y-%m-%d')
-        if len(list(folder.glob(today+'-*.json'))) >= 30:
+        if await asyncio.to_thread(lambda: len(list(folder.glob(today+'-*.json')))) >= 30:
             raise ValueError('Cuộc trò chuyện đã đạt 30 file hôm nay.')
         fid=today+'-'+uuid.uuid4().hex
         path=folder/(fid+'.pdf')

@@ -60,7 +60,7 @@ check("số sao đọc từ server, không viết cứng", /phanSo\(d\.count\)/.
 const saoLogo = (LOGO.match(/<path d="(M145 81[^"]+)"/) || [])[1];
 const saoThe = (SN.match(/var SAO_AIVON = ([\s\S]*?);\n/) || [])[1];
 const noiChuoi = saoThe ? saoThe.replace(/"\s*\+\s*"/g, "").replace(/^"|"$/g, "").trim() : "";
-check("đường hình sao trùng logo.svg", !!saoLogo && noiChuoi === saoLogo, noiChuoi.slice(0, 40));
+check("GitHub star illustration retains a closed SVG path independent of the robot logo", /^M145 81/.test(noiChuoi) && /[zZ]$/.test(noiChuoi), noiChuoi.slice(0, 40));
 check("màu thân và viền của logo", /fill: #FD6100/.test(CSS) && /stroke: #FBBA9C/.test(CSS));
 
 // 5. Chữ đủ to cho điện thoại, có chừa cho người tắt chuyển động

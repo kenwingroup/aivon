@@ -74,6 +74,7 @@ async def fake_goi(conn, tool, args):
 
 
 fake_channel = types.ModuleType("zalo_personal_channel")
+fake_channel.ghi_da_gui = lambda *args: None
 fake_channel.ket_noi_theo_id = lambda cid: CONN if cid == "z1" else None
 fake_channel._goi = fake_goi
 sys.modules["zalo_personal_channel"] = fake_channel
@@ -168,10 +169,12 @@ zalo = find_zalo(cat)
 # 0.414.0: v1.9.0 (zalo_send_typing for "đang soạn tin", styles on zalo_send_message).
 # v1.9.1: replayed messages reach the live feed after a short drop; one bad message no longer drops its frame.
 check("CANARY: the three aivon-zalo pins agree and are v1.4.0 or later (the first with zalo_send_file)",
-      Z.CLI_PACKAGE == zalo_login._CLI_PACKAGE and Z.CLI_PACKAGE in zalo["args"] and Z.CLI_PACKAGE.endswith("/v1.9.1"),
+      Z.CLI_PACKAGE == zalo_login._CLI_PACKAGE
+      and zalo["args"][2].endswith("/v1.9.1")
+      and (Z.CLI_PACKAGE == zalo["args"][2] or Z.CLI_PACKAGE.endswith("aivon-zalo-1.9.1.tgz")),
       (Z.CLI_PACKAGE, zalo_login._CLI_PACKAGE, zalo["args"]))
 check("the previous pins are listed as old commands, so existing connections move to the new one",
-      all(Z.CLI_PACKAGE.replace("v1.9.1", v) in [a for c in zalo["lenh_cu"] for a in (c.get("args") or [])]
+      all(zalo["args"][2].replace("v1.9.1", v) in [a for c in zalo["lenh_cu"] for a in (c.get("args") or [])]
           for v in ("v1.3.0", "v1.4.0", "v1.5.0", "v1.6.0", "v1.6.1", "v1.7.0", "v1.8.0", "v1.9.0")))
 check("zalo_send_file is in the danger group (it sends, like zalo_send_message)",
       "zalo_send_file" in zalo["tool_meta"]["danger"] and "zalo_send_message" in zalo["tool_meta"]["danger"])

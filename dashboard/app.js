@@ -3056,7 +3056,7 @@ function markdownToHtml(text, brain, anhV) {
   const blocks = [];
   text = text.replace(/```(?:\w+)?\n?([\s\S]*?)```/g, (_, code) => {
     blocks.push(`<div class="code-wrap"><button class="code-copy" type="button">⧉ Copy</button><pre class="code-block">${esc(code.replace(/\n$/, ""))}</pre></div>`);
-    return ` B${blocks.length - 1} `;
+    return `\u0000B${blocks.length - 1}\u0000`;
   });
 
   // 2) Bảng markdown |a|b| với dòng phân cách |---|
@@ -3069,7 +3069,7 @@ function markdownToHtml(text, brain, anhV) {
       const body = rows.slice(2).map(cells);
       const th = head.map(c => `<th>${esc(c)}</th>`).join("");
       const trs = body.map(r => `<tr>${r.map(c => `<td>${esc(c)}</td>`).join("")}</tr>`).join("");
-      return ` T${blocks.push(`<table class="md-table"><thead><tr>${th}</tr></thead><tbody>${trs}</tbody></table>`) - 1} `;
+      return `\u0000T${blocks.push(`<table class="md-table"><thead><tr>${th}</tr></thead><tbody>${trs}</tbody></table>`) - 1}\u0000`;
     }
   );
 
@@ -3077,9 +3077,9 @@ function markdownToHtml(text, brain, anhV) {
   const _fileUrl = (p) => `/files/raw?brain=${encodeURIComponent(brain || currentBrainPath())}&path=${encodeURIComponent((p || "").replace(/^\.?\//, ""))}`;
   const _resolveSrc = (s) => { s = (s || "").trim(); return /^(https?:|data:|blob:|\/)/i.test(s) ? s : _fileUrl(s); };
   const _imgHtml = (u, alt) => { const _h = safeHref(u); const _img = `<img class="chat-img" style="max-width:min(100%,440px);border-radius:8px;display:block;margin:6px 0;cursor:zoom-in" src="${esc(u)}" alt="${esc(alt || "")}" loading="lazy">`; return _h ? `<a href="${esc(_h)}" target="_blank" rel="noopener">${_img}</a>` : _img; };
-  text = text.replace(/!\[\[([^\]|]+?)(?:\|[^\]]*)?\]\]/g, (_m, name) => ` B${blocks.push(_imgHtml(_resolveSrc(name.trim()), name.trim())) - 1} `);
-  text = text.replace(/!\[([^\]]*)\]\(([^)\s]+)[^)]*\)/g, (_m, alt, src) => ` B${blocks.push(_imgHtml(_resolveSrc(src), alt)) - 1} `);
-  text = text.replace(/\[([^\]]+)\]\(([^)\s]+)[^)]*\)/g, (_m, t, href) => { href = href.trim(); const u = /^(https?:|mailto:)/i.test(href) ? href : _resolveSrc(href); return ` B${blocks.push(`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a>`) - 1} `; });
+  text = text.replace(/!\[\[([^\]|]+?)(?:\|[^\]]*)?\]\]/g, (_m, name) => `\u0000B${blocks.push(_imgHtml(_resolveSrc(name.trim()), name.trim())) - 1}\u0000`);
+  text = text.replace(/!\[([^\]]*)\]\(([^)\s]+)[^)]*\)/g, (_m, alt, src) => `\u0000B${blocks.push(_imgHtml(_resolveSrc(src), alt)) - 1}\u0000`);
+  text = text.replace(/\[([^\]]+)\]\(([^)\s]+)[^)]*\)/g, (_m, t, href) => { href = href.trim(); const u = /^(https?:|mailto:)/i.test(href) ? href : _resolveSrc(href); return `\u0000B${blocks.push(`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a>`) - 1}\u0000`; });
 
   // 3) Phần còn lại: escape rồi áp inline + list + heading
   let html = esc(text)
@@ -3093,7 +3093,7 @@ function markdownToHtml(text, brain, anhV) {
     .replace(/\n/g, "<br>");
 
   // 4) Trả lại các block/table đã giữ
-  html = html.replace(/ [BT](\d+) (?:<br>)?/g, (_, i) => blocks[+i]);
+  html = html.replace(/\u0000[BT](\d+)\u0000(?:<br>)?/g, (_, i) => blocks[+i]);
   return html;
 }
 function escapeHtml(t) { return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }

@@ -514,4 +514,4 @@ Dibuat dengan ☕ di Vietnam oleh <b><a href="https://minhvu.vn">Minh Vũ</a></b
 </div>
 
 ---
-**Phát triển bởi Minh Vũ** — Hotline hỗ trợ: **0989811931** | GitHub: [kenwingroup/aivon](https://github.com/kenwingroup/aivon)
+**Phát triển bởi Minh Vũ** - Hotline hỗ trợ: **0989811931** | GitHub: [kenwingroup/aivon](https://github.com/kenwingroup/aivon)

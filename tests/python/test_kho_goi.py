@@ -243,8 +243,8 @@ check("kho hỏng KHÔNG làm hỏng phần gói đã cài",
 # Tách repo là điểm mấu chốt: thêm một gói không còn dính tới việc ra bản mới của app, và người
 # lạ gửi Pull Request vào kho được mà không cần quyền ghi vào mã nguồn Aivon.
 check("kho mặc định trỏ sang repo riêng, không phải repo AIVON",
-      "aivon-store" in packs_store.STORE_MAC_DINH
-      and "aivon" not in packs_store.STORE_MAC_DINH)
+      packs_store.STORE_MAC_DINH.split("/")[4].endswith("-store")
+      and packs_store.STORE_MAC_DINH.split("/")[4] != "aivon")
 check("và đọc qua raw.githubusercontent (không phải trang HTML của GitHub)",
       packs_store.STORE_MAC_DINH.startswith("https://raw.githubusercontent.com/"))
 

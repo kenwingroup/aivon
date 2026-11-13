@@ -514,4 +514,4 @@ Aivon OS는 무료 오픈 소스이며, 아직 한 사람이 코드를 쓰고 �
 </div>
 
 ---
-**Phát triển bởi Minh Vũ** — Hotline hỗ trợ: **0989811931** | GitHub: [kenwingroup/aivon](https://github.com/kenwingroup/aivon)
+**Phát triển bởi Minh Vũ** - Hotline hỗ trợ: **0989811931** | GitHub: [kenwingroup/aivon](https://github.com/kenwingroup/aivon)

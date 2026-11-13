@@ -36,6 +36,8 @@ def check(name, cond):
         _fails.append(name)
 
 import main  # noqa: E402
+# Exercise the opt-in updater; the fork intentionally disables it by default.
+main.SELF_UPDATE_DISABLED = False
 
 # ============================================================
 # 1. Mã lý do phân biệt được hai trường hợp

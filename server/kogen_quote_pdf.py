@@ -26,8 +26,13 @@ def render(path,quote):
     from reportlab.pdfbase import pdfmetrics
     from reportlab.pdfbase.ttfonts import TTFont
     from reportlab.platypus import BaseDocTemplate,Frame,PageTemplate,Paragraph,Image,Spacer,Table,TableStyle,LongTable,KeepTogether
-    fontdir=Path('C:/Windows/Fonts')
-    for name,file in [('KogenArial','arial.ttf'),('KogenArialBold','arialbd.ttf'),('KogenArialItalic','ariali.ttf'),('KogenArialBoldItalic','arialbi.ttf')]:
+    import reportlab
+    # Keep Arial on Windows and use installed Unicode fonts on Linux runners/containers.
+    families=[(Path('C:/Windows/Fonts'),('arial.ttf','arialbd.ttf','ariali.ttf','arialbi.ttf')),
+              (Path('/usr/share/fonts/truetype/dejavu'),('DejaVuSans.ttf','DejaVuSans-Bold.ttf','DejaVuSans-Oblique.ttf','DejaVuSans-BoldOblique.ttf')),
+              (Path(reportlab.__file__).parent/'fonts',('Vera.ttf','VeraBd.ttf','VeraIt.ttf','VeraBI.ttf'))]
+    fontdir,files=next((directory,files) for directory,files in families if all((directory/f).is_file() for f in files))
+    for name,file in zip(('KogenArial','KogenArialBold','KogenArialItalic','KogenArialBoldItalic'),files):
         if name not in pdfmetrics.getRegisteredFontNames():pdfmetrics.registerFont(TTFont(name,str(fontdir/file)))
     pdfmetrics.registerFontFamily('KogenArial',normal='KogenArial',bold='KogenArialBold',italic='KogenArialItalic',boldItalic='KogenArialBoldItalic')
     navy=colors.HexColor('#132247');taupe=colors.HexColor('#A18F83')

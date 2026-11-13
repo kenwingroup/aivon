@@ -768,8 +768,8 @@ class ClaudeSDK:
             _cli = (os.environ.get("AIVON_CLAUDE_CLI") or "").strip()
             if not _cli:
                 try:
-                    from claude_cli import find_claude_cli as _tim_claude
-                    _cli = _tim_claude() or ""
+                    from claude_cli import tim_binary as _tim
+                    _cli = _tim("claude") or ""
                 except Exception:
                     _cli = ""
             if _cli and "_bundled" not in _cli.replace("\\", "/"):

@@ -29,6 +29,7 @@ TMP = Path(tempfile.mkdtemp(prefix="aivon-anhcodex-"))
 os.environ["CODEX_HOME"] = str(TMP / "codexhome")
 os.environ.setdefault("AIVON_STATE_DIR", str(TMP / "state"))
 
+import image_gen
 import anh_codex  # noqa: E402
 from claude_cli import CodexCLI  # noqa: E402
 
@@ -98,7 +99,7 @@ check("file ngoài generated_images giữ nguyên, không chép",
 check("trả đúng danh sách đường tuyệt đối trong brain",
       len(ds) == 4 and all(Path(x).is_file() and Path(x).parent == attach for x in ds), ds)
 check("PNG được gắn nhãn Aivon như ảnh tự tạo",
-      b"aivonos" in (attach / "codex-01a0e847-exec-aaa.png").read_bytes().lower())
+      image_gen.BRAND_SOFTWARE.encode().lower() in (attach / "codex-01a0e847-exec-aaa.png").read_bytes().lower())
 
 # Chạy lại (resume, gọi hai lần) → không đẻ bản sao.
 moi2, _ = anh_codex.dua_anh_ve_brain(cau, THREAD, t0, str(vault))

@@ -9,6 +9,7 @@ title: Fix Windows agent tools, Kenwin quotations, and Facebook connection guida
 - Cải thiện gọi Zalo CLI nội bộ và tránh nhận nhầm tiếng vọng của file báo giá là chủ tiếp quản hội thoại.
 - Công cụ Facebook tích hợp phân biệt kho tài khoản riêng với Composio, tránh yêu cầu nối Messenger khi chỉ đăng qua Composio.
 - CI tải đúng các commit lịch sử từ kho upstream để chạy đầy đủ kiểm tra rollback trên repo Aivon.
+- Sửa lỗi CI có sẵn sau đổi thương hiệu: font PDF đa nền tảng, kiểm tra giao diện hiện tại, snapshot API và bằng chứng lịch sử đúng SHA-256.
 ### Cải thiện
 - Hỗ trợ chuẩn hóa gói và danh mục tương thích, bổ sung tài nguyên Zalo CLI đi kèm và bỏ qua dữ liệu chạy cục bộ trong Git.
 
@@ -19,5 +20,6 @@ title: Fix Windows agent tools, Kenwin quotations, and Facebook connection guida
 - Improve local Zalo CLI execution and prevent quotation file echoes from triggering owner takeover.
 - Distinguish built-in Facebook accounts from Composio instead of requiring Messenger for Composio publishing.
 - Fetch pinned historical commits from upstream so rollback checks run on the Aivon repository.
+- Repair existing CI failures after rebranding: portable PDF fonts, current UI contracts, API snapshots, and SHA-256 verified historical receipts.
 ### Improved
 - Support compatible pack and catalog normalization, bundle Zalo CLI resources, and exclude local runtime state from Git.

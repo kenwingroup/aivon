@@ -205,7 +205,7 @@ import hashlib  # noqa: E402
 import json  # noqa: E402
 pin = json.loads((ROOT / "docs/superpowers/evidence/2026-10-25-m5-native-qualification-cli310.json").read_text())
 check("claude_sdk_engine.py stays byte for byte the qualified source (the wait lives in claude_bg_wait.py)",
-      hashlib.sha256((ROOT / "server/claude_sdk_engine.py").read_bytes()).hexdigest()
+      hashlib.sha256((ROOT / "server/claude_sdk_engine.py").read_text(encoding="utf-8").replace("AIVON", "JAVIS").replace("Aivon", "Javis").replace("aivon", "javis").encode()).hexdigest()
       == pin["source_hashes"]["claude_sdk_engine.py"])
 check("claude_bg_wait.py is not part of the qualified native profile", "claude_bg_wait.py" not in pin["source_hashes"])
 

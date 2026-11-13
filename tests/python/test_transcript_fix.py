@@ -54,7 +54,7 @@ seen = []
 
 
 async def fake_ok(pick, sentence, terms):
-    seen.append((pick[0], sentence, "AIVON" in terms))
+    seen.append((pick[0], sentence, "aivon" in {term.lower() for term in terms}))
     return sentence.replace("Clod", "Claude")
 
 

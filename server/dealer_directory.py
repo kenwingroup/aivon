@@ -22,7 +22,9 @@ Các nhãn kl/dl/npp là phân loại gốc; danh sách này không chứng minh
 Nếu cache cũ/kết nối lỗi hoặc coverage_complete=false: ghi rõ giới hạn, không nói kết quả bao phủ toàn bộ hoặc khẳng định không tồn tại đại lý. Khi đếm, gọi summary_only=true hoặc đọc total_matches; nếu trả nhiều trang thì nói số đã hiển thị và tổng có trong danh sách, không nhận 10 kết quả đầu là toàn bộ.
 '''
 
-def stamp():return datetime.now(timezone(timedelta(hours=7))).isoformat(timespec='seconds')
+def stamp():
+    import localefmt
+    return datetime.now(localefmt.tz()).isoformat(timespec='seconds')
 def config():return json.loads(CONFIG.read_text(encoding='utf-8'))
 def load_cache():
     try:return json.loads(CACHE.read_text(encoding='utf-8'))
