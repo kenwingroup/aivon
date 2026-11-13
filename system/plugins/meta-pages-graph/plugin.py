@@ -65,9 +65,14 @@ def _messenger_pages():
 
 def _check():
     if not _connected_id() and not _messenger_pages():
-        return ("Chưa nối Fanpage nào. Vào trang Kết nối, thẻ 'Facebook Messenger', bấm Kết nối rồi Đăng nhập "
-                "Facebook và tick Trang (một lần dùng cho cả tin nhắn, bình luận và đăng bài). "
-                "Sau đó gọi lại tool này.")
+        return ("Chưa nối Fanpage qua công cụ Facebook Graph/Messenger tích hợp này. "
+                "Đây KHÔNG phải kết quả kiểm tra Composio: hai kết nối có kho tài khoản riêng. "
+                "Nếu chủ đã nối Facebook qua Composio, dùng aivon_search_tools tìm Composio, "
+                "rồi aivon_run_tool gọi COMPOSIO_SEARCH_TOOLS và FACEBOOK_LIST_MANAGED_PAGES "
+                "qua COMPOSIO_MULTI_EXECUTE_TOOL để kiểm tra Trang; đăng bài bằng công cụ Composio "
+                "được tìm thấy. Không kết luận Composio thiếu quyền và không yêu cầu nối thêm Messenger "
+                "chỉ từ lỗi của công cụ này. Nếu chủ muốn dùng riêng công cụ tích hợp này thì vào "
+                "Kết nối → Facebook Messenger để đăng nhập và chọn Trang.")
     return None
 
 

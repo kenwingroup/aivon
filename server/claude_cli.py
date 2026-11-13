@@ -339,6 +339,22 @@ def find_claude_cli() -> Optional[str]:
                 candidates += [Path(g) / "npm" / "claude.cmd", Path(g) / "npm" / "claude.exe"]
         for d in _thu_muc_bin_windows():
             candidates += [Path(d) / "claude.cmd", Path(d) / "claude.exe"]
+        # Claude Desktop (MS Store / installer) bundles its own claude-code CLI binary
+        for base in (
+            Path(os.environ.get("LOCALAPPDATA", "")) / "Claude-Data",
+            Path(os.environ.get("APPDATA", "")) / "Claude",
+            Path(os.environ.get("LOCALAPPDATA", "")) / "AnthropicClaude",
+        ):
+            try:
+                if base.is_dir():
+                    found = sorted(
+                        base.glob("**/claude-code/**/claude.exe"),
+                        key=lambda x: x.stat().st_mtime,
+                        reverse=True,
+                    )
+                    candidates.extend(found)
+            except Exception:
+                pass
         for p in candidates:
             try:
                 if p.exists():
@@ -350,7 +366,18 @@ def find_claude_cli() -> Optional[str]:
         path = Path(p).expanduser()
         if path.exists():
             return str(path)
-    return _binary_da_nho("claude")
+    da_nho = _binary_da_nho("claude")
+    if da_nho:
+        return da_nho
+    # Fallback cuối: binary claude đóng gói sẵn trong claude_agent_sdk (.venv)
+    try:
+        import claude_agent_sdk as _sdk
+        bundled = Path(_sdk.__file__).resolve().parent / "_bundled" / ("claude.exe" if os.name == "nt" else "claude")
+        if bundled.is_file():
+            return str(bundled)
+    except Exception:
+        pass
+    return None
 
 
 # Câu nói khi KHÔNG tìm thấy một CLI. Phải nói ba thứ, vì thiếu thứ nào người dùng cũng tắc:
@@ -1360,6 +1387,17 @@ def _codex_version(path: str) -> Optional[tuple]:
     return _CODEX_VERSIONS[key]
 
 
+def codex_cli_rank(path: str) -> tuple:
+    """Prefer a complete Windows distribution when installed CLI versions tie.
+
+    Desktop's sandbox-bin may contain only codex.exe. Code Mode needs the
+    sibling host executable; the plugin-appserver distribution includes it.
+    Never trade a newer CLI for an older one just because it has this helper.
+    """
+    return (_codex_version(path) or (),
+            _windows() and Path(path).with_name("codex-code-mode-host.exe").is_file())
+
+
 def find_codex_cli() -> Optional[str]:
     envp = os.environ.get("AIVON_CODEX_BIN")     # cửa thoát: chỉ thẳng chỗ cài lạ
     if envp:
@@ -1398,7 +1436,7 @@ def find_codex_cli() -> Optional[str]:
     # không có GPT-6.1-Sol. Danh sách model là lời của CHÍNH binary được hỏi, nên phải hỏi bản
     # MỚI NHẤT. Không đọc được số phiên bản thì giữ thứ tự cũ.
     if len(co) > 1:
-        best = max(co, key=lambda p: _codex_version(p) or ())
+        best = max(co, key=codex_cli_rank)
         if _codex_version(best):
             return best
     if co:

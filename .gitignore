@@ -247,3 +247,12 @@ server/webhook_events.sqlite3*
 server/aivon_core.json
 server/connect_smoke.json
 server/plan_limits.json
+
+# Local agent state, scratch exports, and installed JavaScript dependencies.
+/install-deps.log
+/output/
+/tmp/
+/server/codex_instr_threads.json
+/server/learned_mirror.json
+/server/tg_sid.json
+/tools/aivon-zalo/node_modules/

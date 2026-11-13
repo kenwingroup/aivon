@@ -449,6 +449,14 @@ def resolved(enabled_only=True):
                     and con.get("command")):
                 lenh, args = con["command"], list(con.get("args") or [])
                 break
+        if c.get("connector_id") == "zalo" and len(args) >= 2 and args[-2:] == ["mcp", "start"]:
+            try:
+                import zalo_cli
+                direct = zalo_cli.direct_command()
+                if direct:
+                    lenh, args = direct[0], direct[1:] + ["mcp", "start"]
+            except Exception:
+                pass
         env = secrets_store.decrypt_map(c.get("env") or {})
         if con:
             for k, v in mcp_catalog.build_env(con, secrets).items():

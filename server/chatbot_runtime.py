@@ -2371,6 +2371,7 @@ async def try_message(bot_id: str, text: str, chat_type: str = "private", mentio
                                                                     "Another try is running, wait a moment")}
     import copy
     cfg = copy.deepcopy(cfg0)
+    cfg["_trial"] = True  # Host-owned flag; never supplied by a customer.
     grp = str(chat_type or "") == "group"
     notes = []
     if cfg.get("muc_quyen") in chatbot_store.MUC_NANG:

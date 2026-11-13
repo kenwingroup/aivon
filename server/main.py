@@ -7683,8 +7683,8 @@ async def desktop_app_open():
             f"$root = '{root}'; $ico = '{ico}'; $vbs = '{vbs}'; "
             "foreach ($d in @([Environment]::GetFolderPath('Desktop'), [Environment]::GetFolderPath('Programs'))) { "
             "  $p = Join-Path $d 'AIVON.lnk'; $s = $sh.CreateShortcut($p); "
-            "  $s.TargetPath = Join-Path $env:SystemRoot 'System32\wscript.exe'; "
-            "  $s.Arguments = '//nologo "' + $vbs + '"'; $s.WorkingDirectory = $root; "
+            "  $s.TargetPath = Join-Path $env:SystemRoot 'System32\\wscript.exe'; "
+            "  $s.Arguments = '//nologo ' + [char]34 + $vbs + [char]34; $s.WorkingDirectory = $root; "
             "  if (Test-Path $ico) { $s.IconLocation = $ico + ',0' }; $s.Save() "
             "}"
         )
@@ -25030,7 +25030,7 @@ def _bot_full_prompt(brain, sys_bot, lang, conv_sid=""):
 
 
 async def _bot_tra_loi_co_tool(text, *, sess, sysprompt, prov, api_key, api_model, reasoning,
-                               progress, runtime_trace, brain, chat_id, muc_quyen, images=None, report_context=None):
+                               progress, runtime_trace, brain, chat_id, muc_quyen, images=None, report_context=None, report_trial=False):
     """Một lượt của bot ở mức **Đọc tài liệu** (read_docs), **Được ghi** (auto) hoặc **Toàn quyền** (full).
 
     Mức Đọc tài liệu (0.80.0) đi chung đường này, chỉ khác ở bộ tool: `mcp_hub.discover_all` trả về
@@ -25065,11 +25065,13 @@ async def _bot_tra_loi_co_tool(text, *, sess, sysprompt, prov, api_key, api_mode
     # Public research/export tools are bound to this channel turn and its account/thread.
     import chatbot_reports
     report_tools, report_routes = [], {}
-    if report_context and muc_quyen == "read_docs":
+    if report_context and muc_quyen in ("read_docs", "auto"):
         report_tools, report_routes = chatbot_reports.build(
-            _brain_root(brain), report_context[0], report_context[1])
+            _brain_root(brain), report_context[0], report_context[1], trial=report_trial)
         if report_tools:
             sysprompt += "\n" + chatbot_reports.prompt_hint()
+            if report_trial:
+                sysprompt += "\nCHẾ ĐỘ THỬ BOT: các công cụ báo giá dùng vùng tạm, không ghi sổ thật và không gửi Zalo thật. Hãy gọi công cụ như lượt thật; khi kết quả simulated=true, nói rõ đã tạo và gửi MÔ PHỎNG thành công, chưa gửi cho khách. Không mô tả đây là lỗi gửi. Quy định này ưu tiên hơn lời xác nhận gửi trong mẫu cũ."
     lich_su = _bot_lich_su(sess)
     lich_su.append({"role": "user", "content": _bot_lich_su_chu(text, images)})
     _bot_cat_lich_su(lich_su)
@@ -25279,7 +25281,8 @@ async def _tg_answer_engine(text, meta, progress, *, chat_id, sess, brain, mcfg,
                 text, sess=sess, sysprompt=_sys_bot, prov=prov, api_key=api_key,
                 api_model=api_model, reasoning=reasoning, progress=_p,
                 runtime_trace=runtime_trace, brain=brain, chat_id=chat_id, muc_quyen=_muc, images=_anh,
-                report_context=(bot["id"], str((meta or {}).get("account_id") or "")))
+                report_context=(bot["id"], str((meta or {}).get("account_id") or "")),
+                report_trial=bool(bot.get("_trial")))
         else:
             return await _bot_tra_loi(text, sess=sess, sysprompt=_sys_bot,
                                       prov=prov, api_key=api_key, api_model=api_model,

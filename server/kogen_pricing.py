@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from decimal import Decimal, ROUND_CEILING, ROUND_HALF_UP
 
-CATALOG_PATH = Path(__file__).with_name('kogen_catalog_final.json')
+CATALOG_PATH = Path(__file__).with_name('kogen_catalog_kenwin.json')
 def catalog():return json.loads(CATALOG_PATH.read_text(encoding='utf-8'))
 def money(value):return int(Decimal(value).quantize(Decimal('1'), rounding=ROUND_HALF_UP))
 def integer(value,name,minimum=0,maximum=100):
@@ -30,6 +30,12 @@ def check_size(width_mm,height_mm,cat=None):
 
 def calculate_item(item, cat=None):
     cat=cat or catalog()
+    if item.get('fix_shape','straight') not in ('straight','arched'):
+        raise ValueError('Hình dạng ô fix chưa hợp lệ.')
+    if item.get('fix_shape')=='arched':
+        raise ValueError('Trường hợp ô fix uốn vòm, anh/chị vui lòng liên hệ @Ngô Long để được hỗ trợ kỹ thuật ạ.')
+    if item.get('handle_color') not in (None,'','black','silver'):
+        raise ValueError('Màu tay nắm chỉ có đen hoặc bạc.')
     leaves=integer(item.get('leaves'), 'Số cánh',2,6)
     inferred_rails={2:2,4:2,3:3,6:3}.get(leaves)
     if inferred_rails is None:raise ValueError('Chưa có bảng giá cho số cánh này; chuyển kinh doanh xác nhận.')
@@ -100,7 +106,7 @@ def calculate_item(item, cat=None):
         'minimum_area_m2':size['minimum_area_m2'],'max_band_applied':max_band_applied,
         'pricing_note':('Vượt mốc '+str(bands[-1][0])+' m²: áp đơn giá/m² khoảng cuối, nhân diện tích thực làm tròn lên 0,1 m²; không giới hạn diện tích tính tiền.' if max_band_applied else ''),
         'base_price':band[1],'base_unit':band[2], 'direction':direction,'color':color,'glass':glass,'has_fix':has_fix,'fix_height_mm':fix_height_mm,'door_height_mm':door_height_mm,
-        'handle':handle,'handle_qty':handle_qty,'extra_hinges':extra_hinges,'required_extra_hinges':required_extra_hinges,'smart_lock_qty':smart_lock_qty,
+        'handle':handle,'handle_color':item.get('handle_color') or '', 'handle_qty':handle_qty,'extra_hinges':extra_hinges,'required_extra_hinges':required_extra_hinges,'smart_lock_qty':smart_lock_qty,
         'frame_amount':money(frame),'glass_amount':money(glass_amount),'hardware_amount':hardware,
         'extra_amount':extras,'fix_amount':money(fix),'color_surcharge_per_m2':color_rate,
         'color_amount':money(color_amount),'unit_total':per_set,'line_total':per_set*quantity,
@@ -118,5 +124,5 @@ def calculate(items):
     totals['area_actual_m2']=str(sum(Decimal(x['area_actual_m2'])*x['quantity'] for x in lines))
     totals['area_billed_m2']=str(sum(Decimal(x['area_billed_m2'])*x['quantity'] for x in lines))
     totals['deposit_50_percent']=money(Decimal(totals['total_vat_included'])/2)
-    return {'pricing_rules_version':'FINAL-net-door-height-hinges-2026-10-31-v3','catalog_version':cat['version'],'quote_layout_version':cat.get('quote_layout_version','legacy'),'lines':lines,'totals':totals,'vat_included_percent':8,
-        'transport_installation':'Chưa bao gồm; báo riêng sau khi xác nhận địa chỉ, điều kiện vận chuyển và lắp đặt.'}
+    return {'pricing_rules_version':'KENWIN-net-door-height-hinges-2026-11-11-v1','catalog_version':cat['version'],'quote_layout_version':cat.get('quote_layout_version','legacy'),'lines':lines,'totals':totals,'vat_included_percent':8,
+        'transport_installation':'Báo giá tại xưởng đã bao gồm hỗ trợ vận chuyển trong bán kính 15km. Hỗ trợ VAT 8%. Báo giá chưa bao gồm chi phí lắp đặt. Ngoài bán kính hỗ trợ cần kinh doanh xác nhận.'}

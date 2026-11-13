@@ -66,6 +66,10 @@ check("plugin: tool ghi (đăng/ảnh/album/video/sửa/xoá/trả lời) = full
 plug._connected_id = lambda: None
 plug._messenger_pages = lambda: []
 check("plugin: _check chặn khi chưa nối Fanpage nào", "Chưa nối Fanpage" in (plug._check() or ""))
+check("plugin: kho tích hợp rỗng không kết luận Composio chưa nối",
+      "KHÔNG phải kết quả kiểm tra Composio" in plug._check()
+      and "FACEBOOK_LIST_MANAGED_PAGES" in plug._check()
+      and "COMPOSIO_MULTI_EXECUTE_TOOL" in plug._check())
 
 
 # ---- 3. Handler (giả token + _get/_post, không mạng) ----
