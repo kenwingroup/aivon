@@ -53,7 +53,12 @@ def render(path,quote):
     def C(text,b=False):return P(text,head if b else center)
     def M(value,style=None):
         text=vnd(value)
-        sty=style or ParagraphStyle('money',parent=normal,fontSize=8 if len(text)<=13 else 7,alignment=1)
+        base=style or normal
+        # Fit using the selected font's real metrics: DejaVu is wider than Arial.
+        # An amount must stay on one line, including in the bold totals rows.
+        available=min(COLS[10:])-2.4
+        size=min(base.fontSize,available/pdfmetrics.stringWidth(text,base.fontName,1))
+        sty=ParagraphStyle('money',parent=base,fontSize=size,alignment=1,splitLongWords=False)
         return P(text,sty)
     calc=quote['calculation'];client=quote['customer'];total=calc['totals'];lines=calc['lines']
     directions={x['direction'] for x in lines};color_codes={x['color'] for x in lines}
