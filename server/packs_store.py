@@ -42,6 +42,7 @@ import localefmt
 CACHE = STATE_DIR / "packs-store-cache.json"
 TTL = 6 * 3600
 FORMAT = "aivon-pack-index"
+FORMATS_OK = ("aivon-pack-index", "javis-pack-index")
 FORMAT_VERSION = 1
 
 # Kho mặc định. Người dùng đổi được trong Cài đặt, nên đây chỉ là điểm khởi đầu.
@@ -52,7 +53,7 @@ FORMAT_VERSION = 1
 #
 # Tách repo còn mở được đường đóng góp: người lạ gửi Pull Request vào kho, chủ kho đọc mã rồi mới
 # trộn - mà không ai phải có quyền ghi vào mã nguồn Aivon.
-STORE_MAC_DINH = ("https://raw.githubusercontent.com/kenwingroup/aivon-store/"
+STORE_MAC_DINH = ("https://raw.githubusercontent.com/blogminhquy/javis-store/"
                   "main/index.json")
 
 # Loại năng lực một mục trong kho mang lại. Đây là thứ chia lưới thành các tab "Trợ lý /
@@ -73,7 +74,17 @@ MAX_GOI = 500
 
 
 def _chuoi(v, tran=MAX_TEN) -> str:
-    return str(v if v is not None else "")[:tran]
+    s = str(v if v is not None else "")
+    for old, new in (("Javis OS", "Aivon"), ("Javis Store", "Aivon Store"), ("Javis", "Aivon"), ("javis.", "aivon.")):
+        s = s.replace(old, new)
+    return s[:tran]
+
+
+def _ma_goi(v) -> str:
+    s = str(v if v is not None else "").strip()
+    if s.startswith("javis."):
+        s = "aivon." + s[6:]
+    return s[:64]
 
 
 def _map_nn(v, tran=MAX_TEN) -> dict:
@@ -115,7 +126,7 @@ def _lam_sach(m: dict) -> dict:
     Đây là ranh giới giữa "dữ liệu người khác viết" và "thứ Aivon hiển thị"."""
     tai = m.get("download") or {}
     return {
-        "id": _chuoi(m.get("id"), 64),
+        "id": _ma_goi(m.get("id")),
         "name": _map_nn(m.get("name")),
         "description": _map_nn(m.get("description"), MAX_MO_TA),
         "version": _chuoi(m.get("version"), 32),
@@ -128,8 +139,8 @@ def _lam_sach(m: dict) -> dict:
                                     ((m.get("provides") or {}).get("connectors") or [])[:50]
                                     if _chuoi(x, 64)]},
         # 0.440.0: mã cũ gói này thay (gói đổi mã). Máy đang cài mã cũ thấy gói mới như một bản cập nhật.
-        "replaces": [_chuoi(x, 64) for x in (m.get("replaces") or [])[:10]
-                     if isinstance(m.get("replaces"), list) and _chuoi(x, 64)],
+        "replaces": [_ma_goi(x) for x in (m.get("replaces") or [])[:10]
+                     if isinstance(m.get("replaces"), list) and _ma_goi(x)],
         "category": _chuoi(m.get("category"), 32),
         "category_label": _map_nn(m.get("category_label"), 40),
         # `tier` là thứ người phát hành KHAI, chỉ để lọc và để hiện nhãn. Bậc THẬT do trình cài
@@ -200,7 +211,7 @@ async def lay(lam_moi: bool = False) -> dict:
         d = json.loads(raw.decode("utf-8"))
         if not isinstance(d, dict):
             raise ValueError(localefmt.chu("gốc phải là object", "the root must be an object"))
-        if str(d.get("format")) != FORMAT:
+        if str(d.get("format")) not in FORMATS_OK:
             raise ValueError(localefmt.chu("tệp này không phải danh mục gói của Aivon", "this file is not a Aivon pack catalog"))
         fv = int(d.get("format_version") or 0)
         if fv > FORMAT_VERSION:

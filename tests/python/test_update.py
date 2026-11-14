@@ -59,6 +59,8 @@ us.STATE_FILE.unlink(missing_ok=True)
 # --- main.py dùng update_state + /version có previous_version ---
 import asyncio  # noqa: E402
 import main  # noqa: E402
+# Exercise the opt-in updater; the fork intentionally disables it by default.
+main.SELF_UPDATE_DISABLED = False
 
 # Stub httpx để suite KHÔNG chạm mạng: fetch VERSION/CHANGELOG từ GitHub là best-effort,
 # ta ép nó "không có" (404) nên version_info -> latest=None, do_update -> latest=None.

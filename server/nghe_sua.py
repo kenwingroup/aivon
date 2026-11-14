@@ -133,6 +133,9 @@ def khoa_am(tu: str) -> str:
     s = re.sub(r"[^a-z]", "", bo_dau(tu))
     if not s:
         return ""
+    # Old spoken aliases remain valid after the Javis -> Aivon rename.
+    if s in {"aivon", "aivont"}:
+        s = "javis"
     for a, b in _AM_DOI:
         s = s.replace(a, b)
     s = s.translate(_AM_DON)
@@ -261,7 +264,7 @@ def _ten_rieng_hai_chu(toks, i, n, s, term) -> bool:
 
 # Ca nghe nhầm ĐÃ BIẾT, sửa theo đúng chính tả, không cần so âm. Tên Aivon hay bị máy nghe ra
 # "Aivon" (2026-11-06, chủ dự án báo: nói "AIVON" mà chép thành "AIVON").
-KNOWN_MISHEARINGS = (("AIVON", "AIVON"), ("Aivon", "Aivon"))
+KNOWN_MISHEARINGS = ()  # Never replace the correctly spelled name or change its case.
 _KNOWN_MISHEARINGS_RE = [(re.compile(r"(?<!\w)" + re.escape(a) + r"(?!\w)", re.IGNORECASE), b)
                  for a, b in KNOWN_MISHEARINGS]
 

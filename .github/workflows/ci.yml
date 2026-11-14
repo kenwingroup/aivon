@@ -45,47 +45,49 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Historical rollback SHAs belong to the upstream repository, not this rebranded fork.
+      # Fetch the exact pinned objects there; never skip rollback tests when history is absent.
       # test_resonance_a1_rollback chạy MÃ 0.86.1 THẬT trên kho đã nâng lên A1 (review PR #590). Checkout mặc định
       # chỉ có một commit, nên lấy riêng commit phát hành đó; thiếu nó thì test đỏ trên CI chứ không tự bỏ qua.
       - name: Lấy commit 0.86.1 cho test quay về
-        run: git fetch --no-tags --depth=1 origin 09f254d0e4d009451dc58cb2e97788631c5acc1a
+        run: git fetch --no-tags --depth=1 https://github.com/blogminhquy/javis-os.git 09f254d0e4d009451dc58cb2e97788631c5acc1a
 
       # test_resonance_a2_rollback chạy MÃ 0.87.0 (A1) THẬT trên kho đã nâng lên A2: commit squash của PR #590 trên main.
       - name: Lấy commit 0.87.0 cho test quay về A2
-        run: git fetch --no-tags --depth=1 origin fdfec7c5c84c2663276d088194844e058d9a22aa
+        run: git fetch --no-tags --depth=1 https://github.com/blogminhquy/javis-os.git fdfec7c5c84c2663276d088194844e058d9a22aa
 
       # test_resonance_a3_rollback chạy MÃ 0.88.1 (A2) THẬT trên kho đã nâng lên A3 (`83bff6bc`, PR #596 trên main).
       - name: Lấy commit 0.88.1 cho test quay về A3
-        run: git fetch --no-tags --depth=1 origin 83bff6bcf5927c4f6ba83bff576a674f2269c0e5
+        run: git fetch --no-tags --depth=1 https://github.com/blogminhquy/javis-os.git 83bff6bcf5927c4f6ba83bff576a674f2269c0e5
 
       # test_resonance_a4_rollback chạy MÃ 0.95.1 THẬT (bản cuối trước A4, `adb103ed`, PR #614 trên main): lập kho cũ,
       # nâng lên A4, rồi khôi phục snapshot.
       - name: Lấy commit 0.95.1 cho test quay về A4
-        run: git fetch --no-tags --depth=1 origin adb103ed7f1c61eb21127afd1ba746ee130c6439
+        run: git fetch --no-tags --depth=1 https://github.com/blogminhquy/javis-os.git adb103ed7f1c61eb21127afd1ba746ee130c6439
 
       # test_resonance_a5_rollback chạy MÃ 0.108.0 THẬT (bản cuối trước A5, `c4fb614d`, PR #625 trên main): lập kho cũ,
       # nâng lên A5, rồi khôi phục snapshot.
       - name: Lấy commit 0.108.0 cho test quay về A5
-        run: git fetch --no-tags --depth=1 origin c4fb614d30b63e592e66a8f943cf2749bb33a412
+        run: git fetch --no-tags --depth=1 https://github.com/blogminhquy/javis-os.git c4fb614d30b63e592e66a8f943cf2749bb33a412
 
       # test_team_rollback chạy MÃ 0.139.0 THẬT (bản phát hành cuối trước nhóm chat team, `be1f8aa2` trên main): lập kho
       # Kanban và kho phiên cũ, nâng lên 0.140.0, rồi khôi phục snapshot.
       - name: Lấy commit 0.139.0 cho test quay về nhóm chat team
-        run: git fetch --no-tags --depth=1 origin be1f8aa215395471c4640e5e8e109d44e02dc190
+        run: git fetch --no-tags --depth=1 https://github.com/blogminhquy/javis-os.git be1f8aa215395471c4640e5e8e109d44e02dc190
 
       # test_team_adaptive_restore chạy MÃ 0.151.0 THẬT (bản cuối trước chuỗi team-adaptive, `1d1b52fa` trên main): lập ba
       # kho cũ, nâng lên T2, rồi khôi phục snapshot `.pre-0.154.0`.
       - name: Lấy commit 0.151.0 cho test khôi phục team-adaptive
-        run: git fetch --no-tags --depth=1 origin 1d1b52faed35a79aa5597f1fbde85b63da2bc3ea
+        run: git fetch --no-tags --depth=1 https://github.com/blogminhquy/javis-os.git 1d1b52faed35a79aa5597f1fbde85b63da2bc3ea
 
       - name: Fetch 0.292.0 for the improvement schema4 reader check
-        run: git fetch --no-tags --depth=1 origin cbef2f464932e533825512e8e11c2299e6b3bf4f
+        run: git fetch --no-tags --depth=1 https://github.com/blogminhquy/javis-os.git cbef2f464932e533825512e8e11c2299e6b3bf4f
 
       - name: Fetch 0.293.0 for the improvement schema5 reader check
-        run: git fetch --no-tags --depth=1 origin 47f50f707268681dd4cbe8c7e443945155376237
+        run: git fetch --no-tags --depth=1 https://github.com/blogminhquy/javis-os.git 47f50f707268681dd4cbe8c7e443945155376237
 
       - name: Fetch 0.296.0 for the improvement schema6 reader check
-        run: git fetch --no-tags --depth=1 origin 2727edcc5cdfab6f2dcf2e2871164f22f2771f92
+        run: git fetch --no-tags --depth=1 https://github.com/blogminhquy/javis-os.git 2727edcc5cdfab6f2dcf2e2871164f22f2771f92
 
       - uses: actions/setup-python@v5
         with:

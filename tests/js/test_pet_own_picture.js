@@ -72,7 +72,7 @@ check("no tab icon switch before a picture exists", ed0.indexOf("data-pet-favico
 const ed1 = P.editorHtml(Object.assign(P.get(), { image: NAME }), { size: true, vanh: true, image: true });
 check("tab icon switch shows with a picture, on by default", /data-pet-favicon checked/.test(ed1));
 check("button back to the Aivon face shows with a picture", ed1.indexOf("data-pet-unimg") >= 0);
-check("shape picker previews the picture", (ed1.match(/<image href="\/avatars\//g) || []).length >= 6);
+check("single robot shape picker previews the picture", (ed1.match(/<image href="\/avatars\//g) || []).length === 1 && /data-pet-shape="robot"/.test(ed1));
 const edOff = P.editorHtml(Object.assign(P.get(), { image: NAME, favicon: false }), { image: true });
 check("switch reflects favicon:false", edOff.indexOf("data-pet-favicon>") >= 0 && !/data-pet-favicon checked/.test(edOff));
 

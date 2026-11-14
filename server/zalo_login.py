@@ -22,6 +22,7 @@ import uuid
 import mcp_store
 import localefmt
 import winproc
+import zalo_cli
 from config import STATE_DIR
 
 _TIMEOUT = 180        # QR Zalo sống ngắn - quá 3 phút coi như hết hạn
@@ -30,7 +31,7 @@ _sessions = {}        # sid -> {state, qr, label, conn_id, error, proc, home, ts
 
 _SUCCESS_EVENTS = {"login", "login_success", "success", "ready", "logged_in", "authenticated"}
 _ERROR_EVENTS = {"error", "failed", "login_error"}   # CLI in {"event":"login_error","message":...} khi QR hỏng
-_CLI_PACKAGE = "https://codeload.github.com/kenwingroup/aivon-zalo/tar.gz/refs/tags/v1.9.1"  # trùng zalo_cli.CLI_PACKAGE và catalog
+_CLI_PACKAGE = zalo_cli.CLI_PACKAGE  # trùng zalo_cli.CLI_PACKAGE (ưu tiên tools/aivon-zalo nội bộ)
 
 
 def _sweep():
@@ -41,6 +42,13 @@ def _sweep():
 
 
 def _npx_argv():
+    try:
+        import zalo_cli
+        direct = zalo_cli.direct_command()
+        if direct:
+            return direct + ["login", "--json"]
+    except Exception:
+        pass
     npx = shutil.which("npx")
     if not npx:
         return None

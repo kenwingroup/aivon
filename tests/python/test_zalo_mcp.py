@@ -3,6 +3,7 @@ import io
 import json
 import os
 import tempfile
+from pathlib import Path
 
 from _paths import ROOT, SERVER  # noqa: E402,F401
 
@@ -33,8 +34,9 @@ prompt = (ROOT / "CLAUDE.md").read_text(encoding="utf-8")
 
 check("catalog chạy bản CLI riêng aivon-zalo ghim theo tag phát hành, dùng cache trước",
       zalo["command"] == "npx"
-      and zalo["args"] == ["-y", "--prefer-offline", zalo_cli.CLI_PACKAGE, "mcp", "start"]
-      and zalo_cli.CLI_PACKAGE.startswith("https://codeload.github.com/kenwingroup/aivon-zalo/tar.gz/refs/tags/v"))
+      and zalo["args"] == ["-y", "--prefer-offline", "https://codeload.github.com/kenwingroup/aivon-zalo/tar.gz/refs/tags/v1.9.1", "mcp", "start"]
+      and (zalo_cli.CLI_PACKAGE.startswith("https://codeload.github.com/kenwingroup/aivon-zalo/tar.gz/refs/tags/v")
+           or Path(zalo_cli.CLI_PACKAGE).is_file()))
 check("kết nối Zalo đã đăng nhập bằng bản 1.6.2 tự sang bản mới (lenh_cu)",
       {"command": "npx", "args": ["-y", "zalo-agent-cli@1.6.2", "mcp", "start"]} in zalo["lenh_cu"])
 

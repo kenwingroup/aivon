@@ -45,8 +45,18 @@ def _scope(bot_id, account_id):
     cfg = _json(CONFIG, {})
     rule = (cfg.get('bots') or {}).get(str(bot_id)) or {}
     t = turn_context.current() or {}
-    if (not rule.get('enabled') or str(account_id) not in rule.get('accounts', [])
-            or t.get('kenh') != 'zalo_personal' or not t.get('sender_id') or not t.get('chat_id')):
+    if t.get('kenh') != 'zalo_personal' or not t.get('sender_id') or not t.get('chat_id'):
+        return None
+    allowed = bool(rule.get('enabled') and str(account_id) in rule.get('accounts', []))
+    if not allowed:
+        try:
+            import chatbot_store
+            b = chatbot_store.get_bot(str(bot_id)) or {}
+            accs = [str(a.get('id') if isinstance(a, dict) else a) for a in (b.get('accounts') or [])]
+            allowed = bool(b.get('enabled') and str(account_id) in accs)
+        except Exception:
+            pass
+    if not allowed:
         return None
     if t.get('chat_type') == 'private' and t['sender_id'] != t['chat_id']:
         return None
@@ -192,14 +202,17 @@ def render(path, args):
     else:
         raise ValueError('Chỉ hỗ trợ pdf, docx, xlsx.')
 
-def build(vault_root, bot_id, account_id):
+def build(vault_root, bot_id, account_id, *, trial=False):
     scope = _scope(bot_id, account_id)
     if scope is None:
         return [], {}
-    root = Path(vault_root).resolve()
+    import tempfile
+    trial_workspace = tempfile.TemporaryDirectory(prefix='aivon-report-trial-') if trial else None
+    root = Path(trial_workspace.name if trial_workspace else vault_root).resolve()
     key = hashlib.sha256((str(bot_id)+'|'+str(account_id)+'|'+scope['chat_id']).encode()).hexdigest()[:32]
     folder = root/'Aivon'/'bot-files'/key
     def check():
+        _keep_workspace_alive = trial_workspace  # Captured by handlers until the trial finishes.
         if _scope(bot_id, account_id) != scope:
             raise PermissionError('Công cụ chỉ dùng trong cuộc trò chuyện đã yêu cầu.')
         folder.resolve().relative_to(root)
@@ -218,7 +231,7 @@ def build(vault_root, bot_id, account_id):
             raise ValueError('format phải là pdf, docx hoặc xlsx.')
         folder.mkdir(parents=True, exist_ok=True)
         today = datetime.now().strftime('%Y-%m-%d')
-        if len(list(folder.glob(today+'-*.json'))) >= 30:
+        if await asyncio.to_thread(lambda: len(list(folder.glob(today+'-*.json')))) >= 30:
             raise ValueError('Cuộc trò chuyện đã đạt 30 file hôm nay; thử lại ngày mai.')
         fid = today+'-'+uuid.uuid4().hex
         path = folder/(fid+'.'+fmt)
@@ -244,12 +257,22 @@ def build(vault_root, bot_id, account_id):
             m = _json(manifest_path)
             if not m or m.get('format') not in ('pdf','docx','xlsx'):
                 raise ValueError('Không có file này trong cuộc trò chuyện hiện tại.')
+            if m.get('quote_id'):
+                import kogen_pricing, kogen_quote_pdf
+                if (m.get('catalog_version') != kogen_pricing.catalog()['version'] or
+                        m.get('quote_layout_version') != kogen_quote_pdf.LAYOUT_VERSION):
+                    raise ValueError('PDF báo giá thuộc phiên bản cũ. Gọi aivon_kogen_quote với cấu hình hiện tại để tạo bản mới trước khi gửi.')
             if m.get('status') == 'sent':
-                return json.dumps({'ok':True,'already_sent':True,'file_id':fid},ensure_ascii=False)
+                return json.dumps({'ok':True,'already_sent':True,'file_id':fid,'simulated':bool(m.get('simulated'))},ensure_ascii=False)
             if m.get('status') != 'created':
                 raise ValueError('Lượt gửi trước chưa rõ kết quả; không tự gửi lặp. Hãy kiểm tra tin nhắn.')
             path = folder/(fid+'.'+m['format'])
             path.resolve().relative_to(folder.resolve())
+            if trial:
+                m['status']='sent';m['simulated']=True
+                _save(manifest_path,m)
+                return json.dumps({'ok':True,'simulated':True,'file_id':fid,'filename':m['filename'],
+                    'message':'Đã mô phỏng gửi thành công; chưa gửi Zalo thật, không ghi sổ thật.'},ensure_ascii=False)
             import zalo_cli, zalo_personal_channel
             conn = zalo_personal_channel.ket_noi_theo_id(str(account_id))
             if not conn:
@@ -259,7 +282,7 @@ def build(vault_root, bot_id, account_id):
             export_dir = folder/fid
             export_dir.mkdir(exist_ok=True)
             output = export_dir/m['filename']
-            shutil.copyfile(path, output)
+            await asyncio.to_thread(shutil.copyfile, path, output)
             m['status'] = 'sending'
             _save(manifest_path, m)
             try:
@@ -285,7 +308,7 @@ def build(vault_root, bot_id, account_id):
         tool('aivon_report_search','Tìm thông tin web công khai để nghiên cứu thị trường/đối thủ. Kết quả cần mở trang để xác minh.',{'query':string,'limit':{'type':'integer','minimum':1,'maximum':8}},['query']),
         tool('aivon_report_fetch','Đọc trang web công khai từ URL nguồn. Chặn mạng nội bộ và trang cần đăng nhập.',{'url':string,'offset':{'type':'integer','minimum':0}},['url']),
         tool('aivon_report_create','Tạo file PDF/Word/Excel thật cho cuộc trò chuyện này. Nội dung phải có nguồn và giới hạn dữ liệu khi nghiên cứu.',{'format':{'type':'string','enum':['pdf','docx','xlsx']},'title':string,'sections':{'type':'array','items':{'type':'object','properties':{'heading':string,'text':string},'required':['heading','text'],'additionalProperties':False}},'sheets':{'type':'array','items':{'type':'object','properties':{'name':string,'headers':{'type':'array','items':string},'rows':{'type':'array','items':{'type':'array','items':{'anyOf':[{'type':'string'},{'type':'number'}]}}}},'required':['name','headers','rows'],'additionalProperties':False}}},['format','title']),
-        tool('aivon_report_send','Gửi file do aivon_report_create tạo về ĐÚNG cuộc trò chuyện hiện tại. Không nhận đường dẫn hay người nhận.',{'file_id':string,'caption':string},['file_id']),
+        tool('aivon_report_send','Gửi file do aivon_report_create hoặc aivon_kogen_quote tạo về ĐÚNG cuộc trò chuyện hiện tại. Không nhận đường dẫn hay người nhận.',{'file_id':string,'caption':string},['file_id']),
     ]
     routes = {name:{'call':fn} for name,fn in zip([t['fn'] for t in tools],[search,fetch,create,send])}
     async def export_quotation(quote):
@@ -293,22 +316,23 @@ def build(vault_root, bot_id, account_id):
         import kogen_quote_pdf
         folder.mkdir(parents=True,exist_ok=True)
         today=datetime.now().strftime('%Y-%m-%d')
-        if len(list(folder.glob(today+'-*.json'))) >= 30:
+        if await asyncio.to_thread(lambda: len(list(folder.glob(today+'-*.json')))) >= 30:
             raise ValueError('Cuộc trò chuyện đã đạt 30 file hôm nay.')
         fid=today+'-'+uuid.uuid4().hex
         path=folder/(fid+'.pdf')
         try:
             await asyncio.to_thread(kogen_quote_pdf.render,path,quote)
             check()
-            manifest={'file_id':fid,'filename':'Bao gia Kogen '+quote['quote_id']+'.pdf','format':'pdf',
-                'status':'created','bytes':path.stat().st_size,'quote_id':quote['quote_id']}
+            manifest={'file_id':fid,'filename':'Bao gia Kogen '+quote['quote_id'].replace('/','-')+'.pdf','format':'pdf',
+                'status':'created','bytes':path.stat().st_size,'quote_id':quote['quote_id'],
+                'catalog_version':quote['calculation']['catalog_version'],'quote_layout_version':kogen_quote_pdf.LAYOUT_VERSION}
             _save(folder/(fid+'.json'),manifest)
             return manifest
         except BaseException:
             path.unlink(missing_ok=True)
             raise
     import kogen_quotes
-    extra,extra_routes=kogen_quotes.build(root,scope,str(account_id),check,export_quotation)
+    extra,extra_routes=kogen_quotes.build(root,scope,str(account_id),check,export_quotation,trial=trial)
     tools.extend(extra)
     routes.update(extra_routes)
     import dealer_directory

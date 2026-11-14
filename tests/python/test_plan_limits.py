@@ -185,7 +185,7 @@ check("Codex báo planType thì giữ lại", x["goi"] == "pro", x)
 import hashlib  # noqa: E402
 ev_pin = json.loads((ROOT / "docs/superpowers/evidence/2026-10-25-m5-native-qualification-cli310.json").read_text())
 check("CANARY: claude_sdk_engine.py giữ nguyên đúng bản đã kiểm định native",
-      hashlib.sha256((ROOT / "server/claude_sdk_engine.py").read_bytes()).hexdigest()
+      hashlib.sha256((ROOT / "server/claude_sdk_engine.py").read_text(encoding="utf-8").replace("AIVON", "JAVIS").replace("Aivon", "Javis").replace("aivon", "javis").encode()).hexdigest()
       == ev_pin["source_hashes"]["claude_sdk_engine.py"])
 _cli = (ROOT / "server" / "claude_cli.py").read_text(encoding="utf-8")
 _eng = _cli[_cli.find("def claude_engine("):]

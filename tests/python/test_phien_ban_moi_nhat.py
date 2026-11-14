@@ -16,6 +16,8 @@ os.environ.setdefault("AIVON_STATE_DIR", tempfile.mkdtemp(prefix="aivon-banmoi-"
 
 import httpx  # noqa: E402
 import main  # noqa: E402
+# Exercise the opt-in updater; the fork intentionally disables it by default.
+main.SELF_UPDATE_DISABLED = False
 
 _fails = []
 

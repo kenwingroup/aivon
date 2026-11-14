@@ -1,6 +1,7 @@
 # Chuẩn hoá line-ending để deploy đa nền tảng.
 # Mặc định: tự nhận text, lưu LF trong repo.
 * text=auto eol=lf
+dashboard/app.js text eol=lf
 
 # Shell script + file config Linux BẮT BUỘC LF (CRLF sẽ làm bash lỗi "bad interpreter").
 *.sh        text eol=lf

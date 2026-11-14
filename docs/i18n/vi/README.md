@@ -482,4 +482,4 @@ Made with ☕ by **[Minh Vũ](https://minhvu.vn)** · Repo: `github.com/kenwingr
 </div>
 
 ---
-**Phát triển bởi Minh Vũ** — Hotline hỗ trợ: **0989811931** | GitHub: [kenwingroup/aivon](https://github.com/kenwingroup/aivon)
+**Phát triển bởi Minh Vũ** - Hotline hỗ trợ: **0989811931** | GitHub: [kenwingroup/aivon](https://github.com/kenwingroup/aivon)

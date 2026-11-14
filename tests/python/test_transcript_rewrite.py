@@ -109,8 +109,8 @@ transcript_fix._ask_quick_api = fake_quick
 res = run({"model": {"groq_api_key": "gk"}}, "kiểm tra giúp anh travis đã nghe được chưa")
 check("Groq key with a CLI main brain: Groq rewrites", res["source"] == "groq" and quick == ["groq"]
       and res["text"] == "Kiểm tra giúp anh Aivon đã nghe được chưa.")
-res = run({}, "kiểm tra giúp anh aivon đã nghe được chưa")
-check("no model at all: the word rules still run (Aivon -> Aivon)",
+res = run({}, "kiểm tra giúp anh gia vít đã nghe được chưa")
+check("no model at all: the word rules still run (spoken legacy alias -> Aivon)",
       res["source"] == "rules" and "Aivon" in res["text"])
 
 

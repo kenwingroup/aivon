@@ -49,6 +49,18 @@ def main():
             phien_ban[str(desktop)] = (0, 161, 0)
             check("Codex Desktop mới hơn thì lấy Codex Desktop", cc.find_codex_cli() == str(desktop))
 
+            complete = home / ".codex" / "plugins" / ".plugin-appserver" / "codex.exe"
+            complete.parent.mkdir(parents=True)
+            complete.write_text("x")
+            helper = complete.with_name("codex-code-mode-host.exe")
+            helper.write_text("x")
+            phien_ban[str(complete)] = phien_ban[str(desktop)]
+            check("cùng phiên bản chọn bản có Code Mode host", cc.find_codex_cli() == str(complete))
+            phien_ban[str(complete)] = (0, 160, 0)
+            check("file hỗ trợ không lấn bản mới hơn", cc.find_codex_cli() == str(desktop))
+            complete.unlink()
+            helper.unlink()
+
             phien_ban.clear()
             check("không đọc được phiên bản thì giữ thứ tự cũ", cc.find_codex_cli() == str(desktop))
 

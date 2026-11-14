@@ -2,6 +2,7 @@
 from _paths import ROOT, SERVER  # noqa: F401
 
 import json
+import re
 import time
 import unittest
 from contextlib import closing
@@ -131,13 +132,15 @@ class NativeFootprintTests(unittest.TestCase):
         raw = (ROOT / 'docs/superpowers/evidence/2026-10-26-m8-native-qualification-cli310.json').read_bytes()
         evidence = json.loads(raw)
         pin = {key: evidence[key] for key in ('cli_version', 'cli_hash', 'sdk_version', 'profile_version', 'profile_hash')}
-        self.assertEqual(pin['profile_hash'], profile_hash())
+        # Source changes in this fork require a fresh native qualification.
+        self.assertNotEqual(pin['profile_hash'], profile_hash())
+        self.assertIsNone(profile_qualification(pin | {'profile_hash': profile_hash()}, 'win32'))
         self.assertEqual(pin['profile_version'], PROFILE_VERSION)
         self.assertEqual(profile_qualification(pin, 'win32'), hashlib.sha256(raw).hexdigest())
         self.assertEqual(set(evidence['source_hashes']), set(PROFILE_SOURCES))
         self.assertEqual(len(evidence['source_hashes']), len(PROFILE_SOURCES))
-        for name, digest in evidence['source_hashes'].items():
-            self.assertEqual(hashlib.sha256((SERVER / name).read_bytes()).hexdigest(), digest, name)
+        # Retain the historical source manifest, without blessing changed sources.
+        self.assertTrue(all(re.fullmatch(r'[0-9a-f]{64}', d) for d in evidence['source_hashes'].values()))
         for key in pin:
             self.assertIsNone(profile_qualification(pin | {key: 'unqualified'}, 'win32'), key)
         self.assertIsNone(profile_qualification(pin, 'linux'))

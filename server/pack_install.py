@@ -283,6 +283,35 @@ def don_staging(ttl: int = STAGING_TTL, root: Path = None) -> int:
     return n
 
 
+def _chuan_hoa_aivon(kho: Path) -> None:
+    """Chuyển đổi tự động gói chuẩn javis-pack sang aivon-pack ngay khi giải nén vào staging."""
+    for old_name, new_name in (("javis-pack.yaml", "aivon-pack.yaml"), ("javis-pack.yml", "aivon-pack.yml")):
+        src = kho / old_name
+        dst = kho / new_name
+        if src.is_file() and not dst.exists():
+            src.rename(dst)
+    replacements = (
+        ("format: javis-pack", "format: aivon-pack"),
+        ("javis-zalo", "aivon-zalo"),
+        ("javis.", "aivon."),
+        ("javis_", "aivon_"),
+        ("Javis OS", "Aivon"),
+        ("Javis Store", "Aivon Store"),
+        ("Javis", "Aivon"),
+    )
+    for p in kho.rglob("*"):
+        if p.is_file() and p.suffix.lower() in (".yaml", ".yml", ".py", ".md", ".json"):
+            try:
+                txt = p.read_text(encoding="utf-8")
+                new_txt = txt
+                for k, v in replacements:
+                    new_txt = new_txt.replace(k, v)
+                if new_txt != txt:
+                    p.write_text(new_txt, encoding="utf-8")
+            except OSError:
+                pass
+
+
 def soi(du_lieu: bytes, ten_tep: str = "") -> dict:
     """Mở zip, kiểm mọi luật, giải nén vào staging. KHÔNG đặt gì vào kho.
 
@@ -305,6 +334,7 @@ def soi(du_lieu: bytes, ten_tep: str = "") -> dict:
     ra = extract_checked(du_lieu, kho, STAGING / f"{sha}.zip")
     if not ra.get("ok"):
         return ra
+    _chuan_hoa_aivon(kho)
 
     manifest = next((kho / t for t in packs.MANIFEST_TEN if (kho / t).is_file()), None)
     if manifest is None:

@@ -40,7 +40,11 @@ from typing import Any, List, Optional, Tuple
 import winproc
 
 CONNECTOR_ID = "zalo"
-CLI_PACKAGE = "https://codeload.github.com/kenwingroup/aivon-zalo/tar.gz/refs/tags/v1.9.1"  # ghim đúng bản mà connector Zalo đang chạy
+_BUNDLED_DIR = Path(__file__).resolve().parent.parent / "tools" / "aivon-zalo"
+_BUNDLED_TGZ = _BUNDLED_DIR / "aivon-zalo-1.9.1.tgz"
+CLI_PACKAGE = (str(_BUNDLED_TGZ) if _BUNDLED_TGZ.is_file()
+               else str(_BUNDLED_DIR) if (_BUNDLED_DIR / "package.json").is_file()
+               else "https://codeload.github.com/kenwingroup/aivon-zalo/tar.gz/refs/tags/v1.9.1")  # ưu tiên bản nội bộ trong tools/aivon-zalo
 CLI_NAME = "aivon-zalo"                   # tên gói trong package.json của bản ghim: thư mục trong node_modules
 DEFAULT_TIMEOUT = 120                     # tải file lên Zalo có thể lâu, nhưng không lâu vô hạn
 TIMEOUT_MARK = "giây chưa xong"          # đuôi câu báo hết giờ; `is_timeout` nhận ra câu đó
@@ -49,7 +53,7 @@ INSTALL_TIMEOUT = 300                     # giây cho một lần `npm install`
 INSTALL_RETRY = 1800                      # cài hỏng thì chờ chừng này giây mới thử lại (không cài lại ở mọi câu trả lời)
 _INSTALL_MARK = ".aivon-installed"        # ghi SAU KHI cài xong; cài dở (tắt máy giữa chừng) thì không có dấu này nên không dùng
 _install_state: dict = {"task": None, "failed_at": 0.0}
-_OLD_INSTALL_DIRS = ("zalo-agent-cli",)  # thư mục cài của gói cũ trong `tools/`, dọn sau khi cài xong bản mới
+_OLD_INSTALL_DIRS = ("zalo-agent-cli", "javis-zalo")  # thư mục cài của gói cũ trong `tools/`, dọn sau khi cài xong bản mới
 
 # Ký tự mà cmd.exe diễn giải dù nằm trong ngoặc kép (hoặc khi tham số không có khoảng trắng nên không được bọc).
 _CMD_UNSAFE = re.compile(r'[&|<>^%!"\r\n]')
@@ -444,6 +448,13 @@ async def send_files(conn_id: str, home: str, thread_id: str, files: List[Path],
         except OSError as e:
             return False, None, f"không chép được file vào hộp gửi Zalo ({e})"
         args = {"threadId": str(thread_id), "threadType": int(thread_type), "paths": copied, "caption": caption or ""}
+        # The live feed echoes the caption and document name as separate own
+        # messages. Remember both BEFORE sending so they cannot trigger the
+        # owner's ten-minute takeover window while this call is in flight.
+        for output in copied:
+            zalo_personal_channel.ghi_da_gui(conn_id, thread_id, Path(output).name)
+        if caption:
+            zalo_personal_channel.ghi_da_gui(conn_id, thread_id, caption)
         try:
             data = await zalo_personal_channel._goi(conn, SEND_FILE_TOOL, args)
         except TimeoutError as e:

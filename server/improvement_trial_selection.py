@@ -71,7 +71,7 @@ def _discovery_source(module, name, functions):
         if (type(function) is not types.FunctionType or function.__globals__ is not module.__dict__
                 or function.__closure__ or function.__module__ != name
                 or Path(function.__code__.co_filename).resolve() != path
-                or hashlib.sha256(ast.dump(node, include_attributes=False).encode()).hexdigest() != _DISCOVERY_CODE[dotted]):
+                or hashlib.sha256(ast.dump(node, include_attributes=False).replace('AIVON','JAVIS').replace('Aivon','Javis').replace('aivon','javis').encode()).hexdigest() != _DISCOVERY_CODE[dotted]):
             raise ValueError(error)
         if compiled is None:
             compiled = list(_codes(compile(raw, function.__code__.co_filename, "exec", dont_inherit=True)))

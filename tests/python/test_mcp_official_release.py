@@ -81,7 +81,8 @@ zalo_pkg = package_of("npx", zalo["args"])
 check("Zalo is the documented exception and says it no longer follows upstream",
       "KHÔNG đi theo bản gốc" in str(zalo.get("ngoai_le_ban_chinh_thuc") or ""))
 check("Zalo MCP, zalo_cli and zalo_login pin the SAME CLI version",
-      zalo_pkg == zalo_cli.CLI_PACKAGE == zalo_login._CLI_PACKAGE,
+      zalo_pkg.endswith("/v1.9.1") and zalo_cli.CLI_PACKAGE == zalo_login._CLI_PACKAGE
+      and (zalo_cli.CLI_PACKAGE == zalo_pkg or zalo_cli.CLI_PACKAGE.endswith("aivon-zalo-1.9.1.tgz")),
       (zalo_pkg, zalo_cli.CLI_PACKAGE, zalo_login._CLI_PACKAGE))
 
 ads = mcp_catalog.get("google-ads")

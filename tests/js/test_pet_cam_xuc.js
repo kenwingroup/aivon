@@ -83,7 +83,7 @@ function hetChop() {
 P.setState("listening");
 const choNghe = mat();
 P.setState("hearing");
-check("đã bắt giọng thì mắt KHÁC lúc đang chờ nghe", mat() !== choNghe && /rx="9\.6"/.test(mat()));
+check("đã bắt giọng thì mắt KHÁC lúc đang chờ nghe", mat() !== choNghe && /rx="11\.2"/.test(mat()));
 check("vành quay theo trạng thái hearing", el.dataset.state === "hearing");
 P.react("nghe");
 nhip(now + 100);
@@ -116,7 +116,7 @@ check("đọc xong mới vui: mắt cười", /pet-line/.test(mat()) && /Q0 -7/.
 check("và nhảy lên một cái", el.dataset.anim === "hop", el.dataset.anim);
 nhip(now + 2000);
 hetChop();
-check("hết phản ứng thì trả về đúng trạng thái nghỉ", /<ellipse rx="7\.2" ry="17\.5"\/>/.test(mat()), mat());
+check("hết phản ứng thì trả về đúng trạng thái nghỉ", /<ellipse rx="9\.5" ry="10\.5"\/>/.test(mat()), mat());
 P.setState("thinking");
 P.react("xong");
 P.setState("error");

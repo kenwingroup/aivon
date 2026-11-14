@@ -257,6 +257,25 @@ async def _send_styled(conn: dict, chat_id: str, text: str, loai: int, styles) -
     return None
 
 
+async def _quotation_contact_directory(home: str, chat_id: str, text: str, directory: list) -> list:
+    """Resolve the approved Kenwin contact only after checking current group membership."""
+    contact_id='2157325870369359849'
+    if not re.search(r'@ngo long(?!\w)', _bo_dau(text)):
+        return directory
+    import zalo_cli
+    ok, data, _error = await zalo_cli.run_cli({'home':home}, ['group','info'], [str(chat_id)], timeout=20)
+    if not ok or not isinstance(data,dict):
+        return directory
+    group=(data.get('gridInfoMap') or {}).get(str(chat_id)) or {}
+    members=group.get('memberIds') or []
+    ids=set(str(value) for value in (members.keys() if isinstance(members,dict) else members))
+    ids.update(str(value).split('_',1)[0] for value in group.get('memVerList',[]))
+    if contact_id not in ids:
+        return [person for person in directory if str(person.get('uid'))!=contact_id]
+    # The current display name may differ. Use the approved alias for this exact ID.
+    return [dict(uid=contact_id,name='Ngô Long')]+[person for person in directory if str(person.get('uid'))!=contact_id]
+
+
 async def _send_tagged(conn: dict, chat_id: str, text: str, mention, styles=()) -> Optional[tuple]:
     """Gửi một tin nhóm CÓ TAG. Trả `(ok, lỗi)` khi đã có kết cục, hoặc None khi chưa gửi gì và người gọi nên gửi thường.
 
@@ -276,7 +295,8 @@ async def _send_tagged(conn: dict, chat_id: str, text: str, mention, styles=()) 
         specs.append((pos, uid, ln))
     # Every other "@Name" the message carries (0.123.0), never the account itself, never inside the reply tag.
     minh = str((zc._ID_MINH.get(cid) or {}).get("uid") or "")
-    specs += tag_ten_trong_cau(final, _danh_ba_nhom(cid, chat_id), bo_qua={u for u in (uid, minh) if u},
+    directory=await _quotation_contact_directory(home,chat_id,final,_danh_ba_nhom(cid,chat_id))
+    specs += tag_ten_trong_cau(final, directory, bo_qua={u for u in (uid, minh) if u},
                                chiem=[(p, n) for p, _u, n in specs])
     if not specs:
         return None

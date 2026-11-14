@@ -1,4 +1,4 @@
-"""Ready-made "Morning brief" on the recurring-work page (0.222.0).
+"""Daily report scheduling preconditions after the unified Tasks page migration.
 
     python tests/run.py morning_brief_template
 
@@ -48,15 +48,12 @@ app = FastAPI()
 app.include_router(feature.router)
 cl = TestClient(app)
 
-tpl = reminders.morning_brief_template()
-check("template: daily 7:00, does the work and reports, read-only level",
-      tpl["cron"] == "0 7 * * *" and tpl["mode"] == "task" and tpl["muc_quyen"] == "suggest")
-check("template: asks for calendar, yesterday's talk and news, and forbids invented numbers",
-      all(k in tpl["text"] for k in ("memory/conversations/",)) and len(tpl["text"]) > 100)
-
-r = cl.get("/reminders/templates").json()
-check("GET /reminders/templates lists the morning brief", [t["id"] for t in r["templates"]] == ["morning_brief"])
-check("listing the templates creates nothing", cl.get("/reminders").json()["counts"]["pending"] == 0)
+# The old pre-filled template endpoint/UI was retired by the unified Tasks page.
+# Still exercise its scheduling preconditions using a real daily report payload.
+tpl = {"text": "Summarize yesterday and report the business news; do not invent figures.",
+       "label": "Morning brief", "cron": "0 7 * * *", "mode": "task", "muc_quyen": "suggest"}
+check("retired template route does not schedule anything", cl.get("/reminders/templates").status_code == 404)
+check("opening the task list creates nothing", cl.get("/reminders").json()["counts"]["pending"] == 0)
 
 payload = {k: tpl[k] for k in ("text", "label", "cron", "mode", "muc_quyen")}
 payload.update(brain="brain", created_by="dashboard")
@@ -71,9 +68,11 @@ channel["ok"] = True
 r = cl.post("/reminders", json=payload).json()
 check("with a report channel it is created straight away", r.get("ok") is True)
 
-js = (ROOT / "dashboard" / "console.js").read_text(encoding="utf-8")
-check("page: the Morning brief button pre-fills the form, it does not POST",
-      'id="lpMorning"' in js and 'fetch("/reminders/templates"' in js and "openForm(null, null, tpl)" in js)
+js = (ROOT / "dashboard" / "tasks.js").read_text(encoding="utf-8")
+check("current Tasks page saves through the normal scheduler with explicit no-channel consent",
+      'postJSON("/reminders", body)' in js and "body.allow_no_channel = true" in js)
+check("morning priority sheet does not create scheduled jobs",
+      'S.sheet = { kind: "morning" }; renderLayer();' in js and 'function morningHtml()' in js)
 
 if _fails:
     print("\nFAIL:", len(_fails), _fails)

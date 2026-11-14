@@ -288,11 +288,14 @@ def _candidate_clis() -> List[str]:
 def _find_cli() -> Optional[str]:
     """Bản Codex MỚI NHẤT trên máy đủ điều kiện chạy ChatGPT Live, hoặc None (lý do ở _LAST_CLI_REASON)."""
     global _LAST_CLI_REASON
+    import claude_cli
     best = None
     cands = _candidate_clis()
     for p in cands:
         v = _version_of(p)
-        if v and v >= MIN_VERSION and (best is None or v > best[1]):
+        if v and v >= MIN_VERSION and (best is None or
+                (v, claude_cli.codex_cli_rank(p)[1]) >
+                (best[1], claude_cli.codex_cli_rank(best[0])[1])):
             best = (p, v)
     _LAST_CLI_REASON = "" if best else ("old_cli" if cands else "no_cli")
     return best[0] if best else None
