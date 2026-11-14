@@ -26,12 +26,14 @@ def render(path,quote):
     from reportlab.pdfbase import pdfmetrics
     from reportlab.pdfbase.ttfonts import TTFont
     from reportlab.platypus import BaseDocTemplate,Frame,PageTemplate,Paragraph,Image,Spacer,Table,TableStyle,LongTable,KeepTogether
-    import reportlab
     # Keep Arial on Windows and use installed Unicode fonts on Linux runners/containers.
     families=[(Path('C:/Windows/Fonts'),('arial.ttf','arialbd.ttf','ariali.ttf','arialbi.ttf')),
               (Path('/usr/share/fonts/truetype/dejavu'),('DejaVuSans.ttf','DejaVuSans-Bold.ttf','DejaVuSans-Oblique.ttf','DejaVuSans-BoldOblique.ttf')),
-              (Path(reportlab.__file__).parent/'fonts',('Vera.ttf','VeraBd.ttf','VeraIt.ttf','VeraBI.ttf'))]
-    fontdir,files=next((directory,files) for directory,files in families if all((directory/f).is_file() for f in files))
+              (Path('/System/Library/Fonts/Supplemental'),('Arial.ttf','Arial Bold.ttf','Arial Italic.ttf','Arial Bold Italic.ttf'))]
+    # Vera lacks Vietnamese glyphs; never silently generate a quotation with missing letters.
+    family=next(((directory,files) for directory,files in families if all((directory/f).is_file() for f in files)),None)
+    if family is None:raise RuntimeError('Quotation PDF requires Arial or DejaVu Sans (Linux: fonts-dejavu-core).')
+    fontdir,files=family
     for name,file in zip(('KogenArial','KogenArialBold','KogenArialItalic','KogenArialBoldItalic'),files):
         if name not in pdfmetrics.getRegisteredFontNames():pdfmetrics.registerFont(TTFont(name,str(fontdir/file)))
     pdfmetrics.registerFontFamily('KogenArial',normal='KogenArial',bold='KogenArialBold',italic='KogenArialItalic',boldItalic='KogenArialBoldItalic')
